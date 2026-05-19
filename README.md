@@ -16,11 +16,8 @@ SI/SW 업체 취업을 목표로 12주 동안 HTML/CSS, JavaScript, React, Node.
 
 - [career-roadmap.md](./career-roadmap.md)는 SI/SW 취업 준비 관점의 전체 로드맵입니다.
 - [references.md](./references.md)는 단계별 공식 문서, 에러 읽는 법, 공부 루틴을 모은 자료입니다.
-- [review-report.md](./review-report.md)는 최종 검토 기준과 결과를 정리한 보고서입니다.
 - [student-checklist.md](./student-checklist.md)는 학습자가 직접 체크하는 진행표입니다.
 - [portfolio-template.md](./portfolio-template.md)는 GitHub README 작성 템플릿입니다.
-- [plan.md](./plan.md)는 이 문제집의 제작 의도와 완료 기준입니다.
-- [context-notes.md](./context-notes.md)는 작업 중 결정한 이유를 기록한 파일입니다.
 
 ## 단계 구성
 
