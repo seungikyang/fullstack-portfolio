@@ -29,6 +29,8 @@ SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로젝트를 관�
 
 자세한 연결표는 [learning-map.md](./learning-map.md)에 정리했습니다.
 
+이력서와 지원서에 바로 쓸 문장은 [resume-assets.md](./resume-assets.md)에 정리했습니다. 제출 전 점검 목록은 [submission-checklist.md](./submission-checklist.md)를 확인하세요.
+
 ## 기술 스택
 
 - Frontend. React 19, Vite, lucide-react.
@@ -67,10 +69,17 @@ password: demo1234
 ```bash
 npm run build
 npm run test:api
+npm run audit:submit
 npm run verify
 ```
 
-`npm run verify`는 프론트엔드 빌드와 API smoke test를 함께 실행합니다.
+`npm run verify`는 프론트엔드 빌드, API smoke test, 제출 전 감사 스크립트를 함께 실행합니다.
+
+ZIP 파일로 직접 제출하기 전에는 생성 파일을 정리하세요.
+
+```bash
+npm run clean:generated
+```
 
 ## 환경 변수
 
@@ -81,6 +90,15 @@ npm run verify
 | `JWT_SECRET` | JWT 서명에 사용하는 비밀값입니다. 배포 전 반드시 바꾸세요. |
 | `DATA_FILE` | JSON 저장소 파일 경로입니다. |
 | `SEED_DEMO` | `true`이면 첫 실행 시 데모 계정을 만듭니다. |
+
+## 제출 시 제외할 파일
+
+GitHub에 올릴 때는 `.gitignore`가 아래 파일을 제외합니다. ZIP으로 직접 제출한다면 `npm run clean:generated`를 먼저 실행하고, `node_modules`는 압축하지 마세요.
+
+- `node_modules`
+- `dist`
+- `.env`
+- `data/career-hub.json`
 
 ## API 요약
 

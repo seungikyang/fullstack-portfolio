@@ -13,8 +13,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server/index.js",
+    "audit:submit": "node scripts/submission-audit.js",
+    "clean:generated": "node scripts/clean-generated.js",
     "test:api": "node scripts/api-smoke-test.js",
-    "verify": "npm run build && npm run test:api"
+    "verify": "npm run build && npm run test:api && npm run audit:submit"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -32,4 +34,3 @@
     "vite": "^8.0.13"
   }
 }
-

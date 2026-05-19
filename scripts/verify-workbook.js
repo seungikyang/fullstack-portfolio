@@ -52,6 +52,8 @@ const requiredPaths = [
   "07-project-deploy/public/app.js",
   "08-fullstack-portfolio-project/README.md",
   "08-fullstack-portfolio-project/learning-map.md",
+  "08-fullstack-portfolio-project/resume-assets.md",
+  "08-fullstack-portfolio-project/submission-checklist.md",
   "08-fullstack-portfolio-project/package.json",
   "08-fullstack-portfolio-project/.env.example",
   "08-fullstack-portfolio-project/index.html",
@@ -64,6 +66,8 @@ const requiredPaths = [
   "08-fullstack-portfolio-project/src/App.jsx",
   "08-fullstack-portfolio-project/src/styles.css",
   "08-fullstack-portfolio-project/scripts/api-smoke-test.js",
+  "08-fullstack-portfolio-project/scripts/submission-audit.js",
+  "08-fullstack-portfolio-project/scripts/clean-generated.js",
   "scripts/verify-workbook.js",
   "scripts/check-progress.js"
 ];
@@ -118,6 +122,8 @@ const sourceFiles = [
   "08-fullstack-portfolio-project/src/App.jsx",
   "08-fullstack-portfolio-project/src/styles.css",
   "08-fullstack-portfolio-project/scripts/api-smoke-test.js",
+  "08-fullstack-portfolio-project/scripts/submission-audit.js",
+  "08-fullstack-portfolio-project/scripts/clean-generated.js",
   "scripts/verify-workbook.js",
   "scripts/check-progress.js"
 ];
@@ -129,7 +135,7 @@ const packageScripts = {
   "05-database-mongodb/package.json": ["dev", "start"],
   "06-login-auth/package.json": ["dev", "start"],
   "07-project-deploy/package.json": ["dev", "start"],
-  "08-fullstack-portfolio-project/package.json": ["dev", "build", "start", "test:api", "verify"]
+  "08-fullstack-portfolio-project/package.json": ["dev", "build", "start", "audit:submit", "clean:generated", "test:api", "verify"]
 };
 
 let hasError = false;
