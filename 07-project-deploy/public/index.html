@@ -1,0 +1,40 @@
+<!-- 미니 블로그 프로젝트의 최종 화면 구조를 정의하는 HTML 문서 -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>미니 블로그 프로젝트</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="blog-shell">
+      <section class="compose-panel">
+        <p class="eyebrow">Final Project</p>
+        <h1>미니 블로그</h1>
+        <form id="postForm" class="post-form">
+          <label for="titleInput">제목</label>
+          <input id="titleInput" name="title" type="text" placeholder="제목을 입력하세요" />
+
+          <label for="authorInput">작성자</label>
+          <input id="authorInput" name="author" type="text" placeholder="작성자를 입력하세요" />
+
+          <label for="contentInput">내용</label>
+          <textarea id="contentInput" name="content" rows="5" placeholder="내용을 입력하세요"></textarea>
+
+          <button type="submit">게시글 작성</button>
+        </form>
+      </section>
+
+      <section class="posts-panel" aria-labelledby="postsTitle">
+        <div class="posts-heading">
+          <h2 id="postsTitle">게시글 목록</h2>
+          <button id="refreshButton" type="button">새로고침</button>
+        </div>
+        <div id="postList" class="post-list"></div>
+      </section>
+    </main>
+  </body>
+</html>
+

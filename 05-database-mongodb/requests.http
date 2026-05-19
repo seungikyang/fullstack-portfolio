@@ -1,0 +1,33 @@
+# MongoDB CRUD API를 직접 호출해보는 REST Client 요청 파일
+GET http://localhost:4100/health
+
+###
+
+GET http://localhost:4100/posts
+
+###
+
+POST http://localhost:4100/posts
+Content-Type: application/json
+
+{
+  "title": "DB에 저장할 게시글",
+  "content": "MongoDB에 실제로 저장되는 내용입니다.",
+  "author": "학습자"
+}
+
+###
+
+PUT http://localhost:4100/posts/REPLACE_WITH_POST_ID
+Content-Type: application/json
+
+{
+  "title": "수정한 제목",
+  "content": "수정한 내용입니다.",
+  "author": "학습자"
+}
+
+###
+
+DELETE http://localhost:4100/posts/REPLACE_WITH_POST_ID
+

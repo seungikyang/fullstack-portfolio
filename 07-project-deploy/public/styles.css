@@ -1,0 +1,109 @@
+/* 미니 블로그 프로젝트의 레이아웃과 입력 폼 스타일을 정의하는 CSS 파일 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Apple SD Gothic Neo", sans-serif;
+  color: #20242c;
+  background: #f3f5f7;
+}
+
+.blog-shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 36px auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.compose-panel,
+.posts-panel,
+.post-card {
+  border: 1px solid #d9e0ea;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.compose-panel,
+.posts-panel {
+  padding: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #0f766e;
+  font-weight: 800;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+.post-form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+textarea,
+button {
+  border-radius: 6px;
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #b8c2d1;
+}
+
+button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  color: #ffffff;
+  background: #2563eb;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.posts-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.post-list {
+  display: grid;
+  gap: 12px;
+}
+
+.post-card {
+  padding: 16px;
+}
+
+.post-meta {
+  color: #667085;
+  font-size: 14px;
+}
+
+@media (max-width: 820px) {
+  .blog-shell {
+    grid-template-columns: 1fr;
+  }
+}
+

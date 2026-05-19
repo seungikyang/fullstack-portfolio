@@ -1,0 +1,83 @@
+/* JavaScript 실습 화면을 보기 좋게 정리하는 CSS 파일 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Apple SD Gothic Neo", sans-serif;
+  color: #20242c;
+  background: #eef2f7;
+}
+
+.app-shell {
+  width: min(880px, calc(100% - 32px));
+  margin: 40px auto;
+  display: grid;
+  gap: 16px;
+}
+
+.panel {
+  padding: 20px;
+  border: 1px solid #d8deea;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+input,
+select,
+button {
+  min-height: 40px;
+  border-radius: 6px;
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #b9c2d0;
+}
+
+button {
+  margin-top: 10px;
+  padding: 0 14px;
+  border: 0;
+  color: #ffffff;
+  background: #0f766e;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #115e59;
+}
+
+.calculator-grid,
+.todo-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 1fr;
+  gap: 10px;
+}
+
+.todo-row {
+  grid-template-columns: 1fr auto;
+}
+
+#todoList {
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+@media (max-width: 640px) {
+  .calculator-grid,
+  .todo-row {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,523 @@
+/* Career Hub 포트폴리오 앱의 화면 레이아웃과 컴포넌트 스타일을 정의하는 CSS 파일 */
+:root {
+  --bg: #f5f7f8;
+  --surface: #ffffff;
+  --surface-soft: #f9fbfc;
+  --text: #18212f;
+  --muted: #667085;
+  --line: #d7dee8;
+  --primary: #0f766e;
+  --primary-dark: #115e59;
+  --blue: #2563eb;
+  --amber: #b45309;
+  --green: #15803d;
+  --red: #b42318;
+  --shadow: 0 12px 32px rgba(24, 33, 47, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, "Apple SD Gothic Neo", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-panel {
+  width: min(460px, 100%);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+
+h2 {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
+
+h3 {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.muted,
+.hint-text {
+  color: var(--muted);
+}
+
+.hint-text {
+  margin: 16px 0 0;
+  font-size: 14px;
+}
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  margin: 22px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.mode-switch button,
+.sidebar nav button,
+.logout-button,
+.ghost-button,
+.record-actions button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+}
+
+.mode-switch button.is-active,
+.sidebar nav button.is-active {
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(24, 33, 47, 0.12);
+}
+
+.stack-form,
+.editor-grid {
+  display: grid;
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: #344054;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #b9c2d0;
+  border-radius: 6px;
+  color: var(--text);
+  background: #ffffff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.primary-button,
+.ghost-button,
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 6px;
+}
+
+.primary-button {
+  border: 0;
+  color: #ffffff;
+  background: var(--primary);
+}
+
+.primary-button:hover {
+  background: var(--primary-dark);
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.ghost-button {
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.form-error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #7a271a;
+  background: #fef3f2;
+}
+
+.app-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 24px;
+  border-right: 1px solid var(--line);
+  background: #edf3f2;
+}
+
+.sidebar nav {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar nav button,
+.logout-button {
+  justify-content: flex-start;
+  padding: 0 12px;
+}
+
+.logout-button {
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.content-area {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 28px;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.focus-text {
+  margin: 0;
+  color: var(--muted);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.stat-item {
+  display: grid;
+  gap: 8px;
+  min-height: 126px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.stat-item svg {
+  color: var(--primary);
+}
+
+.stat-item span {
+  color: var(--muted);
+}
+
+.stat-item strong {
+  font-size: 30px;
+}
+
+.work-section {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  color: var(--primary-dark);
+  background: #dff3ef;
+  font-weight: 800;
+}
+
+.editor-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 22px;
+}
+
+.wide-field {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.record-list {
+  display: grid;
+  gap: 12px;
+}
+
+.record-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.record-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.record-main p,
+.record-note {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.record-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.record-actions button {
+  width: 38px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.record-meta,
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tag-row span,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tag-row span {
+  color: #344054;
+  background: #edf1f5;
+}
+
+.status-pill {
+  margin-bottom: 8px;
+  color: #344054;
+  background: #e8edf3;
+}
+
+.status-면접,
+.status-코딩테스트 {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.status-합격,
+.project-완료 {
+  color: var(--green);
+  background: #dcfce7;
+}
+
+.status-불합격 {
+  color: var(--red);
+  background: #fee4e2;
+}
+
+.status-지원완료,
+.project-개발중 {
+  color: var(--amber);
+  background: #fef3c7;
+}
+
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.learning-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.learning-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.learning-card-head svg {
+  flex: 0 0 auto;
+  color: var(--primary);
+}
+
+.learning-card-head span,
+.learning-card-head p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.learning-card-head h3,
+.learning-card-head p,
+.learning-card ul,
+.used-in {
+  margin: 0;
+}
+
+.used-in {
+  color: var(--primary-dark);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.learning-card ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .sidebar nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-grid,
+  .editor-grid,
+  .learning-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .content-area {
+    padding: 18px;
+  }
+
+  .topbar,
+  .section-heading,
+  .record-main {
+    flex-direction: column;
+  }
+
+  .stat-grid,
+  .editor-grid,
+  .learning-grid,
+  .sidebar nav {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-panel,
+  .work-section {
+    padding: 18px;
+  }
+}

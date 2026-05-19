@@ -1,0 +1,35 @@
+# 게시판 API를 직접 호출해보는 REST Client 요청 파일
+GET http://localhost:4000/health
+
+###
+
+GET http://localhost:4000/posts
+
+###
+
+GET http://localhost:4000/posts/1
+
+###
+
+POST http://localhost:4000/posts
+Content-Type: application/json
+
+{
+  "title": "새 게시글",
+  "content": "요청 body로 전달하는 내용입니다."
+}
+
+###
+
+PUT http://localhost:4000/posts/1
+Content-Type: application/json
+
+{
+  "title": "수정한 제목",
+  "content": "수정한 내용입니다."
+}
+
+###
+
+DELETE http://localhost:4000/posts/1
+

@@ -1,0 +1,29 @@
+# 로그인 인증 API를 직접 호출해보는 REST Client 요청 파일
+GET http://localhost:4200/health
+
+###
+
+POST http://localhost:4200/auth/register
+Content-Type: application/json
+
+{
+  "email": "study@example.com",
+  "password": "pass1234",
+  "name": "학습자"
+}
+
+###
+
+POST http://localhost:4200/auth/login
+Content-Type: application/json
+
+{
+  "email": "study@example.com",
+  "password": "pass1234"
+}
+
+###
+
+GET http://localhost:4200/me
+Authorization: Bearer REPLACE_WITH_TOKEN
+

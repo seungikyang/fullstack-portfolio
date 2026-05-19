@@ -1,0 +1,98 @@
+# 참고 자료 모음
+
+이 워크북을 공부하다 막히거나 더 깊이 알고 싶을 때 보는 자료입니다. 2026-05-19 기준으로 공식 문서와 신뢰할 만한 1차 자료를 우선해 골랐습니다.
+
+> 공부 원칙: 자료는 "처음부터 끝까지 읽는 책"이 아니라 "막혔을 때 찾는 사전"입니다. 먼저 빈칸을 직접 채워보고, 안 되면 해당 단계 자료에서 키워드로 검색하세요.
+
+## 단계별 참고 자료
+
+### 1단계 HTML / CSS
+
+- [MDN - HTML 배우기](https://developer.mozilla.org/ko/docs/Learn/HTML)
+- [MDN - CSS 배우기](https://developer.mozilla.org/ko/docs/Learn/CSS)
+- [MDN - Flexbox 기본 개념](https://developer.mozilla.org/ko/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox)
+- [MDN - CSS 그리드 레이아웃](https://developer.mozilla.org/ko/docs/Web/CSS/CSS_grid_layout)
+
+### 2단계 JavaScript 기초
+
+- [MDN - JavaScript 첫걸음](https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps)
+- [MDN - JavaScript 가이드](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide)
+
+### 3단계 React
+
+- [React 공식 - 학습하기(한국어)](https://ko.react.dev/learn)
+- [React 공식 - state: 컴포넌트의 메모리](https://ko.react.dev/learn/state-a-components-memory)
+- [Vite 공식 - 시작 가이드](https://vite.dev/guide/)
+
+### 4단계 Node.js / Express
+
+- [Node.js 공식 한국어 사이트](https://nodejs.org/ko)
+- [MDN - Express/Node.js 서버 사이드 튜토리얼](https://developer.mozilla.org/ko/docs/Learn/Server-side/Express_Nodejs)
+- [Express 공식(한국어)](https://expressjs.com/ko/)
+- [MDN - HTTP 상태 코드](https://developer.mozilla.org/ko/docs/Web/HTTP/Status)
+
+### 5단계 데이터베이스 (MongoDB)
+
+- [MongoDB 로컬 설치 - macOS](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/)
+- [MongoDB 로컬 설치 - Windows](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/)
+- [MongoDB Atlas 시작하기(한국어, 설치 없이 클라우드)](https://www.mongodb.com/ko-kr/docs/atlas/getting-started/)
+- [MongoDB 시작하기(한국어)](https://www.mongodb.com/ko-kr/docs/manual/tutorial/getting-started/)
+- [MongoDB CRUD 매뉴얼](https://www.mongodb.com/docs/manual/crud/)
+- [Mongoose 공식 가이드](https://mongoosejs.com/docs/guide.html)
+- [mongosh 셸 문서](https://www.mongodb.com/docs/mongodb-shell/) · [Compass GUI 도구](https://www.mongodb.com/products/tools/compass)
+
+### 6단계 로그인 / 인증
+
+- [JWT 소개 (jwt.io)](https://jwt.io/introduction)
+- [OWASP - Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+- [MDN - HTTP 상태 코드 (401, 409 확인)](https://developer.mozilla.org/ko/docs/Web/HTTP/Status)
+
+### 7단계 프로젝트 / 배포
+
+- [Render - Node/Express 앱 배포 문서](https://render.com/docs/deploy-node-express-app)
+- [Vercel 공식 문서](https://vercel.com/docs)
+
+## 협업·취업 공통 자료
+
+- [Git 공식 책 Pro Git (한국어)](https://git-scm.com/book/ko/v2) — SI/SW 실무에서 Git은 거의 필수입니다. 최소한 `add`, `commit`, `push`, `branch`, `merge`는 손에 익히세요.
+- [roadmap.sh - 풀스택 개발자 로드맵](https://roadmap.sh/full-stack) — 이 워크북 이후 더 공부할 방향을 그림으로 보여줍니다.
+- [NCS 공정채용 안내](https://ncs.go.kr/company/ch03/CH-104-001-01.scdo) — SI/SW 채용이 직무능력 중심으로 평가되는 이유를 설명합니다. ([career-roadmap.md](./career-roadmap.md) 참고)
+- [Q-Net 정보처리기사 종목 상세정보](https://www.q-net.or.kr/crf005.do?gId=&gSite=Q&id=crf00503s02&jmCd=1320&jmInfoDivCcd=B0) — 자격증을 병행할 때 공식 일정, 시험과목, 합격 기준을 확인하세요.
+
+## 자료를 보는 우선순위
+
+1. 지금 푸는 단계의 `README.md`, `problems.md`, `answers.md`를 먼저 봅니다.
+2. 코드가 이해되지 않으면 위 단계별 공식 문서를 봅니다.
+3. 취업 준비 방향이 흔들리면 `career-roadmap.md`와 NCS 공정채용 안내를 봅니다.
+4. 이력서와 GitHub 정리가 필요하면 `portfolio-template.md`를 봅니다.
+5. 자격증을 병행할 때만 Q-Net 정보를 확인합니다. 자격증이 포트폴리오 코드를 대신하지는 않습니다.
+
+## 막혔을 때: 에러 읽는 법
+
+초보자가 가장 많이 하는 실수는 "에러를 안 읽고 추측으로 고치는 것"입니다. SI/SW 면접에서도 "에러를 어떻게 해결했나요?"를 자주 묻습니다. 아래 순서를 습관으로 만드세요.
+
+1. **빨간 글자의 첫 줄과 마지막 줄을 먼저 읽는다.** 에러 종류와 발생 위치(파일명:줄번호)가 거기 있습니다.
+2. **파일명과 줄 번호로 그 줄을 직접 연다.** 추측하지 말고 그 줄을 봅니다.
+3. **에러 이름을 그대로 검색한다.** 예: `TypeError: Cannot read properties of undefined`.
+4. **한 번에 한 곳만 고치고 다시 실행한다.** 여러 곳을 동시에 바꾸면 원인을 알 수 없습니다.
+
+자주 만나는 에러와 원인.
+
+| 에러 메시지 | 자주 있는 원인 | 어디서 |
+| --- | --- | --- |
+| `Cannot read properties of undefined (reading '...')` | 없는 값을 점(.)으로 접근. 변수 철자·빈칸 확인 | 2~7단계 |
+| `EADDRINUSE: address already in use` | 같은 포트에서 서버가 이미 실행 중. 이전 터미널을 종료 | 4~7단계 |
+| `MongooseServerSelectionError: connect ECONNREFUSED` | MongoDB가 꺼져 있거나 `.env`의 주소가 틀림 | 5단계 |
+| `401 Unauthorized` 응답 | 토큰이 없거나 `Authorization: Bearer 토큰` 형식이 아님 | 6단계 |
+| 브라우저 화면이 안 바뀜 | 콘솔(F12 → Console)에 빨간 오류가 있는지 먼저 확인 | 1~3단계 |
+| `npm error code ETARGET` | 인터넷 또는 패키지 버전 문제. `npm install` 다시 시도 | 3~7단계 |
+
+## 공부 루틴 (매 단계 반복)
+
+1. 단계 `README.md`를 읽고 오늘 만들 것을 한 문장으로 적는다.
+2. `problems.md`를 보고 코드의 `빈칸`을 직접 채운다. (정답을 먼저 보지 않는다)
+3. 실행해서 결과 또는 에러를 확인한다.
+4. 에러가 나면 위 "에러 읽는 법" 순서대로 고친다.
+5. 막히면 `answers.md`와 비교하고, 어디를 놓쳤는지 한 줄로 적는다.
+6. 코드를 덮고 같은 기능을 **자기 말로** 설명해본다. (면접 대비)
+7. [portfolio-template.md](./portfolio-template.md) 형식으로 GitHub README에 정리한다.

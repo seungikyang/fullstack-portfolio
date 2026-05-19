@@ -1,0 +1,48 @@
+<!-- JavaScript 기초 문법과 DOM 이벤트를 연습하는 HTML 문서 -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript 기초 실습</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel">
+        <h1>버튼 이벤트</h1>
+        <label for="nameInput">이름</label>
+        <input id="nameInput" type="text" placeholder="이름을 입력하세요" />
+        <button id="welcomeButton" type="button">메시지 바꾸기</button>
+        <p id="welcomeMessage">버튼을 눌러 메시지를 바꿔보세요.</p>
+      </section>
+
+      <section class="panel">
+        <h2>간단한 계산기</h2>
+        <div class="calculator-grid">
+          <input id="firstNumber" type="number" placeholder="첫 번째 숫자" />
+          <select id="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+          </select>
+          <input id="secondNumber" type="number" placeholder="두 번째 숫자" />
+        </div>
+        <button id="calculateButton" type="button">계산하기</button>
+        <p id="calculateResult">결과가 여기에 표시됩니다.</p>
+      </section>
+
+      <section class="panel">
+        <h2>할 일 목록</h2>
+        <div class="todo-row">
+          <input id="todoInput" type="text" placeholder="오늘 할 일을 입력하세요" />
+          <button id="todoButton" type="button">추가</button>
+        </div>
+        <ul id="todoList"></ul>
+      </section>
+    </main>
+  </body>
+</html>
+

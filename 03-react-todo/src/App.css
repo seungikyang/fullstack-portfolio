@@ -1,0 +1,110 @@
+/* React Todo 앱의 레이아웃과 컴포넌트 스타일을 정의하는 CSS 파일 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, "Apple SD Gothic Neo", sans-serif;
+  color: #172033;
+  background: #f4f6f8;
+}
+
+.todo-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.todo-panel {
+  width: min(620px, 100%);
+  padding: 24px;
+  border: 1px solid #d8dee8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #0f766e;
+  font-weight: 800;
+}
+
+h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.summary {
+  margin: 8px 0 20px;
+  color: #667085;
+}
+
+.todo-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+input,
+button {
+  min-height: 42px;
+  border-radius: 6px;
+  font: inherit;
+}
+
+input {
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid #b9c2d0;
+}
+
+button {
+  border: 0;
+  padding: 0 14px;
+  color: #ffffff;
+  background: #2563eb;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.todo-list {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  margin: 20px 0 0;
+  list-style: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #d8dee8;
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.todo-item.is-done span {
+  color: #667085;
+  text-decoration: line-through;
+}
+
+@media (max-width: 520px) {
+  .todo-form {
+    grid-template-columns: 1fr;
+  }
+
+  .todo-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+

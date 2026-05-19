@@ -1,0 +1,9 @@
+{
+  "name": "fullstack-study-workbook",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "progress": "node scripts/check-progress.js",
+    "verify": "node scripts/verify-workbook.js"
+  }
+}
