@@ -12,6 +12,30 @@ SI/SW 업체 취업을 목표로 12주 동안 HTML/CSS, JavaScript, React, Node.
 4. 막히면 `answers.md`를 보고 어느 부분을 놓쳤는지 비교합니다.
 5. 다시 코드를 직접 고쳐보고 자기 말로 설명합니다.
 
+## 폴더부터 실무까지 (공부 순서)
+
+이 저장소는 폴더 번호 순서대로 따라가면 "기초 → 통합 → 취업 제출"로 이어지도록 설계했습니다. 한 번에 다 보지 말고 아래 순서로만 진행하세요.
+
+| 순서 | 폴더 | 여기서 손에 넣는 실무 능력 |
+| --- | --- | --- |
+| 1 | `01-html-css` | 화면을 시맨틱 태그와 반응형 CSS로 짜는 능력 |
+| 2 | `02-javascript-basics` | 입력·이벤트·배열을 다뤄 화면을 움직이는 능력 |
+| 3 | `03-react-todo` | 컴포넌트·state·props로 화면을 구조화하는 능력 |
+| 4 | `04-node-board-api` | Express로 REST API와 HTTP 상태 코드를 다루는 능력 |
+| 5 | `05-database-mongodb` | 데이터를 DB에 저장·조회·수정·삭제하는 능력 |
+| 6 | `06-login-auth` | 비밀번호 해시와 JWT로 인증을 구현하는 능력 |
+| 7 | `07-project-deploy` | 프론트·백을 연결하고 배포를 준비하는 능력 |
+| 8 | `08-fullstack-portfolio-project` | 1~7을 하나의 제출용 fullstack 앱으로 통합하는 능력 |
+
+진행 방식은 단계마다 똑같습니다.
+
+1. **공부**. 폴더의 `README.md`를 읽고 `problems.md`의 `빈칸`을 직접 채웁니다. 막히면 `references.md`의 "에러 읽는 법"을 먼저 보고, 그래도 막히면 `answers.md`와 비교합니다.
+2. **통합**. 1~7을 끝내면 `08-fullstack-portfolio-project`를 실행해 배운 것이 실제 앱의 어디에 쓰였는지 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)로 확인합니다.
+3. **제출**. 8번을 GitHub에 올리고 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)의 문장으로 이력서·자기소개서를 작성합니다. 올리기 전 [submission-checklist.md](./08-fullstack-portfolio-project/submission-checklist.md)로 점검합니다.
+4. **설명**. 면접에서 "내가 직접 고친 코드 한 줄"과 "1~7이 8에 어떻게 연결됐는지"를 자기 말로 설명합니다.
+
+> 막히는 게 정상입니다. 추측으로 고치지 말고 에러 메시지를 먼저 읽으세요. 그 습관 자체가 SI/SW 면접에서 평가받는 실무 능력입니다.
+
 ## 먼저 읽을 파일
 
 - [career-roadmap.md](./career-roadmap.md)는 SI/SW 취업 준비 관점의 전체 로드맵입니다.
@@ -93,3 +117,4 @@ npm run progress
 - MongoDB 단계는 로컬 MongoDB 또는 MongoDB Atlas 중 하나가 필요합니다.
 - 실제 제출용 프로젝트는 `08-fullstack-portfolio-project`부터 먼저 완성해 GitHub에 올려도 좋습니다.
 - 포트폴리오 프로젝트의 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)를 보면 1~7단계 코드가 실제 프로젝트 기능으로 어떻게 연결됐는지 확인할 수 있습니다.
+- 이력서·지원서용 문장은 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)에 정리했습니다.
