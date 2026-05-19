@@ -58,10 +58,12 @@
 
 ## 최종 취업 준비
 
-- [ ] GitHub에 7개 단계 결과를 정리했습니다.
+- [ ] [folder-to-practice-guide.md](./folder-to-practice-guide.md)를 읽고 1~8번 폴더의 역할을 설명할 수 있습니다.
+- [ ] GitHub에 1~8번 단계 결과를 정리했습니다.
 - [ ] `08-fullstack-portfolio-project`를 실행하고 README를 읽었습니다.
 - [ ] Career Hub의 로그인, 지원 현황 CRUD, 프로젝트 CRUD를 직접 확인했습니다.
 - [ ] Career Hub의 `npm run verify`를 통과시켰습니다.
+- [ ] `08-fullstack-portfolio-project/learning-map.md`를 보고 1~7단계가 Career Hub에 연결되는 위치를 확인했습니다.
 - [ ] 가장 자신 있는 프로젝트 하나를 3분 안에 설명할 수 있습니다.
 - [ ] 오류가 났던 경험과 해결 과정을 말할 수 있습니다.
 - [ ] 이력서에 쓸 프로젝트 설명 3문장을 작성했습니다.

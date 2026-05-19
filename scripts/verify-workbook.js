@@ -7,6 +7,7 @@ const root = path.resolve(__dirname, "..");
 const requiredPaths = [
   "README.md",
   ".gitignore",
+  "folder-to-practice-guide.md",
   "career-roadmap.md",
   "references.md",
   "student-checklist.md",
@@ -138,6 +139,17 @@ const packageScripts = {
   "08-fullstack-portfolio-project/package.json": ["dev", "build", "start", "audit:submit", "clean:generated", "test:api", "verify"]
 };
 
+const guideFolders = [
+  "01-html-css",
+  "02-javascript-basics",
+  "03-react-todo",
+  "04-node-board-api",
+  "05-database-mongodb",
+  "06-login-auth",
+  "07-project-deploy",
+  "08-fullstack-portfolio-project"
+];
+
 let hasError = false;
 
 function fail(message) {
@@ -199,6 +211,15 @@ for (const [relativePath, scripts] of Object.entries(packageScripts)) {
     }
   } catch (error) {
     fail(`${relativePath} 파일의 JSON 형식이 올바르지 않습니다.`);
+  }
+}
+
+if (fs.existsSync(path.join(root, "folder-to-practice-guide.md"))) {
+  const folderGuide = readFile("folder-to-practice-guide.md");
+  for (const folder of guideFolders) {
+    if (!folderGuide.includes(folder)) {
+      fail(`folder-to-practice-guide.md에 ${folder} 설명이 없습니다.`);
+    }
   }
 }
 

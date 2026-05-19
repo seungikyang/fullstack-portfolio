@@ -52,12 +52,24 @@
 - [Render - Node/Express 앱 배포 문서](https://render.com/docs/deploy-node-express-app)
 - [Vercel 공식 문서](https://vercel.com/docs)
 
+### 8단계 Career Hub 포트폴리오 프로젝트
+
+- [React 공식 - 학습하기](https://react.dev/learn)
+- [React 공식 - state는 컴포넌트의 메모리](https://react.dev/learn/state-a-components-memory)
+- [Vite 공식 - 시작 가이드](https://vite.dev/guide/). Vite 8은 Node.js 20.19 이상 또는 22.12 이상을 요구합니다.
+- [Express 공식 - Hello world 예제](https://expressjs.com/ko/starter/hello-world.html)
+- [OWASP - Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+- [MongoDB 공식 - CRUD Operations](https://www.mongodb.com/docs/manual/crud/)
+
+8단계는 위 자료를 한 번에 적용하는 제출용 프로젝트입니다. React는 화면 상태와 컴포넌트 분리, Vite는 개발 서버와 production build, Express는 API 라우팅, OWASP는 비밀번호 해시 기준, MongoDB 자료는 저장소 계층을 실제 DB로 확장할 때 참고합니다.
+
 ## 협업·취업 공통 자료
 
-- [Git 공식 책 Pro Git (한국어)](https://git-scm.com/book/ko/v2) — SI/SW 실무에서 Git은 거의 필수입니다. 최소한 `add`, `commit`, `push`, `branch`, `merge`는 손에 익히세요.
-- [roadmap.sh - 풀스택 개발자 로드맵](https://roadmap.sh/full-stack) — 이 워크북 이후 더 공부할 방향을 그림으로 보여줍니다.
-- [NCS 공정채용 안내](https://ncs.go.kr/company/ch03/CH-104-001-01.scdo) — SI/SW 채용이 직무능력 중심으로 평가되는 이유를 설명합니다. ([career-roadmap.md](./career-roadmap.md) 참고)
-- [Q-Net 정보처리기사 종목 상세정보](https://www.q-net.or.kr/crf005.do?gId=&gSite=Q&id=crf00503s02&jmCd=1320&jmInfoDivCcd=B0) — 자격증을 병행할 때 공식 일정, 시험과목, 합격 기준을 확인하세요.
+- [Git 공식 책 Pro Git (한국어)](https://git-scm.com/book/ko/v2). SI/SW 실무에서 Git은 거의 필수입니다. 최소한 `add`, `commit`, `push`, `branch`, `merge`는 손에 익히세요.
+- [roadmap.sh - 풀스택 개발자 로드맵](https://roadmap.sh/full-stack). 이 워크북 이후 더 공부할 방향을 그림으로 보여줍니다.
+- [NCS 공정채용 안내](https://ncs.go.kr/company/ch03/CH-104-001-01.scdo). SI/SW 채용이 직무능력 중심으로 평가되는 이유를 설명합니다. ([career-roadmap.md](./career-roadmap.md) 참고)
+- [Q-Net 정보처리기사 종목 상세정보](https://www.q-net.or.kr/crf005.do?gId=&gSite=Q&id=crf00503s02&jmCd=1320&jmInfoDivCcd=B0). 자격증을 병행할 때 공식 일정, 시험과목, 합격 기준을 확인하세요.
+- [폴더부터 실무까지 학습 가이드](./folder-to-practice-guide.md). 1~8번 폴더를 실무 역량과 제출 자료로 바꾸는 순서를 정리했습니다.
 
 ## 자료를 보는 우선순위
 

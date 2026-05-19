@@ -34,6 +34,11 @@ const requiredLearningFolders = [
   "07-project-deploy"
 ];
 
+const requiredRootGuideFolders = [
+  ...requiredLearningFolders,
+  "08-fullstack-portfolio-project"
+];
+
 let hasError = false;
 
 function fail(message) {
@@ -79,6 +84,18 @@ const rootGitignore = fs.existsSync(path.join(workspaceRoot, ".gitignore"))
 for (const pattern of ["node_modules/", "dist/", ".env", "08-fullstack-portfolio-project/data/*.json"]) {
   if (!rootGitignore.includes(pattern)) {
     fail(`루트 .gitignore에 ${pattern} 패턴이 없습니다.`);
+  }
+}
+
+const rootGuidePath = path.join(workspaceRoot, "folder-to-practice-guide.md");
+if (!fs.existsSync(rootGuidePath)) {
+  fail("루트 folder-to-practice-guide.md 파일이 없습니다.");
+} else {
+  const rootGuide = fs.readFileSync(rootGuidePath, "utf8");
+  for (const folder of requiredRootGuideFolders) {
+    if (!rootGuide.includes(folder)) {
+      fail(`folder-to-practice-guide.md에 ${folder} 설명이 없습니다.`);
+    }
   }
 }
 

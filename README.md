@@ -38,6 +38,7 @@ SI/SW 업체 취업을 목표로 12주 동안 HTML/CSS, JavaScript, React, Node.
 
 ## 먼저 읽을 파일
 
+- [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~8번 폴더를 실무 능력, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
 - [career-roadmap.md](./career-roadmap.md)는 SI/SW 취업 준비 관점의 전체 로드맵입니다.
 - [references.md](./references.md)는 단계별 공식 문서, 에러 읽는 법, 공부 루틴을 모은 자료입니다.
 - [student-checklist.md](./student-checklist.md)는 학습자가 직접 체크하는 진행표입니다.
