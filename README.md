@@ -91,7 +91,7 @@ npm run progress
 
 ## 권장 개발 환경
 
-- Node.js 22 이상을 권장합니다.
+- Node.js 22.12 이상(또는 20.19 이상)을 권장합니다. 8번 포트폴리오 프로젝트의 Vite 8이 요구하는 버전입니다.
 - VS Code와 REST Client 확장을 쓰면 `requests.http` 파일로 API를 쉽게 테스트할 수 있습니다.
 - MongoDB 단계는 로컬 MongoDB 또는 MongoDB Atlas 중 하나가 필요합니다.
 - 실제 제출용 프로젝트는 `08-fullstack-portfolio-project`부터 먼저 완성해 GitHub에 올려도 좋습니다.

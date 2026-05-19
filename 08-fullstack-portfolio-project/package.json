@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
     "dev:api": "node --watch server/index.js",

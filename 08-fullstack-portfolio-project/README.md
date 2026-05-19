@@ -37,6 +37,11 @@ SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로젝트를 관�
 - Storage. JSON file store.
 - Verification. Vite build, API smoke test.
 
+## 필요 환경
+
+- **Node.js 20.19 이상 또는 22.12 이상** (Vite 8 요구 사항). 권장은 LTS인 22.12+ 입니다.
+- 확인. `node --version`
+
 ## 실행 방법
 
 ```bash
