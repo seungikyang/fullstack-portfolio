@@ -1,4 +1,5 @@
 // 이력서와 지원서 제출 전에 Career Hub 산출물 구성을 점검하는 스크립트
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -81,8 +82,21 @@ for (const pattern of ["node_modules/", "dist/", ".env", "08-fullstack-portfolio
   }
 }
 
-if (fs.existsSync(path.join(root, ".env"))) {
-  fail(".env 파일은 제출 전에 커밋하면 안 됩니다.");
+// 로컬 .env 파일은 실행에 필요하므로 존재 자체는 정상이다.
+// 실제 위험은 ".env가 git에 커밋된 경우"이므로 추적 여부만 확인한다.
+// (git이 없거나 저장소가 아니면 위쪽 .gitignore 패턴 검사로 이미 보호된다.)
+try {
+  const tracked = execFileSync("git", ["ls-files", ".env"], {
+    cwd: root,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "ignore"]
+  }).trim();
+
+  if (tracked) {
+    fail(".env가 git에 커밋되어 있습니다. git rm --cached .env 로 제외하세요.");
+  }
+} catch {
+  // git을 사용할 수 없는 환경(ZIP 제출 등)에서는 건너뛴다.
 }
 
 const authSource = read("server/auth.js");
