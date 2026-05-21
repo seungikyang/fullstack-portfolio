@@ -1,0 +1,9 @@
+# 컨텍스트에서 제외할 파일 목록. 빈칸을 채우세요.
+
+node_modules
+.git
+____
+____
+dist
+coverage
+.DS_Store

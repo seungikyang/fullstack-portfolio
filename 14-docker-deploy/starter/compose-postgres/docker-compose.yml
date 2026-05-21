@@ -1,0 +1,33 @@
+# Node 앱 + Postgres를 함께 띄우는 compose 파일
+
+services:
+  app:
+    build: ../node-board
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    # TODO: postgres:16-alpine 이미지를 사용하세요.
+    image: ____
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    # TODO: pgdata 볼륨을 /var/lib/postgresql/data에 마운트하세요.
+    volumes:
+      - ____:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

@@ -1,0 +1,33 @@
+# push와 PR마다 Node와 Java 양쪽 테스트를 자동 실행하는 워크플로우
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '____'
+          cache: 'npm'
+      - run: npm ci
+        working-directory: 14-docker-deploy/starter/node-board
+      - run: ____
+        working-directory: 14-docker-deploy/starter/node-board
+
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '____'
+      - run: ./gradlew test --no-daemon
+        working-directory: ____
