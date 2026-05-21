@@ -10,10 +10,29 @@ const stages = [
   "04-node-board-api",
   "05-database-mongodb",
   "06-login-auth",
-  "07-project-deploy"
+  "07-project-deploy",
+  "09-typescript",
+  "10-sql-oracle",
+  "12-testing",
+  "14-docker-deploy",
+  "16-security"
 ];
 
-const sourceExtensions = new Set([".html", ".css", ".js", ".jsx"]);
+const sourceExtensions = new Set([
+  ".html",
+  ".css",
+  ".js",
+  ".jsx",
+  ".ts",
+  ".tsx",
+  ".sql",
+  ".yml"
+]);
+
+const sourceFileNames = new Set([
+  "Dockerfile",
+  ".dockerignore"
+]);
 
 function walk(directory) {
   const entries = fs.readdirSync(directory, { withFileTypes: true });
@@ -27,7 +46,7 @@ function walk(directory) {
       continue;
     }
 
-    if (sourceExtensions.has(path.extname(entry.name))) {
+    if (sourceExtensions.has(path.extname(entry.name)) || sourceFileNames.has(entry.name)) {
       files.push(fullPath);
     }
   }

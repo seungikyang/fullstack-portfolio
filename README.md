@@ -1,6 +1,8 @@
 # 풀스택 개발 학습 문제집
 
-SI/SW 업체 취업을 목표로 12주 동안 HTML/CSS, JavaScript, React, Node.js, 데이터베이스, 로그인, 배포까지 순서대로 익히는 실습형 워크북입니다.
+SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 기초부터 실무 협업까지 단계별로 익히는 실습형 워크북입니다.
+
+기존 1~8번은 풀스택 기초·통합 트랙, 새로 추가된 9~14번은 한국 SI 채용 실전에 필요한 보강 트랙입니다.
 
 각 단계는 설명만 읽는 방식이 아니라, 코드 안의 `빈칸`, `TODO`, `____`를 직접 채우며 공부하도록 구성했습니다.
 
@@ -26,6 +28,17 @@ SI/SW 업체 취업을 목표로 12주 동안 HTML/CSS, JavaScript, React, Node.
 | 6 | `06-login-auth` | 비밀번호 해시와 JWT로 인증을 구현하는 능력 |
 | 7 | `07-project-deploy` | 프론트·백을 연결하고 배포를 준비하는 능력 |
 | 8 | `08-fullstack-portfolio-project` | 1~7을 하나의 제출용 fullstack 앱으로 통합하는 능력 |
+| 9 | `09-typescript` | 코드에 정적 타입을 입혀 컴파일 시점에 오류를 잡는 능력 |
+| 10 | `10-sql-oracle` | Oracle/MySQL 기반 RDBMS에서 JOIN·집계·트랜잭션을 다루는 능력 |
+| 11 | `11-java-spring` | Spring Boot로 Controller·Service·Repository 계층을 분리한 REST API를 만드는 능력 |
+| 12 | `12-testing` | Vitest와 JUnit으로 단위·통합 테스트를 작성하는 능력 |
+| 13 | `13-git-collab` | feature 브랜치·PR·충돌 해결로 팀 협업 흐름을 따르는 능력 |
+| 14 | `14-docker-deploy` | Docker로 앱을 패키징하고 GitHub Actions로 CI 파이프라인을 구성하는 능력 |
+| 15 | `15-cs-fundamentals` | 네트워크·OS·DB이론·자료구조 기본기를 자기 말로 설명하는 능력 |
+| 16 | `16-security` | XSS·SQL Injection·CSRF·CORS·OWASP Top 10의 방어 코드를 작성하는 능력 |
+| 17 | `17-interview-prep` | 1~16단계 학습을 면접 답변으로 통합·연습하는 능력 |
+
+1~8번은 "풀스택 앱 한 개를 직접 만든다"는 기초 트랙입니다. 9~14번은 "실제 SI 현장에서 통할 수준으로 끌어올린다"는 SI 실전 보강 트랙입니다. 15~17번은 "기술 + CS + 면접까지 모두 통과한다"는 채용 직전 마감 트랙입니다. 1~8 → 9~14 → 15~17 순서로 진행하길 권장합니다.
 
 진행 방식은 단계마다 똑같습니다.
 
@@ -56,6 +69,15 @@ SI/SW 업체 취업을 목표로 12주 동안 HTML/CSS, JavaScript, React, Node.
 | 6단계 | `06-login-auth` | 회원가입과 로그인 구현하기 |
 | 7단계 | `07-project-deploy` | 미니 프로젝트 완성 후 배포 준비하기 |
 | 포트폴리오 | `08-fullstack-portfolio-project` | 취업 제출용 fullstack 미니 프로젝트 |
+| 9단계 | `09-typescript` | React/Express에 TypeScript 적용하기 |
+| 10단계 | `10-sql-oracle` | Oracle SQL로 JOIN·집계·트랜잭션 실습 |
+| 11단계 | `11-java-spring` | Spring Boot로 4단계 게시판 API 다시 만들기 |
+| 12단계 | `12-testing` | Vitest와 JUnit으로 자동화 테스트 작성 |
+| 13단계 | `13-git-collab` | 브랜치 전략, PR 리뷰, 충돌 해결 |
+| 14단계 | `14-docker-deploy` | Docker 컨테이너화와 GitHub Actions CI |
+| 15단계 | `15-cs-fundamentals` | CS 기초 21문제 자기 답안 작성 |
+| 16단계 | `16-security` | OWASP Top 10과 XSS·SQLi·CSRF 방어 코드 |
+| 17단계 | `17-interview-prep` | 1~16단계 면접 카드 통합과 자기소개·STAR 답안 |
 
 각 단계에는 다음 파일이 있습니다.
 
@@ -114,6 +136,15 @@ npm run progress
 ## 권장 개발 환경
 
 - Node.js 22.12 이상(또는 20.19 이상)을 권장합니다. 8번 포트폴리오 프로젝트의 Vite 8이 요구하는 버전입니다.
+- 9번 TypeScript 단계는 같은 Node 버전이면 됩니다.
+- 10번 SQL 단계는 Oracle Live SQL(브라우저 사용) 또는 Oracle XE/MySQL 로컬 설치 중 하나가 필요합니다.
+- 11번 Spring Boot 단계는 JDK 21과 Gradle wrapper가 필요합니다(`brew install openjdk@21`).
+- 12번 테스트 단계는 추가 설치가 거의 없습니다. Vitest와 JUnit은 각 프로젝트 의존성으로 들어갑니다.
+- 13번 Git 협업 단계는 GitHub 계정과 두 개의 로컬 클론으로 진행합니다.
+- 14번 Docker 단계는 Docker Desktop 설치가 필요합니다.
+- 15번 CS 기초 단계는 별도 설치 없이 질문에 자기 답안을 작성하는 흐름입니다.
+- 16번 보안 단계는 4단계 Express 환경에서 작은 스크립트를 실행합니다. 추가 설치는 없습니다.
+- 17번 면접 대비 단계는 마크다운 카드를 채우는 흐름입니다.
 - VS Code와 REST Client 확장을 쓰면 `requests.http` 파일로 API를 쉽게 테스트할 수 있습니다.
 - MongoDB 단계는 로컬 MongoDB 또는 MongoDB Atlas 중 하나가 필요합니다.
 - 실제 제출용 프로젝트는 `08-fullstack-portfolio-project`부터 먼저 완성해 GitHub에 올려도 좋습니다.

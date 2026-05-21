@@ -56,14 +56,95 @@
 - [ ] `deploy-checklist.md`를 읽고 배포 준비 값을 정리했습니다.
 - [ ] 포트폴리오 README에 기능, 실행 방법, 배운 점을 적었습니다.
 
+## 9단계 TypeScript
+
+- [ ] `npm install`을 실행했습니다.
+- [ ] `npm run typecheck`가 오류 없이 통과합니다.
+- [ ] React Todo와 Express 라우터에 props/Request 제네릭이 적용됐습니다.
+- [ ] `any`를 한 곳도 사용하지 않았습니다.
+- [ ] `interface`와 `type` 별칭의 차이를 설명할 수 있습니다.
+
+## 10단계 SQL과 Oracle
+
+- [ ] `DEPARTMENTS`, `EMPLOYEES` 테이블을 생성하고 데이터를 INSERT 했습니다.
+- [ ] WHERE, GROUP BY, HAVING 쿼리를 직접 실행했습니다.
+- [ ] INNER JOIN과 LEFT JOIN의 결과 행 수 차이를 확인했습니다.
+- [ ] 트랜잭션에서 COMMIT과 ROLLBACK을 직접 실험했습니다.
+- [ ] 인덱스가 있을 때와 없을 때 실행 계획이 어떻게 달라지는지 확인했습니다.
+
+## 11단계 Java와 Spring Boot
+
+- [ ] Spring Initializr로 프로젝트를 만들었습니다.
+- [ ] `Post` 엔티티, `PostRepository`, `PostService`, `PostController`를 작성했습니다.
+- [ ] `./gradlew bootRun`이 동작하고 `GET /api/posts`가 200을 반환합니다.
+- [ ] H2 콘솔에서 INSERT 결과를 직접 확인했습니다.
+- [ ] `@Valid`와 `@RestControllerAdvice`로 검증과 예외를 처리했습니다.
+- [ ] Express 게시판과 Spring 게시판의 1:1 비교 메모를 남겼습니다.
+
+## 12단계 자동화 테스트
+
+- [ ] Vitest로 순수 함수 단위 테스트 5개 이상을 통과시켰습니다.
+- [ ] supertest로 Express 라우터 통합 테스트를 통과시켰습니다.
+- [ ] `vi.spyOn` 또는 `vi.mock`으로 외부 의존성을 모킹했습니다.
+- [ ] JUnit 5 + Mockito로 `PostService` 단위 테스트를 통과시켰습니다.
+- [ ] `@WebMvcTest`로 Controller 통합 테스트를 통과시켰습니다.
+- [ ] 커버리지 보고서를 출력하고 테스트가 부족한 줄을 확인했습니다.
+
+## 13단계 Git 협업
+
+- [ ] feature 브랜치를 만들고 main으로 PR을 올렸습니다.
+- [ ] GitHub Repository Settings에서 main 보호를 활성화했습니다.
+- [ ] 같은 줄을 두 브랜치가 수정한 충돌을 직접 해결했습니다.
+- [ ] `git rm --cached .env`로 잘못 커밋된 시크릿을 추적 해제했습니다.
+- [ ] `git add -p`로 의미 단위로 커밋을 분리했습니다.
+- [ ] `--force-with-lease`와 `--force`의 차이를 설명할 수 있습니다.
+
+## 14단계 Docker와 CI
+
+- [ ] Node 앱과 Spring 앱을 각각 Dockerfile로 빌드했습니다.
+- [ ] `.dockerignore`로 컨텍스트 크기를 줄였습니다.
+- [ ] 멀티 스테이지 빌드로 Spring 이미지 크기를 줄였습니다.
+- [ ] docker compose로 앱과 Postgres를 함께 실행했습니다.
+- [ ] GitHub Actions로 push 시 자동 테스트가 실행됩니다.
+- [ ] 멀티 스테이지 빌드 전후 이미지 크기를 비교한 메모가 있습니다.
+
+## 15단계 CS 기초
+
+- [ ] 네트워크 6문제에 자기 답안을 작성했습니다.
+- [ ] OS 5문제에 자기 답안을 작성했습니다.
+- [ ] DB 이론 5문제에 자기 답안을 작성했습니다.
+- [ ] 자료구조 5문제에 자기 답안을 작성했습니다.
+- [ ] 각 답안 끝에 1~14단계 코드 근거를 한 줄 적었습니다.
+- [ ] 모범 답안과 비교한 뒤 자기 답안을 한 번 이상 고쳤습니다.
+
+## 16단계 웹 보안
+
+- [ ] 저장형 XSS를 직접 재현하고 출력 인코딩으로 막았습니다.
+- [ ] SQL Injection을 재현하고 파라미터화 쿼리로 막았습니다.
+- [ ] CSRF 시연을 보고 SameSite 또는 CSRF 토큰을 적용했습니다.
+- [ ] CORS 설정을 잘못된 것 → 화이트리스트 함수형으로 고쳤습니다.
+- [ ] OWASP Top 10 항목에 자기 말로 한 줄 요약을 적었습니다.
+- [ ] `npm audit` 또는 dependencyCheck 결과를 보고 한 가지 이상 조치했습니다.
+
+## 17단계 면접 대비
+
+- [ ] 자기소개 30초·1분·3분 버전을 모두 작성했습니다.
+- [ ] 1~16단계 기술 카드에 자기 답안을 적었습니다.
+- [ ] 인성 질문 10개에 STAR 답안을 작성했습니다.
+- [ ] 가장 자신 있는 프로젝트 한 개를 3분 안에 설명하는 녹음을 남겼습니다.
+- [ ] "내가 직접 고친 코드 한 줄"을 3가지 준비했습니다.
+- [ ] 모의 면접을 한 번 이상 진행했습니다.
+
 ## 최종 취업 준비
 
-- [ ] [folder-to-practice-guide.md](./folder-to-practice-guide.md)를 읽고 1~8번 폴더의 역할을 설명할 수 있습니다.
+- [ ] [folder-to-practice-guide.md](./folder-to-practice-guide.md)를 읽고 1~17번 폴더의 역할을 설명할 수 있습니다.
 - [ ] GitHub에 1~8번 단계 결과를 정리했습니다.
 - [ ] `08-fullstack-portfolio-project`를 실행하고 README를 읽었습니다.
 - [ ] Career Hub의 로그인, 지원 현황 CRUD, 프로젝트 CRUD를 직접 확인했습니다.
 - [ ] Career Hub의 `npm run verify`를 통과시켰습니다.
 - [ ] `08-fullstack-portfolio-project/learning-map.md`를 보고 1~7단계가 Career Hub에 연결되는 위치를 확인했습니다.
+- [ ] 9~14번 보강 트랙의 결과물을 GitHub의 별도 저장소 또는 같은 저장소의 브랜치로 정리했습니다.
+- [ ] SQLD 또는 정보처리기사 일정과 학습 진행을 맞추었습니다.
 - [ ] 가장 자신 있는 프로젝트 하나를 3분 안에 설명할 수 있습니다.
 - [ ] 오류가 났던 경험과 해결 과정을 말할 수 있습니다.
 - [ ] 이력서에 쓸 프로젝트 설명 3문장을 작성했습니다.

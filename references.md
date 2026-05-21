@@ -63,6 +63,78 @@
 
 8단계는 위 자료를 한 번에 적용하는 제출용 프로젝트입니다. React는 화면 상태와 컴포넌트 분리, Vite는 개발 서버와 production build, Express는 API 라우팅, OWASP는 비밀번호 해시 기준, MongoDB 자료는 저장소 계층을 실제 DB로 확장할 때 참고합니다.
 
+### 9단계 TypeScript
+
+- [TypeScript 핸드북(한국어)](https://typescript-kr.github.io/). 기본 타입, 인터페이스, 제네릭의 1차 자료.
+- [TypeScript Cheat Sheets (공식)](https://www.typescriptlang.org/cheatsheets). 인터페이스, 타입 별칭, 제네릭, 컨트롤 플로우를 한 장씩 정리.
+- [React + TypeScript Cheatsheets](https://react-typescript-cheatsheet.netlify.app/). 컴포넌트 props 타이핑의 사실상 표준.
+- [tsconfig 옵션 레퍼런스](https://www.typescriptlang.org/tsconfig). `strict` 그룹이 무엇을 켜는지 확인.
+
+### 10단계 SQL과 Oracle
+
+- [Oracle Live SQL](https://livesql.oracle.com). 설치 없이 브라우저에서 Oracle SQL을 실습.
+- [Oracle Database SQL Language Reference](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/index.html).
+- [MySQL Reference Manual - JOIN](https://dev.mysql.com/doc/refman/8.0/en/join.html). Oracle과 비교.
+- [SQLD 자격증 안내](https://www.dataq.or.kr/www/sub/a_04.do). 시험 과목은 10단계 학습 범위와 거의 일치.
+- [Use The Index, Luke](https://use-the-index-luke.com/ko). 인덱스가 어떻게 동작하는지 그림으로 설명.
+
+### 11단계 Java와 Spring Boot
+
+- [Spring Initializr](https://start.spring.io). 시작 프로젝트 생성.
+- [Spring Boot 공식 가이드](https://spring.io/guides). 짧은 튜토리얼이 주제별로 묶여 있음.
+- [Spring Data JPA 공식 문서](https://docs.spring.io/spring-data/jpa/reference/jpa.html).
+- [Baeldung - REST with Spring](https://www.baeldung.com/rest-with-spring-series). 신입에게 가장 추천되는 영문 가이드.
+- [점프 투 자바(한국어)](https://wikidocs.net/book/31). 자바가 처음이라면 1주 안에 가볍게 훑기.
+- [정보처리기사 큐넷 안내](https://www.q-net.or.kr/crf005.do?gId=&gSite=Q&id=crf00503s02&jmCd=1320&jmInfoDivCcd=B0).
+
+### 12단계 자동화 테스트
+
+- [Vitest 공식 문서](https://vitest.dev/). JavaScript 진영 테스트 러너.
+- [supertest GitHub](https://github.com/ladjs/supertest). Express 통합 테스트 라이브러리.
+- [JUnit 5 User Guide](https://junit.org/junit5/docs/current/user-guide/). 자바 진영 단위 테스트.
+- [Mockito 공식 문서](https://site.mockito.org/). 자바 모킹 라이브러리.
+- [Spring Boot Testing 공식 가이드](https://docs.spring.io/spring-boot/reference/testing/index.html). `@WebMvcTest`, `@SpringBootTest`의 차이.
+
+### 13단계 Git 협업
+
+- [Pro Git 책 (한국어, 무료)](https://git-scm.com/book/ko/v2). 1~3장만 읽어도 협업의 90%가 채워짐.
+- [GitHub Docs - Pull requests](https://docs.github.com/ko/pull-requests). PR을 만들고 리뷰받는 흐름.
+- [Conventional Commits](https://www.conventionalcommits.org/ko/v1.0.0/). 커밋 메시지 규칙 표준.
+- [Atlassian Git Branching Tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows). Git Flow vs GitHub Flow.
+
+### 14단계 Docker와 배포
+
+- [Docker 공식 시작 가이드](https://docs.docker.com/get-started/).
+- [Dockerfile reference](https://docs.docker.com/reference/dockerfile/). 명령어 1차 자료.
+- [Docker Compose 파일 레퍼런스](https://docs.docker.com/reference/compose-file/).
+- [GitHub Actions 워크플로우 문법](https://docs.github.com/ko/actions/writing-workflows/workflow-syntax-for-github-actions).
+- [Awesome Compose 예제 모음](https://github.com/docker/awesome-compose). 언어별 compose 패턴 참고.
+
+### 15단계 CS 기초
+
+- [MDN HTTP 개요](https://developer.mozilla.org/ko/docs/Web/HTTP/Overview). 네트워크 영역의 1차 자료.
+- [컴퓨터 네트워크 - HPBN(고성능 브라우저 네트워킹)](https://hpbn.co/). 영문 무료 책. TCP·HTTP·TLS 깊이 있는 설명.
+- [OSTEP (Operating Systems: Three Easy Pieces)](https://pages.cs.wisc.edu/~remzi/OSTEP/). 운영체제 무료 교재. 한국어 PDF 별도 제공.
+- [Database System Concepts](https://www.db-book.com/). DB 이론 표준 교재.
+- [Visualgo - 자료구조 시각화](https://visualgo.net/ko). 알고리즘 동작을 그림으로.
+- [PostgreSQL Explain 사용법](https://www.postgresql.org/docs/current/sql-explain.html). 실행 계획 읽는 법.
+
+### 16단계 웹 보안
+
+- [OWASP Top 10 (한국어)](https://owasp.org/Top10/ko/). 매년 갱신되는 웹 취약점 표준 목록.
+- [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/). 주제별 방어 가이드.
+- [MDN - Content Security Policy](https://developer.mozilla.org/ko/docs/Web/HTTP/CSP). XSS 방어를 헤더 단계에서.
+- [MDN - SameSite 쿠키](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Set-Cookie/SameSite). CSRF 방어.
+- [PortSwigger Web Security Academy](https://portswigger.net/web-security). 실습형 보안 학습 (무료).
+- [Spring Security 공식 문서](https://docs.spring.io/spring-security/reference/index.html). 11단계 Spring 환경의 보안 설정.
+
+### 17단계 면접 대비
+
+- [STAR 기법 설명 (Indeed)](https://www.indeed.com/career-advice/interviewing/how-to-use-the-star-interview-response-technique). 행동 면접 답변의 표준 구조.
+- [기술 면접 대비 - mock interview 플랫폼](https://www.pramp.com/). 무료 모의 면접.
+- [한국어 IT 면접 질문 모음 - GitHub JaeYeopHan/Interview_Question_for_Beginner](https://github.com/JaeYeopHan/Interview_Question_for_Beginner). 신입 면접 질문 정리 저장소.
+- [잡코리아 면접 후기 검색](https://www.jobkorea.co.kr/Starter/CompanyInterview). 구체 회사별 후기 확인.
+
 ## 협업·취업 공통 자료
 
 - [Git 공식 책 Pro Git (한국어)](https://git-scm.com/book/ko/v2). SI/SW 실무에서 Git은 거의 필수입니다. 최소한 `add`, `commit`, `push`, `branch`, `merge`는 손에 익히세요.
