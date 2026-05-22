@@ -80,15 +80,17 @@ docker compose up --build
 ## 테스트와 품질
 
 ```bash
-npm test                       # shared + api + web 모두 실행
-npm run test:watch             # watch 모드
-npm test -w @note-hub/api      # 특정 패키지만
+npm test                       # pretest 훅이 @note-hub/shared를 먼저 빌드한 뒤 shared+api+web 모두 실행
+npm run test:watch             # watch 모드 (역시 pretest:watch가 shared를 먼저 빌드)
+npm test -w @note-hub/api      # 특정 패키지만 (이때는 shared 빌드를 수동으로: npm run build -w @note-hub/shared)
 npm run lint                   # ESLint (typescript-eslint + react)
 npm run lint:fix               # 자동 수정
 npm run format:check           # Prettier 포맷 검사
 npm run typecheck              # 전 패키지 tsc --noEmit
 npm run prepare                # husky 활성화 (1회)
 ```
+
+`api/src/server.test.ts`와 `openapi-sync.test.ts`는 `@note-hub/shared`의 `ApiRoutes` 런타임 값을 import 하므로 shared가 먼저 빌드되어 있어야 합니다. 루트 `pretest` 훅이 이를 자동으로 처리합니다.
 
 `.husky/pre-commit`이 lint-staged를 실행해 스테이지된 파일만 ESLint + Prettier로 자동 정리합니다.
 
