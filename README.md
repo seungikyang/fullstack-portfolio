@@ -49,6 +49,10 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 > 막히는 게 정상입니다. 추측으로 고치지 말고 에러 메시지를 먼저 읽으세요. 그 습관 자체가 SI/SW 면접에서 평가받는 실무 능력입니다.
 
+## 부가 프로그램
+
+- [monorepo-mini-app/](./monorepo-mini-app/) — DevContainer 가상환경에서 동작하는 npm workspaces + TypeScript 풀스택 모노레포 데모(Note Hub). 8번 Career Hub와 독립적인 별도 프로그램으로, "프론트엔드와 백엔드가 같은 타입을 공유한다"는 모노레포의 핵심 가치를 시연합니다.
+
 ## 먼저 읽을 파일
 
 - [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~8번 폴더를 실무 능력, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
@@ -118,6 +122,8 @@ npm run dev
 npm run verify
 ```
 
+`.github/workflows/ci.yml`로 main 푸시·PR마다 GitHub Actions가 위 검증과 8번 포트폴리오의 lint, 단위/통합 테스트, 빌드, Docker 이미지 빌드를 자동 실행합니다.
+
 남은 빈칸 개수는 루트 폴더에서 확인합니다.
 
 ```bash
@@ -134,6 +140,25 @@ npm run progress
 - 막히면 추측하지 말고 [references.md](./references.md)의 "에러 읽는 법"을 먼저 보세요.
 
 ## 권장 개발 환경
+
+가장 빠른 방법은 **가상 개발환경(Dev Container)** 입니다. 학습자마다 OS·Node 버전·Java 버전이 달라서 막히는 일을 없애려고 추가했습니다.
+
+### 옵션 A. VS Code Dev Container (권장, 가장 최신)
+
+1. [Docker Desktop](https://www.docker.com/products/docker-desktop)과 VS Code의 "Dev Containers" 확장을 설치합니다.
+2. 이 폴더를 VS Code에서 연 뒤 명령 팔레트 → "Dev Containers: Reopen in Container".
+3. 컨테이너가 빌드되면 자동으로 Node 22.12 + JDK 21 + Gradle + Docker-in-Docker가 준비됩니다.
+4. 9번 TypeScript, 11번 Spring Boot, 14번 Docker, 8번 포트폴리오까지 추가 설치 없이 바로 실행됩니다.
+
+### 옵션 B. GitHub Codespaces
+
+저장소를 GitHub에 올린 뒤 "Code → Codespaces → Create"를 누르면 같은 Dev Container가 클라우드에서 뜹니다. 브라우저만 있으면 됩니다.
+
+### 옵션 C. mise (도구 버전만 관리)
+
+로컬에 설치된 환경을 쓰되 도구 버전만 통일하려면 [mise](https://mise.jdx.dev)를 설치한 뒤 저장소 루트에서 `mise install`을 실행합니다. `mise.toml`에 정의된 Node·Java·Gradle 버전이 자동으로 설치됩니다.
+
+### 옵션 D. 직접 설치 (가장 전통적)
 
 - Node.js 22.12 이상(또는 20.19 이상)을 권장합니다. 8번 포트폴리오 프로젝트의 Vite 8이 요구하는 버전입니다.
 - 9번 TypeScript 단계는 같은 Node 버전이면 됩니다.

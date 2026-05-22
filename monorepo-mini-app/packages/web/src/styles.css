@@ -1,0 +1,25 @@
+/* Note Hub 데모용 최소 스타일. 라이브러리 없이 간단히 카드 레이아웃만 잡는다. */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #f8fafc; color: #0f172a; }
+.page { max-width: 720px; margin: 0 auto; padding: 32px 16px 80px; }
+h1 { margin: 0 0 4px; font-size: 28px; }
+.subtitle { color: #64748b; margin: 0 0 32px; }
+code { background: #e2e8f0; padding: 1px 6px; border-radius: 4px; font-size: 0.92em; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.card h2 { margin: 0 0 12px; font-size: 18px; }
+.form { display: grid; gap: 12px; }
+.form label { display: grid; gap: 4px; font-size: 14px; }
+.form input, .form textarea { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font: inherit; }
+.form button { padding: 10px 16px; background: #0f172a; color: #fff; border: none; border-radius: 6px; cursor: pointer; justify-self: start; }
+.form button:hover { background: #1e293b; }
+.error { color: #b91c1c; margin: 12px 0 0; }
+.notes { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.note { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; background: #f8fafc; }
+.note-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+.note-head button { background: transparent; color: #b91c1c; border: 1px solid #fecaca; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+.note-head button:hover { background: #fef2f2; }
+.note p { margin: 6px 0 8px; white-space: pre-wrap; }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+.tag { background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 99px; font-size: 12px; }
+.note small { color: #64748b; }
+.empty { color: #94a3b8; font-style: italic; padding: 16px 0; text-align: center; }

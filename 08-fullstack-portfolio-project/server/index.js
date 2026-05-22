@@ -1,12 +1,17 @@
 // Career Hub의 Express API와 정적 파일 제공을 구성하는 서버 진입 파일
 import "dotenv/config";
-import { existsSync } from "node:fs";
+import { randomUUID } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import cors from "cors";
 import express from "express";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import { pinoHttp } from "pino-http";
 import { hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
 import { JsonStore, toPublicUser } from "./data-store.js";
+import { logger } from "./logger.js";
 import {
   validateApplication,
   validateProject,
@@ -15,6 +20,7 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const defaultDataFile = join(__dirname, "../data/career-hub.json");
+const openApiSpec = JSON.parse(readFileSync(join(__dirname, "openapi.json"), "utf8"));
 
 function sendValidation(res, errors) {
   return res.status(400).json({ message: errors[0], errors });
@@ -105,6 +111,49 @@ export async function createApp(options = {}) {
 
   await seedDemoData(store);
 
+  // 요청마다 X-Request-Id를 부여하고 JSON 로그를 남긴다. 분산 환경에서 단일 요청을
+  // 여러 로그 라인과 묶어 추적하기 위해서다. 클라이언트가 보낸 X-Request-Id가 있으면 그대로 사용한다.
+  app.use(
+    pinoHttp({
+      logger,
+      genReqId(req, res) {
+        const incoming = req.headers["x-request-id"];
+        const id = (Array.isArray(incoming) ? incoming[0] : incoming) || randomUUID();
+        res.setHeader("X-Request-Id", id);
+        return id;
+      },
+      customLogLevel(req, res, err) {
+        if (err || res.statusCode >= 500) return "error";
+        if (res.statusCode >= 400) return "warn";
+        return "info";
+      },
+      // /api/health는 모니터링 폴링으로 자주 호출되므로 로그를 줄인다.
+      autoLogging: {
+        ignore: (req) => req.url === "/api/health"
+      }
+    })
+  );
+
+  // 보안 기본 헤더(X-Content-Type-Options, X-Frame-Options 등)를 일괄 적용한다.
+  // 프론트엔드를 같은 서버에서 제공하므로 CSP는 같은 오리진 자산만 허용하도록 명시한다.
+  // - 'self': 같은 오리진의 JS/CSS만 허용 (Vite 빌드 산출물이 여기에 해당)
+  // - 'unsafe-inline': Vite가 일부 환경에서 inline style을 사용하므로 style만 허용
+  // - data: img-src: 작은 인라인 이미지(아이콘 등) 허용
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          "default-src": ["'self'"],
+          "script-src": ["'self'"],
+          "style-src": ["'self'", "'unsafe-inline'"],
+          "img-src": ["'self'", "data:"],
+          "connect-src": ["'self'"]
+        }
+      },
+      crossOriginEmbedderPolicy: false
+    })
+  );
   app.use(
     cors({
       origin(origin, callback) {
@@ -116,10 +165,38 @@ export async function createApp(options = {}) {
       }
     })
   );
-  app.use(express.json());
+  // 과도한 본문(>1MB)을 거절해 메모리 고갈/DoS를 막는다.
+  app.use(express.json({ limit: "1mb" }));
+
+  // 인증 엔드포인트는 brute-force 방지를 위해 별도의 더 엄격한 비율 제한을 둔다.
+  const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 20,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+    message: { message: "잠시 후 다시 시도해 주세요." }
+  });
+  const apiLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: 120,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+    message: { message: "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요." }
+  });
+
+  if (process.env.NODE_ENV !== "test") {
+    app.use("/api/auth", authLimiter);
+    app.use("/api", apiLimiter);
+  }
 
   app.get("/api/health", (req, res) => {
     res.json({ ok: true, service: "career-hub" });
+  });
+
+  // 자동 생성 대신 hand-written OpenAPI 3 스펙을 노출한다.
+  // 스펙은 server/openapi.json에 있다. 브라우저로는 https://editor.swagger.io 에서 붙여 넣으면 확인 가능.
+  app.get("/api/openapi.json", (req, res) => {
+    res.json(openApiSpec);
   });
 
   app.post("/api/auth/register", async (req, res) => {
@@ -275,8 +352,10 @@ export async function createApp(options = {}) {
     res.status(404).json({ message: "요청한 API를 찾을 수 없습니다." });
   });
 
+  // pino-http가 req.log를 채워 두므로 요청 컨텍스트(requestId 포함)와 함께 로그를 남긴다.
+  // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => {
-    console.error(error);
+    (req.log || logger).error({ err: error }, "unhandled error");
     res.status(500).json({ message: "서버 오류가 발생했습니다." });
   });
 
@@ -287,8 +366,31 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const port = process.env.PORT || 5100;
   const app = await createApp();
 
-  app.listen(port, () => {
-    console.log(`Career Hub API가 http://localhost:${port} 에서 실행 중입니다.`);
+  const server = app.listen(port, () => {
+    logger.info({ port }, "Career Hub API listening");
   });
+
+  // 컨테이너/PM2 환경에서 SIGTERM/SIGINT를 받으면 새 요청을 끊고 기존 요청을 마무리한다.
+  // 그레이스풀 셧다운이 없으면 진행 중인 응답이 잘려서 502/연결 끊김으로 보이고, 데이터 저장 중간에
+  // 종료되어 JSON 저장소가 손상될 수 있다.
+  function shutdown(signal) {
+    logger.info({ signal }, "graceful shutdown start");
+    const forceTimer = setTimeout(() => {
+      logger.error("graceful shutdown timeout, forcing exit");
+      process.exit(1);
+    }, 10_000);
+    forceTimer.unref();
+
+    server.close((error) => {
+      if (error) {
+        logger.error({ err: error }, "server close error");
+        process.exit(1);
+      }
+      process.exit(0);
+    });
+  }
+
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
 }
 

@@ -10,6 +10,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    // host: true는 0.0.0.0 바인딩. 로컬에서는 localhost로도 접속되고
+    // Docker/DevContainer 안에서도 호스트 머신에서 접속할 수 있게 한다.
+    host: true,
     proxy: {
       "/api": {
         target: API_TARGET,

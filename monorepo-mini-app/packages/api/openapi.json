@@ -1,0 +1,150 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Note Hub API",
+    "version": "0.1.0",
+    "description": "DevContainer 가상환경에서 동작하는 npm workspaces 모노레포 데모(Note Hub)의 REST API 명세. https://editor.swagger.io 에 붙여 넣어 시각적으로 확인할 수 있다.",
+    "license": { "name": "MIT" }
+  },
+  "servers": [
+    { "url": "http://localhost:5200", "description": "로컬 개발" }
+  ],
+  "tags": [
+    { "name": "system", "description": "헬스 체크와 명세" },
+    { "name": "notes", "description": "노트 CRUD" }
+  ],
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["message"]
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "title", "body", "tags", "createdAt"]
+      },
+      "CreateNoteInput": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "tags": {
+            "oneOf": [
+              { "type": "array", "items": { "type": "string" } },
+              { "type": "string", "description": "쉼표로 구분된 문자열도 허용" }
+            ]
+          }
+        },
+        "required": ["title", "body"]
+      },
+      "Health": {
+        "type": "object",
+        "properties": {
+          "ok": { "type": "boolean" },
+          "service": { "type": "string" }
+        },
+        "required": ["ok", "service"]
+      }
+    },
+    "responses": {
+      "Validation": {
+        "description": "검증 실패",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "NotFound": {
+        "description": "리소스를 찾을 수 없음",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "Unavailable": {
+        "description": "DB 등 의존 서비스 비정상",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } }
+      }
+    }
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "tags": ["system"],
+        "summary": "헬스 체크 (DB ping 포함)",
+        "responses": {
+          "200": {
+            "description": "서버와 저장소 모두 정상",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } }
+          },
+          "503": { "$ref": "#/components/responses/Unavailable" }
+        }
+      }
+    },
+    "/api/openapi.json": {
+      "get": {
+        "tags": ["system"],
+        "summary": "OpenAPI 3 명세 다운로드",
+        "responses": { "200": { "description": "OpenAPI 3 문서" } }
+      }
+    },
+    "/api/notes": {
+      "get": {
+        "tags": ["notes"],
+        "summary": "노트 목록 (최신순)",
+        "responses": {
+          "200": {
+            "description": "노트 배열",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Note" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["notes"],
+        "summary": "노트 생성",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CreateNoteInput" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "생성된 노트",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Note" } }
+            }
+          },
+          "400": { "$ref": "#/components/responses/Validation" }
+        }
+      }
+    },
+    "/api/notes/{id}": {
+      "delete": {
+        "tags": ["notes"],
+        "summary": "노트 삭제",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "삭제 성공" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  }
+}

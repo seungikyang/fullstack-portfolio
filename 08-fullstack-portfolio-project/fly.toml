@@ -1,0 +1,41 @@
+# fly.io 배포 설정. 사용 절차:
+#   1. flyctl auth login
+#   2. flyctl launch --no-deploy --copy-config  (이 파일을 그대로 사용)
+#   3. flyctl secrets set JWT_SECRET=$(openssl rand -hex 32)
+#   4. flyctl deploy
+# JSON 저장소를 쓰는 데모라 볼륨을 마운트해 재배포 후에도 데이터를 보존한다.
+
+app = "career-hub"
+primary_region = "nrt" # Tokyo - 한국 사용자에 가장 가까운 fly 리전
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "5100"
+  DATA_FILE = "/data/career-hub.json"
+  SEED_DEMO = "false"
+
+[http_service]
+  internal_port = 5100
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/api/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[mounts]
+  source = "career_hub_data"
+  destination = "/data"

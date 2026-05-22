@@ -1,0 +1,25 @@
+# Render.com Blueprint. 저장소 루트에 두면 "New + Blueprint"에서 자동 인식한다.
+# Career Hub는 단일 컨테이너(정적 web + Express API)라서 web 서비스 한 개로 충분하다.
+# Render의 free 플랜은 idle 시 자동 sleep되며 첫 요청에 cold start가 있다.
+
+services:
+  - type: web
+    name: career-hub
+    runtime: docker
+    region: singapore # 한국과 가장 가까운 리전 (oregon/frankfurt 대비)
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5100
+      - key: JWT_SECRET
+        generateValue: true # Render가 안전한 임의값을 생성해 채워준다
+      - key: SEED_DEMO
+        value: "false"
+      - key: CLIENT_ORIGIN
+        sync: false # 배포 후 실제 도메인을 대시보드에서 직접 입력

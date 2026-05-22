@@ -1,0 +1,17 @@
+{
+  "//": "이 워크북을 열 때 VS Code가 권장하는 확장 목록. DevContainer 사용 시 자동 설치된다.",
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+    "humao.rest-client",
+    "vscjava.vscode-java-pack",
+    "vmware.vscode-spring-boot",
+    "redhat.vscode-yaml",
+    "EditorConfig.EditorConfig",
+    "GitHub.vscode-github-actions",
+    "Oracle.oracledevtools"
+  ],
+  "unwantedRecommendations": []
+}

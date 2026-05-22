@@ -1,0 +1,55 @@
+{
+  "name": "note-hub-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DevContainer 가상환경에서 동작하는 npm workspaces 기반 풀스택 모노레포 데모. 공유 타입(packages/shared)을 API와 Web이 함께 사용한다.",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "workspaces": [
+    "packages/shared",
+    "packages/api",
+    "packages/web"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "dev": "npm-run-all -p dev:api dev:web",
+    "dev:api": "npm run dev -w @note-hub/api",
+    "dev:web": "npm run dev -w @note-hub/web",
+    "start": "npm run start -w @note-hub/api",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "node -e \"try{require('husky').install()}catch(e){if(e.code!=='MODULE_NOT_FOUND')throw e}\"",
+    "clean": "rimraf packages/*/dist node_modules packages/*/node_modules"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,html,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.1",
+    "vitest": "^3.0.0"
+  }
+}

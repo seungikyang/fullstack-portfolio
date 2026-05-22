@@ -1,0 +1,16 @@
+# mise (https://mise.jdx.dev) - 프로젝트별 도구 버전 관리.
+# `.nvmrc`(Node만 관리)의 상위 호환. Node, Java, Gradle을 한 파일에서 고정한다.
+# 사용: `mise install` 한 번 실행하면 아래 버전이 모두 설치되고 자동으로 PATH가 바뀐다.
+# mise가 없어도 `.nvmrc`(Node만)가 함께 있어 기존 흐름이 깨지지 않는다.
+
+[tools]
+# 8번 포트폴리오 프로젝트(Vite 8) 요구사항
+node = "22.12"
+# 11-java-spring 단계
+java = "temurin-21"
+# 11-java-spring 빌드
+gradle = "8.10"
+
+[env]
+# 학습 워크북 어디서나 npm을 사용할 수 있도록 corepack 활성화 힌트
+COREPACK_ENABLE_DOWNLOAD_PROMPT = "0"

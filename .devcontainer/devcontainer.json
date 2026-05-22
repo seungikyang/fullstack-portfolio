@@ -1,0 +1,51 @@
+{
+  "name": "fullstack-portfolio dev",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "21",
+      "installGradle": true
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [5100, 5173, 5174, 5200, 5432],
+  "portsAttributes": {
+    "5100": { "label": "Career Hub API", "onAutoForward": "notify" },
+    "5173": { "label": "Career Hub Vite", "onAutoForward": "openBrowser" },
+    "5174": { "label": "Note Hub Vite (monorepo)", "onAutoForward": "openBrowser" },
+    "5200": { "label": "Note Hub API (monorepo)", "onAutoForward": "notify" },
+    "5432": { "label": "Postgres (note-hub dev)", "onAutoForward": "silent" }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "remoteUser": "node",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "humao.rest-client",
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "redhat.vscode-yaml",
+        "EditorConfig.EditorConfig",
+        "GitHub.vscode-github-actions",
+        "Oracle.oracledevtools"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[markdown]": { "editor.formatOnSave": false },
+        "eslint.useFlatConfig": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "mounts": [
+    "source=fullstack-portfolio-node-modules,target=${containerWorkspaceFolder}/08-fullstack-portfolio-project/node_modules,type=volume",
+    "source=monorepo-mini-app-node-modules,target=${containerWorkspaceFolder}/monorepo-mini-app/node_modules,type=volume"
+  ]
+}

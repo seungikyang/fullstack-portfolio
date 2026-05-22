@@ -13,7 +13,16 @@ SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로젝트를 관�
 - 1~7단계 학습 내용이 실제 프로젝트에 쓰인 위치를 보여주는 학습 연결 탭.
 - 대시보드 지표.
 - JSON 파일 저장소를 통한 데이터 보존.
-- API smoke test.
+- API smoke test와 Vitest 단위·통합 테스트(서버 + 프론트 jsdom).
+- React ErrorBoundary로 화이트 스크린 방지.
+- 명시적 CSP를 포함한 helmet, rate-limit, body size limit, CORS 등 기본 보안 미들웨어.
+- SIGTERM/SIGINT 그레이스풀 셧다운(컨테이너/PM2 호환).
+- pino + pino-http 기반 JSON 구조적 로깅과 X-Request-Id 상관관계 ID.
+- 핸드라이팅 OpenAPI 3 스펙(`/api/openapi.json`)으로 자체 문서화.
+- husky + lint-staged 프리커밋 훅으로 스테이지된 파일만 자동 정리.
+- ESLint와 Prettier로 코드 품질 자동 검사.
+- 멀티 스테이지 Dockerfile과 docker-compose.
+- GitHub Actions로 lint → test → build → 도커 빌드까지 자동화.
 
 ## 1~7단계와의 연결
 
@@ -36,8 +45,12 @@ SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로젝트를 관�
 - Frontend. React 19, Vite, lucide-react.
 - Backend. Node.js, Express 5.
 - Auth. bcryptjs, jsonwebtoken.
+- Security. helmet, express-rate-limit, CORS.
 - Storage. JSON file store.
-- Verification. Vite build, API smoke test.
+- Quality. ESLint 9 (flat config), Prettier.
+- Test. Vitest, supertest, API smoke test 스크립트.
+- Container. 멀티 스테이지 Dockerfile + docker-compose.
+- CI. GitHub Actions (lint, test, build, docker smoke).
 
 ## 필요 환경
 
@@ -67,13 +80,16 @@ password: demo1234
 ## 검증 방법
 
 ```bash
-npm run build
-npm run test:api
-npm run audit:submit
-npm run verify
+npm run lint            # ESLint로 코드 스타일·잠재적 오류 검사
+npm run format:check    # Prettier 포맷 검사
+npm run test:unit       # Vitest 단위·통합 테스트 (서버/검증/저장소/API)
+npm run test:api        # 실제 서버를 띄워 인증·CRUD 흐름 smoke test
+npm run build           # Vite 프론트엔드 빌드
+npm run audit:submit    # 제출 전 산출물 감사
+npm run verify          # 위 항목을 한 번에 실행 (CI와 동일한 흐름)
 ```
 
-`npm run verify`는 프론트엔드 빌드, API smoke test, 제출 전 감사 스크립트를 함께 실행합니다.
+`npm run verify`는 lint → build → test → 제출 감사 순서로 실행해 CI와 동일한 게이트를 로컬에서 재현합니다.
 
 ZIP 파일로 직접 제출하기 전에는 생성 파일을 정리하세요.
 
@@ -90,6 +106,86 @@ npm run clean:generated
 | `JWT_SECRET` | JWT 서명에 사용하는 비밀값입니다. 배포 전 반드시 바꾸세요. |
 | `DATA_FILE` | JSON 저장소 파일 경로입니다. |
 | `SEED_DEMO` | `true`이면 첫 실행 시 데모 계정을 만듭니다. |
+
+## Docker로 실행
+
+로컬 Docker Desktop이 설치되어 있으면 컨테이너로도 띄울 수 있습니다.
+
+### 운영(production) 컨테이너
+
+```bash
+docker compose up --build
+# 브라우저에서 http://localhost:5100 접속 (정적 빌드 + API가 같은 포트)
+```
+
+멀티 스테이지 빌드라 최종 이미지에는 devDependencies와 소스가 거의 포함되지 않습니다. 컨테이너는 비루트 사용자로 실행되고 `/api/health`에 HEALTHCHECK가 걸려 있습니다.
+
+배포 시에는 반드시 `JWT_SECRET` 환경변수를 안전한 값으로 교체하세요.
+
+### 개발(dev) 컨테이너 — 핫리로드
+
+소스를 컨테이너 안에 마운트해 핫리로드까지 가능한 버전입니다. Node를 로컬에 설치하지 않아도 동작합니다.
+
+```bash
+docker compose -f docker-compose.dev.yml up
+# API:   http://localhost:5100
+# Vite:  http://localhost:5173
+```
+
+루트의 `.devcontainer/devcontainer.json`을 쓰면 VS Code가 자동으로 이 환경에 붙고 ESLint·Prettier·Docker·Java 확장까지 한 번에 설치됩니다.
+
+## CI
+
+`.github/workflows/ci.yml`에서 main 푸시와 PR마다 다음 작업이 실행됩니다.
+
+1. 워크북 구조 검증 (`npm run verify` at root).
+2. Career Hub lint → 단위/통합 테스트 → 빌드 → API smoke test → 제출 감사.
+3. Docker 이미지 빌드 후 컨테이너를 띄워 `/api/health` 확인.
+
+## 배포
+
+두 가지 매니페스트가 함께 들어 있습니다. 둘 다 무료 플랜으로 시작할 수 있습니다.
+
+### Render.com
+
+저장소 루트에 `render.yaml`이 있으므로 Render 대시보드에서 "New + Blueprint"로 자동 인식됩니다.
+
+- `JWT_SECRET`은 Render가 자동 생성.
+- `CLIENT_ORIGIN`은 배포 후 생긴 도메인을 대시보드에서 직접 입력.
+- free 플랜은 idle 시 자동 sleep → 첫 요청에 cold start.
+
+### fly.io
+
+```bash
+flyctl auth login
+flyctl launch --no-deploy --copy-config       # 이 폴더의 fly.toml 사용
+flyctl secrets set JWT_SECRET=$(openssl rand -hex 32)
+flyctl volumes create career_hub_data --size 1 --region nrt
+flyctl deploy
+```
+
+데이터는 `/data`에 마운트된 볼륨에 저장되어 재배포 후에도 보존됩니다. Tokyo(nrt) 리전이 한국 사용자에 가장 가깝습니다.
+
+## API 문서
+
+핸드라이팅 OpenAPI 3 스펙을 `server/openapi.json`에 두고 런타임에서도 노출합니다.
+
+```bash
+curl http://localhost:5100/api/openapi.json | jq
+```
+
+브라우저에서 시각화하려면 위 응답을 https://editor.swagger.io 의 좌측 패널에 붙여 넣으세요.
+
+## 로깅과 추적
+
+운영을 흉내내기 위해 pino + pino-http로 모든 요청을 JSON 로그로 남깁니다. 각 요청에는 `X-Request-Id`가 자동으로 부여되며 응답 헤더에도 그대로 echo됩니다. 외부에서 `X-Request-Id`를 보내면 그 값을 그대로 사용해 분산 추적(distributed tracing)을 흉내낼 수 있습니다.
+
+```bash
+curl -i -H "X-Request-Id: my-trace-1" http://localhost:5100/api/health
+# < X-Request-Id: my-trace-1
+```
+
+로그는 비밀번호와 Authorization 헤더를 자동 마스킹합니다.
 
 ## 제출 시 제외할 파일
 

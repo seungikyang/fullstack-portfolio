@@ -1,0 +1,37 @@
+# fly.io 배포 설정. Postgres는 fly가 별도 앱으로 제공한다.
+# 절차:
+#   1. flyctl auth login
+#   2. flyctl postgres create --name note-hub-db --region nrt
+#   3. flyctl launch --no-deploy --copy-config
+#   4. flyctl postgres attach --app note-hub note-hub-db  # DATABASE_URL을 자동 주입
+#   5. flyctl deploy
+# attach 단계에서 packages/api/db/init.sql은 적용되지 않으므로 한 번은 psql로 직접 실행해야 한다.
+
+app = "note-hub"
+primary_region = "nrt"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "5200"
+
+[http_service]
+  internal_port = 5200
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[http_service.checks]]
+  grace_period = "15s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/api/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

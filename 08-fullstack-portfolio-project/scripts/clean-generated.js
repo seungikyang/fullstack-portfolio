@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, "..");
 
 const targets = [
   path.join(root, "dist"),
+  path.join(root, "coverage"),
   path.join(root, "data", "career-hub.json")
 ];
 

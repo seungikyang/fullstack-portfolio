@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+**/dist
+.git
+.gitignore
+.env
+.env.*
+*.log
+npm-debug.log*
+.DS_Store
+**/*.test.ts
+**/*.test.tsx
+**/test/
+.vscode
+.idea
+README.md

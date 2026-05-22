@@ -1,0 +1,29 @@
+# 로컬 개발용 compose. 운영용(Docker compose.yml)과 분리되어 있다.
+# 차이점:
+# - 베이스 이미지를 그대로 사용해 컨테이너 안에서 dev 의존성 설치
+# - 소스를 마운트해 핫리로드(API는 node --watch, 프론트는 Vite)
+# - DB가 필요해지면 services에 한 줄 추가만 하면 된다 (현재는 JSON 저장소라 단일 서비스)
+# 사용: docker compose -f docker-compose.dev.yml up
+
+services:
+  app-dev:
+    image: node:22.12-bookworm
+    container_name: career-hub-dev
+    working_dir: /app
+    command: bash -lc "npm install && npm run dev"
+    ports:
+      - "5100:5100"
+      - "5173:5173"
+    environment:
+      NODE_ENV: development
+      PORT: 5100
+      JWT_SECRET: dev-only-secret
+      DATA_FILE: /app/data/career-hub.json
+      SEED_DEMO: "true"
+      # Vite의 host 노출 + 컨테이너 안에서 파일 변경 감지를 활성화
+      HOST: 0.0.0.0
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - .:/app
+      # 호스트 OS와 macOS/Windows에서 node_modules 권한 충돌을 막기 위해 익명 볼륨 사용
+      - /app/node_modules

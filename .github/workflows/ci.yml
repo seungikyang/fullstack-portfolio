@@ -1,0 +1,132 @@
+# Career Hub fullstack 포트폴리오 CI.
+# main 브랜치 PR과 push에서 lint, build, 테스트, 제출 감사를 자동으로 실행한다.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  workbook-verify:
+    name: Workbook structure verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.12"
+      - name: Verify workbook structure
+        run: npm run verify
+
+  portfolio:
+    name: Career Hub portfolio (lint + test + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 08-fullstack-portfolio-project
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.12"
+          cache: npm
+          cache-dependency-path: 08-fullstack-portfolio-project/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Prettier check
+        run: npm run format:check
+      - name: Unit & integration tests
+        run: npm run test:unit
+      - name: Build frontend
+        run: npm run build
+      - name: API smoke test
+        run: npm run test:api
+      - name: Submission audit
+        run: npm run audit:submit
+
+  docker:
+    name: Build Docker image (smoke)
+    runs-on: ubuntu-latest
+    needs: portfolio
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Career Hub image
+        run: docker build -t career-hub:ci 08-fullstack-portfolio-project
+      - name: Run container and hit /api/health
+        run: |
+          docker run -d --name career-hub-ci -p 5100:5100 \
+            -e JWT_SECRET=ci-secret -e SEED_DEMO=false career-hub:ci
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -fsS http://127.0.0.1:5100/api/health; then
+              echo "health ok"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Health check failed"
+          docker logs career-hub-ci
+          exit 1
+
+  monorepo:
+    name: Note Hub monorepo (typecheck + test + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: monorepo-mini-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.12"
+          cache: npm
+          cache-dependency-path: monorepo-mini-app/package-lock.json
+      - name: Install workspaces
+        run: npm install
+      - name: Build shared package first
+        run: npm run build -w @note-hub/shared
+      - name: Lint
+        run: npm run lint
+      - name: Prettier check
+        run: npm run format:check
+      - name: Typecheck all packages
+        run: npm run typecheck
+      - name: Tests (shared + api + web)
+        run: npm test
+      - name: Build all packages
+        run: npm run build
+
+  monorepo-docker:
+    name: Note Hub Docker (Postgres stack smoke)
+    runs-on: ubuntu-latest
+    needs: monorepo
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and start full stack
+        working-directory: monorepo-mini-app
+        run: docker compose up -d --build
+      - name: Wait for app health
+        run: |
+          for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+            if curl -fsS http://127.0.0.1:5200/api/health; then
+              echo "health ok"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Health check failed"
+          docker compose -f monorepo-mini-app/docker-compose.yml logs
+          exit 1
+      - name: Smoke - create and list note
+        run: |
+          curl -fsS -X POST http://127.0.0.1:5200/api/notes \
+            -H 'content-type: application/json' \
+            -d '{"title":"ci-note","body":"hello","tags":["ci"]}'
+          curl -fsS http://127.0.0.1:5200/api/notes | grep -q '"title":"ci-note"'
+      - name: Tear down
+        if: always()
+        working-directory: monorepo-mini-app
+        run: docker compose down -v

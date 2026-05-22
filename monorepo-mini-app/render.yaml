@@ -1,0 +1,29 @@
+# Render Blueprint. Note Hub는 단일 컨테이너(API + 정적 web)와 Postgres 한 개로 구성된다.
+# Render의 free Postgres는 90일 후 만료되므로 학습/시연 후엔 데이터 백업 필요.
+
+services:
+  - type: web
+    name: note-hub
+    runtime: docker
+    region: singapore
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5200
+      - key: DATABASE_URL
+        fromDatabase:
+          name: note-hub-db
+          property: connectionString
+
+databases:
+  - name: note-hub-db
+    plan: free
+    databaseName: notehub
+    user: notehub
+    region: singapore

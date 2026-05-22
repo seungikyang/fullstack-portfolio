@@ -1,0 +1,33 @@
+# Note Hub 로컬 개발용 compose. Postgres만 컨테이너로 띄우고 API/Web은 호스트(또는 DevContainer)
+# 에서 직접 실행하는 것이 dev 루프가 가장 빠르다.
+# 사용:
+#   docker compose -f docker-compose.dev.yml up -d        # Postgres만 시작
+#   DATABASE_URL=postgres://notehub:notehub@localhost:5432/notehub npm run dev
+# 정지:
+#   docker compose -f docker-compose.dev.yml down
+# 데이터 삭제까지:
+#   docker compose -f docker-compose.dev.yml down -v
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: note-hub-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: notehub
+      POSTGRES_PASSWORD: notehub
+      POSTGRES_DB: notehub
+    ports:
+      - "5432:5432"
+    volumes:
+      - note-hub-pg-data:/var/lib/postgresql/data
+      # 첫 부팅 시 packages/api/db/init.sql을 자동 실행해 스키마를 만든다.
+      - ./packages/api/db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notehub -d notehub"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  note-hub-pg-data:

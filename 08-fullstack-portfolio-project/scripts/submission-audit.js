@@ -18,12 +18,44 @@ const requiredFiles = [
   "server/index.js",
   "server/auth.js",
   "server/data-store.js",
+  "server/validators.test.js",
+  "server/auth.test.js",
+  "server/data-store.test.js",
+  "server/api.test.js",
+  "server/logger.js",
+  "server/openapi.json",
   "src/App.jsx",
+  "src/main.jsx",
   "src/styles.css",
-  "scripts/api-smoke-test.js"
+  "src/ErrorBoundary.jsx",
+  "src/ErrorBoundary.test.jsx",
+  "src/test/setup.js",
+  "scripts/api-smoke-test.js",
+  "Dockerfile",
+  ".dockerignore",
+  "docker-compose.yml",
+  "docker-compose.dev.yml",
+  "render.yaml",
+  "fly.toml",
+  "eslint.config.js",
+  ".prettierrc.json",
+  "vitest.config.js",
+  ".husky/pre-commit"
 ];
 
-const requiredReadmeTerms = ["React", "Express", "JWT", "CRUD", "smoke test", "1~7단계"];
+const requiredReadmeTerms = [
+  "React",
+  "Express",
+  "JWT",
+  "CRUD",
+  "smoke test",
+  "1~7단계",
+  "Docker",
+  "Vitest",
+  "helmet",
+  "OpenAPI",
+  "pino"
+];
 const requiredLearningFolders = [
   "01-html-css",
   "02-javascript-basics",
@@ -129,10 +161,89 @@ for (const expectedFlow of ["/api/auth/register", "/api/auth/login", "/api/appli
 }
 
 const packageJson = JSON.parse(read("package.json"));
-for (const scriptName of ["build", "test:api", "audit:submit", "clean:generated", "verify"]) {
+const requiredScripts = [
+  "build",
+  "test:api",
+  "test:unit",
+  "test",
+  "lint",
+  "format:check",
+  "audit:submit",
+  "clean:generated",
+  "verify"
+];
+for (const scriptName of requiredScripts) {
   if (!packageJson.scripts || !packageJson.scripts[scriptName]) {
     fail(`package.json에 ${scriptName} 스크립트가 없습니다.`);
   }
+}
+
+const requiredDeps = ["helmet", "express-rate-limit", "pino", "pino-http"];
+for (const dep of requiredDeps) {
+  if (!packageJson.dependencies || !packageJson.dependencies[dep]) {
+    fail(`package.json dependencies에 ${dep}이(가) 없습니다.`);
+  }
+}
+
+const requiredDevDeps = [
+  "vitest",
+  "supertest",
+  "eslint",
+  "prettier",
+  "@testing-library/react",
+  "jsdom",
+  "husky",
+  "lint-staged"
+];
+for (const dep of requiredDevDeps) {
+  if (!packageJson.devDependencies || !packageJson.devDependencies[dep]) {
+    fail(`package.json devDependencies에 ${dep}이(가) 없습니다.`);
+  }
+}
+
+const indexSource = read("server/index.js");
+for (const term of ["helmet", "rateLimit", "limit:", "SIGTERM", "pinoHttp", "openapi.json"]) {
+  if (!indexSource.includes(term)) {
+    fail(`server/index.js에 ${term} 적용이 보이지 않습니다.`);
+  }
+}
+
+const mainJsx = read("src/main.jsx");
+if (!mainJsx.includes("ErrorBoundary")) {
+  fail("src/main.jsx에서 ErrorBoundary로 App을 감싸지 않았습니다.");
+}
+
+const licensePath = path.join(workspaceRoot, "LICENSE");
+if (!fs.existsSync(licensePath)) {
+  fail("저장소 루트에 LICENSE 파일이 없습니다.");
+}
+
+for (const rootFile of ["CONTRIBUTING.md", ".nvmrc", ".editorconfig", ".github/PULL_REQUEST_TEMPLATE.md"]) {
+  if (!fs.existsSync(path.join(workspaceRoot, rootFile))) {
+    fail(`저장소 루트에 ${rootFile} 파일이 없습니다.`);
+  }
+}
+
+try {
+  const openApi = JSON.parse(read("server/openapi.json"));
+  if (!openApi.openapi || !openApi.openapi.startsWith("3.")) {
+    fail("server/openapi.json이 OpenAPI 3 스펙이 아닙니다.");
+  }
+  if (!openApi.paths || !openApi.paths["/api/auth/login"]) {
+    fail("server/openapi.json에 /api/auth/login 경로가 없습니다.");
+  }
+} catch {
+  fail("server/openapi.json JSON 파싱 실패.");
+}
+
+const dockerfileSource = read("Dockerfile");
+if (!dockerfileSource.includes("AS build") || !dockerfileSource.includes("AS runtime")) {
+  fail("Dockerfile이 멀티 스테이지(build → runtime) 구조가 아닙니다.");
+}
+
+const ciPath = path.join(workspaceRoot, ".github", "workflows", "ci.yml");
+if (!fs.existsSync(ciPath)) {
+  fail(".github/workflows/ci.yml CI 워크플로가 없습니다.");
 }
 
 if (hasError) {

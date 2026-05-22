@@ -1,0 +1,33 @@
+# 로컬에서 Career Hub를 컨테이너로 실행하기 위한 compose 파일.
+# 사용법:
+#   docker compose up --build
+#   브라우저에서 http://localhost:5100 접속 (정적 빌드 + API가 같은 포트에서 함께 제공된다)
+
+services:
+  app:
+    build: .
+    image: career-hub:latest
+    container_name: career-hub
+    restart: unless-stopped
+    ports:
+      - "5100:5100"
+    environment:
+      NODE_ENV: production
+      PORT: 5100
+      # 운영 배포 시에는 반드시 안전한 비밀값으로 교체할 것.
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      DATA_FILE: /app/data/career-hub.json
+      SEED_DEMO: ${SEED_DEMO:-true}
+      CLIENT_ORIGIN: http://localhost:5100
+    volumes:
+      # JSON 저장소를 컨테이너 재시작 후에도 보존하기 위해 호스트와 마운트한다.
+      - career-hub-data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:5100/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  career-hub-data:

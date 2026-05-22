@@ -110,6 +110,16 @@
 - [GitHub Actions 워크플로우 문법](https://docs.github.com/ko/actions/writing-workflows/workflow-syntax-for-github-actions).
 - [Awesome Compose 예제 모음](https://github.com/docker/awesome-compose). 언어별 compose 패턴 참고.
 
+### 08 포트폴리오 보강 (helmet · pino · OpenAPI · husky)
+
+- [helmet 공식 문서](https://helmetjs.github.io/). 어떤 헤더가 무엇을 막는지 한 페이지로 정리되어 있다.
+- [Content Security Policy 가이드 (MDN)](https://developer.mozilla.org/ko/docs/Web/HTTP/CSP). 직접 CSP를 짤 때 필독.
+- [express-rate-limit 문서](https://express-rate-limit.mintlify.app/quickstart/usage). brute-force 차단의 기본 패턴.
+- [pino 공식](https://getpino.io/) · [pino-http](https://github.com/pinojs/pino-http). 구조적 로깅 표준 라이브러리.
+- [OpenAPI Specification 3.0](https://spec.openapis.org/oas/v3.0.3) · [Swagger Editor](https://editor.swagger.io). 스펙 시각화에 그대로 붙여 넣을 수 있다.
+- [husky 공식](https://typicode.github.io/husky/) · [lint-staged](https://github.com/lint-staged/lint-staged). 프리커밋 훅 표준.
+- [Testing Library - React](https://testing-library.com/docs/react-testing-library/intro/). 사용자 관점 단위 테스트 라이브러리.
+
 ### 15단계 CS 기초
 
 - [MDN HTTP 개요](https://developer.mozilla.org/ko/docs/Web/HTTP/Overview). 네트워크 영역의 1차 자료.

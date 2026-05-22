@@ -1,0 +1,46 @@
+# Note Hub 운영용 compose. 단일 컨테이너로 api+web을 묶어 띄우고 Postgres를 함께 띄운다.
+# 사용:
+#   docker compose up --build
+#   브라우저에서 http://localhost:5200 접속 (API와 정적 web이 같은 포트)
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: note-hub-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: notehub
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-notehub}
+      POSTGRES_DB: notehub
+    volumes:
+      - note-hub-pg-data:/var/lib/postgresql/data
+      - ./packages/api/db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notehub -d notehub"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  app:
+    build: .
+    image: note-hub:latest
+    container_name: note-hub
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5200:5200"
+    environment:
+      NODE_ENV: production
+      PORT: 5200
+      DATABASE_URL: postgres://notehub:${POSTGRES_PASSWORD:-notehub}@postgres:5432/notehub
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:5200/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  note-hub-pg-data:
