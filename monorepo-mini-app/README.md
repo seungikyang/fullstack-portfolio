@@ -18,20 +18,25 @@ monorepo-mini-app/
 ├── package.json                  # workspaces + 공통 스크립트
 ├── tsconfig.base.json            # 공통 TS 설정
 ├── vitest.config.ts              # shared/api/web 3 projects
+├── eslint.config.js              # typescript-eslint + React (패키지별 분리)
 ├── Dockerfile                    # 멀티 스테이지: build → runtime
 ├── docker-compose.yml            # 운영: Postgres + 단일 app 이미지
 ├── docker-compose.dev.yml        # 개발: Postgres만 컨테이너
+├── render.yaml                   # Render.com Blueprint (web + Postgres)
+├── fly.toml                      # fly.io 설정
 └── packages/
     ├── shared/                   # 도메인 타입 + API 경로 상수
     │   └── src/{index.ts, index.test.ts}
     ├── api/                      # Express 5 + TS, 포트 5200
     │   ├── db/init.sql           # Postgres 초기 스키마
+    │   ├── openapi.json          # 핸드라이팅 OpenAPI 3 스펙
     │   └── src/
     │       ├── server.ts         # createApp + 정적 서빙
     │       ├── notes-store.ts    # 인터페이스 + InMemory 구현 + 검증
     │       ├── notes-store-pg.ts # PostgreSQL 구현
     │       ├── notes-store.test.ts
-    │       └── server.test.ts    # supertest 통합 테스트
+    │       ├── server.test.ts    # supertest 통합 테스트
+    │       └── openapi-sync.test.ts  # OpenAPI ↔ shared 타입 동기화 검증
     └── web/                      # Vite + React 19 + TS, 포트 5174
         ├── vite.config.ts        # /api → 5200 프록시
         └── src/

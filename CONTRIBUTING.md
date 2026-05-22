@@ -17,15 +17,20 @@ OS 무관. 들여쓰기/줄바꿈은 `.editorconfig`로 통일됩니다.
 1. 이슈 또는 작업 단위를 정합니다.
 2. `main`에서 새 브랜치를 만듭니다. 이름은 `feat/...`, `fix/...`, `docs/...` 형태로 짧게.
 3. 작은 단위로 자주 커밋합니다. 메시지는 한 줄에 의도를 적습니다.
-4. PR을 올리기 전에 아래 검증을 모두 통과시킵니다.
+4. PR을 올리기 전에 변경한 영역에 해당하는 검증을 통과시킵니다.
 
    ```bash
-   # 루트
+   # 루트 (워크북 구조)
    npm run verify
 
-   # 포트폴리오 앱
+   # 8번 포트폴리오 (lint + build + test + 제출 감사)
    cd 08-fullstack-portfolio-project
    npm run verify
+
+   # monorepo-mini-app (lint + typecheck + test + build)
+   cd monorepo-mini-app
+   npm install && npm run build -w @note-hub/shared
+   npm run lint && npm run typecheck && npm test && npm run build
    ```
 
 5. PR 본문은 `.github/PULL_REQUEST_TEMPLATE.md` 양식을 따릅니다.
@@ -45,8 +50,10 @@ chore: ESLint flat config로 마이그레이션
 ## 코드 스타일
 
 - 새 파일 첫 줄에는 한국어 한 줄 주석으로 파일의 역할을 적습니다. 루트 `verify-workbook` 스크립트가 이를 검사합니다.
-- ESLint와 Prettier 설정은 `08-fullstack-portfolio-project/eslint.config.js`와 `.prettierrc.json`을 따릅니다.
-- 자동 정리: `npm run lint:fix && npm run format`.
+- ESLint와 Prettier 설정은 프로그램마다 별도로 둡니다(공유 설정 X). 작업하는 폴더의 `eslint.config.js`와 `.prettierrc.json`을 따릅니다.
+  - 8번: `08-fullstack-portfolio-project/eslint.config.js` (JS, React)
+  - 모노레포: `monorepo-mini-app/eslint.config.js` (typescript-eslint + React)
+- 자동 정리: 각 폴더에서 `npm run lint:fix && npm run format`.
 
 ## 테스트 정책
 

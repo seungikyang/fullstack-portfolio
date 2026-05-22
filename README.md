@@ -2,7 +2,7 @@
 
 SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 기초부터 실무 협업까지 단계별로 익히는 실습형 워크북입니다.
 
-기존 1~8번은 풀스택 기초·통합 트랙, 새로 추가된 9~14번은 한국 SI 채용 실전에 필요한 보강 트랙입니다.
+세 트랙으로 나뉘어 있습니다: 1~8번은 풀스택 기초·통합 트랙, 9~14번은 SI 채용 실전 보강 트랙, 15~17번은 채용 직전(CS·보안·면접) 마감 트랙입니다. 추가로 `monorepo-mini-app`은 가상환경(DevContainer) 위에서 동작하는 TypeScript 모노레포 데모입니다.
 
 각 단계는 설명만 읽는 방식이 아니라, 코드 안의 `빈칸`, `TODO`, `____`를 직접 채우며 공부하도록 구성했습니다.
 
@@ -114,6 +114,16 @@ cd 08-fullstack-portfolio-project
 npm install
 cp .env.example .env
 npm run dev
+```
+
+모노레포 데모(Note Hub)는 별도 폴더에서 실행합니다. 자세한 옵션(인메모리/Postgres/운영 컨테이너)은 [monorepo-mini-app/README.md](./monorepo-mini-app/README.md)에 있습니다.
+
+```bash
+cd monorepo-mini-app
+npm install
+npm run build -w @note-hub/shared
+npm run dev
+# API: http://localhost:5200, Web: http://localhost:5174
 ```
 
 워크북 구조 검증은 루트 폴더에서 실행합니다.
