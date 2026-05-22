@@ -44,11 +44,25 @@ Career Hub는 SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로�
 
 ## 지원서에 적기 좋은 기술 키워드
 
-- React, Vite, Component, State, Props.
-- Node.js, Express, REST API, HTTP Status Code.
+기본(이력서에 항상 적는 핵심).
+
+- React 19, Vite, Component, State, Props, ErrorBoundary.
+- Node.js, Express 5, REST API, HTTP Status Code.
 - JWT, bcrypt, Authentication Middleware.
 - CRUD, JSON File Store, Repository Layer.
 - API Smoke Test, Build Verification, Environment Variables.
+
+심화(SI 채용에서 더 깊이 본 적이 있다면 추가).
+
+- Docker(멀티 스테이지) + docker-compose + DevContainer.
+- Vitest + supertest + React Testing Library (서버·프론트 단위/통합 테스트).
+- ESLint(flat config) + Prettier + husky/lint-staged 프리커밋.
+- helmet, express-rate-limit, body size limit, 명시적 CSP.
+- pino + pino-http JSON 구조적 로깅, X-Request-Id 상관관계.
+- 핸드라이팅 OpenAPI 3 스펙(`/api/openapi.json`).
+- GitHub Actions CI(lint → test → build → 도커 스모크).
+- 배포 매니페스트(Render.com Blueprint, fly.toml).
+- SIGTERM/SIGINT 그레이스풀 셧다운.
 
 ## 제출 전 확인
 

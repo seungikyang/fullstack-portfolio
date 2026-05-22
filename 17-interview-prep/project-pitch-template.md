@@ -37,7 +37,7 @@ ____
 빌드와 검증. ____
 ```
 
-예시. "React + Vite로 프론트엔드를, Express로 REST API를, JSON 파일 저장소로 데이터를, bcrypt와 JWT로 인증을 구성했습니다. `npm run verify`로 production build, API smoke test, 제출 전 감사가 한 번에 동작합니다."
+예시. "React + Vite로 프론트엔드를, Express로 REST API를, JSON 파일 저장소로 데이터를, bcrypt와 JWT로 인증을 구성했습니다. `npm run verify`로 ESLint, Vite production build, Vitest 단위·통합 테스트, API smoke test, 제출 전 감사가 한 번에 동작합니다."
 
 ### 3. 핵심 기능 3개
 
@@ -48,7 +48,7 @@ ____
 ```
 
 예시.
-- "1. 회원가입과 JWT 로그인. bcrypt로 해시한 비밀번호와 7일 만료 JWT 토큰으로 보호 API에 접근합니다."
+- "1. 회원가입과 JWT 로그인. bcrypt로 해시한 비밀번호와 2시간 만료 JWT 토큰으로 보호 API에 접근합니다."
 - "2. 지원 현황 CRUD. 회사명, 직무, 상태, 메모를 추가·수정·삭제할 수 있고 상태별 필터링이 가능합니다."
 - "3. 포트폴리오 프로젝트 CRUD. 기술 스택과 GitHub 링크를 함께 저장합니다."
 
@@ -69,7 +69,7 @@ R. ____
 ____
 ```
 
-예시. "`npm run verify`가 1) Vite production build, 2) Express + API smoke test, 3) 제출 전 감사 스크립트를 순서대로 실행해 통과 여부를 한 번에 확인합니다."
+예시. "`npm run verify`가 1) ESLint, 2) Vite production build, 3) Vitest 단위·통합 테스트와 API smoke test, 4) 제출 전 감사 스크립트를 순서대로 실행해 통과 여부를 한 번에 확인합니다."
 
 ### 6. 한계와 다음 계획
 

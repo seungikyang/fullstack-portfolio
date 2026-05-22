@@ -12,7 +12,7 @@ Career Hub는 기존 `01-html-css`부터 `07-project-deploy`까지의 학습 결
 | 4단계 | `04-node-board-api` | `server/index.js` REST API | Express로 지원 현황과 프로젝트 CRUD API를 구현했습니다. |
 | 5단계 | `05-database-mongodb` | `server/data-store.js` 저장소 계층 | 데이터 생성, 조회, 수정, 삭제 흐름을 저장소 계층으로 분리했습니다. |
 | 6단계 | `06-login-auth` | `server/auth.js` 인증 로직 | bcrypt 비밀번호 해시와 JWT 인증으로 보호 API를 만들었습니다. |
-| 7단계 | `07-project-deploy` | `README.md`, `.env.example`, `npm run build`, `npm run start` | 빌드와 실행 방법을 문서화하고 배포 가능한 형태로 구성했습니다. |
+| 7단계 | `07-project-deploy` | `README.md`, `.env.example`, `npm run build`, `npm run start`, `Dockerfile`, `docker-compose.yml`, `render.yaml`/`fly.toml`, `.github/workflows/ci.yml` | 빌드·실행 방법을 문서화하고 컨테이너 + CI + 배포 매니페스트까지 갖춘 배포 가능한 형태로 구성했습니다. |
 
 ## 파일별 연결 근거
 
@@ -49,8 +49,8 @@ Career Hub는 기존 `01-html-css`부터 `07-project-deploy`까지의 학습 결
 
 ## 다음 확장 방향
 
-- `server/data-store.js`를 MongoDB 모델로 교체합니다.
+- `server/data-store.js`를 MongoDB 또는 PostgreSQL 모델로 교체합니다. (저장소 추상화의 PostgreSQL 구현 사례는 같은 저장소 안의 [monorepo-mini-app](../monorepo-mini-app/)에서 확인할 수 있습니다 — `NotesStore` 인터페이스 + `InMemoryNotesStore`/`PostgresNotesStore` 두 구현을 환경변수로 전환.)
 - 지원 현황에 검색, 필터, 정렬을 추가합니다.
 - 프로젝트별 README 자동 생성 기능을 추가합니다.
-- Render 또는 Railway에 백엔드를 배포하고 프론트엔드 주소를 환경 변수로 분리합니다.
+- 저장소에 포함된 `render.yaml`/`fly.toml`을 사용해 실제 배포 후 도메인을 README에 첨부합니다.
 

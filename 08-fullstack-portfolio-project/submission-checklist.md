@@ -5,10 +5,13 @@
 ## 실행 검증
 
 - [ ] `npm install`이 성공합니다.
+- [ ] `npm run lint`가 성공합니다.
+- [ ] `npm run format:check`가 성공합니다.
+- [ ] `npm run test:unit` (Vitest 단위·통합 테스트)이 성공합니다.
 - [ ] `npm run build`가 성공합니다.
-- [ ] `npm run test:api`가 성공합니다.
+- [ ] `npm run test:api` (실제 서버 smoke test)가 성공합니다.
 - [ ] `npm run audit:submit`이 성공합니다.
-- [ ] `npm run verify`가 성공합니다.
+- [ ] `npm run verify` (위 항목을 한 번에 실행)가 성공합니다.
 - [ ] ZIP으로 제출한다면 `npm run clean:generated`를 실행했습니다.
 
 ## GitHub 정리
@@ -19,7 +22,8 @@
 - [ ] `data/career-hub.json`은 로컬 실행 데이터이므로 커밋하지 않습니다.
 - [ ] ZIP 제출 시 `node_modules`, `dist`, `data/career-hub.json`을 포함하지 않습니다.
 - [ ] `.env.example`은 포함합니다.
-- [ ] `README.md`, `learning-map.md`, `resume-assets.md`는 포함합니다.
+- [ ] `README.md`, `learning-map.md`, `resume-assets.md`, `submission-checklist.md`는 포함합니다.
+- [ ] `server/openapi.json`과 `Dockerfile`/`docker-compose.yml`/`render.yaml`/`fly.toml`도 포함합니다(자체 문서화와 배포 매니페스트 증거).
 
 ## 지원서 설명
 
