@@ -6,9 +6,7 @@
     "description": "SI/SW 취업 준비용 풀스택 포트폴리오 Career Hub의 REST API 명세. https://editor.swagger.io 에 붙여 넣으면 시각적으로 확인할 수 있다.",
     "license": { "name": "MIT" }
   },
-  "servers": [
-    { "url": "http://localhost:5100", "description": "로컬 개발" }
-  ],
+  "servers": [{ "url": "http://localhost:5100", "description": "로컬 개발" }],
   "tags": [
     { "name": "system", "description": "헬스 체크와 명세" },
     { "name": "auth", "description": "회원가입과 로그인" },
@@ -53,7 +51,10 @@
           "userId": { "type": "string" },
           "company": { "type": "string" },
           "role": { "type": "string" },
-          "status": { "type": "string", "enum": ["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"] },
+          "status": {
+            "type": "string",
+            "enum": ["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"]
+          },
           "priority": { "type": "string", "enum": ["낮음", "보통", "높음"] },
           "stack": { "type": "array", "items": { "type": "string" } },
           "dueDate": { "type": "string" },
@@ -155,12 +156,16 @@
         "responses": {
           "201": {
             "description": "가입 성공",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponse" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponse" } }
+            }
           },
           "400": { "$ref": "#/components/responses/Validation" },
           "409": {
             "description": "이미 가입된 이메일",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+            }
           }
         }
       }
@@ -187,7 +192,9 @@
         "responses": {
           "200": {
             "description": "로그인 성공",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponse" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponse" } }
+            }
           },
           "401": { "$ref": "#/components/responses/Unauthorized" }
         }
@@ -222,7 +229,9 @@
         "responses": {
           "200": {
             "description": "집계 결과",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Dashboard" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Dashboard" } }
+            }
           },
           "401": { "$ref": "#/components/responses/Unauthorized" }
         }
@@ -238,7 +247,10 @@
             "description": "목록",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Application" } }
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Application" }
+                }
               }
             }
           },
@@ -251,12 +263,16 @@
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Application" } } }
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Application" } }
+          }
         },
         "responses": {
           "201": {
             "description": "생성됨",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Application" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Application" } }
+            }
           },
           "400": { "$ref": "#/components/responses/Validation" },
           "401": { "$ref": "#/components/responses/Unauthorized" }
@@ -273,12 +289,16 @@
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Application" } } }
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Application" } }
+          }
         },
         "responses": {
           "200": {
             "description": "수정됨",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Application" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Application" } }
+            }
           },
           "400": { "$ref": "#/components/responses/Validation" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
@@ -321,12 +341,16 @@
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Project" } } }
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
+          }
         },
         "responses": {
           "201": {
             "description": "생성됨",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Project" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
+            }
           }
         }
       }
@@ -341,12 +365,16 @@
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Project" } } }
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
+          }
         },
         "responses": {
           "200": {
             "description": "수정됨",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Project" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
+            }
           },
           "404": { "$ref": "#/components/responses/NotFound" }
         }

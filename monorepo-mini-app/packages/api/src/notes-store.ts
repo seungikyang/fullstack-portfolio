@@ -55,7 +55,10 @@ export function validateCreate(payload: unknown): { value: CreateNoteInput; erro
   if (Array.isArray(tagsRaw)) {
     tags = tagsRaw.filter((t): t is string => typeof t === "string");
   } else if (typeof tagsRaw === "string") {
-    tags = tagsRaw.split(",").map((t) => t.trim()).filter(Boolean);
+    tags = tagsRaw
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
   }
 
   return { value: { title, body, tags }, errors };

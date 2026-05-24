@@ -30,9 +30,7 @@ export function signToken(user) {
 
 export function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization || "";
-  const token = authHeader.startsWith("Bearer ")
-    ? authHeader.slice("Bearer ".length)
-    : "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
 
   if (!token) {
     return res.status(401).json({ message: "인증 토큰이 필요합니다." });
@@ -50,4 +48,3 @@ export function requireAuth(req, res, next) {
     return res.status(401).json({ message: "유효하지 않은 토큰입니다." });
   }
 }
-

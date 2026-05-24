@@ -20,9 +20,9 @@ describe("isNote", () => {
   });
 
   it("tags가 배열이 아니면 false", () => {
-    expect(
-      isNote({ id: "x", title: "t", body: "b", tags: "not-array", createdAt: "now" })
-    ).toBe(false);
+    expect(isNote({ id: "x", title: "t", body: "b", tags: "not-array", createdAt: "now" })).toBe(
+      false
+    );
   });
 
   it("null/undefined/원시값은 false", () => {

@@ -75,7 +75,7 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: "추가" }));
 
     await waitFor(() => {
-      expect(screen.getByText("새 노트")).toBeInTheDocument();
+      expect(screen.getByText("새 노트", { selector: "strong" })).toBeInTheDocument();
     });
 
     const postCall = fetchMock.mock.calls.find(([, init]) => init?.method === "POST");

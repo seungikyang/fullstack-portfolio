@@ -1,12 +1,5 @@
 // API 요청 값을 검증하고 저장 가능한 형태로 정리하는 파일
-const applicationStatuses = new Set([
-  "준비중",
-  "지원완료",
-  "코딩테스트",
-  "면접",
-  "합격",
-  "불합격"
-]);
+const applicationStatuses = new Set(["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"]);
 
 const projectStatuses = new Set(["계획", "개발중", "완료"]);
 const priorities = new Set(["낮음", "보통", "높음"]);
@@ -140,4 +133,3 @@ export function validateRegister(payload) {
     errors
   };
 }
-

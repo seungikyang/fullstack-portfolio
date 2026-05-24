@@ -99,13 +99,13 @@ npm run clean:generated
 
 ## 환경 변수
 
-| 이름 | 설명 |
-| --- | --- |
-| `PORT` | Express API 포트입니다. 기본값은 5100입니다. |
+| 이름            | 설명                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `PORT`          | Express API 포트입니다. 기본값은 5100입니다.                                                                                |
 | `CLIENT_ORIGIN` | API를 직접(프록시 없이) 호출할 때 허용할 프론트엔드 주소입니다. `npm run dev`의 Vite 프록시를 쓰면 보통 그대로 둬도 됩니다. |
-| `JWT_SECRET` | JWT 서명에 사용하는 비밀값입니다. 배포 전 반드시 바꾸세요. |
-| `DATA_FILE` | JSON 저장소 파일 경로입니다. |
-| `SEED_DEMO` | `true`이면 첫 실행 시 데모 계정을 만듭니다. |
+| `JWT_SECRET`    | JWT 서명에 사용하는 비밀값입니다. 배포 전 반드시 바꾸세요.                                                                  |
+| `DATA_FILE`     | JSON 저장소 파일 경로입니다.                                                                                                |
+| `SEED_DEMO`     | `true`이면 첫 실행 시 데모 계정을 만듭니다.                                                                                 |
 
 ## Docker로 실행
 
@@ -198,21 +198,21 @@ GitHub에 올릴 때는 `.gitignore`가 아래 파일을 제외합니다. ZIP으
 
 ## API 요약
 
-| Method | Path | 설명 |
-| --- | --- | --- |
-| `GET` | `/api/health` | 서버 상태 확인 |
-| `POST` | `/api/auth/register` | 회원가입 |
-| `POST` | `/api/auth/login` | 로그인 |
-| `GET` | `/api/me` | 내 정보 조회 |
-| `GET` | `/api/dashboard` | 대시보드 지표 |
-| `GET` | `/api/applications` | 지원 현황 목록 |
-| `POST` | `/api/applications` | 지원 현황 추가 |
-| `PATCH` | `/api/applications/:id` | 지원 현황 수정 |
+| Method   | Path                    | 설명           |
+| -------- | ----------------------- | -------------- |
+| `GET`    | `/api/health`           | 서버 상태 확인 |
+| `POST`   | `/api/auth/register`    | 회원가입       |
+| `POST`   | `/api/auth/login`       | 로그인         |
+| `GET`    | `/api/me`               | 내 정보 조회   |
+| `GET`    | `/api/dashboard`        | 대시보드 지표  |
+| `GET`    | `/api/applications`     | 지원 현황 목록 |
+| `POST`   | `/api/applications`     | 지원 현황 추가 |
+| `PATCH`  | `/api/applications/:id` | 지원 현황 수정 |
 | `DELETE` | `/api/applications/:id` | 지원 현황 삭제 |
-| `GET` | `/api/projects` | 프로젝트 목록 |
-| `POST` | `/api/projects` | 프로젝트 추가 |
-| `PATCH` | `/api/projects/:id` | 프로젝트 수정 |
-| `DELETE` | `/api/projects/:id` | 프로젝트 삭제 |
+| `GET`    | `/api/projects`         | 프로젝트 목록  |
+| `POST`   | `/api/projects`         | 프로젝트 추가  |
+| `PATCH`  | `/api/projects/:id`     | 프로젝트 수정  |
+| `DELETE` | `/api/projects/:id`     | 프로젝트 삭제  |
 
 ## 면접에서 설명할 포인트
 

@@ -78,4 +78,3 @@ npm run audit:submit
 
 - NCS 공정채용 안내는 채용에서 직무능력 중심 평가를 강조합니다. https://ncs.go.kr/company/ch03/CH-104-001-01.scdo
 - OWASP Password Storage Cheat Sheet는 비밀번호 저장 시 안전한 해시 알고리즘 사용을 안내합니다. https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-

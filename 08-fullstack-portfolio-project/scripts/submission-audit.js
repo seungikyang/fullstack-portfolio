@@ -66,10 +66,7 @@ const requiredLearningFolders = [
   "07-project-deploy"
 ];
 
-const requiredRootGuideFolders = [
-  ...requiredLearningFolders,
-  "08-fullstack-portfolio-project"
-];
+const requiredRootGuideFolders = [...requiredLearningFolders, "08-fullstack-portfolio-project"];
 
 let hasError = false;
 
@@ -113,7 +110,12 @@ const rootGitignore = fs.existsSync(path.join(workspaceRoot, ".gitignore"))
   ? fs.readFileSync(path.join(workspaceRoot, ".gitignore"), "utf8")
   : "";
 
-for (const pattern of ["node_modules/", "dist/", ".env", "08-fullstack-portfolio-project/data/*.json"]) {
+for (const pattern of [
+  "node_modules/",
+  "dist/",
+  ".env",
+  "08-fullstack-portfolio-project/data/*.json"
+]) {
   if (!rootGitignore.includes(pattern)) {
     fail(`루트 .gitignore에 ${pattern} 패턴이 없습니다.`);
   }
@@ -154,7 +156,12 @@ if (!authSource.includes("bcrypt") || !authSource.includes("jwt.verify")) {
 }
 
 const smokeSource = read("scripts/api-smoke-test.js");
-for (const expectedFlow of ["/api/auth/register", "/api/auth/login", "/api/applications", "/api/projects"]) {
+for (const expectedFlow of [
+  "/api/auth/register",
+  "/api/auth/login",
+  "/api/applications",
+  "/api/projects"
+]) {
   if (!smokeSource.includes(expectedFlow)) {
     fail(`api-smoke-test.js에 ${expectedFlow} 검증 흐름이 없습니다.`);
   }
@@ -218,7 +225,12 @@ if (!fs.existsSync(licensePath)) {
   fail("저장소 루트에 LICENSE 파일이 없습니다.");
 }
 
-for (const rootFile of ["CONTRIBUTING.md", ".nvmrc", ".editorconfig", ".github/PULL_REQUEST_TEMPLATE.md"]) {
+for (const rootFile of [
+  "CONTRIBUTING.md",
+  ".nvmrc",
+  ".editorconfig",
+  ".github/PULL_REQUEST_TEMPLATE.md"
+]) {
   if (!fs.existsSync(path.join(workspaceRoot, rootFile))) {
     fail(`저장소 루트에 ${rootFile} 파일이 없습니다.`);
   }

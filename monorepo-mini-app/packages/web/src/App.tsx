@@ -40,7 +40,10 @@ export default function App() {
     const payload: CreateNoteInput = {
       title: input.title,
       body: input.body,
-      tags: tagsText.split(",").map((t) => t.trim()).filter(Boolean)
+      tags: tagsText
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
     };
     const res = await fetch(ApiRoutes.notes, {
       method: "POST",
@@ -71,8 +74,8 @@ export default function App() {
       <header>
         <h1>Note Hub</h1>
         <p className="subtitle">
-          npm workspaces + TypeScript 모노레포 데모. 프론트엔드와 백엔드가 같은 <code>@note-hub/shared</code>{" "}
-          패키지의 타입을 공유합니다.
+          npm workspaces + TypeScript 모노레포 데모. 프론트엔드와 백엔드가 같은{" "}
+          <code>@note-hub/shared</code> 패키지의 타입을 공유합니다.
         </p>
       </header>
 

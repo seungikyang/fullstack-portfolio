@@ -96,13 +96,13 @@ npm run prepare                # husky 활성화 (1회)
 
 ## API 요약
 
-| Method | Path | 설명 |
-| --- | --- | --- |
-| `GET` | `/api/health` | 헬스 체크 (DB 핑 포함, 실패 시 503) |
-| `GET` | `/api/openapi.json` | OpenAPI 3 스펙 |
-| `GET` | `/api/notes` | 노트 목록 (최신순) |
-| `POST` | `/api/notes` | 노트 생성 (`{ title, body, tags? }`) |
-| `DELETE` | `/api/notes/:id` | 노트 삭제 |
+| Method   | Path                | 설명                                 |
+| -------- | ------------------- | ------------------------------------ |
+| `GET`    | `/api/health`       | 헬스 체크 (DB 핑 포함, 실패 시 503)  |
+| `GET`    | `/api/openapi.json` | OpenAPI 3 스펙                       |
+| `GET`    | `/api/notes`        | 노트 목록 (최신순)                   |
+| `POST`   | `/api/notes`        | 노트 생성 (`{ title, body, tags? }`) |
+| `DELETE` | `/api/notes/:id`    | 노트 삭제                            |
 
 ## API 문서
 
@@ -135,10 +135,10 @@ flyctl deploy
 
 ## 환경변수
 
-| 이름 | 기본값 | 설명 |
-| --- | --- | --- |
-| `PORT` | `5200` | Express API 포트 |
-| `DATABASE_URL` | (없음) | 설정되면 Postgres, 없으면 인메모리 |
+| 이름                | 기본값    | 설명                                   |
+| ------------------- | --------- | -------------------------------------- |
+| `PORT`              | `5200`    | Express API 포트                       |
+| `DATABASE_URL`      | (없음)    | 설정되면 Postgres, 없으면 인메모리     |
 | `POSTGRES_PASSWORD` | `notehub` | docker-compose.yml의 Postgres 비밀번호 |
 
 ## 면접에서 설명할 포인트
@@ -165,12 +165,12 @@ Dockerfile의 빌드 단계에서 web을 정적 파일로 만들고, 런타임 �
 
 ## 8번 Career Hub와 비교
 
-| 항목 | 08 Career Hub | monorepo-mini-app |
-| --- | --- | --- |
-| 구조 | 단일 패키지 | npm workspaces (3 패키지) |
-| 언어 | JavaScript (ESM) | TypeScript strict |
-| 저장소 | JSON 파일 | InMemory 또는 PostgreSQL |
-| 테스트 | smoke + Vitest 단위/통합 | Vitest(shared+api+web) + supertest + RTL |
-| 컨테이너 | 멀티 스테이지 | 멀티 스테이지 + Postgres compose |
-| 목적 | 1~7단계 통합 + 제출 | 모노레포·공유 타입·DB 추상화 시연 |
-| 포트 | API 5100 / Web 5173 | API 5200 / Web 5174 |
+| 항목     | 08 Career Hub            | monorepo-mini-app                        |
+| -------- | ------------------------ | ---------------------------------------- |
+| 구조     | 단일 패키지              | npm workspaces (3 패키지)                |
+| 언어     | JavaScript (ESM)         | TypeScript strict                        |
+| 저장소   | JSON 파일                | InMemory 또는 PostgreSQL                 |
+| 테스트   | smoke + Vitest 단위/통합 | Vitest(shared+api+web) + supertest + RTL |
+| 컨테이너 | 멀티 스테이지            | 멀티 스테이지 + Postgres compose         |
+| 목적     | 1~7단계 통합 + 제출      | 모노레포·공유 타입·DB 추상화 시연        |
+| 포트     | API 5100 / Web 5173      | API 5200 / Web 5174                      |

@@ -8,12 +8,7 @@ import globals from "globals";
 
 export default [
   {
-    ignores: [
-      "**/dist/**",
-      "**/node_modules/**",
-      "**/coverage/**",
-      "packages/web/src/test/**"
-    ]
+    ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**", "packages/web/src/test/**"]
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -39,10 +34,7 @@ export default [
       sourceType: "module"
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_" }
-      ]
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }]
     }
   },
   {
@@ -65,10 +57,7 @@ export default [
       ...(reactHooks.configs.recommended?.rules ?? {}),
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_" }
-      ]
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }]
     }
   },
   {

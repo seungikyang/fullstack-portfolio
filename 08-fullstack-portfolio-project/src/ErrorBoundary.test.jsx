@@ -1,3 +1,4 @@
+import React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ErrorBoundary from "./ErrorBoundary.jsx";
@@ -54,12 +55,12 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "다시 시도" }));
     rerender(
       <ErrorBoundary>
         <Toggle shouldThrow={false} />
       </ErrorBoundary>
     );
+    fireEvent.click(screen.getByRole("button", { name: "다시 시도" }));
 
     expect(screen.getByText("복구 화면")).toBeInTheDocument();
     errorSpy.mockRestore();

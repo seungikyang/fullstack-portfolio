@@ -181,4 +181,3 @@ try {
   server.kill("SIGTERM");
   await rm(tempDir, { recursive: true, force: true });
 }
-

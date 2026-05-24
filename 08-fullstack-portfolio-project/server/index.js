@@ -12,11 +12,7 @@ import { pinoHttp } from "pino-http";
 import { hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
 import { JsonStore, toPublicUser } from "./data-store.js";
 import { logger } from "./logger.js";
-import {
-  validateApplication,
-  validateProject,
-  validateRegister
-} from "./validators.js";
+import { validateApplication, validateProject, validateRegister } from "./validators.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const defaultDataFile = join(__dirname, "../data/career-hub.json");
@@ -393,4 +389,3 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   process.on("SIGTERM", () => shutdown("SIGTERM"));
   process.on("SIGINT", () => shutdown("SIGINT"));
 }
-

@@ -4,15 +4,15 @@ Career Hub는 기존 `01-html-css`부터 `07-project-deploy`까지의 학습 결
 
 ## 전체 연결 요약
 
-| 학습 단계 | 기존 폴더 | Career Hub에서 쓰인 위치 | 포트폴리오 설명 문장 |
-| --- | --- | --- | --- |
-| 1단계 | `01-html-css` | 로그인 화면, 사이드바, 대시보드, 카드 목록 | HTML 구조와 CSS grid/flexbox로 반응형 관리 화면을 구현했습니다. |
-| 2단계 | `02-javascript-basics` | 입력 폼, 버튼 이벤트, 배열 목록 렌더링 | 사용자 입력을 읽고 이벤트에 따라 API 요청과 화면 갱신을 처리했습니다. |
-| 3단계 | `03-react-todo` | `src/App.jsx` 전체 React UI | React state와 props로 로그인 상태, 지원 기록, 프로젝트 목록을 관리했습니다. |
-| 4단계 | `04-node-board-api` | `server/index.js` REST API | Express로 지원 현황과 프로젝트 CRUD API를 구현했습니다. |
-| 5단계 | `05-database-mongodb` | `server/data-store.js` 저장소 계층 | 데이터 생성, 조회, 수정, 삭제 흐름을 저장소 계층으로 분리했습니다. |
-| 6단계 | `06-login-auth` | `server/auth.js` 인증 로직 | bcrypt 비밀번호 해시와 JWT 인증으로 보호 API를 만들었습니다. |
-| 7단계 | `07-project-deploy` | `README.md`, `.env.example`, `npm run build`, `npm run start`, `Dockerfile`, `docker-compose.yml`, `render.yaml`/`fly.toml`, `.github/workflows/ci.yml` | 빌드·실행 방법을 문서화하고 컨테이너 + CI + 배포 매니페스트까지 갖춘 배포 가능한 형태로 구성했습니다. |
+| 학습 단계 | 기존 폴더              | Career Hub에서 쓰인 위치                                                                                                                                | 포트폴리오 설명 문장                                                                                  |
+| --------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| 1단계     | `01-html-css`          | 로그인 화면, 사이드바, 대시보드, 카드 목록                                                                                                              | HTML 구조와 CSS grid/flexbox로 반응형 관리 화면을 구현했습니다.                                       |
+| 2단계     | `02-javascript-basics` | 입력 폼, 버튼 이벤트, 배열 목록 렌더링                                                                                                                  | 사용자 입력을 읽고 이벤트에 따라 API 요청과 화면 갱신을 처리했습니다.                                 |
+| 3단계     | `03-react-todo`        | `src/App.jsx` 전체 React UI                                                                                                                             | React state와 props로 로그인 상태, 지원 기록, 프로젝트 목록을 관리했습니다.                           |
+| 4단계     | `04-node-board-api`    | `server/index.js` REST API                                                                                                                              | Express로 지원 현황과 프로젝트 CRUD API를 구현했습니다.                                               |
+| 5단계     | `05-database-mongodb`  | `server/data-store.js` 저장소 계층                                                                                                                      | 데이터 생성, 조회, 수정, 삭제 흐름을 저장소 계층으로 분리했습니다.                                    |
+| 6단계     | `06-login-auth`        | `server/auth.js` 인증 로직                                                                                                                              | bcrypt 비밀번호 해시와 JWT 인증으로 보호 API를 만들었습니다.                                          |
+| 7단계     | `07-project-deploy`    | `README.md`, `.env.example`, `npm run build`, `npm run start`, `Dockerfile`, `docker-compose.yml`, `render.yaml`/`fly.toml`, `.github/workflows/ci.yml` | 빌드·실행 방법을 문서화하고 컨테이너 + CI + 배포 매니페스트까지 갖춘 배포 가능한 형태로 구성했습니다. |
 
 ## 파일별 연결 근거
 
@@ -53,4 +53,3 @@ Career Hub는 기존 `01-html-css`부터 `07-project-deploy`까지의 학습 결
 - 지원 현황에 검색, 필터, 정렬을 추가합니다.
 - 프로젝트별 README 자동 생성 기능을 추가합니다.
 - 저장소에 포함된 `render.yaml`/`fly.toml`을 사용해 실제 배포 후 도메인을 README에 첨부합니다.
-

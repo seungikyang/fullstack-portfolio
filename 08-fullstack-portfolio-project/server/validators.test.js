@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  validateApplication,
-  validateProject,
-  validateRegister
-} from "./validators.js";
+import { validateApplication, validateProject, validateRegister } from "./validators.js";
 
 describe("validateRegister", () => {
   it("이메일과 비밀번호가 유효하면 errors가 비어 있다", () => {

@@ -41,9 +41,7 @@ describe("Note Hub API", () => {
   });
 
   it("title/body가 비면 400과 errors 배열", async () => {
-    const res = await request(app)
-      .post("/api/notes")
-      .send({ title: "", body: "" });
+    const res = await request(app).post("/api/notes").send({ title: "", body: "" });
     expect(res.status).toBe(400);
     expect(Array.isArray(res.body.errors)).toBe(true);
     expect(res.body.errors.length).toBeGreaterThan(0);

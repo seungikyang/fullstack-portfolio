@@ -18,7 +18,9 @@ function clone(value) {
 }
 
 function normalizeEmail(email) {
-  return String(email || "").trim().toLowerCase();
+  return String(email || "")
+    .trim()
+    .toLowerCase();
 }
 
 function now() {
@@ -111,8 +113,8 @@ export class JsonStore {
   }
 
   listApplications(userId) {
-    return this.read().applications
-      .filter((application) => application.userId === String(userId))
+    return this.read()
+      .applications.filter((application) => application.userId === String(userId))
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
 
@@ -170,8 +172,8 @@ export class JsonStore {
   }
 
   listProjects(userId) {
-    return this.read().projects
-      .filter((project) => project.userId === String(userId))
+    return this.read()
+      .projects.filter((project) => project.userId === String(userId))
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
 
@@ -227,4 +229,3 @@ export class JsonStore {
     return true;
   }
 }
-

@@ -1,6 +1,6 @@
 // React 트리에서 발생한 예외를 잡아 흰 화면(white screen of death)을 방지하는 경계 컴포넌트.
 // React 19 기준 클래스형 ErrorBoundary가 여전히 표준 방식이다.
-import { Component } from "react";
+import React, { Component } from "react";
 
 export default class ErrorBoundary extends Component {
   constructor(props) {

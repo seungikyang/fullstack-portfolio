@@ -16,7 +16,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const openApiPath = join(__dirname, "../openapi.json");
 const spec = JSON.parse(readFileSync(openApiPath, "utf8")) as {
   paths: Record<string, unknown>;
-  components: { schemas: Record<string, { properties?: Record<string, unknown>; required?: string[] }> };
+  components: {
+    schemas: Record<string, { properties?: Record<string, unknown>; required?: string[] }>;
+  };
 };
 
 // TS 타입은 런타임에 접근할 수 없으므로 "이 데모가 응답으로 약속한 Note 키"를 한 곳에 적어두고

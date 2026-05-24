@@ -135,7 +135,11 @@ describe("Career Hub API", () => {
         .post("/api/applications")
         .set("Authorization", `Bearer ${token}`)
         .send({
-          company: "A", role: "r", status: "면접", priority: "보통", stack: ""
+          company: "A",
+          role: "r",
+          status: "면접",
+          priority: "보통",
+          stack: ""
         })
         .expect(201);
 

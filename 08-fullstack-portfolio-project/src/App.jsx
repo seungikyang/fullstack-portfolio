@@ -186,9 +186,7 @@ function LoginScreen({ onAuth }) {
 
     try {
       const path = mode === "login" ? "/api/auth/login" : "/api/auth/register";
-      const payload = mode === "login"
-        ? { email: form.email, password: form.password }
-        : form;
+      const payload = mode === "login" ? { email: form.email, password: form.password } : form;
       const data = await request(path, { method: "POST", body: payload });
       onAuth(data);
     } catch (submitError) {
@@ -380,7 +378,9 @@ function ApplicationSection({ token, applications, onChanged }) {
             onChange={(event) => setForm({ ...form, status: event.target.value })}
           >
             {applicationStatuses.map((status) => (
-              <option key={status} value={status}>{status}</option>
+              <option key={status} value={status}>
+                {status}
+              </option>
             ))}
           </select>
         </label>
@@ -407,7 +407,9 @@ function ApplicationSection({ token, applications, onChanged }) {
             onChange={(event) => setForm({ ...form, priority: event.target.value })}
           >
             {priorities.map((priority) => (
-              <option key={priority} value={priority}>{priority}</option>
+              <option key={priority} value={priority}>
+                {priority}
+              </option>
             ))}
           </select>
         </label>
@@ -454,7 +456,9 @@ function ApplicationSection({ token, applications, onChanged }) {
           <article className="record-card" key={application.id}>
             <div className="record-main">
               <div>
-                <span className={`status-pill status-${application.status}`}>{application.status}</span>
+                <span className={`status-pill status-${application.status}`}>
+                  {application.status}
+                </span>
                 <h3>{application.company}</h3>
                 <p>{application.role}</p>
               </div>
@@ -462,7 +466,11 @@ function ApplicationSection({ token, applications, onChanged }) {
                 <button title="수정" type="button" onClick={() => startEdit(application)}>
                   <Pencil size={16} />
                 </button>
-                <button title="삭제" type="button" onClick={() => removeApplication(application.id)}>
+                <button
+                  title="삭제"
+                  type="button"
+                  onClick={() => removeApplication(application.id)}
+                >
                   <Trash2 size={16} />
                 </button>
               </div>
@@ -473,7 +481,9 @@ function ApplicationSection({ token, applications, onChanged }) {
             </div>
             {application.stack.length > 0 && (
               <div className="tag-row">
-                {application.stack.map((stack) => <span key={stack}>{stack}</span>)}
+                {application.stack.map((stack) => (
+                  <span key={stack}>{stack}</span>
+                ))}
               </div>
             )}
             {application.memo && <p className="record-note">{application.memo}</p>}
@@ -549,7 +559,9 @@ function ProjectSection({ token, projects, onChanged }) {
             onChange={(event) => setForm({ ...form, status: event.target.value })}
           >
             {projectStatuses.map((status) => (
-              <option key={status} value={status}>{status}</option>
+              <option key={status} value={status}>
+                {status}
+              </option>
             ))}
           </select>
         </label>
@@ -635,7 +647,9 @@ function ProjectSection({ token, projects, onChanged }) {
             </div>
             {project.stack.length > 0 && (
               <div className="tag-row">
-                {project.stack.map((stack) => <span key={stack}>{stack}</span>)}
+                {project.stack.map((stack) => (
+                  <span key={stack}>{stack}</span>
+                ))}
               </div>
             )}
             {project.highlight && <p className="record-note">{project.highlight}</p>}
@@ -658,7 +672,8 @@ function LearningMapSection() {
           <p className="eyebrow">Learning Trace</p>
           <h2 id="learning-title">1~7단계가 Career Hub에 쓰인 방식</h2>
           <p className="muted">
-            이 화면은 기존 학습 폴더의 코드가 포트폴리오 프로젝트의 어떤 기능으로 연결되는지 보여줍니다.
+            이 화면은 기존 학습 폴더의 코드가 포트폴리오 프로젝트의 어떤 기능으로 연결되는지
+            보여줍니다.
           </p>
         </div>
         <span className="count-badge">7단계 연결</span>

@@ -6,9 +6,7 @@
     "description": "DevContainer 가상환경에서 동작하는 npm workspaces 모노레포 데모(Note Hub)의 REST API 명세. https://editor.swagger.io 에 붙여 넣어 시각적으로 확인할 수 있다.",
     "license": { "name": "MIT" }
   },
-  "servers": [
-    { "url": "http://localhost:5200", "description": "로컬 개발" }
-  ],
+  "servers": [{ "url": "http://localhost:5200", "description": "로컬 개발" }],
   "tags": [
     { "name": "system", "description": "헬스 체크와 명세" },
     { "name": "notes", "description": "노트 CRUD" }
@@ -80,7 +78,9 @@
         "responses": {
           "200": {
             "description": "서버와 저장소 모두 정상",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } }
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Health" } }
+            }
           },
           "503": { "$ref": "#/components/responses/Unavailable" }
         }

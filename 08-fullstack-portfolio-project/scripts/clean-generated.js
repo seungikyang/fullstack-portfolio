@@ -17,4 +17,3 @@ for (const target of targets) {
 }
 
 console.log("빌드 결과와 로컬 실행 데이터를 정리했습니다.");
-

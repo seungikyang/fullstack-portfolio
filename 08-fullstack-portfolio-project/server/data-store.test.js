@@ -48,10 +48,18 @@ describe("JsonStore", () => {
     const u2 = store.createUser({ name: "u2", email: "u2@x.com", passwordHash: "h" });
 
     store.createApplication(u1.id, {
-      company: "A", role: "r", status: "지원완료", priority: "보통", stack: []
+      company: "A",
+      role: "r",
+      status: "지원완료",
+      priority: "보통",
+      stack: []
     });
     store.createApplication(u2.id, {
-      company: "B", role: "r", status: "지원완료", priority: "보통", stack: []
+      company: "B",
+      role: "r",
+      status: "지원완료",
+      priority: "보통",
+      stack: []
     });
 
     expect(store.listApplications(u1.id)).toHaveLength(1);
@@ -63,7 +71,11 @@ describe("JsonStore", () => {
     const u1 = store.createUser({ name: "u1", email: "u1@x.com", passwordHash: "h" });
     const u2 = store.createUser({ name: "u2", email: "u2@x.com", passwordHash: "h" });
     const app = store.createApplication(u1.id, {
-      company: "A", role: "r", status: "지원완료", priority: "보통", stack: []
+      company: "A",
+      role: "r",
+      status: "지원완료",
+      priority: "보통",
+      stack: []
     });
 
     const result = store.updateApplication(u2.id, app.id, { status: "면접" });
@@ -74,7 +86,11 @@ describe("JsonStore", () => {
   it("deleteApplication은 삭제 성공 시 true, 없는 id는 false를 반환한다", () => {
     const u = store.createUser({ name: "u", email: "u@x.com", passwordHash: "h" });
     const app = store.createApplication(u.id, {
-      company: "A", role: "r", status: "지원완료", priority: "보통", stack: []
+      company: "A",
+      role: "r",
+      status: "지원완료",
+      priority: "보통",
+      stack: []
     });
 
     expect(store.deleteApplication(u.id, app.id)).toBe(true);
@@ -84,7 +100,10 @@ describe("JsonStore", () => {
   it("저장된 데이터는 새로운 인스턴스에서도 읽힌다", () => {
     const u = store.createUser({ name: "u", email: "u@x.com", passwordHash: "h" });
     store.createProject(u.id, {
-      name: "n", summary: "s", status: "개발중", stack: []
+      name: "n",
+      summary: "s",
+      status: "개발중",
+      stack: []
     });
 
     const reopened = new JsonStore(store.filePath);
