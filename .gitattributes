@@ -1,0 +1,3 @@
+# 모든 텍스트 파일을 OS와 무관하게 LF로 저장한다.
+# Windows 러너의 git checkout이 LF를 CRLF로 바꿔 prettier --check가 깨지는 것을 막는다.
+* text=auto eol=lf

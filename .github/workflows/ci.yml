@@ -11,7 +11,11 @@ on:
 jobs:
   workbook-verify:
     name: Workbook structure verify
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,7 +26,11 @@ jobs:
 
   portfolio:
     name: Career Hub portfolio (lint + test + build)
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: 08-fullstack-portfolio-project
@@ -50,6 +58,7 @@ jobs:
 
   docker:
     name: Build Docker image (smoke)
+    # GitHub Actions의 macos / windows 러너는 Linux 컨테이너 실행을 지원하지 않아 ubuntu-latest 단독으로 둔다.
     runs-on: ubuntu-latest
     needs: portfolio
     steps:
@@ -73,7 +82,11 @@ jobs:
 
   monorepo:
     name: Note Hub monorepo (typecheck + test + build)
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: monorepo-mini-app
@@ -101,6 +114,7 @@ jobs:
 
   monorepo-docker:
     name: Note Hub Docker (Postgres stack smoke)
+    # docker compose 기반이라 Linux 러너에서만 실행한다.
     runs-on: ubuntu-latest
     needs: monorepo
     steps:

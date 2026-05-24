@@ -56,6 +56,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 ## 먼저 읽을 파일
 
 - [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~8번 폴더를 실무 능력, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
+- [feature-implementation-workbook.md](./feature-implementation-workbook.md)는 모든 기능 구현을 개념 빈칸, 구현 TODO, 검증 명령, 면접 설명으로 다시 채우는 종합 워크북입니다.
 - [career-roadmap.md](./career-roadmap.md)는 SI/SW 취업 준비 관점의 전체 로드맵입니다.
 - [references.md](./references.md)는 단계별 공식 문서, 에러 읽는 법, 공부 루틴을 모은 자료입니다.
 - [student-checklist.md](./student-checklist.md)는 학습자가 직접 체크하는 진행표입니다.
@@ -92,11 +93,17 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 ## 실행 안내
 
-1단계와 2단계는 HTML 파일을 브라우저로 열면 됩니다.
+1단계와 2단계는 HTML 파일을 브라우저로 열면 됩니다. OS별로 명령이 다릅니다.
 
 ```bash
+# macOS
 open 01-html-css/starter/index.html
-open 02-javascript-basics/starter/index.html
+
+# Linux
+xdg-open 01-html-css/starter/index.html
+
+# Windows (cmd / PowerShell / Git Bash 공통)
+start 01-html-css/starter/index.html
 ```
 
 3단계부터는 각 폴더에서 의존성을 설치한 뒤 실행합니다.
@@ -112,7 +119,10 @@ npm run dev
 ```bash
 cd 08-fullstack-portfolio-project
 npm install
+# macOS / Linux / Git Bash
 cp .env.example .env
+# Windows cmd:        copy .env.example .env
+# Windows PowerShell: Copy-Item .env.example .env
 npm run dev
 ```
 
@@ -142,7 +152,7 @@ npm run progress
 
 ## 학습 팁
 
-- 처음에는 정답을 외우기보다 화면과 데이터가 어떻게 연결되는지 말로 설명해보세요.
+- 처음에는 정답을 외우기보다 화면과 데이터가 어떻게 연결되는지 말로 설명해보세요. 예시 답변: 사용자가 입력하고 버튼을 누르면 이벤트 핸들러가 값을 읽고, state를 바꾸거나 API 요청을 보내며, 서버 응답을 받은 뒤 화면을 다시 렌더링합니다.
 - 빈칸을 채운 뒤에는 일부러 값을 바꿔보며 결과가 어떻게 달라지는지 확인하세요.
 - SI/SW 실무에서는 “작게 만들고 실행해 확인하는 습관”이 중요합니다.
 - 각 단계가 끝날 때마다 GitHub에 올릴 README 문장 3개를 적어보세요.
