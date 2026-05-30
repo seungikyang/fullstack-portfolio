@@ -11,3 +11,16 @@ context-notes.md
 checklist.md
 plan.md
 review-report.md
+
+# 하네스 작업 폴더 (학습/지원 진행 기록, 로컬 보존)
+_workspace/
+08-fullstack-portfolio-project/_workspace/
+
+# 임시 추출물 (대화 히스토리 추출 등)
+_history_extract.json
+
+# 구현 대화 히스토리 (로컬 보존, 공개 저장소에는 올리지 않음)
+history.html
+
+# Claude Code 로컬 설정 (머신 종속 플러그인 활성화)
+.claude/settings.json
