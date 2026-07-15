@@ -6,13 +6,15 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 각 단계는 설명만 읽는 방식이 아니라, 코드 안의 `빈칸`, `TODO`, `____`를 직접 채우며 공부하도록 구성했습니다.
 
+> 처음 왔다면 여러 문서를 순서대로 읽지 말고 [START-HERE.md](./START-HERE.md)에서 목표 직무와 첫 지원일을 적은 뒤, 남은 기간에 맞는 경로를 선택하세요.
+
 ## 사용 방법
 
-1. 단계별 `README.md`를 먼저 읽습니다.
-2. `problems.md`의 문제를 보고 `starter` 또는 `src` 폴더의 빈칸을 채웁니다.
+1. [START-HERE.md](./START-HERE.md)에서 목표와 학습 경로를 정합니다.
+2. 단계별 `README.md`와 `problems.md`를 보고 `starter` 또는 `src` 폴더의 빈칸을 채웁니다.
 3. 브라우저 또는 npm 명령으로 실행해 결과를 확인합니다.
 4. 막히면 `answers.md`를 보고 어느 부분을 놓쳤는지 비교합니다.
-5. 다시 코드를 직접 고쳐보고 자기 말로 설명합니다.
+5. [student-checklist.md](./student-checklist.md)를 체크하고 구현·검증·문제 해결을 자기 말로 기록합니다.
 
 ## 폴더부터 실무까지 (공부 순서)
 
@@ -55,6 +57,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 ## 먼저 읽을 파일
 
+- [START-HERE.md](./START-HERE.md)는 목표 직무와 지원 시기에 따라 첫 학습 경로를 정하는 단일 시작점입니다.
 - [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~8번 폴더를 실무 능력, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
 - [feature-implementation-workbook.md](./feature-implementation-workbook.md)는 모든 기능 구현을 개념 빈칸, 구현 TODO, 검증 명령, 면접 설명으로 다시 채우는 종합 워크북입니다.
 - [career-roadmap.md](./career-roadmap.md)는 SI/SW 취업 준비 관점의 전체 로드맵입니다.

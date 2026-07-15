@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, "..");
 
 const requiredPaths = [
   "README.md",
+  "START-HERE.md",
   "LICENSE",
   "CONTRIBUTING.md",
   ".gitignore",
@@ -81,6 +82,7 @@ const requiredPaths = [
   "08-fullstack-portfolio-project/server/openapi.json",
   "08-fullstack-portfolio-project/src/main.jsx",
   "08-fullstack-portfolio-project/src/App.jsx",
+  "08-fullstack-portfolio-project/src/App.test.jsx",
   "08-fullstack-portfolio-project/src/ErrorBoundary.jsx",
   "08-fullstack-portfolio-project/src/styles.css",
   "08-fullstack-portfolio-project/scripts/api-smoke-test.js",
@@ -268,6 +270,7 @@ const sourceFiles = [
   "08-fullstack-portfolio-project/server/logger.js",
   "08-fullstack-portfolio-project/src/main.jsx",
   "08-fullstack-portfolio-project/src/App.jsx",
+  "08-fullstack-portfolio-project/src/App.test.jsx",
   "08-fullstack-portfolio-project/src/ErrorBoundary.jsx",
   "08-fullstack-portfolio-project/src/styles.css",
   "08-fullstack-portfolio-project/scripts/api-smoke-test.js",
