@@ -20,11 +20,11 @@ Career Hub는 기존 `01-html-css`부터 `07-project-deploy`까지의 학습 결
 
 - 1단계에서 배운 화면 구조를 React 컴포넌트 구조로 확장했습니다.
 - 2단계에서 배운 이벤트 처리와 배열 렌더링을 `map`, `onSubmit`, `onClick`으로 사용했습니다.
-- 3단계에서 배운 state와 props를 실제 프로젝트 화면 전체에 적용했습니다.
+- 3단계에서 배운 state와 props를 취업 워크북, 지원 현황, 프로젝트 화면 전체에 적용했습니다.
 
 ### `server/index.js`
 
-- 4단계 게시판 API에서 배운 REST API 패턴을 지원 현황과 프로젝트 관리 도메인으로 확장했습니다.
+- 4단계 게시판 API에서 배운 REST API 패턴을 취업 워크북, 지원 현황, 프로젝트 관리 도메인으로 확장했습니다.
 - `GET`, `POST`, `PATCH`, `DELETE`를 기능별로 분리했습니다.
 - API 오류 상황에 맞게 `400`, `401`, `404`, `409` 상태 코드를 반환합니다.
 
@@ -36,12 +36,12 @@ Career Hub는 기존 `01-html-css`부터 `07-project-deploy`까지의 학습 결
 ### `server/auth.js`
 
 - 6단계 로그인 실습의 비밀번호 해시와 JWT 인증을 실제 프로젝트에 적용했습니다.
-- 로그인하지 않은 사용자는 `/api/applications`, `/api/projects`, `/api/dashboard`에 접근할 수 없습니다.
+- 로그인하지 않은 사용자는 `/api/workbook`, `/api/applications`, `/api/projects`, `/api/dashboard`에 접근할 수 없습니다.
 
 ### `scripts/api-smoke-test.js`
 
 - 7단계 배포 준비에서 필요한 검증 습관을 자동화했습니다.
-- 회원가입, 로그인, 보호 API, 지원 기록 CRUD, 프로젝트 CRUD를 한 번에 확인합니다.
+- 회원가입, 로그인, 워크북 저장, 보호 API, 지원 기록 CRUD, 프로젝트 CRUD를 한 번에 확인합니다.
 
 ## 면접 답변 예시
 

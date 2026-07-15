@@ -51,7 +51,7 @@ async function waitForServer() {
       if (health.ok) {
         return;
       }
-    } catch (error) {
+    } catch {
       await new Promise((resolve) => setTimeout(resolve, 150));
     }
   }
@@ -115,6 +115,27 @@ try {
   });
 
   const token = login.token;
+  const initialWorkbook = await request("/api/workbook", { token });
+  assert(initialWorkbook.targetRole === "", "새 워크북의 목표 직무가 비어 있지 않습니다.");
+
+  const workbook = await request("/api/workbook", {
+    method: "PATCH",
+    token,
+    body: {
+      targetRole: "Java 백엔드 개발자",
+      targetDate: "2026-09-01",
+      weeklyGoal: "지원서 두 곳 제출",
+      nextAction: "첫 공고 분석",
+      resumeReady: true,
+      portfolioReady: true,
+      selfIntroReady: true,
+      mockInterviewReady: true,
+      reflection: "API smoke test로 저장을 확인했습니다."
+    }
+  });
+
+  assert(workbook.targetRole === "Java 백엔드 개발자", "워크북 저장이 반영되지 않았습니다.");
+
   const application = await request("/api/applications", {
     method: "POST",
     token,
@@ -159,6 +180,7 @@ try {
   const dashboard = await request("/api/dashboard", { token });
   assert(dashboard.totalApplications === 1, "대시보드 지원 건수가 올바르지 않습니다.");
   assert(dashboard.projectCount === 1, "대시보드 프로젝트 건수가 올바르지 않습니다.");
+  assert(dashboard.readinessPercent === 100, "취업 준비도 계산이 올바르지 않습니다.");
 
   await request(`/api/projects/${project.id}`, {
     method: "PATCH",

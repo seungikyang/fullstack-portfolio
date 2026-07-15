@@ -130,6 +130,42 @@ describe("Career Hub API", () => {
       expect(res.status).toBe(404);
     });
 
+    it("취업 워크북을 조회하고 저장한다", async () => {
+      const empty = await request(app)
+        .get("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+
+      expect(empty.body.targetRole).toBe("");
+
+      const saved = await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          targetRole: "Java 백엔드 개발자",
+          targetDate: "2026-09-01",
+          weeklyGoal: "지원서 두 곳 제출",
+          resumeReady: true
+        })
+        .expect(200);
+
+      expect(saved.body).toMatchObject({
+        targetRole: "Java 백엔드 개발자",
+        weeklyGoal: "지원서 두 곳 제출",
+        resumeReady: true
+      });
+    });
+
+    it("취업 워크북의 잘못된 체크 값은 400을 반환한다", async () => {
+      const res = await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ resumeReady: "완료" });
+
+      expect(res.status).toBe(400);
+      expect(res.body.errors).toContain("이력서 준비 상태가 올바르지 않습니다.");
+    });
+
     it("대시보드는 현재 사용자의 카운트를 반환한다", async () => {
       await request(app)
         .post("/api/applications")
@@ -150,6 +186,8 @@ describe("Career Hub API", () => {
 
       expect(res.body.totalApplications).toBe(1);
       expect(res.body.interviewCount).toBe(1);
+      expect(res.body.readinessTotal).toBe(6);
+      expect(res.body.readinessDone).toBe(1);
     });
   });
 
@@ -181,5 +219,6 @@ describe("Career Hub API", () => {
     expect(res.body.openapi).toMatch(/^3\./);
     expect(res.body.info.title).toBe("Career Hub API");
     expect(res.body.paths).toHaveProperty("/api/auth/login");
+    expect(res.body.paths).toHaveProperty("/api/workbook");
   });
 });

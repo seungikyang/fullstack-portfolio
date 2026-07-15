@@ -10,6 +10,7 @@
   "tags": [
     { "name": "system", "description": "헬스 체크와 명세" },
     { "name": "auth", "description": "회원가입과 로그인" },
+    { "name": "workbook", "description": "취업 목표와 준비 상태" },
     { "name": "applications", "description": "지원 현황 CRUD" },
     { "name": "projects", "description": "포트폴리오 프로젝트 CRUD" },
     { "name": "dashboard", "description": "집계 지표" }
@@ -78,6 +79,23 @@
           "highlight": { "type": "string" }
         }
       },
+      "Workbook": {
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string" },
+          "targetRole": { "type": "string" },
+          "targetDate": { "type": "string", "format": "date" },
+          "weeklyGoal": { "type": "string" },
+          "nextAction": { "type": "string" },
+          "resumeReady": { "type": "boolean" },
+          "portfolioReady": { "type": "boolean" },
+          "selfIntroReady": { "type": "boolean" },
+          "mockInterviewReady": { "type": "boolean" },
+          "reflection": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
       "Dashboard": {
         "type": "object",
         "properties": {
@@ -87,6 +105,9 @@
           "upcomingCount": { "type": "integer" },
           "projectCount": { "type": "integer" },
           "completedProjectCount": { "type": "integer" },
+          "readinessDone": { "type": "integer" },
+          "readinessTotal": { "type": "integer" },
+          "readinessPercent": { "type": "integer", "minimum": 0, "maximum": 100 },
           "statusCounts": { "type": "object", "additionalProperties": { "type": "integer" } }
         }
       }
@@ -233,6 +254,43 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/Dashboard" } }
             }
           },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/api/workbook": {
+      "get": {
+        "tags": ["workbook"],
+        "summary": "내 취업 워크북 조회",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "워크북",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Workbook" } }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "patch": {
+        "tags": ["workbook"],
+        "summary": "내 취업 워크북 저장",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Workbook" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "저장됨",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Workbook" } }
+            }
+          },
+          "400": { "$ref": "#/components/responses/Validation" },
           "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }

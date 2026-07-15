@@ -10,7 +10,20 @@ const initialData = {
   },
   users: [],
   applications: [],
-  projects: []
+  projects: [],
+  workbooks: []
+};
+
+const emptyWorkbook = {
+  targetRole: "",
+  targetDate: "",
+  weeklyGoal: "",
+  nextAction: "",
+  resumeReady: false,
+  portfolioReady: false,
+  selfIntroReady: false,
+  mockInterviewReady: false,
+  reflection: ""
 };
 
 function clone(value) {
@@ -95,6 +108,39 @@ export class JsonStore {
 
   findUserById(id) {
     return this.read().users.find((user) => user.id === String(id)) || null;
+  }
+
+  getWorkbook(userId) {
+    const workbook = this.read().workbooks.find((item) => item.userId === String(userId));
+
+    return (
+      workbook || {
+        userId: String(userId),
+        ...clone(emptyWorkbook),
+        createdAt: "",
+        updatedAt: ""
+      }
+    );
+  }
+
+  updateWorkbook(userId, payload) {
+    const data = this.read();
+    const timestamp = now();
+    let workbook = data.workbooks.find((item) => item.userId === String(userId));
+
+    if (!workbook) {
+      workbook = {
+        userId: String(userId),
+        ...clone(emptyWorkbook),
+        createdAt: timestamp,
+        updatedAt: timestamp
+      };
+      data.workbooks.push(workbook);
+    }
+
+    Object.assign(workbook, payload, { updatedAt: timestamp });
+    this.write(data);
+    return workbook;
   }
 
   createUser({ name, email, passwordHash }) {

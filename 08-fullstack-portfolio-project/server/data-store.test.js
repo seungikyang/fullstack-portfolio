@@ -109,6 +109,23 @@ describe("JsonStore", () => {
     const reopened = new JsonStore(store.filePath);
     expect(reopened.listProjects(u.id)).toHaveLength(1);
   });
+
+  it("사용자별 취업 워크북을 생성하고 다시 수정한다", () => {
+    const u1 = store.createUser({ name: "u1", email: "u1@x.com", passwordHash: "h" });
+    const u2 = store.createUser({ name: "u2", email: "u2@x.com", passwordHash: "h" });
+
+    expect(store.getWorkbook(u1.id).targetRole).toBe("");
+
+    store.updateWorkbook(u1.id, { targetRole: "백엔드 개발자", resumeReady: true });
+    store.updateWorkbook(u1.id, { weeklyGoal: "이력서 완성" });
+
+    expect(store.getWorkbook(u1.id)).toMatchObject({
+      targetRole: "백엔드 개발자",
+      weeklyGoal: "이력서 완성",
+      resumeReady: true
+    });
+    expect(store.getWorkbook(u2.id).targetRole).toBe("");
+  });
 });
 
 describe("toPublicUser", () => {

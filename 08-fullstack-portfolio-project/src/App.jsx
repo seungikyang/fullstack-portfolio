@@ -1,5 +1,5 @@
 // Career Hub의 로그인, 대시보드, CRUD 화면을 구성하는 React 컴포넌트
-import { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
   BriefcaseBusiness,
@@ -45,6 +45,18 @@ const emptyProject = {
   repoUrl: "",
   deployUrl: "",
   highlight: ""
+};
+
+const emptyWorkbook = {
+  targetRole: "",
+  targetDate: "",
+  weeklyGoal: "",
+  nextAction: "",
+  resumeReady: false,
+  portfolioReady: false,
+  selfIntroReady: false,
+  mockInterviewReady: false,
+  reflection: ""
 };
 
 const stageConnections = [
@@ -202,7 +214,7 @@ function LoginScreen({ onAuth }) {
         <p className="eyebrow">Fullstack Portfolio</p>
         <h1 id="auth-title">Career Hub</h1>
         <p className="muted">
-          SI/SW 지원 현황과 포트폴리오 프로젝트를 한 곳에서 관리하는 미니 fullstack 앱입니다.
+          목표 직무부터 포트폴리오, 지원, 면접 준비까지 한 곳에 기록하는 취업 워크북입니다.
         </p>
 
         <div className="mode-switch" aria-label="인증 모드">
@@ -267,6 +279,11 @@ function LoginScreen({ onAuth }) {
 function StatGrid({ dashboard }) {
   const stats = [
     {
+      label: "취업 준비도",
+      value: `${dashboard.readinessPercent}%`,
+      icon: CheckCircle2
+    },
+    {
       label: "지원 기록",
       value: dashboard.totalApplications,
       icon: BriefcaseBusiness
@@ -300,6 +317,167 @@ function StatGrid({ dashboard }) {
           </article>
         );
       })}
+    </section>
+  );
+}
+
+export function WorkbookSection({ token, workbook, dashboard, onChanged }) {
+  const [form, setForm] = useState(workbook);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setForm(workbook);
+  }, [workbook]);
+
+  function updateField(field, value) {
+    setForm((current) => ({ ...current, [field]: value }));
+    setMessage("");
+  }
+
+  async function submitWorkbook(event) {
+    event.preventDefault();
+    setError("");
+    setMessage("");
+    setIsSaving(true);
+
+    try {
+      await request("/api/workbook", { method: "PATCH", token, body: form });
+      await onChanged();
+      setMessage("워크북을 저장했습니다.");
+    } catch (submitError) {
+      setError(submitError.message);
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  return (
+    <section className="work-section" aria-labelledby="workbook-title">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Career Workbook</p>
+          <h2 id="workbook-title">취업 준비 워크북</h2>
+          <p className="muted workbook-copy">
+            목표를 정하고 이번 주 행동을 기록하세요. 준비도는 목표 설정, 아래 네 가지 준비, 실제
+            지원 시작까지 여섯 가지 근거로 계산합니다.
+          </p>
+        </div>
+        <span className="count-badge">{dashboard?.readinessPercent || 0}%</span>
+      </div>
+
+      <div className="readiness-panel">
+        <div>
+          <strong>취업 준비 근거</strong>
+          <span>
+            {dashboard?.readinessDone || 0}/{dashboard?.readinessTotal || 6}개 완료
+          </span>
+        </div>
+        <div
+          className="progress-track"
+          role="progressbar"
+          aria-label="취업 준비도"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow={dashboard?.readinessPercent || 0}
+        >
+          <span style={{ width: `${dashboard?.readinessPercent || 0}%` }} />
+        </div>
+      </div>
+
+      <form className="editor-grid workbook-form" onSubmit={submitWorkbook}>
+        <label>
+          목표 직무
+          <input
+            value={form.targetRole}
+            onChange={(event) => updateField("targetRole", event.target.value)}
+            placeholder="Java/Spring 백엔드 개발자"
+          />
+        </label>
+        <label>
+          목표 지원일
+          <input
+            type="date"
+            value={form.targetDate}
+            onChange={(event) => updateField("targetDate", event.target.value)}
+          />
+        </label>
+        <label className="wide-field">
+          이번 주 목표
+          <input
+            value={form.weeklyGoal}
+            onChange={(event) => updateField("weeklyGoal", event.target.value)}
+            placeholder="예. 포트폴리오 README를 완성하고 두 곳에 지원합니다"
+          />
+        </label>
+        <label className="wide-field">
+          다음 행동
+          <input
+            value={form.nextAction}
+            onChange={(event) => updateField("nextAction", event.target.value)}
+            placeholder="예. 오늘 19시에 채용 공고 한 건을 분석합니다"
+          />
+        </label>
+
+        <fieldset className="workbook-checks wide-field">
+          <legend>준비 완료 체크</legend>
+          <label className="check-item">
+            <input
+              type="checkbox"
+              checked={form.resumeReady}
+              onChange={(event) => updateField("resumeReady", event.target.checked)}
+            />
+            이력서 완성
+          </label>
+          <label className="check-item">
+            <input
+              type="checkbox"
+              checked={form.portfolioReady}
+              onChange={(event) => updateField("portfolioReady", event.target.checked)}
+            />
+            포트폴리오 제출 가능
+          </label>
+          <label className="check-item">
+            <input
+              type="checkbox"
+              checked={form.selfIntroReady}
+              onChange={(event) => updateField("selfIntroReady", event.target.checked)}
+            />
+            자기소개 준비
+          </label>
+          <label className="check-item">
+            <input
+              type="checkbox"
+              checked={form.mockInterviewReady}
+              onChange={(event) => updateField("mockInterviewReady", event.target.checked)}
+            />
+            모의 면접 완료
+          </label>
+        </fieldset>
+
+        <label className="wide-field">
+          주간 회고
+          <textarea
+            value={form.reflection}
+            onChange={(event) => updateField("reflection", event.target.value)}
+            rows="4"
+            placeholder="한 일, 막힌 점, 다음 주에 바꿀 점을 짧게 적으세요"
+          />
+        </label>
+        {error && <p className="form-error wide-field">{error}</p>}
+        {message && (
+          <p className="save-message wide-field" aria-live="polite">
+            {message}
+          </p>
+        )}
+        <div className="form-actions wide-field">
+          <button className="primary-button" type="submit" disabled={isSaving}>
+            <CheckCircle2 size={18} />
+            {isSaving ? "저장 중" : "워크북 저장"}
+          </button>
+        </div>
+      </form>
     </section>
   );
 }
@@ -452,6 +630,11 @@ function ApplicationSection({ token, applications, onChanged }) {
       </form>
 
       <div className="record-list">
+        {applications.length === 0 && (
+          <p className="empty-state">
+            아직 지원 기록이 없습니다. 워크북에서 목표 직무를 정한 뒤 첫 공고를 기록해보세요.
+          </p>
+        )}
         {applications.map((application) => (
           <article className="record-card" key={application.id}>
             <div className="record-main">
@@ -628,6 +811,11 @@ function ProjectSection({ token, projects, onChanged }) {
       </form>
 
       <div className="record-list">
+        {projects.length === 0 && (
+          <p className="empty-state">
+            아직 프로젝트가 없습니다. 지원 직무와 가장 가까운 프로젝트 한 개부터 추가해보세요.
+          </p>
+        )}
         {projects.map((project) => (
           <article className="record-card" key={project.id}>
             <div className="record-main">
@@ -710,15 +898,24 @@ export default function App() {
   const [token, setToken] = useState(() => localStorage.getItem("careerHubToken") || "");
   const [user, setUser] = useState(null);
   const [dashboard, setDashboard] = useState(null);
+  const [workbook, setWorkbook] = useState(emptyWorkbook);
   const [applications, setApplications] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [activeTab, setActiveTab] = useState("applications");
+  const [activeTab, setActiveTab] = useState("workbook");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(Boolean(token));
 
   const isAuthed = Boolean(token && user);
 
   const nextFocus = useMemo(() => {
+    if (!workbook.targetRole || !workbook.targetDate) {
+      return "워크북에서 목표 직무와 첫 지원일을 정해보세요.";
+    }
+
+    if (!workbook.nextAction) {
+      return "이번 주 목표를 오늘 실행할 한 가지 행동으로 줄여 적어보세요.";
+    }
+
     if (dashboard?.upcomingCount > 0) {
       return `7일 안에 확인할 지원 건이 ${dashboard.upcomingCount}개 있습니다.`;
     }
@@ -728,9 +925,9 @@ export default function App() {
     }
 
     return "지원 기록과 프로젝트 README를 꾸준히 업데이트하세요.";
-  }, [dashboard]);
+  }, [dashboard, workbook]);
 
-  async function loadAll(nextToken = token) {
+  const loadAll = useCallback(async (nextToken) => {
     if (!nextToken) {
       return;
     }
@@ -739,14 +936,18 @@ export default function App() {
     setError("");
 
     try {
-      const [meData, dashboardData, applicationData, projectData] = await Promise.all([
-        request("/api/me", { token: nextToken }),
-        request("/api/dashboard", { token: nextToken }),
-        request("/api/applications", { token: nextToken }),
-        request("/api/projects", { token: nextToken })
-      ]);
+      const [meData, dashboardData, workbookData, applicationData, projectData] = await Promise.all(
+        [
+          request("/api/me", { token: nextToken }),
+          request("/api/dashboard", { token: nextToken }),
+          request("/api/workbook", { token: nextToken }),
+          request("/api/applications", { token: nextToken }),
+          request("/api/projects", { token: nextToken })
+        ]
+      );
       setUser(meData.user);
       setDashboard(dashboardData);
+      setWorkbook(workbookData);
       setApplications(applicationData);
       setProjects(projectData);
     } catch (loadError) {
@@ -757,19 +958,21 @@ export default function App() {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, []);
+
+  const reload = useCallback(() => loadAll(token), [loadAll, token]);
 
   function handleAuth(data) {
     setToken(data.token);
     setUser(data.user);
     localStorage.setItem("careerHubToken", data.token);
-    loadAll(data.token);
   }
 
   function logout() {
     setToken("");
     setUser(null);
     setDashboard(null);
+    setWorkbook(emptyWorkbook);
     setApplications([]);
     setProjects([]);
     localStorage.removeItem("careerHubToken");
@@ -777,7 +980,7 @@ export default function App() {
 
   useEffect(() => {
     loadAll(token);
-  }, []);
+  }, [loadAll, token]);
 
   if (!isAuthed) {
     return <LoginScreen onAuth={handleAuth} />;
@@ -788,9 +991,17 @@ export default function App() {
       <aside className="sidebar">
         <div>
           <p className="eyebrow">Career Hub</p>
-          <h1>취업 준비 보드</h1>
+          <h1>취업 워크북</h1>
         </div>
         <nav aria-label="주요 메뉴">
+          <button
+            className={activeTab === "workbook" ? "is-active" : ""}
+            type="button"
+            onClick={() => setActiveTab("workbook")}
+          >
+            <CheckCircle2 size={18} />
+            취업 워크북
+          </button>
           <button
             className={activeTab === "applications" ? "is-active" : ""}
             type="button"
@@ -829,7 +1040,7 @@ export default function App() {
             <h2>오늘의 취업 준비 흐름</h2>
             <p className="focus-text">{nextFocus}</p>
           </div>
-          <button className="ghost-button" type="button" onClick={() => loadAll()}>
+          <button className="ghost-button" type="button" onClick={reload}>
             <RefreshCw size={18} />
             새로고침
           </button>
@@ -839,10 +1050,17 @@ export default function App() {
         {isLoading && <p className="muted">데이터를 불러오는 중입니다.</p>}
         {dashboard && <StatGrid dashboard={dashboard} />}
 
-        {activeTab === "applications" ? (
-          <ApplicationSection token={token} applications={applications} onChanged={loadAll} />
+        {activeTab === "workbook" ? (
+          <WorkbookSection
+            token={token}
+            workbook={workbook}
+            dashboard={dashboard}
+            onChanged={reload}
+          />
+        ) : activeTab === "applications" ? (
+          <ApplicationSection token={token} applications={applications} onChanged={reload} />
         ) : activeTab === "projects" ? (
-          <ProjectSection token={token} projects={projects} onChanged={loadAll} />
+          <ProjectSection token={token} projects={projects} onChanged={reload} />
         ) : (
           <LearningMapSection />
         )}

@@ -4,14 +4,14 @@
 
 ## 한 줄 소개
 
-React와 Express로 구현한 취업 준비 관리 서비스로, JWT 인증과 지원 현황·포트폴리오 프로젝트 CRUD, JSON 파일 저장소, API smoke test를 포함합니다.
+React와 Express로 구현한 취업 워크북으로, 목표·주간 행동·준비도 관리와 JWT 인증, 지원 현황·포트폴리오 프로젝트 CRUD, JSON 파일 저장소, API smoke test를 포함합니다.
 
 ## 이력서 프로젝트 항목
 
 **Career Hub. Fullstack Portfolio Project**
 
-- React 19와 Vite로 지원 현황·프로젝트 관리 대시보드를 구현하고, 컴포넌트 단위로 로그인, 통계, CRUD 화면을 분리했습니다.
-- Express 5 기반 REST API를 설계해 회원가입, 로그인, 지원 현황 CRUD, 프로젝트 CRUD, 대시보드 지표를 제공했습니다.
+- React 19와 Vite로 취업 워크북과 지원 현황·프로젝트 관리 대시보드를 구현하고, 컴포넌트 단위로 로그인, 워크북, 통계, CRUD 화면을 분리했습니다.
+- Express 5 기반 REST API를 설계해 회원가입, 로그인, 사용자별 워크북 저장, 지원 현황 CRUD, 프로젝트 CRUD, 준비도 지표를 제공했습니다.
 - bcryptjs로 비밀번호를 해시하고 JWT 기반 인증 미들웨어로 보호 API 접근을 제어했습니다.
 - JSON 파일 저장소 계층을 분리해 로컬 실행은 쉽게 유지하면서 MongoDB나 PostgreSQL로 교체 가능한 구조를 만들었습니다.
 - `npm run verify`로 프론트엔드 빌드, API smoke test, 제출 전 감사가 함께 실행되도록 구성했습니다.
@@ -22,7 +22,7 @@ React와 Express로 구현한 취업 준비 관리 서비스로, JWT 인증과 �
 
 ## 면접 1분 설명
 
-Career Hub는 SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로젝트를 관리하는 fullstack 미니 프로젝트입니다. 프론트엔드는 React로 만들었고, 백엔드는 Express REST API로 구성했습니다. 회원가입과 로그인은 bcrypt 비밀번호 해시와 JWT 인증을 사용했고, 지원 기록과 프로젝트는 JSON 파일 저장소에 보존됩니다. 1~7단계에서 학습한 HTML/CSS, JavaScript, React, API, 데이터 저장, 로그인, 배포 준비를 하나의 제출용 프로젝트로 연결한 것이 핵심입니다.
+Career Hub는 SI/SW 취업 준비자가 목표 직무와 주간 행동, 제출 자료, 지원 현황을 관리하는 fullstack 취업 워크북입니다. 프론트엔드는 React로 만들었고, 백엔드는 Express REST API로 구성했습니다. 회원가입과 로그인은 bcrypt 비밀번호 해시와 JWT 인증을 사용했고, 워크북과 지원 기록, 프로젝트는 JSON 파일 저장소에 보존됩니다. 1~7단계에서 학습한 HTML/CSS, JavaScript, React, API, 데이터 저장, 로그인, 배포 준비를 하나의 제출용 프로젝트로 연결한 것이 핵심입니다.
 
 ## 면접 질문과 답변 포인트
 
@@ -40,7 +40,7 @@ Career Hub는 SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로�
 
 ### Q. 검증은 어떻게 했나요?
 
-`npm run verify`로 Vite production build, API smoke test, 제출 전 감사 스크립트를 함께 실행합니다. smoke test는 회원가입, 로그인 실패, 로그인 성공, 보호 API, 지원 현황 CRUD, 프로젝트 CRUD, 대시보드 지표를 실제 HTTP 요청으로 확인합니다.
+`npm run verify`로 Vite production build, API smoke test, 제출 전 감사 스크립트를 함께 실행합니다. smoke test는 회원가입, 로그인 실패, 로그인 성공, 워크북 저장, 보호 API, 지원 현황 CRUD, 프로젝트 CRUD, 준비도 지표를 실제 HTTP 요청으로 확인합니다.
 
 ## 지원서에 적기 좋은 기술 키워드
 

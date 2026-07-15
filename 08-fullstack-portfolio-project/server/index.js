@@ -12,7 +12,12 @@ import { pinoHttp } from "pino-http";
 import { hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
 import { JsonStore, toPublicUser } from "./data-store.js";
 import { logger } from "./logger.js";
-import { validateApplication, validateProject, validateRegister } from "./validators.js";
+import {
+  validateApplication,
+  validateProject,
+  validateRegister,
+  validateWorkbook
+} from "./validators.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const defaultDataFile = join(__dirname, "../data/career-hub.json");
@@ -22,7 +27,7 @@ function sendValidation(res, errors) {
   return res.status(400).json({ message: errors[0], errors });
 }
 
-function dashboardFor(applications, projects) {
+function dashboardFor(applications, projects, workbook) {
   const statusCounts = applications.reduce((acc, item) => {
     acc[item.status] = (acc[item.status] || 0) + 1;
     return acc;
@@ -39,6 +44,16 @@ function dashboardFor(applications, projects) {
     return dueTime >= nowTime && dueTime <= nowTime + sevenDays;
   }).length;
 
+  const readinessItems = [
+    Boolean(workbook.targetRole && workbook.targetDate),
+    workbook.resumeReady,
+    workbook.portfolioReady,
+    workbook.selfIntroReady,
+    workbook.mockInterviewReady,
+    applications.some((application) => application.status !== "준비중")
+  ];
+  const readinessDone = readinessItems.filter(Boolean).length;
+
   return {
     totalApplications: applications.length,
     interviewCount: statusCounts["면접"] || 0,
@@ -46,6 +61,9 @@ function dashboardFor(applications, projects) {
     upcomingCount,
     projectCount: projects.length,
     completedProjectCount: projects.filter((project) => project.status === "완료").length,
+    readinessDone,
+    readinessTotal: readinessItems.length,
+    readinessPercent: Math.round((readinessDone / readinessItems.length) * 100),
     statusCounts
   };
 }
@@ -91,6 +109,18 @@ async function seedDemoData(store) {
     repoUrl: "",
     deployUrl: "",
     highlight: "인증, CRUD, 대시보드, API 검증 스크립트를 포함"
+  });
+
+  store.updateWorkbook(user.id, {
+    targetRole: "Java/Spring 기반 풀스택 개발자",
+    targetDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+    weeklyGoal: "Career Hub README와 면접 답변을 완성합니다.",
+    nextAction: "지원 회사 한 곳의 공고를 분석하고 요구 기술을 메모합니다.",
+    resumeReady: true,
+    portfolioReady: false,
+    selfIntroReady: false,
+    mockInterviewReady: false,
+    reflection: "완성한 기능을 기술 이름보다 문제와 해결 과정 중심으로 설명합니다."
   });
 }
 
@@ -245,7 +275,22 @@ export async function createApp(options = {}) {
   app.get("/api/dashboard", requireAuth, (req, res) => {
     const applications = store.listApplications(req.user.id);
     const projects = store.listProjects(req.user.id);
-    res.json(dashboardFor(applications, projects));
+    const workbook = store.getWorkbook(req.user.id);
+    res.json(dashboardFor(applications, projects, workbook));
+  });
+
+  app.get("/api/workbook", requireAuth, (req, res) => {
+    res.json(store.getWorkbook(req.user.id));
+  });
+
+  app.patch("/api/workbook", requireAuth, (req, res) => {
+    const { value, errors } = validateWorkbook(req.body);
+
+    if (errors.length > 0) {
+      return sendValidation(res, errors);
+    }
+
+    return res.json(store.updateWorkbook(req.user.id, value));
   });
 
   app.get("/api/applications", requireAuth, (req, res) => {

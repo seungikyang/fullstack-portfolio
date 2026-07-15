@@ -25,6 +25,7 @@ const requiredFiles = [
   "server/logger.js",
   "server/openapi.json",
   "src/App.jsx",
+  "src/App.test.jsx",
   "src/main.jsx",
   "src/styles.css",
   "src/ErrorBoundary.jsx",
@@ -54,7 +55,8 @@ const requiredReadmeTerms = [
   "Vitest",
   "helmet",
   "OpenAPI",
-  "pino"
+  "pino",
+  "취업 워크북"
 ];
 const requiredLearningFolders = [
   "01-html-css",
@@ -159,6 +161,7 @@ const smokeSource = read("scripts/api-smoke-test.js");
 for (const expectedFlow of [
   "/api/auth/register",
   "/api/auth/login",
+  "/api/workbook",
   "/api/applications",
   "/api/projects"
 ]) {
@@ -198,6 +201,7 @@ const requiredDevDeps = [
   "eslint",
   "prettier",
   "@testing-library/react",
+  "@testing-library/dom",
   "jsdom",
   "husky",
   "lint-staged"
@@ -243,6 +247,9 @@ try {
   }
   if (!openApi.paths || !openApi.paths["/api/auth/login"]) {
     fail("server/openapi.json에 /api/auth/login 경로가 없습니다.");
+  }
+  if (!openApi.paths || !openApi.paths["/api/workbook"]) {
+    fail("server/openapi.json에 /api/workbook 경로가 없습니다.");
   }
 } catch {
   fail("server/openapi.json JSON 파싱 실패.");

@@ -3,6 +3,13 @@ const applicationStatuses = new Set(["준비중", "지원완료", "코딩테스�
 
 const projectStatuses = new Set(["계획", "개발중", "완료"]);
 const priorities = new Set(["낮음", "보통", "높음"]);
+const workbookTextFields = ["targetRole", "weeklyGoal", "nextAction", "reflection"];
+const workbookBooleanFields = {
+  resumeReady: "이력서",
+  portfolioReady: "포트폴리오",
+  selfIntroReady: "자기소개",
+  mockInterviewReady: "모의 면접"
+};
 
 function text(value) {
   return String(value || "").trim();
@@ -109,6 +116,39 @@ export function validateProject(payload, partial = false) {
 
   if (!partial || payload.highlight !== undefined) {
     value.highlight = text(payload.highlight);
+  }
+
+  return { value, errors };
+}
+
+export function validateWorkbook(payload = {}) {
+  const errors = [];
+  const value = {};
+
+  for (const field of workbookTextFields) {
+    if (payload[field] !== undefined) {
+      value[field] = text(payload[field]);
+    }
+  }
+
+  if (payload.targetDate !== undefined) {
+    value.targetDate = text(payload.targetDate);
+    if (value.targetDate && !/^\d{4}-\d{2}-\d{2}$/.test(value.targetDate)) {
+      errors.push("목표 지원일 형식이 올바르지 않습니다.");
+    }
+  }
+
+  for (const [field, label] of Object.entries(workbookBooleanFields)) {
+    if (payload[field] === undefined) {
+      continue;
+    }
+
+    if (typeof payload[field] !== "boolean") {
+      errors.push(`${label} 준비 상태가 올바르지 않습니다.`);
+      continue;
+    }
+
+    value[field] = payload[field];
   }
 
   return { value, errors };

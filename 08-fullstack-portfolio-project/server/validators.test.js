@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { validateApplication, validateProject, validateRegister } from "./validators.js";
+import {
+  validateApplication,
+  validateProject,
+  validateRegister,
+  validateWorkbook
+} from "./validators.js";
 
 describe("validateRegister", () => {
   it("이메일과 비밀번호가 유효하면 errors가 비어 있다", () => {
@@ -108,5 +113,34 @@ describe("validateProject", () => {
     const { value } = validateProject({ name: "x", summary: "y" });
 
     expect(value.status).toBe("개발중");
+  });
+});
+
+describe("validateWorkbook", () => {
+  it("텍스트와 준비 상태를 저장 가능한 값으로 정리한다", () => {
+    const { value, errors } = validateWorkbook({
+      targetRole: "  백엔드 개발자  ",
+      targetDate: "2026-09-01",
+      resumeReady: true,
+      portfolioReady: false
+    });
+
+    expect(errors).toEqual([]);
+    expect(value).toEqual({
+      targetRole: "백엔드 개발자",
+      targetDate: "2026-09-01",
+      resumeReady: true,
+      portfolioReady: false
+    });
+  });
+
+  it("날짜와 체크 값의 형식이 잘못되면 오류를 반환한다", () => {
+    const { errors } = validateWorkbook({
+      targetDate: "9월 중",
+      resumeReady: "yes"
+    });
+
+    expect(errors).toContain("목표 지원일 형식이 올바르지 않습니다.");
+    expect(errors).toContain("이력서 준비 상태가 올바르지 않습니다.");
   });
 });

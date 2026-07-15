@@ -200,6 +200,12 @@ textarea {
   background: #fef3f2;
 }
 
+.save-message {
+  margin: 0;
+  color: var(--green);
+  font-weight: 700;
+}
+
 .app-layout {
   min-height: 100vh;
   display: grid;
@@ -254,9 +260,50 @@ textarea {
   color: var(--muted);
 }
 
+.workbook-copy {
+  max-width: 720px;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.readiness-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.readiness-panel > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.readiness-panel span {
+  color: var(--muted);
+}
+
+.progress-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dfe7e7;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 180ms ease;
+}
+
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  grid-template-columns: repeat(5, minmax(140px, 1fr));
   gap: 14px;
   margin-bottom: 22px;
 }
@@ -316,6 +363,44 @@ textarea {
   margin-bottom: 22px;
 }
 
+.workbook-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-bottom: 0;
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
+.workbook-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0;
+  border: 0;
+}
+
+.workbook-checks legend {
+  margin-bottom: 10px;
+  color: #344054;
+  font-weight: 700;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-soft);
+}
+
+.check-item input {
+  width: 18px;
+  min-height: 18px;
+  margin: 0;
+}
+
 .wide-field {
   grid-column: 1 / -1;
 }
@@ -329,6 +414,16 @@ textarea {
 .record-list {
   display: grid;
   gap: 12px;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 24px;
+  border: 1px dashed #aeb9c7;
+  border-radius: 8px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
 }
 
 .record-card {
@@ -493,6 +588,7 @@ textarea {
 
   .stat-grid,
   .editor-grid,
+  .workbook-form,
   .learning-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -511,6 +607,8 @@ textarea {
 
   .stat-grid,
   .editor-grid,
+  .workbook-form,
+  .workbook-checks,
   .learning-grid,
   .sidebar nav {
     grid-template-columns: 1fr;
