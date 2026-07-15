@@ -7,6 +7,7 @@ const root = path.resolve(__dirname, "..");
 const requiredPaths = [
   "README.md",
   "START-HERE.md",
+  "history.html",
   "LICENSE",
   "CONTRIBUTING.md",
   ".gitignore",
@@ -236,6 +237,7 @@ const placeholderFiles = [
 ];
 
 const sourceFiles = [
+  "history.html",
   "01-html-css/starter/index.html",
   "01-html-css/starter/styles.css",
   "02-javascript-basics/starter/index.html",

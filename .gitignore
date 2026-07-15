@@ -19,8 +19,5 @@ _workspace/
 # 임시 추출물 (대화 히스토리 추출 등)
 _history_extract.json
 
-# 구현 대화 히스토리 (로컬 보존, 공개 저장소에는 올리지 않음)
-history.html
-
 # Claude Code 로컬 설정 (머신 종속 플러그인 활성화)
 .claude/settings.json
