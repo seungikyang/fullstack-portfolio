@@ -59,6 +59,47 @@ const emptyWorkbook = {
   reflection: ""
 };
 
+export function getWorkbookSteps(workbook, dashboard = {}) {
+  return [
+    {
+      number: "01",
+      title: "목표 정하기",
+      description: "지원할 직무와 첫 지원일을 정합니다.",
+      next: "목표 직무와 목표 지원일을 입력하세요.",
+      done: Boolean(workbook.targetRole && workbook.targetDate)
+    },
+    {
+      number: "02",
+      title: "이번 주 실행",
+      description: "이번 주 목표를 오늘 할 한 가지 행동으로 줄입니다.",
+      next: "이번 주 목표와 날짜가 들어간 다음 행동을 적으세요.",
+      done: Boolean(workbook.weeklyGoal && workbook.nextAction)
+    },
+    {
+      number: "03",
+      title: "제출 자료 만들기",
+      description: "프로젝트를 완성하고 이력서와 포트폴리오를 점검합니다.",
+      next: "프로젝트 한 개를 완료하고 제출 자료 두 항목을 확인하세요.",
+      done: Boolean(
+        workbook.resumeReady &&
+        workbook.portfolioReady &&
+        (dashboard?.completedProjectCount || 0) > 0
+      )
+    },
+    {
+      number: "04",
+      title: "지원하고 설명하기",
+      description: "실제 지원 기록과 자기소개·모의 면접 근거를 남깁니다.",
+      next: "지원 기록을 남기고 자기소개와 모의 면접을 완료하세요.",
+      done: Boolean(
+        workbook.selfIntroReady &&
+        workbook.mockInterviewReady &&
+        (dashboard?.totalApplications || 0) > 0
+      )
+    }
+  ];
+}
+
 const stageConnections = [
   {
     stage: "1단계",
@@ -321,7 +362,7 @@ function StatGrid({ dashboard }) {
   );
 }
 
-export function WorkbookSection({ token, workbook, dashboard, onChanged }) {
+export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavigate = () => {} }) {
   const [form, setForm] = useState(workbook);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -352,6 +393,10 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged }) {
       setIsSaving(false);
     }
   }
+
+  const steps = getWorkbookSteps(form, dashboard);
+  const completedSteps = steps.filter((step) => step.done).length;
+  const currentStep = steps.find((step) => !step.done) || steps.at(-1);
 
   return (
     <section className="work-section" aria-labelledby="workbook-title">
@@ -386,85 +431,153 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged }) {
         </div>
       </div>
 
-      <form className="editor-grid workbook-form" onSubmit={submitWorkbook}>
-        <label>
-          목표 직무
-          <input
-            value={form.targetRole}
-            onChange={(event) => updateField("targetRole", event.target.value)}
-            placeholder="Java/Spring 백엔드 개발자"
-          />
-        </label>
-        <label>
-          목표 지원일
-          <input
-            type="date"
-            value={form.targetDate}
-            onChange={(event) => updateField("targetDate", event.target.value)}
-          />
-        </label>
-        <label className="wide-field">
-          이번 주 목표
-          <input
-            value={form.weeklyGoal}
-            onChange={(event) => updateField("weeklyGoal", event.target.value)}
-            placeholder="예. 포트폴리오 README를 완성하고 두 곳에 지원합니다"
-          />
-        </label>
-        <label className="wide-field">
-          다음 행동
-          <input
-            value={form.nextAction}
-            onChange={(event) => updateField("nextAction", event.target.value)}
-            placeholder="예. 오늘 19시에 채용 공고 한 건을 분석합니다"
-          />
-        </label>
+      <div className="workbook-guide" aria-live="polite">
+        <div>
+          <span>지금 할 일</span>
+          <strong>{currentStep.next}</strong>
+        </div>
+        <b>{completedSteps}/4단계 완료</b>
+      </div>
 
-        <fieldset className="workbook-checks wide-field">
-          <legend>준비 완료 체크</legend>
-          <label className="check-item">
-            <input
-              type="checkbox"
-              checked={form.resumeReady}
-              onChange={(event) => updateField("resumeReady", event.target.checked)}
-            />
-            이력서 완성
-          </label>
-          <label className="check-item">
-            <input
-              type="checkbox"
-              checked={form.portfolioReady}
-              onChange={(event) => updateField("portfolioReady", event.target.checked)}
-            />
-            포트폴리오 제출 가능
-          </label>
-          <label className="check-item">
-            <input
-              type="checkbox"
-              checked={form.selfIntroReady}
-              onChange={(event) => updateField("selfIntroReady", event.target.checked)}
-            />
-            자기소개 준비
-          </label>
-          <label className="check-item">
-            <input
-              type="checkbox"
-              checked={form.mockInterviewReady}
-              onChange={(event) => updateField("mockInterviewReady", event.target.checked)}
-            />
-            모의 면접 완료
-          </label>
+      <ol className="workbook-steps" aria-label="취업 준비 네 단계">
+        {steps.map((step) => (
+          <li
+            className={step.done ? "is-complete" : step === currentStep ? "is-current" : ""}
+            key={step.number}
+          >
+            <span className="workbook-step-number">{step.done ? "✓" : step.number}</span>
+            <div>
+              <strong>{step.title}</strong>
+              <p>{step.description}</p>
+            </div>
+            <small>{step.done ? "완료" : step === currentStep ? "지금 진행" : "대기"}</small>
+          </li>
+        ))}
+      </ol>
+
+      <form className="editor-grid workbook-form" onSubmit={submitWorkbook}>
+        <fieldset className="workbook-block" id="workbook-goal">
+          <legend>
+            <span>1</span> 목표 정하기
+          </legend>
+          <p>채용 공고 3개에서 공통으로 보이는 직무를 고르고 첫 지원일을 정합니다.</p>
+          <div className="workbook-fields">
+            <label>
+              목표 직무
+              <input
+                value={form.targetRole}
+                onChange={(event) => updateField("targetRole", event.target.value)}
+                placeholder="Java/Spring 백엔드 개발자"
+              />
+            </label>
+            <label>
+              목표 지원일
+              <input
+                type="date"
+                value={form.targetDate}
+                onChange={(event) => updateField("targetDate", event.target.value)}
+              />
+            </label>
+          </div>
         </fieldset>
 
-        <label className="wide-field">
-          주간 회고
-          <textarea
-            value={form.reflection}
-            onChange={(event) => updateField("reflection", event.target.value)}
-            rows="4"
-            placeholder="한 일, 막힌 점, 다음 주에 바꿀 점을 짧게 적으세요"
-          />
-        </label>
+        <fieldset className="workbook-block" id="workbook-week">
+          <legend>
+            <span>2</span> 이번 주 실행
+          </legend>
+          <p>측정할 수 있는 주간 결과와 오늘 바로 시작할 한 가지 행동을 적습니다.</p>
+          <div className="workbook-fields single-column">
+            <label>
+              이번 주 목표
+              <input
+                value={form.weeklyGoal}
+                onChange={(event) => updateField("weeklyGoal", event.target.value)}
+                placeholder="예. 포트폴리오 README를 완성하고 두 곳에 지원합니다"
+              />
+            </label>
+            <label>
+              다음 행동
+              <input
+                value={form.nextAction}
+                onChange={(event) => updateField("nextAction", event.target.value)}
+                placeholder="예. 오늘 19시에 채용 공고 한 건을 분석합니다"
+              />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset className="workbook-block" id="workbook-assets">
+          <legend>
+            <span>3</span> 제출 자료 만들기
+          </legend>
+          <p>프로젝트를 완료 상태로 만들고 실제 제출 가능한 문서인지 확인합니다.</p>
+          <div className="workbook-checks">
+            <label className="check-item">
+              <input
+                type="checkbox"
+                checked={form.resumeReady}
+                onChange={(event) => updateField("resumeReady", event.target.checked)}
+              />
+              이력서 완성
+            </label>
+            <label className="check-item">
+              <input
+                type="checkbox"
+                checked={form.portfolioReady}
+                onChange={(event) => updateField("portfolioReady", event.target.checked)}
+              />
+              포트폴리오 제출 가능
+            </label>
+          </div>
+          <button
+            className="ghost-button step-action"
+            type="button"
+            onClick={() => onNavigate("projects")}
+          >
+            프로젝트 정리하기
+          </button>
+        </fieldset>
+
+        <fieldset className="workbook-block" id="workbook-apply">
+          <legend>
+            <span>4</span> 지원하고 설명하기
+          </legend>
+          <p>공고에 실제로 지원하고 내 경험을 자기 말로 설명한 근거를 남깁니다.</p>
+          <div className="workbook-checks">
+            <label className="check-item">
+              <input
+                type="checkbox"
+                checked={form.selfIntroReady}
+                onChange={(event) => updateField("selfIntroReady", event.target.checked)}
+              />
+              자기소개 준비
+            </label>
+            <label className="check-item">
+              <input
+                type="checkbox"
+                checked={form.mockInterviewReady}
+                onChange={(event) => updateField("mockInterviewReady", event.target.checked)}
+              />
+              모의 면접 완료
+            </label>
+          </div>
+          <button
+            className="ghost-button step-action"
+            type="button"
+            onClick={() => onNavigate("applications")}
+          >
+            지원 기록 정리하기
+          </button>
+          <label className="reflection-field">
+            주간 회고
+            <textarea
+              value={form.reflection}
+              onChange={(event) => updateField("reflection", event.target.value)}
+              rows="4"
+              placeholder="한 일, 막힌 점, 다음 주에 바꿀 점을 짧게 적으세요"
+            />
+          </label>
+        </fieldset>
         {error && <p className="form-error wide-field">{error}</p>}
         {message && (
           <p className="save-message wide-field" aria-live="polite">
@@ -1000,23 +1113,7 @@ export default function App() {
             onClick={() => setActiveTab("workbook")}
           >
             <CheckCircle2 size={18} />
-            취업 워크북
-          </button>
-          <button
-            className={activeTab === "applications" ? "is-active" : ""}
-            type="button"
-            onClick={() => setActiveTab("applications")}
-          >
-            <ClipboardList size={18} />
-            지원 현황
-          </button>
-          <button
-            className={activeTab === "projects" ? "is-active" : ""}
-            type="button"
-            onClick={() => setActiveTab("projects")}
-          >
-            <FolderKanban size={18} />
-            프로젝트
+            1. 취업 워크북
           </button>
           <button
             className={activeTab === "learning" ? "is-active" : ""}
@@ -1024,9 +1121,28 @@ export default function App() {
             onClick={() => setActiveTab("learning")}
           >
             <BookOpen size={18} />
-            학습 연결
+            2. 학습 연결
+          </button>
+          <button
+            className={activeTab === "projects" ? "is-active" : ""}
+            type="button"
+            onClick={() => setActiveTab("projects")}
+          >
+            <FolderKanban size={18} />
+            3. 프로젝트
+          </button>
+          <button
+            className={activeTab === "applications" ? "is-active" : ""}
+            type="button"
+            onClick={() => setActiveTab("applications")}
+          >
+            <ClipboardList size={18} />
+            4. 지원 현황
           </button>
         </nav>
+        <p className="sidebar-guide">
+          워크북에서 다음 행동을 정한 뒤 학습 → 프로젝트 → 지원 순서로 이동하세요.
+        </p>
         <button className="logout-button" type="button" onClick={logout}>
           <LogOut size={18} />
           로그아웃
@@ -1056,6 +1172,7 @@ export default function App() {
             workbook={workbook}
             dashboard={dashboard}
             onChanged={reload}
+            onNavigate={setActiveTab}
           />
         ) : activeTab === "applications" ? (
           <ApplicationSection token={token} applications={applications} onChanged={reload} />

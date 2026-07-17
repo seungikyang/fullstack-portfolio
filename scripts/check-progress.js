@@ -108,7 +108,7 @@ function phaseForHeading(heading) {
 
   const stage = Number(heading.match(/^(\d+)단계/)?.[1]);
 
-  if (stage >= 1 && stage <= 7) {
+  if (stage >= 1 && stage <= 8) {
     return "풀스택 기초";
   }
 

@@ -218,7 +218,7 @@ textarea {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 28px;
   padding: 24px;
   border-right: 1px solid var(--line);
@@ -239,6 +239,18 @@ textarea {
 .logout-button {
   border: 1px solid var(--line);
   background: #ffffff;
+  margin-top: auto;
+}
+
+.sidebar-guide {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid #cbdcd9;
+  border-radius: 8px;
+  color: var(--primary-dark);
+  background: #ffffff;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .content-area {
@@ -284,6 +296,101 @@ textarea {
 
 .readiness-panel span {
   color: var(--muted);
+}
+
+.workbook-guide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: var(--primary-dark);
+}
+
+.workbook-guide div {
+  display: grid;
+  gap: 4px;
+}
+
+.workbook-guide span {
+  color: #bde7df;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.workbook-guide b {
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+
+.workbook-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0;
+  margin: 0 0 24px;
+  list-style: none;
+}
+
+.workbook-steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  min-height: 142px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.workbook-steps li.is-current {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+  background: #f0fdfa;
+}
+
+.workbook-steps li.is-complete {
+  border-color: #a7d8c2;
+  background: #f0fdf4;
+}
+
+.workbook-step-number {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--primary-dark);
+  background: #dff3ef;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.workbook-steps strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.workbook-steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.workbook-steps small {
+  grid-column: 2;
+  align-self: end;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.workbook-steps .is-current small,
+.workbook-steps .is-complete small {
+  color: var(--primary-dark);
 }
 
 .progress-track {
@@ -364,10 +471,54 @@ textarea {
 }
 
 .workbook-form {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   padding-bottom: 0;
   border-bottom: 0;
   margin-bottom: 0;
+}
+
+.workbook-block {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.workbook-block legend {
+  padding: 0 8px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.workbook-block legend span {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  margin-right: 6px;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--primary);
+  font-size: 13px;
+}
+
+.workbook-block > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.workbook-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.workbook-fields.single-column {
+  grid-template-columns: 1fr;
 }
 
 .workbook-checks {
@@ -382,6 +533,14 @@ textarea {
   margin-bottom: 10px;
   color: #344054;
   font-weight: 700;
+}
+
+.step-action {
+  justify-self: start;
+}
+
+.reflection-field {
+  margin-top: 2px;
 }
 
 .check-item {
@@ -588,9 +747,13 @@ textarea {
 
   .stat-grid,
   .editor-grid,
-  .workbook-form,
+  .workbook-steps,
   .learning-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workbook-form {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -601,6 +764,7 @@ textarea {
 
   .topbar,
   .section-heading,
+  .workbook-guide,
   .record-main {
     flex-direction: column;
   }
@@ -608,6 +772,8 @@ textarea {
   .stat-grid,
   .editor-grid,
   .workbook-form,
+  .workbook-fields,
+  .workbook-steps,
   .workbook-checks,
   .learning-grid,
   .sidebar nav {

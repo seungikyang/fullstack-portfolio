@@ -418,6 +418,16 @@ if (fs.existsSync(path.join(root, "folder-to-practice-guide.md"))) {
   }
 }
 
+if (fs.existsSync(path.join(root, "student-checklist.md"))) {
+  const studentChecklist = readFile("student-checklist.md");
+
+  for (let stage = 1; stage <= 17; stage += 1) {
+    if (!studentChecklist.includes(`## ${stage}단계`)) {
+      fail(`student-checklist.md에 ${stage}단계 체크 항목이 없습니다.`);
+    }
+  }
+}
+
 if (fs.existsSync(path.join(root, "index.html"))) {
   const workbookIndex = readFile("index.html");
 
