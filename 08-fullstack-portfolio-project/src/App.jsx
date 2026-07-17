@@ -22,6 +22,11 @@ import {
 
 // 빈 문자열이면 같은 주소로 요청한다. 개발 중에는 Vite 프록시가, 배포 후에는 Express가 /api를 처리한다.
 const API_BASE = import.meta.env.VITE_API_URL || "";
+export function shouldShowDemo(env = import.meta.env) {
+  return env.VITE_SHOW_DEMO === "true";
+}
+
+const SHOW_DEMO = shouldShowDemo();
 const applicationStatuses = ["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"];
 const projectStatuses = ["계획", "개발중", "완료"];
 const priorities = ["낮음", "보통", "높음"];
@@ -94,7 +99,7 @@ export function getWorkbookSteps(workbook, dashboard = {}) {
       done: Boolean(
         workbook.selfIntroReady &&
         workbook.mockInterviewReady &&
-        (dashboard?.totalApplications || 0) > 0
+        (dashboard?.startedApplicationCount || 0) > 0
       )
     }
   ];
@@ -226,8 +231,8 @@ function LoginScreen({ onAuth }) {
   const [mode, setMode] = useState("login");
   const [form, setForm] = useState({
     name: "",
-    email: "demo@careerhub.dev",
-    password: "demo1234"
+    email: SHOW_DEMO ? "demo@careerhub.dev" : "",
+    password: SHOW_DEMO ? "demo1234" : ""
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -311,7 +316,9 @@ function LoginScreen({ onAuth }) {
           </button>
         </form>
 
-        <p className="hint-text">데모 계정은 demo@careerhub.dev / demo1234 입니다.</p>
+        {SHOW_DEMO && (
+          <p className="hint-text">데모 계정은 demo@careerhub.dev / demo1234 입니다.</p>
+        )}
       </section>
     </main>
   );
@@ -405,8 +412,8 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
           <p className="eyebrow">Career Workbook</p>
           <h2 id="workbook-title">취업 준비 워크북</h2>
           <p className="muted workbook-copy">
-            목표를 정하고 이번 주 행동을 기록하세요. 준비도는 목표 설정, 아래 네 가지 준비, 실제
-            지원 시작까지 여섯 가지 근거로 계산합니다.
+            목표를 정하고 이번 주 행동을 기록하세요. 준비도는 목표, 실행, 제출 자료, 실제 지원의 네
+            단계 근거로 계산합니다.
           </p>
         </div>
         <span className="count-badge">{dashboard?.readinessPercent || 0}%</span>
@@ -416,7 +423,7 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
         <div>
           <strong>취업 준비 근거</strong>
           <span>
-            {dashboard?.readinessDone || 0}/{dashboard?.readinessTotal || 6}개 완료
+            {dashboard?.readinessDone || 0}/{dashboard?.readinessTotal ?? 4}개 완료
           </span>
         </div>
         <div
@@ -595,9 +602,10 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
   );
 }
 
-function ApplicationSection({ token, applications, onChanged }) {
+export function ApplicationSection({ token, applications, onChanged }) {
   const [form, setForm] = useState(emptyApplication);
   const [editingId, setEditingId] = useState("");
+  const [deletingId, setDeletingId] = useState("");
   const [error, setError] = useState("");
 
   async function submitApplication(event) {
@@ -630,9 +638,22 @@ function ApplicationSection({ token, applications, onChanged }) {
     });
   }
 
-  async function removeApplication(id) {
-    await request(`/api/applications/${id}`, { method: "DELETE", token });
-    await onChanged();
+  async function removeApplication(application) {
+    if (deletingId || !globalThis.confirm(`${application.company} 지원 기록을 삭제할까요?`)) {
+      return;
+    }
+
+    setError("");
+    setDeletingId(application.id);
+
+    try {
+      await request(`/api/applications/${application.id}`, { method: "DELETE", token });
+      await onChanged();
+    } catch (deleteError) {
+      setError(`지원 기록을 삭제하지 못했습니다. ${deleteError.message}`);
+    } finally {
+      setDeletingId("");
+    }
   }
 
   return (
@@ -763,9 +784,11 @@ function ApplicationSection({ token, applications, onChanged }) {
                   <Pencil size={16} />
                 </button>
                 <button
+                  aria-label={`${application.company} 지원 기록 삭제`}
+                  disabled={deletingId === application.id}
                   title="삭제"
                   type="button"
-                  onClick={() => removeApplication(application.id)}
+                  onClick={() => removeApplication(application)}
                 >
                   <Trash2 size={16} />
                 </button>
@@ -790,9 +813,10 @@ function ApplicationSection({ token, applications, onChanged }) {
   );
 }
 
-function ProjectSection({ token, projects, onChanged }) {
+export function ProjectSection({ token, projects, onChanged }) {
   const [form, setForm] = useState(emptyProject);
   const [editingId, setEditingId] = useState("");
+  const [deletingId, setDeletingId] = useState("");
   const [error, setError] = useState("");
 
   async function submitProject(event) {
@@ -824,9 +848,22 @@ function ProjectSection({ token, projects, onChanged }) {
     });
   }
 
-  async function removeProject(id) {
-    await request(`/api/projects/${id}`, { method: "DELETE", token });
-    await onChanged();
+  async function removeProject(project) {
+    if (deletingId || !globalThis.confirm(`${project.name} 프로젝트를 삭제할까요?`)) {
+      return;
+    }
+
+    setError("");
+    setDeletingId(project.id);
+
+    try {
+      await request(`/api/projects/${project.id}`, { method: "DELETE", token });
+      await onChanged();
+    } catch (deleteError) {
+      setError(`프로젝트를 삭제하지 못했습니다. ${deleteError.message}`);
+    } finally {
+      setDeletingId("");
+    }
   }
 
   return (
@@ -941,7 +978,13 @@ function ProjectSection({ token, projects, onChanged }) {
                 <button title="수정" type="button" onClick={() => startEdit(project)}>
                   <Pencil size={16} />
                 </button>
-                <button title="삭제" type="button" onClick={() => removeProject(project.id)}>
+                <button
+                  aria-label={`${project.name} 프로젝트 삭제`}
+                  disabled={deletingId === project.id}
+                  title="삭제"
+                  type="button"
+                  onClick={() => removeProject(project)}
+                >
                   <Trash2 size={16} />
                 </button>
               </div>
@@ -955,8 +998,16 @@ function ProjectSection({ token, projects, onChanged }) {
             )}
             {project.highlight && <p className="record-note">{project.highlight}</p>}
             <div className="link-row">
-              {project.repoUrl && <a href={project.repoUrl}>GitHub</a>}
-              {project.deployUrl && <a href={project.deployUrl}>배포 보기</a>}
+              {project.repoUrl && (
+                <a href={project.repoUrl} rel="noreferrer" target="_blank">
+                  GitHub
+                </a>
+              )}
+              {project.deployUrl && (
+                <a href={project.deployUrl} rel="noreferrer" target="_blank">
+                  배포 보기
+                </a>
+              )}
             </div>
           </article>
         ))}

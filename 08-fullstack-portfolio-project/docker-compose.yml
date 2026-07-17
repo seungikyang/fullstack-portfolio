@@ -14,10 +14,10 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5100
-      # 운영 배포 시에는 반드시 안전한 비밀값으로 교체할 것.
-      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      # 운영 실행 전에 32자 이상의 비밀값을 반드시 전달한다.
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
       DATA_FILE: /app/data/career-hub.json
-      SEED_DEMO: ${SEED_DEMO:-true}
+      SEED_DEMO: ${SEED_DEMO:-false}
       CLIENT_ORIGIN: http://localhost:5100
     volumes:
       # JSON 저장소를 컨테이너 재시작 후에도 보존하기 위해 호스트와 마운트한다.

@@ -145,10 +145,16 @@ export class JsonStore {
 
   createUser({ name, email, passwordHash }) {
     const data = this.read();
+    const normalizedEmail = normalizeEmail(email);
+
+    if (data.users.some((user) => user.email === normalizedEmail)) {
+      return null;
+    }
+
     const user = {
       id: this.nextId(data, "users"),
       name: String(name || "학습자").trim(),
-      email: normalizeEmail(email),
+      email: normalizedEmail,
       passwordHash,
       createdAt: now()
     };

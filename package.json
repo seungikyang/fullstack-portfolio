@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "test": "node --test scripts/check-progress.test.js scripts/verify-workbook.test.js",
     "progress": "node scripts/check-progress.js",
-    "verify": "node scripts/verify-workbook.js"
+    "verify": "npm run verify:structure",
+    "verify:structure": "npm test && node scripts/verify-workbook.js",
+    "verify:learning": "node scripts/check-progress.js --verify"
   }
 }

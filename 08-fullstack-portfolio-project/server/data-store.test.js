@@ -43,6 +43,19 @@ describe("JsonStore", () => {
     expect(store.findUserByEmail("FOO@example.com")).not.toBeNull();
   });
 
+  it("createUser는 정규화된 이메일 중복을 저장하지 않는다", () => {
+    const first = store.createUser({ name: "A", email: "same@example.com", passwordHash: "h" });
+    const duplicate = store.createUser({
+      name: "B",
+      email: "SAME@example.com",
+      passwordHash: "h"
+    });
+
+    expect(first).not.toBeNull();
+    expect(duplicate).toBeNull();
+    expect(store.listUsers()).toHaveLength(1);
+  });
+
   it("listApplications는 사용자별로만 반환한다", () => {
     const u1 = store.createUser({ name: "u1", email: "u1@x.com", passwordHash: "h" });
     const u2 = store.createUser({ name: "u2", email: "u2@x.com", passwordHash: "h" });

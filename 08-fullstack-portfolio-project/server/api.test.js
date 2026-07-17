@@ -1,5 +1,5 @@
 // supertest를 이용한 Express 통합 테스트. 서버를 실제 listen 시키지 않고 createApp을 직접 호출한다.
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -11,12 +11,14 @@ process.env.JWT_SECRET = "test-secret";
 
 describe("Career Hub API", () => {
   let dir;
+  let dataFile;
   let app;
 
   beforeEach(async () => {
     dir = mkdtempSync(join(tmpdir(), "career-hub-api-"));
+    dataFile = join(dir, "data.json");
     process.env.SEED_DEMO = "false";
-    app = await createApp({ dataFile: join(dir, "data.json") });
+    app = await createApp({ dataFile });
   });
 
   afterEach(() => {
@@ -27,6 +29,39 @@ describe("Career Hub API", () => {
     const res = await request(app).get("/api/health");
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ ok: true, service: "career-hub" });
+  });
+
+  it("운영 환경에서 JWT_SECRET이 없으면 앱 생성을 거부한다", async () => {
+    const previousNodeEnv = process.env.NODE_ENV;
+    const previousJwtSecret = process.env.JWT_SECRET;
+    process.env.NODE_ENV = "production";
+    delete process.env.JWT_SECRET;
+
+    try {
+      await expect(createApp({ dataFile: join(dir, "production-data.json") })).rejects.toThrow(
+        /32자 이상의 안전한 JWT_SECRET/
+      );
+    } finally {
+      process.env.NODE_ENV = previousNodeEnv;
+      process.env.JWT_SECRET = previousJwtSecret;
+    }
+  });
+
+  it("SEED_DEMO=true를 명시한 경우에만 데모 로그인이 가능하다", async () => {
+    const payload = { email: "demo@careerhub.dev", password: "demo1234" };
+    const disabledLogin = await request(app).post("/api/auth/login").send(payload);
+    const previousSeedDemo = process.env.SEED_DEMO;
+
+    try {
+      process.env.SEED_DEMO = "true";
+      const demoApp = await createApp({ dataFile: join(dir, "demo-data.json") });
+      const enabledLogin = await request(demoApp).post("/api/auth/login").send(payload);
+
+      expect(disabledLogin.status).toBe(401);
+      expect(enabledLogin.status).toBe(200);
+    } finally {
+      process.env.SEED_DEMO = previousSeedDemo;
+    }
   });
 
   it("인증 없이 보호 API를 호출하면 401을 반환한다", async () => {
@@ -51,6 +86,18 @@ describe("Career Hub API", () => {
     expect(res.status).toBe(409);
   });
 
+  it("같은 이메일의 동시 가입은 하나만 저장하고 201과 409를 반환한다", async () => {
+    const payload = { name: "동시 가입", email: "race@example.com", password: "password123" };
+    const responses = await Promise.all([
+      request(app).post("/api/auth/register").send(payload),
+      request(app).post("/api/auth/register").send(payload)
+    ]);
+    const stored = JSON.parse(readFileSync(dataFile, "utf8"));
+
+    expect(responses.map((response) => response.status).sort()).toEqual([201, 409]);
+    expect(stored.users.filter((user) => user.email === payload.email)).toHaveLength(1);
+  });
+
   it("잘못된 비밀번호 로그인은 401을 반환한다", async () => {
     await request(app)
       .post("/api/auth/register")
@@ -62,6 +109,14 @@ describe("Career Hub API", () => {
       .send({ email: "user@example.com", password: "wrong-password" });
 
     expect(res.status).toBe(401);
+  });
+
+  it("로그인 본문이 없으면 400 검증 오류를 반환한다", async () => {
+    const res = await request(app).post("/api/auth/login");
+
+    expect(res.status).toBe(400);
+    expect(res.body.errors).toContain("올바른 이메일을 입력하세요.");
+    expect(res.body.errors).toContain("비밀번호를 입력하세요.");
   });
 
   describe("인증된 사용자의 CRUD 흐름", () => {
@@ -185,9 +240,82 @@ describe("Career Hub API", () => {
         .expect(200);
 
       expect(res.body.totalApplications).toBe(1);
+      expect(res.body.startedApplicationCount).toBe(1);
       expect(res.body.interviewCount).toBe(1);
-      expect(res.body.readinessTotal).toBe(6);
-      expect(res.body.readinessDone).toBe(1);
+      expect(res.body.readinessTotal).toBe(4);
+      expect(res.body.readinessDone).toBe(0);
+    });
+
+    it("대시보드 준비도는 목표·실행·제출 자료·실제 지원의 네 단계를 계산한다", async () => {
+      const workbookResponse = await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          targetRole: "Java 백엔드 개발자",
+          targetDate: "2026-09-01",
+          weeklyGoal: "포트폴리오 검증",
+          nextAction: "오늘 테스트 실행",
+          resumeReady: true,
+          portfolioReady: true,
+          selfIntroReady: true,
+          mockInterviewReady: true
+        })
+        .expect(200);
+      const application = await request(app)
+        .post("/api/applications")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          company: "A",
+          role: "백엔드",
+          status: "준비중",
+          priority: "보통",
+          stack: ""
+        })
+        .expect(201);
+      const project = await request(app)
+        .post("/api/projects")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ name: "Career Hub", summary: "취업 워크북", status: "개발중", stack: "" })
+        .expect(201);
+
+      expect(workbookResponse.body.targetRole).toBe("Java 백엔드 개발자");
+
+      const inProgress = await request(app)
+        .get("/api/dashboard")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+
+      expect(inProgress.body).toMatchObject({
+        startedApplicationCount: 0,
+        completedProjectCount: 0,
+        readinessDone: 2,
+        readinessTotal: 4,
+        readinessPercent: 50
+      });
+
+      await request(app)
+        .patch(`/api/applications/${application.body.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({ status: "지원완료" })
+        .expect(200);
+      await request(app)
+        .patch(`/api/projects/${project.body.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({ status: "완료" })
+        .expect(200);
+
+      const completed = await request(app)
+        .get("/api/dashboard")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+
+      expect(completed.body).toMatchObject({
+        startedApplicationCount: 1,
+        completedProjectCount: 1,
+        readinessDone: 4,
+        readinessTotal: 4,
+        readinessPercent: 100
+      });
     });
   });
 

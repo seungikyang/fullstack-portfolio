@@ -68,7 +68,7 @@ jobs:
       - name: Run container and hit /api/health
         run: |
           docker run -d --name career-hub-ci -p 5100:5100 \
-            -e JWT_SECRET=ci-secret -e SEED_DEMO=false career-hub:ci
+            -e JWT_SECRET=ci-only-secret-with-at-least-32-characters -e SEED_DEMO=false career-hub:ci
           for i in 1 2 3 4 5 6 7 8 9 10; do
             if curl -fsS http://127.0.0.1:5100/api/health; then
               echo "health ok"

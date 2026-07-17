@@ -9,11 +9,12 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import { pinoHttp } from "pino-http";
-import { hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
+import { assertAuthConfig, hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
 import { JsonStore, toPublicUser } from "./data-store.js";
 import { logger } from "./logger.js";
 import {
   validateApplication,
+  validateLogin,
   validateProject,
   validateRegister,
   validateWorkbook
@@ -43,24 +44,27 @@ function dashboardFor(applications, projects, workbook) {
     const sevenDays = 7 * 24 * 60 * 60 * 1000;
     return dueTime >= nowTime && dueTime <= nowTime + sevenDays;
   }).length;
+  const completedProjectCount = projects.filter((project) => project.status === "완료").length;
+  const startedApplicationCount = applications.filter(
+    (application) => application.status !== "준비중"
+  ).length;
 
   const readinessItems = [
     Boolean(workbook.targetRole && workbook.targetDate),
-    workbook.resumeReady,
-    workbook.portfolioReady,
-    workbook.selfIntroReady,
-    workbook.mockInterviewReady,
-    applications.some((application) => application.status !== "준비중")
+    Boolean(workbook.weeklyGoal && workbook.nextAction),
+    Boolean(workbook.resumeReady && workbook.portfolioReady && completedProjectCount > 0),
+    Boolean(workbook.selfIntroReady && workbook.mockInterviewReady && startedApplicationCount > 0)
   ];
   const readinessDone = readinessItems.filter(Boolean).length;
 
   return {
     totalApplications: applications.length,
+    startedApplicationCount,
     interviewCount: statusCounts["면접"] || 0,
     offerCount: statusCounts["합격"] || 0,
     upcomingCount,
     projectCount: projects.length,
-    completedProjectCount: projects.filter((project) => project.status === "완료").length,
+    completedProjectCount,
     readinessDone,
     readinessTotal: readinessItems.length,
     readinessPercent: Math.round((readinessDone / readinessItems.length) * 100),
@@ -69,7 +73,7 @@ function dashboardFor(applications, projects, workbook) {
 }
 
 async function seedDemoData(store) {
-  if (process.env.SEED_DEMO === "false" || store.listUsers().length > 0) {
+  if (process.env.SEED_DEMO !== "true" || store.listUsers().length > 0) {
     return;
   }
 
@@ -125,6 +129,7 @@ async function seedDemoData(store) {
 }
 
 export async function createApp(options = {}) {
+  assertAuthConfig();
   const app = express();
   const store = new JsonStore(options.dataFile || process.env.DATA_FILE || defaultDataFile);
   const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:3000";
@@ -242,6 +247,10 @@ export async function createApp(options = {}) {
       passwordHash: await hashPassword(value.password)
     });
 
+    if (!user) {
+      return res.status(409).json({ message: "이미 가입된 이메일입니다." });
+    }
+
     return res.status(201).json({
       token: signToken(user),
       user: toPublicUser(user)
@@ -249,13 +258,19 @@ export async function createApp(options = {}) {
   });
 
   app.post("/api/auth/login", async (req, res) => {
-    const user = store.findUserByEmail(req.body.email);
+    const { value, errors } = validateLogin(req.body);
+
+    if (errors.length > 0) {
+      return sendValidation(res, errors);
+    }
+
+    const user = store.findUserByEmail(value.email);
 
     if (!user) {
       return res.status(401).json({ message: "이메일 또는 비밀번호가 올바르지 않습니다." });
     }
 
-    const isPasswordValid = await verifyPassword(req.body.password || "", user.passwordHash);
+    const isPasswordValid = await verifyPassword(value.password, user.passwordHash);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: "이메일 또는 비밀번호가 올바르지 않습니다." });

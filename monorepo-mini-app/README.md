@@ -173,4 +173,4 @@ Dockerfile의 빌드 단계에서 web을 정적 파일로 만들고, 런타임 �
 | 테스트   | smoke + Vitest 단위/통합 | Vitest(shared+api+web) + supertest + RTL |
 | 컨테이너 | 멀티 스테이지            | 멀티 스테이지 + Postgres compose         |
 | 목적     | 1~7단계 통합 + 제출      | 모노레포·공유 타입·DB 추상화 시연        |
-| 포트     | API 5100 / Web 5173      | API 5200 / Web 5174                      |
+| 포트     | API 5100 / Web 3000      | API 5200 / Web 5174                      |

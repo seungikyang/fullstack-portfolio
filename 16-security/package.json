@@ -1,0 +1,23 @@
+{
+  "name": "security-practice-workbook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "check": "node --check starter/01-xss-stored.js && node --check starter/02-xss-reflected.js && node --check starter/03-sql-injection.js && node --check starter/04-csrf-demo/protected.js && node --check starter/05-cors.js",
+    "start:xss-stored": "node starter/01-xss-stored.js",
+    "start:xss-reflected": "node starter/02-xss-reflected.js",
+    "start:sqli": "node starter/03-sql-injection.js",
+    "start:csrf": "node starter/04-csrf-demo/protected.js",
+    "start:cors": "node starter/05-cors.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mysql2": "^3.23.0"
+  }
+}

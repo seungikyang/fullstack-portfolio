@@ -3,9 +3,29 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const TOKEN_EXPIRES_IN = "2h";
+const JWT_ALGORITHM = "HS256";
+const MIN_PRODUCTION_SECRET_LENGTH = 32;
+const EXAMPLE_SECRETS = new Set([
+  "career-hub-local-secret",
+  "change-this-secret-before-deploy",
+  "change-me-in-production"
+]);
 
 function getSecret() {
-  return process.env.JWT_SECRET || "career-hub-local-secret";
+  assertAuthConfig();
+  return process.env.JWT_SECRET?.trim() || "career-hub-local-secret";
+}
+
+export function assertAuthConfig() {
+  if (process.env.NODE_ENV !== "production") {
+    return;
+  }
+
+  const secret = process.env.JWT_SECRET?.trim() || "";
+
+  if (secret.length < MIN_PRODUCTION_SECRET_LENGTH || EXAMPLE_SECRETS.has(secret)) {
+    throw new Error("운영 환경에는 32자 이상의 안전한 JWT_SECRET이 필요합니다.");
+  }
 }
 
 export async function hashPassword(password) {
@@ -24,7 +44,7 @@ export function signToken(user) {
       name: user.name
     },
     getSecret(),
-    { expiresIn: TOKEN_EXPIRES_IN }
+    { algorithm: JWT_ALGORITHM, expiresIn: TOKEN_EXPIRES_IN }
   );
 }
 
@@ -37,7 +57,7 @@ export function requireAuth(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token, getSecret());
+    const payload = jwt.verify(token, getSecret(), { algorithms: [JWT_ALGORITHM] });
     req.user = {
       id: payload.sub,
       email: payload.email,

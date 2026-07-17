@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   validateApplication,
+  validateLogin,
   validateProject,
   validateRegister,
   validateWorkbook
@@ -37,6 +38,18 @@ describe("validateRegister", () => {
     expect(errors).toContain("비밀번호는 8자 이상이어야 합니다.");
   });
 
+  it("이름, 이메일, 비밀번호 최대 길이를 제한한다", () => {
+    const { errors } = validateRegister({
+      name: "가".repeat(81),
+      email: `${"a".repeat(250)}@x.com`,
+      password: "p".repeat(129)
+    });
+
+    expect(errors).toContain("이름은 80자 이하여야 합니다.");
+    expect(errors).toContain("이메일은 254자 이하여야 합니다.");
+    expect(errors).toContain("비밀번호는 128자 이하여야 합니다.");
+  });
+
   it("이름이 없으면 기본값 '학습자'를 사용한다", () => {
     const { value } = validateRegister({
       email: "user@example.com",
@@ -44,6 +57,25 @@ describe("validateRegister", () => {
     });
 
     expect(value.name).toBe("학습자");
+  });
+});
+
+describe("validateLogin", () => {
+  it("본문이 없으면 이메일과 비밀번호 오류를 반환한다", () => {
+    const { errors } = validateLogin();
+
+    expect(errors).toContain("올바른 이메일을 입력하세요.");
+    expect(errors).toContain("비밀번호를 입력하세요.");
+  });
+
+  it("유효한 로그인 입력은 이메일을 정규화한다", () => {
+    const { value, errors } = validateLogin({
+      email: " User@Example.com ",
+      password: "password123"
+    });
+
+    expect(errors).toEqual([]);
+    expect(value.email).toBe("user@example.com");
   });
 });
 
@@ -90,6 +122,22 @@ describe("validateApplication", () => {
 
     expect(value.stack).toEqual(["React", "Express"]);
   });
+
+  it("실제로 존재하지 않는 지원 마감일을 거절한다", () => {
+    const { errors } = validateApplication({ ...validPayload, dueDate: "2026-02-29" });
+
+    expect(errors).toContain("지원 마감일이 실제 날짜가 아닙니다.");
+  });
+
+  it("기술 스택 개수와 항목 길이를 제한한다", () => {
+    const { errors } = validateApplication({
+      ...validPayload,
+      stack: [...Array.from({ length: 20 }, (_, index) => `stack-${index}`), "x".repeat(51)]
+    });
+
+    expect(errors).toContain("기술 스택은 20개 이하여야 합니다.");
+    expect(errors).toContain("기술 스택 항목은 50자 이하여야 합니다.");
+  });
 });
 
 describe("validateProject", () => {
@@ -113,6 +161,18 @@ describe("validateProject", () => {
     const { value } = validateProject({ name: "x", summary: "y" });
 
     expect(value.status).toBe("개발중");
+  });
+
+  it("프로젝트 URL은 http 또는 https만 허용한다", () => {
+    const { errors } = validateProject({
+      name: "Career Hub",
+      summary: "포트폴리오",
+      repoUrl: "javascript:alert(1)",
+      deployUrl: "ftp://example.com"
+    });
+
+    expect(errors).toContain("GitHub URL은 http 또는 https 주소여야 합니다.");
+    expect(errors).toContain("배포 URL은 http 또는 https 주소여야 합니다.");
   });
 });
 
@@ -140,7 +200,13 @@ describe("validateWorkbook", () => {
       resumeReady: "yes"
     });
 
-    expect(errors).toContain("목표 지원일 형식이 올바르지 않습니다.");
+    expect(errors).toContain("목표 지원일이 실제 날짜가 아닙니다.");
     expect(errors).toContain("이력서 준비 상태가 올바르지 않습니다.");
+  });
+
+  it("형식만 맞지만 실제로 존재하지 않는 목표 지원일을 거절한다", () => {
+    const { errors } = validateWorkbook({ targetDate: "2026-99-99" });
+
+    expect(errors).toContain("목표 지원일이 실제 날짜가 아닙니다.");
   });
 });

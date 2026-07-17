@@ -180,7 +180,6 @@ try {
   const dashboard = await request("/api/dashboard", { token });
   assert(dashboard.totalApplications === 1, "대시보드 지원 건수가 올바르지 않습니다.");
   assert(dashboard.projectCount === 1, "대시보드 프로젝트 건수가 올바르지 않습니다.");
-  assert(dashboard.readinessPercent === 100, "취업 준비도 계산이 올바르지 않습니다.");
 
   await request(`/api/projects/${project.id}`, {
     method: "PATCH",
@@ -189,6 +188,9 @@ try {
       status: "완료"
     }
   });
+
+  const completedDashboard = await request("/api/dashboard", { token });
+  assert(completedDashboard.readinessPercent === 100, "취업 준비도 계산이 올바르지 않습니다.");
 
   await request(`/api/applications/${application.id}`, { method: "DELETE", token, expected: 204 });
   await request(`/api/projects/${project.id}`, { method: "DELETE", token, expected: 204 });

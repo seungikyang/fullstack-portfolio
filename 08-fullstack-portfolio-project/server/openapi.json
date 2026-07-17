@@ -35,7 +35,8 @@
           "name": { "type": "string" },
           "email": { "type": "string", "format": "email" },
           "createdAt": { "type": "string", "format": "date-time" }
-        }
+        },
+        "required": ["id", "name", "email", "createdAt"]
       },
       "AuthResponse": {
         "type": "object",
@@ -63,6 +64,50 @@
           "memo": { "type": "string" },
           "createdAt": { "type": "string", "format": "date-time" },
           "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": [
+          "id",
+          "userId",
+          "company",
+          "role",
+          "status",
+          "priority",
+          "stack",
+          "dueDate",
+          "contact",
+          "memo",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ApplicationInput": {
+        "type": "object",
+        "properties": {
+          "company": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "role": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "status": {
+            "type": "string",
+            "enum": ["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"]
+          },
+          "priority": { "type": "string", "enum": ["낮음", "보통", "높음"] },
+          "stack": {
+            "oneOf": [
+              {
+                "type": "array",
+                "maxItems": 20,
+                "items": { "type": "string", "maxLength": 50 }
+              },
+              { "type": "string", "description": "쉼표로 구분한 기술 스택" }
+            ]
+          },
+          "dueDate": {
+            "oneOf": [
+              { "type": "string", "format": "date" },
+              { "type": "string", "maxLength": 0 }
+            ]
+          },
+          "contact": { "type": "string", "maxLength": 500 },
+          "memo": { "type": "string", "maxLength": 2000 }
         }
       },
       "Project": {
@@ -76,7 +121,43 @@
           "stack": { "type": "array", "items": { "type": "string" } },
           "repoUrl": { "type": "string" },
           "deployUrl": { "type": "string" },
-          "highlight": { "type": "string" }
+          "highlight": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": [
+          "id",
+          "userId",
+          "name",
+          "summary",
+          "status",
+          "stack",
+          "repoUrl",
+          "deployUrl",
+          "highlight",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ProjectInput": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "summary": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "status": { "type": "string", "enum": ["계획", "개발중", "완료"] },
+          "stack": {
+            "oneOf": [
+              {
+                "type": "array",
+                "maxItems": 20,
+                "items": { "type": "string", "maxLength": 50 }
+              },
+              { "type": "string", "description": "쉼표로 구분한 기술 스택" }
+            ]
+          },
+          "repoUrl": { "type": "string", "maxLength": 500 },
+          "deployUrl": { "type": "string", "maxLength": 500 },
+          "highlight": { "type": "string", "maxLength": 1000 }
         }
       },
       "Workbook": {
@@ -94,12 +175,46 @@
           "reflection": { "type": "string" },
           "createdAt": { "type": "string", "format": "date-time" },
           "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": [
+          "userId",
+          "targetRole",
+          "targetDate",
+          "weeklyGoal",
+          "nextAction",
+          "resumeReady",
+          "portfolioReady",
+          "selfIntroReady",
+          "mockInterviewReady",
+          "reflection",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "WorkbookInput": {
+        "type": "object",
+        "properties": {
+          "targetRole": { "type": "string", "maxLength": 120 },
+          "targetDate": {
+            "oneOf": [
+              { "type": "string", "format": "date" },
+              { "type": "string", "maxLength": 0 }
+            ]
+          },
+          "weeklyGoal": { "type": "string", "maxLength": 500 },
+          "nextAction": { "type": "string", "maxLength": 500 },
+          "resumeReady": { "type": "boolean" },
+          "portfolioReady": { "type": "boolean" },
+          "selfIntroReady": { "type": "boolean" },
+          "mockInterviewReady": { "type": "boolean" },
+          "reflection": { "type": "string", "maxLength": 2000 }
         }
       },
       "Dashboard": {
         "type": "object",
         "properties": {
           "totalApplications": { "type": "integer" },
+          "startedApplicationCount": { "type": "integer" },
           "interviewCount": { "type": "integer" },
           "offerCount": { "type": "integer" },
           "upcomingCount": { "type": "integer" },
@@ -109,7 +224,20 @@
           "readinessTotal": { "type": "integer" },
           "readinessPercent": { "type": "integer", "minimum": 0, "maximum": 100 },
           "statusCounts": { "type": "object", "additionalProperties": { "type": "integer" } }
-        }
+        },
+        "required": [
+          "totalApplications",
+          "startedApplicationCount",
+          "interviewCount",
+          "offerCount",
+          "upcomingCount",
+          "projectCount",
+          "completedProjectCount",
+          "readinessDone",
+          "readinessTotal",
+          "readinessPercent",
+          "statusCounts"
+        ]
       }
     },
     "responses": {
@@ -217,6 +345,7 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponse" } }
             }
           },
+          "400": { "$ref": "#/components/responses/Validation" },
           "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
@@ -280,7 +409,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Workbook" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/WorkbookInput" } }
           }
         },
         "responses": {
@@ -322,7 +451,14 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Application" } }
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/ApplicationInput" },
+                  { "type": "object", "required": ["company", "role"] }
+                ]
+              }
+            }
           }
         },
         "responses": {
@@ -348,7 +484,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Application" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/ApplicationInput" } }
           }
         },
         "responses": {
@@ -390,7 +526,8 @@
                 "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Project" } }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       },
       "post": {
@@ -400,7 +537,14 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/ProjectInput" },
+                  { "type": "object", "required": ["name", "summary"] }
+                ]
+              }
+            }
           }
         },
         "responses": {
@@ -409,7 +553,9 @@
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/Validation" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     },
@@ -424,7 +570,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/ProjectInput" } }
           }
         },
         "responses": {
@@ -434,6 +580,8 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/Project" } }
             }
           },
+          "400": { "$ref": "#/components/responses/Validation" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       },
@@ -446,6 +594,7 @@
         ],
         "responses": {
           "204": { "description": "삭제됨" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }

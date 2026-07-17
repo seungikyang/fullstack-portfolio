@@ -2,6 +2,7 @@
   "name": "note-hub-monorepo",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "description": "DevContainer 가상환경에서 동작하는 npm workspaces 기반 풀스택 모노레포 데모. 공유 타입(packages/shared)을 API와 Web이 함께 사용한다.",
   "engines": {
     "node": ">=22.12"
