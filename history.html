@@ -451,6 +451,7 @@
         <nav aria-label="변경 이력 목차">
           <a href="./index.html">학습 목차</a>
           <a href="#html-guide">HTML 허브</a>
+          <a href="#workbook-flow">네 단계 워크북</a>
           <a href="#dev-port">개발 포트</a>
           <a href="#reason">배경</a>
           <a href="#changes">주요 변경</a>
@@ -466,13 +467,13 @@
         <h1 id="page-title">처음 열어도 다음 행동이 보이는 취업 워크북으로.</h1>
         <p class="hero-copy">
           HTML 학습 목차에서 17단계의 공부, 실습, 취업 증빙을 연결했습니다.
-          이전에 구현한 목표 설정, 지원 실행, 면접 준비 흐름도 그대로
-          이어집니다.
+          Career Hub는 목표 설정부터 이번 주 실행, 제출 자료, 실제 지원까지 네
+          단계로 안내하며 아직 끝내지 않은 첫 행동을 바로 보여줍니다.
         </p>
         <div class="meta-row" role="group" aria-label="변경 범위">
           <span class="pill">HTML 학습 허브</span>
           <span class="pill">17단계 바로가기</span>
-          <span class="pill">Career Hub 기능</span>
+          <span class="pill">네 단계 Career Hub</span>
           <span class="pill">검증 가능한 링크</span>
         </div>
       </section>
@@ -539,6 +540,58 @@
           <div>단계별 실습</div>
           <div>실행·검증</div>
           <div>포트폴리오·면접</div>
+        </div>
+      </section>
+
+      <section id="workbook-flow" aria-labelledby="workbook-flow-title">
+        <div class="section-heading">
+          <h2 id="workbook-flow-title">2026.07.17 · 네 단계 실행 워크북</h2>
+          <p>
+            한 화면에 나열됐던 입력 항목을 목표, 이번 주 실행, 제출 자료,
+            지원·면접의 네 단계로 나눴습니다. 완료되지 않은 첫 단계가 항상
+            <strong>지금 할 일</strong>로 표시됩니다.
+          </p>
+        </div>
+
+        <div class="change-grid">
+          <article class="change-card">
+            <h3>한 번에 한 단계</h3>
+            <p>
+              네 단계 카드에 완료, 지금 진행, 대기 상태를 표시합니다. 사용자는
+              모든 메뉴를 탐색하지 않고 강조된 첫 단계만 처리하면 됩니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>입력 폼을 행동별로 분리</h3>
+            <p>
+              목표 직무·지원일, 주간 목표·다음 행동, 제출 자료, 지원·면접과
+              회고를 각각 독립된 워크북 블록으로 묶었습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>다음 화면 바로가기</h3>
+            <p>
+              제출 자료 단계는 프로젝트 화면으로, 지원 단계는 지원 현황으로
+              바로 이동합니다. 사이드바도 워크북 → 학습 → 프로젝트 → 지원
+              순서로 정리했습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>빠진 8단계 복원</h3>
+            <p>
+              학습자 체크리스트에 Career Hub 8단계를 추가했습니다.
+              <code>npm run verify</code>가 1~17단계 체크 항목을 모두 검사해 다시
+              누락되지 않게 했습니다.
+            </p>
+          </article>
+        </div>
+
+        <div class="flow" role="group" aria-label="네 단계 취업 워크북 흐름">
+          <div>목표 정하기</div>
+          <div>이번 주 실행</div>
+          <div>제출 자료</div>
+          <div>실제 지원</div>
+          <div>회고·면접</div>
         </div>
       </section>
 
@@ -730,8 +783,8 @@
                 <td class="status-pass">17단계 핵심 링크와 대상 파일 확인</td>
               </tr>
               <tr>
-                <td>HTML 반응형 화면</td>
-                <td>연결된 브라우저에서 로컬 <code>index.html</code> 열기</td>
+                <td>HTML·Career Hub 반응형 화면</td>
+                <td>연결된 브라우저에서 로컬 화면 열기</td>
                 <td class="status-not-run">로컬 파일 URL 보안 정책으로 미실행</td>
               </tr>
               <tr>
@@ -742,7 +795,14 @@
               <tr>
                 <td>진도 출력</td>
                 <td><code>npm run progress</code></td>
-                <td class="status-pass">코드·취업 준비 구분 출력</td>
+                <td class="status-pass">8단계를 포함한 코드·취업 준비 구분 출력</td>
+              </tr>
+              <tr>
+                <td>네 단계 워크북 UI</td>
+                <td>
+                  <code>npx vitest run --project web src/App.test.jsx src/ErrorBoundary.test.jsx</code>
+                </td>
+                <td class="status-pass">단계 계산·저장·화면 이동 포함 6개 통과</td>
               </tr>
               <tr>
                 <td>코드 품질</td>
@@ -824,6 +884,14 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>c4f43f5</code>
+            <p><strong>feat</strong> 취업 워크북을 네 단계 흐름으로 개편.</p>
+          </article>
+          <article class="commit">
+            <code>43090e4</code>
+            <p><strong>fix</strong> Career Hub 개발 포트를 3000으로 고정.</p>
+          </article>
           <article class="commit">
             <code>7f93dc1</code>
             <p>
