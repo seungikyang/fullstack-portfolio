@@ -7,6 +7,7 @@ const root = path.resolve(__dirname, "..");
 const requiredPaths = [
   "README.md",
   "START-HERE.md",
+  "index.html",
   "history.html",
   "LICENSE",
   "CONTRIBUTING.md",
@@ -237,6 +238,7 @@ const placeholderFiles = [
 ];
 
 const sourceFiles = [
+  "index.html",
   "history.html",
   "01-html-css/starter/index.html",
   "01-html-css/starter/styles.css",
@@ -408,6 +410,36 @@ if (fs.existsSync(path.join(root, "folder-to-practice-guide.md"))) {
   for (const folder of guideFolders) {
     if (!folderGuide.includes(folder)) {
       fail(`folder-to-practice-guide.md에 ${folder} 설명이 없습니다.`);
+    }
+  }
+}
+
+if (fs.existsSync(path.join(root, "index.html"))) {
+  const workbookIndex = readFile("index.html");
+
+  for (const folder of guideFolders) {
+    const expectedLinks = ["README.md", "problems.md", "answers.md"];
+
+    if (folder === "08-fullstack-portfolio-project") {
+      expectedLinks.splice(1, 2, "learning-map.md", "submission-checklist.md");
+    }
+
+    if (folder === "17-interview-prep") {
+      expectedLinks.splice(1, 2, "interview-cards.md", "project-pitch-template.md");
+    }
+
+    for (const file of expectedLinks) {
+      const href = `./${folder}/${file}`;
+      if (!workbookIndex.includes(`href="${href}"`)) {
+        fail(`index.html에 ${href} 링크가 없습니다.`);
+      }
+    }
+  }
+
+  const relativeLinks = [...workbookIndex.matchAll(/href="(\.\/[^"#]+)(?:#[^"]*)?"/g)];
+  for (const [, href] of relativeLinks) {
+    if (!fs.existsSync(path.join(root, href))) {
+      fail(`index.html의 ${href} 링크 대상이 없습니다.`);
     }
   }
 }

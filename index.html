@@ -1,0 +1,1212 @@
+<!-- 취업 준비자가 17단계 학습 자료를 순서대로 따라가는 HTML 워크북 목차 -->
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="HTML·CSS부터 풀스택 포트폴리오와 면접까지 순서대로 따라가는 취업 워크북"
+    />
+    <title>풀스택 취업 워크북 | 처음부터 취업까지</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --navy: #16243d;
+        --navy-soft: #2b3d5f;
+        --blue: #2563eb;
+        --blue-dark: #1d4ed8;
+        --blue-soft: #eaf1ff;
+        --mint: #dff7ee;
+        --green: #087a55;
+        --yellow: #fff4cc;
+        --paper: #f7f6f2;
+        --surface: #ffffff;
+        --ink: #1f2937;
+        --muted: #64748b;
+        --line: #dbe1ea;
+        --shadow: 0 16px 42px rgba(22, 36, 61, 0.09);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family:
+          Inter, Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        line-height: 1.65;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      a:focus-visible {
+        outline: 3px solid rgba(37, 99, 235, 0.35);
+        outline-offset: 3px;
+      }
+
+      .shell {
+        width: min(1160px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -60px;
+        left: 16px;
+        z-index: 30;
+        padding: 10px 14px;
+        border-radius: 8px;
+        background: var(--navy);
+        color: white;
+      }
+
+      .skip-link:focus {
+        top: 12px;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(219, 225, 234, 0.9);
+        background: rgba(247, 246, 242, 0.94);
+        backdrop-filter: blur(16px);
+      }
+
+      .header-inner {
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--navy);
+        font-weight: 900;
+        letter-spacing: -0.025em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--blue);
+        color: white;
+        font-size: 14px;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      nav a {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      nav a:hover {
+        color: var(--blue);
+      }
+
+      .hero {
+        padding: 88px 0 66px;
+        background:
+          radial-gradient(
+            circle at 80% 16%,
+            rgba(37, 99, 235, 0.15),
+            transparent 28%
+          ),
+          linear-gradient(180deg, #fbfcff 0%, var(--paper) 100%);
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--blue);
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 850px;
+        margin-bottom: 22px;
+        color: var(--navy);
+        font-size: clamp(42px, 7vw, 76px);
+        line-height: 1.08;
+        letter-spacing: -0.055em;
+      }
+
+      .hero-copy {
+        max-width: 720px;
+        margin-bottom: 30px;
+        color: var(--navy-soft);
+        font-size: clamp(18px, 2vw, 22px);
+      }
+
+      .button-row,
+      .card-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        border: 1px solid var(--blue);
+        border-radius: 10px;
+        background: var(--blue);
+        color: white;
+        font-weight: 850;
+        text-decoration: none;
+      }
+
+      .button:hover {
+        border-color: var(--blue-dark);
+        background: var(--blue-dark);
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: var(--surface);
+        color: var(--navy);
+      }
+
+      .button.secondary:hover {
+        border-color: #b5c0d1;
+        background: #f8fafc;
+      }
+
+      main section {
+        padding: 76px 0;
+      }
+
+      main section + section {
+        border-top: 1px solid var(--line);
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(240px, 0.75fr) minmax(0, 1.25fr);
+        gap: 44px;
+        align-items: end;
+        margin-bottom: 34px;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        color: var(--navy);
+        font-size: clamp(32px, 4vw, 48px);
+        line-height: 1.14;
+        letter-spacing: -0.04em;
+      }
+
+      .section-heading p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .start-grid,
+      .path-grid,
+      .support-grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .start-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .start-card,
+      .path-card,
+      .support-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .start-card {
+        padding: 26px;
+      }
+
+      .step-number {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 20px;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-weight: 900;
+      }
+
+      .start-card h3,
+      .path-card h3,
+      .lesson-card h3,
+      .support-card h3 {
+        margin-bottom: 10px;
+        color: var(--navy);
+        letter-spacing: -0.025em;
+      }
+
+      .start-card p,
+      .path-card p,
+      .support-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .path-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .path-card {
+        display: flex;
+        min-height: 230px;
+        padding: 24px;
+        flex-direction: column;
+      }
+
+      .path-card.recommended {
+        border-color: #8bb1ff;
+        background: var(--blue-soft);
+      }
+
+      .tag {
+        align-self: flex-start;
+        margin-bottom: 16px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: var(--navy);
+        color: white;
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .path-card strong {
+        display: block;
+        margin-top: auto;
+        padding-top: 18px;
+        color: var(--blue-dark);
+        font-size: 14px;
+      }
+
+      .track + .track {
+        margin-top: 54px;
+      }
+
+      .track-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 18px;
+      }
+
+      .track-heading h3 {
+        margin-bottom: 4px;
+        color: var(--navy);
+        font-size: 27px;
+        letter-spacing: -0.03em;
+      }
+
+      .track-heading p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .track-range {
+        flex: 0 0 auto;
+        color: var(--blue);
+        font-weight: 850;
+      }
+
+      .lesson-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .lesson-card {
+        display: grid;
+        grid-template-columns: 66px minmax(180px, 0.72fr) minmax(220px, 1.28fr);
+        gap: 22px;
+        align-items: center;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+
+      .lesson-number {
+        display: grid;
+        width: 54px;
+        height: 54px;
+        place-items: center;
+        border-radius: 16px;
+        background: var(--navy);
+        color: white;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .lesson-title h3 {
+        margin-bottom: 4px;
+        font-size: 20px;
+      }
+
+      .lesson-title p,
+      .lesson-detail p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .lesson-detail strong {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--green);
+        font-size: 14px;
+      }
+
+      .lesson-link {
+        display: inline-flex;
+        min-height: 34px;
+        align-items: center;
+        padding: 0 11px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--navy-soft);
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .lesson-link:first-child {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: white;
+      }
+
+      .lesson-link:hover {
+        border-color: #9faec2;
+        transform: translateY(-1px);
+      }
+
+      .routine {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+        counter-reset: routine;
+      }
+
+      .routine li {
+        position: relative;
+        min-height: 180px;
+        padding: 58px 20px 20px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+        list-style: none;
+        counter-increment: routine;
+      }
+
+      .routine li::before {
+        content: counter(routine);
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        color: var(--blue);
+        font-size: 24px;
+        font-weight: 950;
+      }
+
+      .routine strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--navy);
+      }
+
+      .routine span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .tip {
+        margin-top: 20px;
+        padding: 20px 22px;
+        border: 1px solid #efd985;
+        border-radius: 12px;
+        background: var(--yellow);
+      }
+
+      .tip strong {
+        color: #7a5600;
+      }
+
+      .support-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .support-card {
+        display: flex;
+        padding: 24px;
+        flex-direction: column;
+        text-decoration: none;
+      }
+
+      .support-card:hover {
+        border-color: #8bb1ff;
+        transform: translateY(-2px);
+      }
+
+      .support-card .label {
+        margin-top: auto;
+        padding-top: 20px;
+        color: var(--blue);
+        font-weight: 850;
+      }
+
+      footer {
+        padding: 38px 0 56px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .footer-inner p {
+        margin: 0;
+      }
+
+      .footer-inner a {
+        color: var(--blue);
+        font-weight: 800;
+      }
+
+      @media (max-width: 960px) {
+        .path-grid,
+        .support-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .routine {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .header-inner,
+        .section-heading,
+        .lesson-card,
+        .footer-inner {
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .header-inner {
+          padding: 12px 0;
+          gap: 10px;
+        }
+
+        nav {
+          gap: 14px;
+        }
+
+        .hero {
+          padding: 60px 0 48px;
+        }
+
+        main section {
+          padding: 58px 0;
+        }
+
+        .start-grid,
+        .path-grid,
+        .support-grid,
+        .routine {
+          grid-template-columns: 1fr;
+        }
+
+        .lesson-card {
+          gap: 14px;
+        }
+
+        .lesson-detail {
+          width: 100%;
+        }
+
+        .routine {
+          padding: 0;
+        }
+      }
+
+      @media print {
+        .site-header,
+        .button-row,
+        .card-links {
+          display: none;
+        }
+
+        body,
+        .hero {
+          background: white;
+        }
+
+        .lesson-card,
+        .start-card,
+        .path-card,
+        .support-card {
+          break-inside: avoid;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 바로 가기</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">FS</span>
+          풀스택 취업 워크북
+        </a>
+        <nav aria-label="페이지 목차">
+          <a href="#start">시작 방법</a>
+          <a href="#path">추천 경로</a>
+          <a href="#curriculum">전체 목차</a>
+          <a href="#routine">공부 방법</a>
+          <a href="#career">취업 준비</a>
+        </nav>
+      </div>
+    </header>
+
+    <div id="top" class="hero">
+      <div class="shell">
+        <p class="eyebrow">처음부터 취업까지 · 17단계 실습 과정</p>
+        <h1>읽기만 하지 않고, 직접 만들며 취업 근거를 완성합니다.</h1>
+        <p class="hero-copy">
+          HTML·CSS 기초부터 React, API, 데이터베이스, Spring, 테스트, 배포,
+          포트폴리오와 면접까지 순서대로 따라가세요. 무엇을 먼저 해야 할지
+          고민하지 않아도 되도록 모든 자료를 한 목차로 연결했습니다.
+        </p>
+        <div class="button-row">
+          <a class="button" href="#start">처음부터 시작하기</a>
+          <a class="button secondary" href="#curriculum">17단계 목차 보기</a>
+        </div>
+      </div>
+    </div>
+
+    <main id="main" class="shell">
+      <section id="start" aria-labelledby="start-title">
+        <div class="section-heading">
+          <h2 id="start-title">딱 세 가지만 먼저 하세요.</h2>
+          <p>
+            처음부터 모든 문서를 읽을 필요가 없습니다. 목표를 적고, 경로를
+            고르고, 첫 단계의 문제 하나만 해결하면 됩니다.
+          </p>
+        </div>
+        <div class="start-grid">
+          <article class="start-card">
+            <span class="step-number">1</span>
+            <h3>취업 목표 적기</h3>
+            <p>
+              목표 직무, 첫 지원일, 일주일에 공부할 시간을
+              <a href="./START-HERE.md">시작 워크시트</a>에 적습니다.
+            </p>
+          </article>
+          <article class="start-card">
+            <span class="step-number">2</span>
+            <h3>내 경로 고르기</h3>
+            <p>
+              아래 추천 경로에서 지원일까지 남은 기간과 가장 가까운 코스를
+              하나만 고릅니다.
+            </p>
+          </article>
+          <article class="start-card">
+            <span class="step-number">3</span>
+            <h3>한 문제 실행하기</h3>
+            <p>
+              단계 카드의 공부하기와 문제 풀기를 연 뒤, 오늘은 결과물 하나만
+              실행해 확인합니다.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="path" aria-labelledby="path-title">
+        <div class="section-heading">
+          <h2 id="path-title">지원일까지 얼마나 남았나요?</h2>
+          <p>
+            시간이 부족할수록 모든 기술을 얕게 보기보다 실행 가능한 프로젝트와
+            자기 코드 설명을 먼저 완성합니다.
+          </p>
+        </div>
+        <div class="path-grid">
+          <article class="path-card">
+            <span class="tag">1개월 이하</span>
+            <h3>지원 직전 코스</h3>
+            <p>08 포트폴리오 → 17 면접 → 15 CS 핵심 5문제를 진행합니다.</p>
+            <strong>먼저 남길 것 · 실행 화면과 1분 설명</strong>
+          </article>
+          <article class="path-card">
+            <span class="tag">1~3개월</span>
+            <h3>핵심 취업 코스</h3>
+            <p>01~08 핵심 → 10 SQL → 11 Spring → 17 면접을 진행합니다.</p>
+            <strong>먼저 남길 것 · 프로젝트와 SQL·Spring 근거</strong>
+          </article>
+          <article class="path-card recommended">
+            <span class="tag">3~6개월 · 추천</span>
+            <h3>실전 완성 코스</h3>
+            <p>01~14를 차례로 완료한 뒤 15~17로 면접을 마무리합니다.</p>
+            <strong>먼저 남길 것 · 코드, 테스트, 배포, 면접 답안</strong>
+          </article>
+          <article class="path-card">
+            <span class="tag">6개월 이상</span>
+            <h3>전체 기초 코스</h3>
+            <p>01부터 17까지 건너뛰지 않고 모든 결과물을 완성합니다.</p>
+            <strong>먼저 남길 것 · 단계별 GitHub 학습 기록</strong>
+          </article>
+        </div>
+      </section>
+
+      <section id="curriculum" aria-labelledby="curriculum-title">
+        <div class="section-heading">
+          <h2 id="curriculum-title">17단계 전체 목차.</h2>
+          <p>
+            각 단계는 같은 순서로 공부합니다. 먼저 설명을 읽고, 정답을 보지 않은
+            채 문제를 풀고, 막혔을 때만 정답 예시와 비교하세요.
+          </p>
+        </div>
+
+        <div class="track">
+          <div class="track-heading">
+            <div>
+              <h3>기초·통합 트랙</h3>
+              <p>화면부터 로그인과 배포까지 하나의 풀스택 앱으로 연결합니다.</p>
+            </div>
+            <span class="track-range">01 → 08</span>
+          </div>
+          <div class="lesson-list">
+            <article class="lesson-card">
+              <span class="lesson-number">01</span>
+              <div class="lesson-title">
+                <h3>HTML·CSS</h3>
+                <p>웹 화면의 구조와 반응형 배치를 배웁니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 자기소개 웹페이지</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./01-html-css/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./01-html-css/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./01-html-css/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">02</span>
+              <div class="lesson-title">
+                <h3>JavaScript 기초</h3>
+                <p>입력, 이벤트, 함수와 배열로 화면을 움직입니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 이벤트 페이지와 계산기</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./02-javascript-basics/README.md"
+                    >공부하기</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./02-javascript-basics/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./02-javascript-basics/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">03</span>
+              <div class="lesson-title">
+                <h3>React Todo</h3>
+                <p>컴포넌트, state, props로 화면을 나눕니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 추가와 삭제가 되는 Todo 앱</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./03-react-todo/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./03-react-todo/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./03-react-todo/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">04</span>
+              <div class="lesson-title">
+                <h3>Node 게시판 API</h3>
+                <p>Express와 HTTP 상태 코드로 REST API를 만듭니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 게시글 CRUD API</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./04-node-board-api/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./04-node-board-api/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./04-node-board-api/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">05</span>
+              <div class="lesson-title">
+                <h3>MongoDB</h3>
+                <p>스키마와 모델을 이용해 데이터를 영구 저장합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · DB에 연결된 게시판 API</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./05-database-mongodb/README.md"
+                    >공부하기</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./05-database-mongodb/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./05-database-mongodb/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">06</span>
+              <div class="lesson-title">
+                <h3>로그인과 인증</h3>
+                <p>비밀번호 해시와 JWT로 API를 보호합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 회원가입과 로그인 API</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./06-login-auth/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./06-login-auth/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./06-login-auth/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">07</span>
+              <div class="lesson-title">
+                <h3>프로젝트와 배포</h3>
+                <p>프론트엔드와 API를 연결하고 배포를 준비합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 배포 가능한 미니 블로그</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./07-project-deploy/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./07-project-deploy/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./07-project-deploy/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">08</span>
+              <div class="lesson-title">
+                <h3>포트폴리오 프로젝트</h3>
+                <p>1~7단계를 Career Hub 하나로 통합합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 취업 제출용 풀스택 앱</strong>
+                <div class="card-links">
+                  <a
+                    class="lesson-link"
+                    href="./08-fullstack-portfolio-project/README.md"
+                    >공부하기</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./08-fullstack-portfolio-project/learning-map.md"
+                    >학습 연결</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./08-fullstack-portfolio-project/submission-checklist.md"
+                    >제출 점검</a
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="track">
+          <div class="track-heading">
+            <div>
+              <h3>SI 실전 보강 트랙</h3>
+              <p>타입, SQL, Spring, 테스트, 협업과 배포 역량을 보강합니다.</p>
+            </div>
+            <span class="track-range">09 → 14</span>
+          </div>
+          <div class="lesson-list">
+            <article class="lesson-card">
+              <span class="lesson-number">09</span>
+              <div class="lesson-title">
+                <h3>TypeScript</h3>
+                <p>타입과 인터페이스로 실행 전 오류를 찾습니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 타입이 적용된 React와 Express 코드</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./09-typescript/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./09-typescript/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./09-typescript/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">10</span>
+              <div class="lesson-title">
+                <h3>SQL과 Oracle</h3>
+                <p>JOIN, 집계, 트랜잭션과 인덱스를 실습합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 직접 실행한 SQL 쿼리 모음</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./10-sql-oracle/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./10-sql-oracle/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./10-sql-oracle/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">11</span>
+              <div class="lesson-title">
+                <h3>Java와 Spring</h3>
+                <p>Controller, Service, Repository 계층을 나눕니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · Spring Boot 게시판 API</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./11-java-spring/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./11-java-spring/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./11-java-spring/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">12</span>
+              <div class="lesson-title">
+                <h3>자동화 테스트</h3>
+                <p>Vitest와 JUnit으로 변경 후 오류를 막습니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 단위·통합 테스트 묶음</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./12-testing/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./12-testing/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./12-testing/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">13</span>
+              <div class="lesson-title">
+                <h3>Git 협업</h3>
+                <p>브랜치, PR, 리뷰와 충돌 해결 흐름을 익힙니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 리뷰와 충돌 해결 기록이 있는 PR</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./13-git-collab/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./13-git-collab/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./13-git-collab/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">14</span>
+              <div class="lesson-title">
+                <h3>Docker와 CI</h3>
+                <p>앱을 컨테이너로 만들고 테스트를 자동 실행합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · Docker 이미지와 CI 실행 기록</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./14-docker-deploy/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./14-docker-deploy/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./14-docker-deploy/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="track">
+          <div class="track-heading">
+            <div>
+              <h3>채용 직전 마감 트랙</h3>
+              <p>기술을 자기 말과 자기 코드 근거로 설명하는 단계입니다.</p>
+            </div>
+            <span class="track-range">15 → 17</span>
+          </div>
+          <div class="lesson-list">
+            <article class="lesson-card">
+              <span class="lesson-number">15</span>
+              <div class="lesson-title">
+                <h3>CS 기초</h3>
+                <p>네트워크, OS, DB와 자료구조 답안을 만듭니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 자기 코드와 연결한 CS 답안 21개</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./15-cs-fundamentals/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./15-cs-fundamentals/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./15-cs-fundamentals/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">16</span>
+              <div class="lesson-title">
+                <h3>웹 보안</h3>
+                <p>XSS, SQL Injection, CSRF와 CORS를 방어합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 공격과 방어를 비교한 코드</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./16-security/README.md"
+                    >공부하기</a
+                  >
+                  <a class="lesson-link" href="./16-security/problems.md"
+                    >문제 풀기</a
+                  >
+                  <a class="lesson-link" href="./16-security/answers.md"
+                    >정답 보기</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="lesson-card">
+              <span class="lesson-number">17</span>
+              <div class="lesson-title">
+                <h3>면접 준비</h3>
+                <p>자기소개, 기술 설명과 STAR 답변을 연습합니다.</p>
+              </div>
+              <div class="lesson-detail">
+                <strong>완료 결과 · 바로 연습할 수 있는 면접 답안 카드</strong>
+                <div class="card-links">
+                  <a class="lesson-link" href="./17-interview-prep/README.md"
+                    >공부하기</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./17-interview-prep/interview-cards.md"
+                    >기술 카드</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./17-interview-prep/project-pitch-template.md"
+                    >프로젝트 설명</a
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="routine" aria-labelledby="routine-title">
+        <div class="section-heading">
+          <h2 id="routine-title">매일 같은 방법으로 공부하세요.</h2>
+          <p>
+            완벽하게 이해한 다음 코딩하려고 기다리지 마세요. 작은 문제를 직접
+            실행하고, 실제 오류를 읽고, 다시 설명하는 한 사이클이 공부입니다.
+          </p>
+        </div>
+        <ol class="routine">
+          <li>
+            <strong>목표 한 줄 쓰기</strong>
+            <span>오늘 만들 결과를 한 문장으로 정합니다.</span>
+          </li>
+          <li>
+            <strong>빈칸 직접 채우기</strong>
+            <span>TODO와 빈칸을 정답 없이 먼저 해결합니다.</span>
+          </li>
+          <li>
+            <strong>실행해서 확인하기</strong>
+            <span>화면, API 응답 또는 테스트 결과를 봅니다.</span>
+          </li>
+          <li>
+            <strong>오류 첫 줄 읽기</strong>
+            <span>한 번에 한 곳만 고친 뒤 다시 실행합니다.</span>
+          </li>
+          <li>
+            <strong>자기 말로 설명하기</strong>
+            <span>구현, 검증, 해결 과정을 세 문장으로 남깁니다.</span>
+          </li>
+        </ol>
+        <div class="tip">
+          <strong>막혔을 때 순서.</strong>
+          오류 첫 줄과 파일 위치 확인 → 해당 단계 README 다시 보기 → 한 곳만
+          수정 → 재실행 → 그래도 막히면 answers.md와 비교합니다.
+        </div>
+      </section>
+
+      <section id="career" aria-labelledby="career-title">
+        <div class="section-heading">
+          <h2 id="career-title">공부를 취업 근거로 바꾸세요.</h2>
+          <p>
+            단계 완료 체크, 포트폴리오 문장, 지원용 프로젝트, 면접 답안까지
+            이어져야 학습이 실제 취업 준비가 됩니다.
+          </p>
+        </div>
+        <div class="support-grid">
+          <a class="support-card" href="./student-checklist.md">
+            <h3>진행 체크</h3>
+            <p>실제로 실행하고 설명할 수 있는 항목만 체크합니다.</p>
+            <span class="label">체크리스트 열기 →</span>
+          </a>
+          <a
+            class="support-card"
+            href="./08-fullstack-portfolio-project/README.md"
+          >
+            <h3>포트폴리오 실행</h3>
+            <p>Career Hub를 실행하고 학습 결과를 하나의 앱으로 보여줍니다.</p>
+            <span class="label">프로젝트 열기 →</span>
+          </a>
+          <a class="support-card" href="./portfolio-template.md">
+            <h3>GitHub 정리</h3>
+            <p>구현, 실행, 검증과 문제 해결 기록을 README로 바꿉니다.</p>
+            <span class="label">템플릿 열기 →</span>
+          </a>
+          <a class="support-card" href="./17-interview-prep/README.md">
+            <h3>면접 연습</h3>
+            <p>자기 코드 한 줄을 근거로 30초, 1분, 3분 답변을 만듭니다.</p>
+            <span class="label">면접 워크북 열기 →</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-inner">
+        <p>Fullstack Career Workbook · 학습 → 실습 → 검증 → 취업.</p>
+        <a href="./history.html">워크북 변경 이력 보기</a>
+      </div>
+    </footer>
+  </body>
+</html>
