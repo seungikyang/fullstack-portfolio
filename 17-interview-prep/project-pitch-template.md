@@ -2,7 +2,7 @@
 
 면접에서 가장 자주 듣는 질문 중 하나가 "포트폴리오를 직접 설명해보세요"입니다. 3분 안에 끝낼 수 있도록 미리 준비합니다.
 
-기본 후보는 `08-fullstack-portfolio-project`(Career Hub)입니다. 11단계 Spring 게시판도 보강 트랙 결과물로 활용 가능합니다.
+기본 후보는 `08-fullstack-portfolio-project`(Career Hub)입니다. 11단계 Spring 게시판은 사용자가 `starter/board-api`를 직접 만들고 실행·테스트 로그를 확보한 경우에만 보강 트랙 결과물로 활용합니다.
 
 ## 3분 설명 구조
 
@@ -37,7 +37,7 @@ ____
 빌드와 검증. ____
 ```
 
-예시. "React + Vite로 프론트엔드를, Express로 REST API를, JSON 파일 저장소로 데이터를, bcrypt와 JWT로 인증을 구성했습니다. `npm run verify`로 ESLint, Vite production build, Vitest 단위·통합 테스트, API smoke test, 제출 전 감사가 한 번에 동작합니다."
+예시. "React + Vite로 프론트엔드를, Express로 REST API를, JSON 파일 저장소로 데이터를, bcrypt와 JWT로 인증을 구성했습니다. `npm run verify`로 ESLint, Prettier, Vite production build, Vitest 단위·통합 테스트, API smoke test, 제출 전 감사를 실행합니다."
 
 ### 3. 핵심 기능 3개
 
@@ -69,7 +69,7 @@ R. ____
 ____
 ```
 
-예시. "`npm run verify`가 1) ESLint, 2) Vite production build, 3) Vitest 단위·통합 테스트와 API smoke test, 4) 제출 전 감사 스크립트를 순서대로 실행해 통과 여부를 한 번에 확인합니다."
+예시. "`npm run verify`가 1) ESLint, 2) Prettier, 3) Vite production build, 4) Vitest 단위·통합 테스트와 API smoke test, 5) 제출 전 감사를 순서대로 실행합니다."
 
 ### 6. 한계와 다음 계획
 
@@ -82,7 +82,12 @@ ____
 
 ## 두 번째 프로젝트 후보 (11단계 Spring 게시판)
 
-Career Hub 외에 Spring으로 작성한 게시판을 보조 포트폴리오로 활용할 수 있습니다.
+Career Hub 외에 Spring 게시판을 보조 포트폴리오로 쓰려면 `11-java-spring/starter/board-api`의 실제 소스와 Gradle wrapper가 있어야 합니다. 아래 명령이 통과하지 않았다면 완료형 문장을 사용하지 않습니다.
+
+```bash
+cd 11-java-spring/starter/board-api
+./gradlew test
+```
 
 ### 한 문장 정의
 
@@ -90,12 +95,14 @@ Career Hub 외에 Spring으로 작성한 게시판을 보조 포트폴리오로 
 같은 게시판 API를 Express와 Spring Boot 두 스택으로 구현해, 두 진영의 패턴 차이를 직접 비교한 프로젝트입니다.
 ```
 
+위 문장은 두 구현의 CRUD를 직접 실행하고 비교 기록을 남긴 경우에만 사용합니다.
+
 ### 어필 포인트
 
-- 같은 도메인을 두 스택으로 만들어보았다는 비교 경험.
-- Controller/Service/Repository 계층 분리.
-- JPA 변경 감지로 명시적 save 호출 없이 UPDATE가 발생하는 이유 설명 가능.
-- `@WebMvcTest`로 Controller 통합 테스트 작성 경험.
+- 실제 Express·Spring CRUD 실행 결과가 있을 때만 두 스택 비교 경험을 적습니다.
+- 직접 작성한 Controller/Service/Repository 파일을 가리킬 수 있을 때만 계층 분리를 적습니다.
+- 실행한 JPA 코드와 SQL 로그가 있을 때만 변경 감지를 설명합니다.
+- `./gradlew test`에서 해당 테스트가 통과했을 때만 `@WebMvcTest` 작성 경험을 적습니다.
 
 ## 3분 설명에서 피해야 할 것
 

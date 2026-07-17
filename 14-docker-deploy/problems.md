@@ -6,6 +6,8 @@
 
 `starter/node-board/Dockerfile`의 빈칸을 채우세요.
 
+먼저 워크북 루트에서 완성한 4단계의 `package.json`, `package-lock.json`, `src`를 `starter/node-board`로 복사합니다. Dockerfile이 `npm ci`를 실행하므로 lockfile이 반드시 같은 build context에 있어야 합니다.
+
 - 베이스 이미지는 `node:22-alpine`.
 - `package*.json`을 먼저 복사해 `npm ci`를 실행 (캐시 최대화).
 - 그 다음 소스 코드 복사.
@@ -35,6 +37,8 @@ curl http://localhost:4000/health
 
 `starter/spring-board/Dockerfile`의 빈칸을 채우세요.
 
+이 폴더에는 Spring 프로젝트가 없습니다. 11단계에서 직접 만든 `11-java-spring/starter/board-api`가 `./gradlew bootRun`으로 실행되는지 먼저 확인한 뒤, 완성한 Dockerfile을 그 프로젝트 루트에 복사합니다.
+
 - 1단계. `eclipse-temurin:21-jdk`로 `./gradlew bootJar` 실행.
 - 2단계. `eclipse-temurin:21-jre-alpine`에 빌드 결과 jar만 복사.
 - 포트 8080 노출.
@@ -43,6 +47,10 @@ curl http://localhost:4000/health
 검증.
 
 ```bash
+cp 14-docker-deploy/starter/spring-board/Dockerfile \
+   11-java-spring/starter/board-api/Dockerfile
+cd 11-java-spring/starter/board-api
+./gradlew bootJar
 docker build -t spring-board .
 docker images spring-board
 # JDK 단일 스테이지보다 이미지가 작아야 합니다.

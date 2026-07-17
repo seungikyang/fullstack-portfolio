@@ -2,6 +2,8 @@
 
 이 폴더는 Spring Initializr로 받은 zip을 풀어 넣는 자리입니다. 빈 상태로 시작합니다.
 
+이 안내 파일만 있는 상태는 Spring 프로젝트 완료가 아닙니다. 아래 절차로 `board-api`와 Gradle wrapper를 만든 뒤 실제 실행 결과를 남깁니다.
+
 ## 시작 절차
 
 1. https://start.spring.io 에 접속.
@@ -40,6 +42,8 @@
 
 ## 빌드 결과 검증
 
+다음 명령은 `starter/board-api`가 실제로 존재할 때만 실행합니다.
+
 ```bash
 cd board-api
 ./gradlew bootRun
@@ -52,3 +56,5 @@ curl -X POST http://localhost:8080/api/posts \
 ```
 
 H2 콘솔에서 `SELECT * FROM POST;` 결과를 직접 확인하세요.
+
+`./gradlew bootRun` 로그, API 응답, H2 조회 결과를 모두 확인한 경우에만 이 단계를 완성한 Spring 프로젝트로 소개합니다.

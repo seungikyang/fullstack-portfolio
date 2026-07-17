@@ -4,6 +4,17 @@
 
 처음 시작한다면 [START-HERE.md](./START-HERE.md)에서 목표 직무와 첫 지원일을 먼저 정하세요. 체크한 결과는 `npm run progress`에서 취업 준비 단계별로 집계됩니다.
 
+## 단계마다 남길 4종 근거
+
+아래 네 항목이 없으면 체크 수와 관계없이 아직 설명 근거가 부족한 상태입니다. 각 단계의 README 또는 개인 학습 노트에 한 줄씩 기록합니다.
+
+- [ ] 실행 명령. 실제로 입력한 명령이나 브라우저 경로를 적었습니다.
+- [ ] 관찰 결과. 화면, HTTP 응답, DB 값, 테스트 로그 중 확인한 결과를 적었습니다.
+- [ ] 해결한 오류. 실제 오류 메시지와 한 번에 한 곳만 고친 내용을 적었습니다.
+- [ ] 코드 위치. 직접 수정한 파일과 함수 또는 가까운 줄을 적었습니다.
+
+`npm run progress`는 지정된 starter 소스의 전용 `____` 토큰과 체크리스트 현황을 보여주며 성공·실패 판정용이 아닙니다. `npm run verify:structure`는 저장소 구조를, `npm run verify:learning`은 같은 전용 토큰의 완료 여부를 검사합니다. 일반 `TODO`와 서술형 답안은 직접 확인합니다.
+
 ## 1단계 HTML/CSS
 
 - [ ] `01-html-css/starter/index.html`의 빈칸을 채웠습니다.
@@ -152,7 +163,7 @@
 - [ ] GitHub에 1~8번 단계 결과를 정리했습니다.
 - [ ] `08-fullstack-portfolio-project`를 실행하고 README를 읽었습니다.
 - [ ] Career Hub의 로그인, 지원 현황 CRUD, 프로젝트 CRUD를 직접 확인했습니다.
-- [ ] Career Hub의 `npm run verify`를 통과시켰습니다.
+- [ ] Career Hub의 `npm run verify`를 통과시키고 format, lint, build, test, 제출 감사 결과를 보관했습니다.
 - [ ] `08-fullstack-portfolio-project/learning-map.md`를 보고 1~7단계가 Career Hub에 연결되는 위치를 확인했습니다.
 - [ ] 9~14번 보강 트랙의 결과물을 GitHub의 별도 저장소 또는 같은 저장소의 브랜치로 정리했습니다.
 - [ ] SQLD 또는 정보처리기사 일정과 학습 진행을 맞추었습니다.

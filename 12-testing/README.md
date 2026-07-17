@@ -20,6 +20,8 @@ npm test
 
 Spring Boot 프로젝트(11단계 starter)에서 진행합니다.
 
+저장소에는 완성된 `11-java-spring/starter/board-api`가 기본 제공되지 않습니다. 11단계에서 해당 프로젝트와 Gradle wrapper를 직접 만든 경우에만 아래 JUnit 실습을 진행합니다.
+
 ```bash
 cd 11-java-spring/starter/board-api
 ./gradlew test
@@ -27,11 +29,13 @@ cd 11-java-spring/starter/board-api
 
 ## 완료 기준
 
-- Vitest로 순수 함수 테스트 5개 이상을 작성하고 통과시켰습니다.
-- Express 라우터를 supertest로 호출하는 통합 테스트를 작성했습니다.
-- JUnit 5로 Spring Service 단위 테스트를 작성했습니다.
-- MockMvc로 Spring Controller 통합 테스트를 작성했습니다.
-- 테스트 커버리지 보고서를 한 번 이상 출력했습니다.
+- [ ] `12-testing/starter/js`에서 Vitest 순수 함수 테스트 5개 이상을 통과시켰습니다.
+- [ ] Express 라우터를 supertest로 호출하는 통합 테스트를 통과시켰습니다.
+- [ ] 완성한 `11-java-spring/starter/board-api`가 있는 경우에만 JUnit 5 Service 테스트를 통과시켰습니다.
+- [ ] 같은 조건에서 `@WebMvcTest`와 MockMvc Controller 테스트를 통과시켰습니다.
+- [ ] 실제로 실행한 환경의 커버리지 보고서를 출력하고 미검증 줄을 확인했습니다.
+
+완료로 표시하기 전 [학습 근거 4종](../student-checklist.md#단계마다-남길-4종-근거)에 테스트 명령, 통과·실패 결과, 고친 실패 원인, 테스트와 대상 코드 위치를 기록합니다.
 
 ## 취업 연결
 
@@ -41,7 +45,7 @@ SI/SW 실무에서 테스트는 다음과 같은 가치를 가집니다.
 - 회귀 버그를 막아 운영 중 야간 장애를 줄입니다.
 - CI/CD 파이프라인의 게이트 역할을 합니다.
 
-이 단계가 끝나면 "Vitest와 JUnit으로 같은 기능에 단위 테스트와 통합 테스트를 작성했고, MockMvc로 Controller 계층을 검증했다"고 설명할 수 있어야 합니다.
+JavaScript 테스트만 완료했다면 Vitest와 supertest 결과만 설명합니다. 실제 `board-api` 소스와 `./gradlew test` 통과 로그까지 있을 때만 JUnit·MockMvc 경험을 함께 설명합니다.
 
 ## 핵심 개념
 

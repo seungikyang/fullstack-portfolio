@@ -2,7 +2,7 @@
 
 ## 목표
 
-한국 SI/SW 실무의 절대 다수가 Java + Spring 기반입니다. 4단계 Express 게시판 API를 Spring Boot로 다시 작성하면서, 같은 REST API가 두 스택에서 어떻게 표현되는지 비교합니다.
+Java + Spring을 요구하는 SI/SW 공고가 많습니다. 4단계 Express 게시판 API를 Spring Boot로 다시 작성하면서, 같은 REST API가 두 스택에서 어떻게 표현되는지 비교합니다.
 
 Spring 전문가가 되는 것이 목표가 아닙니다. "신입으로서 Spring Boot 프로젝트를 클론해 빌드하고, Controller와 Service의 역할을 설명할 수 있다"는 수준이 목표입니다.
 
@@ -40,6 +40,8 @@ JDK 21이 아니라 17이나 8이 잡히면 PATH나 `JAVA_HOME`을 확인하세�
    - Group/Artifact는 자유.
 3. Generate 버튼으로 zip을 받아 `starter/board-api` 폴더로 풉니다.
 4. `starter/`의 가이드 파일과 비교하며 빈칸을 채웁니다.
+
+저장소에는 완성된 `starter/board-api`가 포함되어 있지 않습니다. 아래 실행·완료 문장은 사용자가 직접 프로젝트를 만든 뒤에만 해당합니다.
 
 ### 빌드와 실행
 
@@ -86,24 +88,27 @@ curl -i http://localhost:8080/api/posts/9999
 # 접속 후 SELECT * FROM POST; 실행해 1행이 보이면 성공.
 ```
 
-위 6개가 모두 통과하면 11단계 학습 목표가 달성된 것입니다.
+위 6개와 아래 완료 기준을 직접 확인한 뒤에만 11단계 구현 경험으로 기록합니다.
 
 ## 완료 기준
 
-- `GET /api/posts`, `POST /api/posts`, `PUT /api/posts/{id}`, `DELETE /api/posts/{id}` 가 모두 동작합니다.
-- Controller, Service, Repository 세 계층으로 코드를 분리했습니다.
-- H2 인메모리 DB에 JPA로 게시글이 저장됐다 조회됩니다.
-- `@Valid`로 요청 body 검증을 한 번 이상 적용했습니다.
+- [ ] `starter/board-api/gradlew`와 직접 작성한 Spring 소스가 존재합니다.
+- [ ] `./gradlew bootRun` 후 `GET`, `POST`, `PUT`, `DELETE /api/posts` 흐름을 직접 호출했습니다.
+- [ ] Controller, Service, Repository 세 계층의 실제 코드 위치를 설명할 수 있습니다.
+- [ ] H2 인메모리 DB에서 JPA로 저장한 게시글을 직접 조회했습니다.
+- [ ] `@Valid` 요청의 400 응답과 없는 id의 404 응답을 확인했습니다.
+
+완료로 표시하기 전 [학습 근거 4종](../student-checklist.md#단계마다-남길-4종-근거)에 Gradle·curl 명령, API·H2 관찰 결과, 해결한 오류, 직접 만든 클래스 위치를 기록합니다.
 
 ## 취업 연결
 
 SI/SW 실무에서 Spring은 다음과 같이 쓰입니다.
 
-- 대형 SI 프로젝트의 백엔드 사실상 표준.
-- 계층 분리(Controller / Service / Repository)와 의존성 주입이 면접 단골.
+- Java/Spring을 사용하는 공고에서 자주 요구되는 백엔드 스택입니다.
+- 계층 분리(Controller / Service / Repository)와 의존성 주입은 Spring 면접에서 설명할 수 있어야 할 기본 개념입니다.
 - JPA(Hibernate)와 MyBatis 두 ORM 진영을 모두 알아두면 좋지만, 신입은 JPA를 먼저 익히는 편이 학습 효율이 높습니다.
 
-이 단계가 끝나면 "Express로 만든 게시판 API와 동일한 기능을 Spring Boot로 다시 작성하며 Controller/Service/Repository 계층 분리와 JPA 영속성 흐름을 익혔다"고 설명할 수 있어야 합니다.
+위 체크 항목과 실행 로그가 있을 때만 "Express 게시판 API를 Spring Boot로 다시 작성해 계층 분리와 JPA 영속성 흐름을 확인했다"고 설명합니다. 아직 `starter/board-api`가 없다면 Spring 구조를 학습 중이라고 구분합니다.
 
 ## 핵심 개념
 

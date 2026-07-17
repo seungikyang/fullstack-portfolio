@@ -516,7 +516,7 @@ MongoDB 단계에서는 Express 라우터가 직접 배열을 고치는 대신, 
 - [ ] `npm run test:api`로 실제 서버 기준 인증과 CRUD smoke test를 실행한다.
 - [ ] `npm run build`로 Vite production build를 만든다.
 - [ ] `npm run audit:submit`으로 제출 필수 파일과 보안 항목을 확인한다.
-- [ ] `npm run verify`로 위 항목을 한 번에 실행한다.
+- [ ] `npm run verify`로 lint, format, build, unit/API test, 제출 감사를 실행한다.
 
 ### 보안/운영 빈칸
 
@@ -1225,9 +1225,9 @@ Note Hub는 npm workspaces로 API, Web, shared를 나누고, ____ 타입을 양�
 시간이 부족할 때 이 순서로 채우면 면접 대비 효율이 높습니다.
 
 1. **08 Career Hub** — 대표 프로젝트. 가장 길게 말하게 된다.
-2. **10 SQL** — SI 면접 거의 필수.
-3. **11 Spring** — Java/Spring 채용의 핵심. 08을 Spring 구조로 옮겨 말하기.
-4. **06 Auth + 16 Security** — 인증·보안은 단골 꼬리질문.
+2. **10 SQL** — SQL을 요구하는 공고에 우선.
+3. **11 Spring** — Java/Spring 공고에 지원할 때 우선. 08을 Spring 구조로 옮겨 말하기.
+4. **06 Auth + 16 Security** — 인증·보안을 다루는 공고와 프로젝트의 후속 질문 준비.
 5. **12 Testing** — "테스트 짜봤나요"에 코드로 답하기.
 6. **09 TypeScript / monorepo** — 타입 안전·계약 검증 강점.
 7. 나머지(01~05, 07, 13~15, 17)로 기초와 설명을 보강.
@@ -1237,7 +1237,7 @@ Note Hub는 npm workspaces로 API, Web, shared를 나누고, ____ 타입을 양�
 - [ ] 루트에서 `npm run verify`를 실행했다.
 - [ ] `08-fullstack-portfolio-project`에서 `npm run verify`를 실행했다.
 - [ ] `monorepo-mini-app`에서 `npm test` 또는 필요한 범위의 테스트를 실행했다.
-- [ ] `npm run progress`로 남은 빈칸이 0인지 확인했다.
+- [ ] `npm run progress`로 지정된 starter 소스의 전용 `____` 토큰 수를 확인했다.
 - [ ] `.env`, `node_modules`, `dist`, 로컬 데이터 파일이 커밋되지 않는지 확인했다.
 - [ ] README에 실행 방법, 주요 기능, 검증 명령이 들어 있는지 확인했다.
 - [ ] 면접에서 설명할 대표 기능 3개를 골랐다: ____, ____, ____.

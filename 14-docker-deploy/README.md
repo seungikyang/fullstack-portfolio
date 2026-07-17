@@ -25,6 +25,7 @@ GitHub Actions로 push 시 자동 빌드를 실행하는 간단한 CI 파이프�
 ```bash
 # 4단계 코드를 starter 폴더로 가져옵니다.
 cp -R 04-node-board-api/package.json \
+      04-node-board-api/package-lock.json \
       04-node-board-api/src \
       14-docker-deploy/starter/node-board/
 
@@ -37,12 +38,21 @@ docker run --rm -p 4000:4000 board-api
 
 ### Spring Boot API를 컨테이너로
 
+`starter/spring-board`에는 학습용 Dockerfile만 있습니다. 먼저 11단계에서 `11-java-spring/starter/board-api`를 직접 만들고 `./gradlew bootRun`까지 확인해야 합니다. 그 프로젝트 루트로 Dockerfile을 복사해야 `gradlew`, `build.gradle`, `src`가 같은 Docker build context에 들어갑니다.
+
 ```bash
-cd 14-docker-deploy/starter/spring-board
-./gradlew bootJar
+# 워크북 루트에서 실행
+test -f 11-java-spring/starter/board-api/gradlew
+cp 14-docker-deploy/starter/spring-board/Dockerfile \
+   11-java-spring/starter/board-api/Dockerfile
+
+cd 11-java-spring/starter/board-api
+./gradlew bootJar     # Docker 전에 원본 프로젝트 빌드가 되는지 먼저 확인
 docker build -t spring-board .
-docker run -p 8080:8080 spring-board
+docker run --rm -p 8080:8080 spring-board
 ```
+
+`test -f`가 실패하면 11단계 Spring 프로젝트가 아직 없는 상태입니다. 이때는 완료형 이력서 문장을 쓰지 말고 11단계를 먼저 진행합니다.
 
 ### docker compose로 앱 + Postgres 함께
 
@@ -66,11 +76,15 @@ docker compose down -v
 
 ## 완료 기준
 
-- Node.js 또는 Spring Boot 앱을 Dockerfile로 패키징했습니다.
-- docker compose로 앱과 Postgres(또는 MySQL)를 함께 실행했습니다.
-- `.dockerignore`로 `node_modules`와 `.git`을 제외했습니다.
-- GitHub Actions로 push 시 자동 빌드/테스트가 실행되도록 설정했습니다.
-- 이미지 크기를 한 번 이상 줄여봤습니다 (멀티 스테이지 빌드).
+아래 항목은 해당 명령을 직접 실행하고 결과를 확인한 경우에만 체크합니다. Node 또는 Spring 한 가지만 수행했다면 수행한 대상만 설명합니다.
+
+- [ ] Node.js 또는 Spring Boot 앱을 Dockerfile로 빌드하고 컨테이너를 실행했습니다.
+- [ ] docker compose로 앱과 Postgres(또는 MySQL)를 함께 실행했습니다.
+- [ ] `.dockerignore`로 `node_modules`와 `.git`을 제외했습니다.
+- [ ] GitHub Actions에서 실제 push 또는 PR의 빌드·테스트 통과를 확인했습니다.
+- [ ] `docker images` 결과로 멀티 스테이지 적용 전후 이미지 크기를 기록했습니다.
+
+완료로 표시하기 전 [학습 근거 4종](../student-checklist.md#단계마다-남길-4종-근거)에 Docker 명령, 컨테이너·CI 결과, 해결한 빌드 오류, 바꾼 Dockerfile·workflow 위치를 기록합니다.
 
 ## 취업 연결
 
@@ -78,9 +92,9 @@ SI/SW 실무에서 Docker는 다음과 같은 가치를 가집니다.
 
 - "내 노트북에서는 됐는데"를 막아줍니다.
 - 운영 서버에 같은 이미지를 배포하므로 환경 차이가 적습니다.
-- Kubernetes를 쓰는 회사라면 Docker는 사실상 전제 조건입니다.
+- 컨테이너 기반 배포를 사용하는 조직에서는 Docker 이미지와 실행 환경을 이해하는 데 도움이 됩니다.
 
-이 단계가 끝나면 "Node와 Spring Boot 앱을 각각 Dockerfile로 컨테이너화하고 compose로 DB와 함께 실행했으며, GitHub Actions로 push 시 자동 테스트가 돌도록 설정했다"고 설명할 수 있어야 합니다.
+Node와 Spring Boot 양쪽의 이미지 실행, compose DB 연결, GitHub Actions 통과 로그를 모두 확보한 경우에만 "두 앱을 각각 컨테이너화하고 CI에서 검증했다"고 설명합니다. 일부만 완료했다면 실제로 실행한 대상과 명령만 말합니다.
 
 ## 핵심 개념
 

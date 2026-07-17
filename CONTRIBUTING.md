@@ -20,10 +20,13 @@ OS 무관. 들여쓰기/줄바꿈은 `.editorconfig`로 통일됩니다.
 4. PR을 올리기 전에 변경한 영역에 해당하는 검증을 통과시킵니다.
 
    ```bash
-   # 루트 (워크북 구조)
-   npm run verify
+   # 루트 (구조 검증. 학습 빈칸 완료 여부와 분리)
+   npm run verify:structure
 
-   # 8번 포트폴리오 (lint + build + test + 제출 감사)
+   # 학습자 본인의 빈칸 완료 여부가 필요한 경우에만
+   npm run verify:learning
+
+   # 8번 포트폴리오 (format + lint + build + test + 제출 감사)
    cd 08-fullstack-portfolio-project
    npm run verify
 

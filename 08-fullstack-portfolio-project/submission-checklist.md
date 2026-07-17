@@ -11,7 +11,7 @@
 - [ ] `npm run build`가 성공합니다.
 - [ ] `npm run test:api` (실제 서버 smoke test)가 성공합니다.
 - [ ] `npm run audit:submit`이 성공합니다.
-- [ ] `npm run verify` (위 항목을 한 번에 실행)가 성공합니다.
+- [ ] `npm run verify` (format, lint, build, unit/API test, 제출 감사)가 성공합니다.
 - [ ] ZIP으로 제출한다면 `npm run clean:generated`를 실행했습니다.
 
 ## GitHub 정리
@@ -30,14 +30,23 @@
 - [ ] 프로젝트 한 줄 소개를 말할 수 있습니다.
 - [ ] 루트 [폴더부터 실무까지 학습 가이드](../folder-to-practice-guide.md)를 기준으로 1~8번 폴더의 흐름을 말할 수 있습니다.
 - [ ] 1~7단계가 Career Hub에 어떻게 연결되는지 설명할 수 있습니다.
-- [ ] 취업 준비도의 여섯 가지 계산 근거와 워크북 저장 흐름을 설명할 수 있습니다.
+- [ ] 취업 준비도의 네 단계 계산 근거를 `server/index.js`의 `dashboardFor`와 `src/App.jsx`의 `getWorkbookSteps`에서 가리킬 수 있습니다.
 - [ ] 인증, CRUD, 저장소 계층, 검증 스크립트를 설명할 수 있습니다.
-- [ ] JSON 저장소를 선택한 이유와 DB 교체 방향을 설명할 수 있습니다.
+- [ ] `server/auth.js`의 `hashPassword`, `signToken`, `requireAuth`, `assertAuthConfig` 역할을 설명할 수 있습니다.
+- [ ] `server/data-store.js`의 `JsonStore`를 선택한 이유와 DB 교체 시 필요한 작업을 설명할 수 있습니다.
 - [ ] `npm run verify`가 어떤 검증을 하는지 설명할 수 있습니다.
+
+## 학습 근거
+
+- [ ] 실제로 사용한 실행 명령을 적었습니다.
+- [ ] 3000번 화면과 5100번 API 또는 테스트에서 관찰한 결과를 적었습니다.
+- [ ] 실제 오류 메시지와 한 가지 해결 과정을 적었습니다.
+- [ ] 이력서 문장마다 직접 수정한 파일과 함수 위치를 연결했습니다.
 
 ## 보안 확인
 
 - [ ] 비밀번호는 평문으로 저장되지 않습니다.
 - [ ] 로그인 응답에 `passwordHash`가 노출되지 않습니다.
 - [ ] 보호 API는 토큰 없이 접근하면 401을 반환합니다.
-- [ ] `JWT_SECRET`은 배포 시 실제 비밀값으로 바꿉니다.
+- [ ] `NODE_ENV=production`에서 예제값이 아닌 32자 이상의 `JWT_SECRET`이 없으면 시작이 거부되는지 확인했습니다.
+- [ ] `SEED_DEMO` 기본값이 `false`이며, 운영 배포에서 데모 계정을 만들지 않는지 확인했습니다.

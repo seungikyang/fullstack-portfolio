@@ -26,6 +26,8 @@ npm run dev
 - Express 라우터의 `Request`, `Response` 제네릭이 명시됐습니다.
 - `any`를 의도적으로 쓴 곳이 한 군데도 없습니다.
 
+완료로 표시하기 전 [학습 근거 4종](../student-checklist.md#단계마다-남길-4종-근거)에 typecheck 명령, 검사 결과, 해결한 타입 오류, 바꾼 타입·컴포넌트 위치를 기록합니다.
+
 ## 취업 연결
 
 SI/SW 실무에서 TypeScript는 다음과 같은 가치를 가집니다.

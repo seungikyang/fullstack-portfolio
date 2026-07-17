@@ -151,7 +151,7 @@
 - [roadmap.sh - 풀스택 개발자 로드맵](https://roadmap.sh/full-stack). 이 워크북 이후 더 공부할 방향을 그림으로 보여줍니다.
 - [NCS 공정채용 안내](https://ncs.go.kr/company/ch03/CH-104-001-01.scdo). SI/SW 채용이 직무능력 중심으로 평가되는 이유를 설명합니다. ([career-roadmap.md](./career-roadmap.md) 참고)
 - [Q-Net 정보처리기사 종목 상세정보](https://www.q-net.or.kr/crf005.do?gId=&gSite=Q&id=crf00503s02&jmCd=1320&jmInfoDivCcd=B0). 자격증을 병행할 때 공식 일정, 시험과목, 합격 기준을 확인하세요.
-- [폴더부터 실무까지 학습 가이드](./folder-to-practice-guide.md). 1~8번 폴더를 실무 역량과 제출 자료로 바꾸는 순서를 정리했습니다.
+- [폴더부터 실무까지 학습 가이드](./folder-to-practice-guide.md). 1~17번 폴더를 실행 근거와 제출 자료로 연결하는 순서를 정리했습니다.
 
 ## 자료를 보는 우선순위
 

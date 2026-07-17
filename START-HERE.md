@@ -43,12 +43,13 @@ Career Hub는 메뉴를 자유롭게 돌아다니는 관리 도구가 아니라 
 2. `problems.md`와 starter 코드의 빈칸을 직접 해결합니다.
 3. 실행, 테스트, 빌드 중 해당하는 검증을 수행합니다.
 4. [student-checklist.md](./student-checklist.md)에서 실제로 확인한 항목만 체크합니다.
-5. GitHub README나 면접 카드에 아래 세 문장을 남깁니다.
+5. GitHub README나 면접 카드에 아래 네 가지 근거를 남깁니다.
 
 ```text
-구현한 것.
-검증한 방법과 결과.
-문제가 있었던 지점과 해결 근거.
+실행 명령. 무엇을 실행했는가.
+관찰 결과. 화면·응답·테스트에서 무엇을 확인했는가.
+해결한 오류. 오류 메시지와 한 가지 수정은 무엇이었는가.
+코드 위치. 직접 바꾼 파일·함수·줄은 어디인가.
 ```
 
 진행 상태는 루트에서 확인합니다.
@@ -56,6 +57,8 @@ Career Hub는 메뉴를 자유롭게 돌아다니는 관리 도구가 아니라 
 ```bash
 npm run progress
 ```
+
+`progress`는 지정된 starter 소스의 전용 `____` 토큰과 체크리스트 진행률을 보여주는 정보성 명령입니다. 일반 `TODO`와 서술형 답안은 집계하지 않습니다. 저장소 구조는 `npm run verify:structure`, 같은 전용 토큰의 완료 여부는 `npm run verify:learning`으로 별도 확인합니다.
 
 ## 5. 학습을 취업 근거로 바꿉니다
 
@@ -74,6 +77,8 @@ npm install
 cp .env.example .env
 npm run dev
 ```
+
+기본 설정은 데모 데이터를 만들지 않습니다. 회원가입으로 자기 계정을 만들고, 데모가 꼭 필요할 때만 `.env`의 `SEED_DEMO=true`와 `VITE_SHOW_DEMO=true`를 함께 명시합니다.
 
 ## 6. 매주 한 번 점검합니다
 

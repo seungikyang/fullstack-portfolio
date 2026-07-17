@@ -7,6 +7,7 @@
 ```bash
 # 워크북 루트에서
 cp -R 04-node-board-api/package.json \
+      04-node-board-api/package-lock.json \
       04-node-board-api/src \
       14-docker-deploy/starter/node-board/
 
@@ -26,7 +27,7 @@ curl http://localhost:4000/health
 
 ## 주의
 
-- `04-node-board-api/`의 `node_modules`나 `package-lock.json`을 함께 복사할 필요는 없습니다. `Dockerfile`이 빌드 단계에서 `npm ci`로 새로 설치합니다.
+- `node_modules`는 복사하지 않습니다. `package-lock.json`은 반드시 복사해야 하며, Dockerfile의 `npm ci`는 `package.json`과 lockfile이 함께 있어야 실행됩니다.
 - 이 폴더의 `.dockerignore`가 컨텍스트에서 `node_modules`와 `.git`을 제외합니다.
 - 4단계 코드의 빈칸이 채워져 있어야 컨테이너가 정상 실행됩니다.
 

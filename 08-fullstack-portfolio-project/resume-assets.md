@@ -1,24 +1,24 @@
 # 이력서·지원서용 프로젝트 자료
 
-이 문서는 Career Hub를 이력서, 자기소개서, 지원서, GitHub README에 사용할 때 바로 가져다 쓸 수 있는 문장 모음입니다.
+이 문서는 Career Hub를 이력서, 자기소개서, 지원서, GitHub README에 사용할 때 고르는 문장 후보입니다. 실제 실행 명령·관찰 결과·해결한 오류·코드 위치가 있는 문장만 사용합니다.
 
 ## 한 줄 소개
 
-React와 Express로 구현한 취업 워크북으로, 목표·주간 행동·준비도 관리와 JWT 인증, 지원 현황·포트폴리오 프로젝트 CRUD, JSON 파일 저장소, API smoke test를 포함합니다.
+React와 Express로 작성한 취업 워크북으로, 네 단계 준비도와 JWT 인증, 지원·프로젝트 CRUD, JSON 파일 저장소, 자동 검증 명령을 포함합니다.
 
 ## 이력서 프로젝트 항목
 
 **Career Hub. Fullstack Portfolio Project**
 
-- React 19와 Vite로 취업 워크북과 지원 현황·프로젝트 관리 대시보드를 구현하고, 컴포넌트 단위로 로그인, 워크북, 통계, CRUD 화면을 분리했습니다.
-- Express 5 기반 REST API를 설계해 회원가입, 로그인, 사용자별 워크북 저장, 지원 현황 CRUD, 프로젝트 CRUD, 준비도 지표를 제공했습니다.
-- bcryptjs로 비밀번호를 해시하고 JWT 기반 인증 미들웨어로 보호 API 접근을 제어했습니다.
-- JSON 파일 저장소 계층을 분리해 로컬 실행은 쉽게 유지하면서 MongoDB나 PostgreSQL로 교체 가능한 구조를 만들었습니다.
-- `npm run verify`로 프론트엔드 빌드, API smoke test, 제출 전 감사가 함께 실행되도록 구성했습니다.
+- `src/App.jsx`의 `WorkbookSection`, `ApplicationSection`, `ProjectSection`으로 워크북과 두 CRUD 화면을 나누고, `getWorkbookSteps`로 네 단계 진행 조건을 표시했습니다.
+- `server/index.js`의 `createApp`에 회원가입·로그인, 워크북, 지원, 프로젝트 라우트를 작성하고 `dashboardFor`에서 네 단계 준비도를 계산했습니다.
+- `server/auth.js`에서 bcrypt work factor 10, HS256·2시간 JWT, Bearer 토큰 검증, 운영용 `JWT_SECRET` 검사를 적용했습니다.
+- `server/data-store.js`의 `JsonStore`로 파일 저장 코드를 라우터와 분리했습니다. DB 교체는 다음 개선 항목으로 구분합니다.
+- `npm run verify`에 format check, lint, build, Vitest·supertest, API smoke test, 제출 감사를 연결했습니다.
 
 ## 자기소개서 문장 예시
 
-풀스택 개발자로 성장하기 위해 HTML/CSS, JavaScript, React, Node.js, 데이터 저장, 로그인, 배포 과정을 단계별로 학습한 뒤 이를 하나의 프로젝트로 통합했습니다. Career Hub는 취업 준비자가 지원 현황과 포트폴리오 프로젝트를 관리할 수 있는 서비스이며, 단순 화면 구현을 넘어 인증, CRUD, 데이터 저장, 자동 검증까지 포함했습니다. 특히 API smoke test를 작성해 회원가입, 로그인, 보호 API, 생성·수정·삭제 흐름이 실제로 동작하는지 확인했습니다.
+실제 학습·검증 기록이 있을 때 사용할 수 있는 예시입니다. HTML/CSS, JavaScript, React, Node.js, 데이터 저장, 로그인, 배포 개념을 Career Hub의 화면과 API에서 다시 확인했습니다. 특히 `scripts/api-smoke-test.js`로 가입, 로그인 실패·성공, 보호 API, 워크북, 지원·프로젝트 CRUD를 실행했고, 실패한 검증은 로그의 첫 오류부터 수정했습니다.
 
 ## 면접 1분 설명
 
@@ -32,15 +32,15 @@ Career Hub는 SI/SW 취업 준비자가 목표 직무와 주간 행동, 제출 �
 
 ### Q. DB 대신 JSON 파일을 쓴 이유는 무엇인가요?
 
-포트폴리오를 보는 사람이 별도 DB를 설치하지 않아도 바로 실행할 수 있게 하기 위해 JSON 파일 저장소를 사용했습니다. 대신 `server/data-store.js`에 저장소 로직을 분리해 나중에 MongoDB나 PostgreSQL로 교체할 수 있게 만들었습니다.
+포트폴리오를 보는 사람이 별도 DB 없이 실행할 수 있도록 `server/data-store.js`의 `JsonStore`를 사용했습니다. 라우터가 구체 클래스를 사용하므로 MongoDB나 PostgreSQL로 옮길 때는 같은 CRUD 메서드 계약을 구현하고 생성 지점을 바꿔야 합니다.
 
 ### Q. 보안 관점에서 신경 쓴 부분은 무엇인가요?
 
-비밀번호를 평문으로 저장하지 않고 bcryptjs로 해시했습니다. 로그인 성공 시 JWT를 발급하고, 보호 API에서는 `Authorization: Bearer 토큰` 헤더를 검증합니다. 회원가입 응답에는 `passwordHash`가 노출되지 않도록 했고, smoke test에서 이 점도 확인합니다.
+`server/auth.js`에서 bcrypt work factor 10으로 비밀번호를 해시하고 HS256·2시간 JWT를 발급합니다. `requireAuth`는 `Authorization: Bearer` 토큰을 검증하고, `assertAuthConfig`는 운영에서 32자 이상의 비예제 `JWT_SECRET`을 요구합니다. `scripts/api-smoke-test.js`는 회원가입 응답에 `passwordHash`가 없는지도 확인합니다.
 
 ### Q. 검증은 어떻게 했나요?
 
-`npm run verify`로 Vite production build, API smoke test, 제출 전 감사 스크립트를 함께 실행합니다. smoke test는 회원가입, 로그인 실패, 로그인 성공, 워크북 저장, 보호 API, 지원 현황 CRUD, 프로젝트 CRUD, 준비도 지표를 실제 HTTP 요청으로 확인합니다.
+`npm run verify`는 lint → format:check → build → test:unit → test:api → audit:submit을 실행합니다. smoke test는 데모 시드 없이 임시 데이터 파일에서 회원가입, 로그인 실패·성공, 워크북 저장, 보호 API, 지원·프로젝트 CRUD, 네 단계 준비도를 HTTP 요청으로 확인합니다.
 
 ## 지원서에 적기 좋은 기술 키워드
 
@@ -52,7 +52,7 @@ Career Hub는 SI/SW 취업 준비자가 목표 직무와 주간 행동, 제출 �
 - CRUD, JSON File Store, Repository Layer.
 - API Smoke Test, Build Verification, Environment Variables.
 
-심화(SI 채용에서 더 깊이 본 적이 있다면 추가).
+심화. 해당 파일을 직접 확인하고 명령을 실행한 경우에만 추가합니다.
 
 - Docker(멀티 스테이지) + docker-compose + DevContainer.
 - Vitest + supertest + React Testing Library (서버·프론트 단위/통합 테스트).
@@ -72,7 +72,7 @@ npm run verify
 npm run audit:submit
 ```
 
-위 명령이 통과하면 이력서나 지원서에 “빌드와 API 검증 스크립트를 포함한 fullstack 프로젝트”라고 적을 수 있습니다.
+위 명령의 최신 통과 로그와 직접 수정한 코드 위치가 있을 때 “format, lint, build, 테스트, 제출 감사 명령을 포함한 fullstack 프로젝트”라고 적을 수 있습니다. 실제 배포를 하지 않았다면 배포 경험 대신 배포 매니페스트를 작성했다고 구분합니다.
 
 ## 참고 근거
 

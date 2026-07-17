@@ -44,6 +44,8 @@ app.get('/search', (req, res) => {
 
 ## 3번. SQL Injection 방어
 
+실행 전 `starter/03-sql-injection-setup.sql`을 로컬 MySQL 또는 Docker MySQL에 적용합니다. 이 스크립트가 코드의 접속값과 같은 `app` 데이터베이스, `user` 계정, `users` 테이블을 만듭니다.
+
 취약 코드.
 
 ```js
@@ -73,30 +75,56 @@ List<User> findByName(@Param("name") String name);
 
 ## 4번. CSRF 방어
 
-방어 1. SameSite 쿠키.
+`starter/04-csrf-demo/protected.js`는 `node:crypto`로 만든 토큰을 쿠키와 요청 body에서 직접 비교합니다.
+
+방어 1. 세션 쿠키의 SameSite 설정.
 
 ```js
-res.cookie('session', token, {
+const sameSitePractice = "lax"; // 또는 "strict"
+
+res.cookie(sessionCookieName, sessionId, {
   httpOnly: true,
-  secure: true,
-  sameSite: 'lax',  // 또는 'strict'
+  secure: false, // 로컬 HTTP 실습용. 운영 HTTPS에서는 true.
+  sameSite: sameSitePractice,
 });
 ```
 
-방어 2. CSRF 토큰 미들웨어.
+방어 2. 수동 CSRF 토큰 발급과 검증.
 
 ```js
-import csurf from 'csurf';
-app.use(csurf({ cookie: true }));
+function issueCsrfToken(_req, res) {
+  const token = crypto.randomBytes(32).toString("hex");
+  res.cookie(csrfCookieName, token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+  });
+  return token;
+}
 
-// 폼에 토큰 포함
-res.render('form', { csrfToken: req.csrfToken() });
+function verifyCsrfToken(req, res, next) {
+  if (!tokensMatch(req.cookies[csrfCookieName], req.body._csrf)) {
+    return res.status(403).json({
+      message: "CSRF 토큰이 없거나 올바르지 않습니다.",
+    });
+  }
+  return next();
+}
+
+app.post("/transfer", requireSession, verifyCsrfToken, handler);
+```
+
+폼의 빈칸은 해당 요청에서 발급한 `token` 변수를 연결합니다.
+
+```html
+<input type="hidden" name="_csrf" value="${token}" />
 ```
 
 설명.
 
-- `SameSite=Lax`는 외부 사이트의 GET 외 요청에 쿠키를 보내지 않습니다.
-- CSRF 토큰은 폼 페이지를 받을 때 발급되고, 제출 시 함께 보내야 통과합니다.
+- `/api/transfer`는 비교를 위해 세션만 확인하는 취약 경로이고, `/transfer`는 세션과 CSRF 토큰을 모두 확인하는 보호 경로입니다.
+- `SameSite=Lax` 또는 `Strict`의 교차 출처 전송 제한은 브라우저가 적용합니다. `curl -b`는 저장된 쿠키를 명시적으로 보내므로 SameSite 차단을 재현하지 않습니다.
+- CSRF 토큰은 `/api/csrf-token` 또는 `/form`에서 발급되고, 같은 쿠키와 body 토큰을 함께 보내야 보호 경로를 통과합니다.
 - JWT를 Authorization 헤더로만 쓰고 쿠키에 넣지 않는 SPA 패턴은 기본적으로 CSRF 위험이 적습니다(이것이 Career Hub의 패턴입니다).
 
 XSS vs CSRF.
@@ -115,7 +143,7 @@ app.use(cors({ origin: '*', credentials: true }));  // 동시에 쓰면 브라�
 안전한 설정.
 
 ```js
-const allowed = ['http://localhost:5173', 'https://app.example.com'];
+const allowed = ['http://localhost:3000', 'https://app.example.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -180,7 +208,8 @@ app.post('/login', async (req, res) => {
 ## 8번. 의존성 취약점
 
 ```bash
-npm audit
+cd 16-security
+npm audit --omit=dev
 npm audit fix         # 자동으로 가능한 것만 수정
 npm audit fix --force # major 버전 업까지 (호환성 깨질 수 있음)
 ```
@@ -189,7 +218,7 @@ CI 워크플로우 추가 예시.
 
 ```yaml
 - run: npm audit --audit-level=high
-  working-directory: 04-node-board-api
+  working-directory: 16-security
 ```
 
 설명. 자동 수정이 항상 안전하지 않습니다. major 버전 업이 호환성을 깨면 테스트가 잡아줘야 합니다(12단계와 연결).

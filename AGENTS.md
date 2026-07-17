@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-이 저장소에서 Claude Code가 따라야 할 프로젝트 컨텍스트.
+이 저장소에서 Codex가 따라야 할 프로젝트 컨텍스트.
 
 ## 저장소 성격
 

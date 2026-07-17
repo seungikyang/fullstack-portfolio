@@ -2,7 +2,7 @@
 
 SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 기초부터 실무 협업까지 단계별로 익히는 실습형 워크북입니다.
 
-세 트랙으로 나뉘어 있습니다: 1~8번은 풀스택 기초·통합 트랙, 9~14번은 SI 채용 실전 보강 트랙, 15~17번은 채용 직전(CS·보안·면접) 마감 트랙입니다. 추가로 `monorepo-mini-app`은 가상환경(DevContainer) 위에서 동작하는 TypeScript 모노레포 데모입니다.
+세 트랙으로 나뉩니다. 1~8번은 풀스택 기초·통합 트랙, 9~14번은 채용 공고에 맞춰 선택하는 실전 보강 트랙, 15~17번은 CS·보안·면접 정리 트랙입니다. 추가로 `monorepo-mini-app`은 가상환경(Dev Container)에서 동작하는 TypeScript 모노레포 데모입니다.
 
 각 단계는 설명만 읽는 방식이 아니라, 코드 안의 `빈칸`, `TODO`, `____`를 직접 채우며 공부하도록 구성했습니다.
 
@@ -14,7 +14,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 2. 단계별 `README.md`와 `problems.md`를 보고 `starter` 또는 `src` 폴더의 빈칸을 채웁니다.
 3. 브라우저 또는 npm 명령으로 실행해 결과를 확인합니다.
 4. 막히면 `answers.md`를 보고 어느 부분을 놓쳤는지 비교합니다.
-5. [student-checklist.md](./student-checklist.md)를 체크하고 구현·검증·문제 해결을 자기 말로 기록합니다.
+5. [student-checklist.md](./student-checklist.md)를 체크하고 실행 명령·관찰 결과·해결한 오류·코드 위치를 기록합니다.
 
 ## 폴더부터 실무까지 (공부 순서)
 
@@ -40,14 +40,14 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 | 16 | `16-security` | XSS·SQL Injection·CSRF·CORS·OWASP Top 10의 방어 코드를 작성하는 능력 |
 | 17 | `17-interview-prep` | 1~16단계 학습을 면접 답변으로 통합·연습하는 능력 |
 
-1~8번은 "풀스택 앱 한 개를 직접 만든다"는 기초 트랙입니다. 9~14번은 "실제 SI 현장에서 통할 수준으로 끌어올린다"는 SI 실전 보강 트랙입니다. 15~17번은 "기술 + CS + 면접까지 모두 통과한다"는 채용 직전 마감 트랙입니다. 1~8 → 9~14 → 15~17 순서로 진행하길 권장합니다.
+1~8번은 풀스택 앱 한 개를 직접 실행하는 기초 트랙입니다. 9~14번은 목표 공고에서 요구하는 TypeScript·SQL·Spring·테스트·협업·Docker 근거를 보강하는 트랙입니다. 15~17번은 학습 결과를 CS·보안·면접 답변으로 정리하는 트랙입니다. 모든 단계를 끝냈다는 사실만으로 채용 결과가 보장되지는 않으므로, 지원 일정과 공고에 맞춰 우선순위를 조정합니다.
 
 진행 방식은 단계마다 똑같습니다.
 
 1. **공부**. 폴더의 `README.md`를 읽고 `problems.md`의 `빈칸`을 직접 채웁니다. 막히면 `references.md`의 "에러 읽는 법"을 먼저 보고, 그래도 막히면 `answers.md`와 비교합니다.
 2. **통합**. 1~7을 끝내면 `08-fullstack-portfolio-project`를 실행해 배운 것이 실제 앱의 어디에 쓰였는지 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)로 확인합니다.
 3. **제출**. 8번을 GitHub에 올리고 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)의 문장으로 이력서·자기소개서를 작성합니다. 올리기 전 [submission-checklist.md](./08-fullstack-portfolio-project/submission-checklist.md)로 점검합니다.
-4. **설명**. 면접에서 "내가 직접 고친 코드 한 줄"과 "1~7이 8에 어떻게 연결됐는지"를 자기 말로 설명합니다.
+4. **설명**. 실행 명령, 관찰 결과, 해결한 오류, 코드 위치를 근거로 "내가 직접 고친 코드 한 줄"과 "1~7이 8에 어떻게 연결됐는지"를 자기 말로 설명합니다.
 
 > 막히는 게 정상입니다. 추측으로 고치지 말고 에러 메시지를 먼저 읽으세요. 그 습관 자체가 SI/SW 면접에서 평가받는 실무 능력입니다.
 
@@ -60,7 +60,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 - [index.html](./index.html)은 추천 경로, 17단계 학습 자료, 취업 준비 문서를 클릭해서 이동하는 단일 HTML 목차입니다.
 - [START-HERE.md](./START-HERE.md)는 목표 직무와 지원 시기에 따라 첫 학습 경로를 정하는 단일 시작점입니다.
 - [history.html](./history.html)은 취업 워크북 개선의 배경, 구현 내용, 검증 결과를 정리한 변경 이력입니다.
-- [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~8번 폴더를 실무 능력, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
+- [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~17번 폴더를 실행 근거, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
 - [feature-implementation-workbook.md](./feature-implementation-workbook.md)는 모든 기능 구현을 개념 빈칸, 구현 TODO, 검증 명령, 면접 설명으로 다시 채우는 종합 워크북입니다.
 - [career-roadmap.md](./career-roadmap.md)는 SI/SW 취업 준비 관점의 전체 로드맵입니다.
 - [references.md](./references.md)는 단계별 공식 문서, 에러 읽는 법, 공부 루틴을 모은 자료입니다.
@@ -89,12 +89,11 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 | 16단계 | `16-security` | OWASP Top 10과 XSS·SQLi·CSRF 방어 코드 |
 | 17단계 | `17-interview-prep` | 1~16단계 면접 카드 통합과 자기소개·STAR 답안 |
 
-각 단계에는 다음 파일이 있습니다.
+모든 단계에는 목표와 실행 방법을 설명하는 `README.md`가 있습니다. 코드 실습 단계는 대체로 `problems.md`, `answers.md`, `starter` 또는 `src`를 함께 제공하지만 단계 성격에 따라 구성이 다릅니다.
 
-- `README.md`는 공부 목표와 실행 방법입니다.
-- `problems.md`는 직접 풀 문제입니다.
-- `answers.md`는 막혔을 때 확인하는 정답 예시입니다.
-- `starter` 또는 `src`는 빈칸을 채우는 실습 코드입니다.
+- 8단계는 실행 가능한 Career Hub와 `learning-map.md`, `resume-assets.md`, `submission-checklist.md`를 중심으로 구성됩니다.
+- 15단계는 CS 질문·답안 문서, 17단계는 면접 카드·자기소개·STAR·프로젝트 설명 템플릿이 중심입니다.
+- 11단계 Spring과 14단계 Docker는 README에 적힌 원본 프로젝트 준비 조건을 먼저 충족해야 합니다.
 
 ## 실행 안내
 
@@ -141,15 +140,19 @@ npm run dev
 # API: http://localhost:5200, Web: http://localhost:5174
 ```
 
-워크북 구조 검증은 루트 폴더에서 실행합니다.
+루트 명령은 구조 검증과 학습 진행 확인을 구분합니다.
 
 ```bash
-npm run verify
+npm run verify:structure # 저장소 구조와 필수 파일 검사. npm run verify와 동일
+npm run progress         # starter 소스의 전용 ____ 토큰과 체크리스트 진행률 보고
+npm run verify:learning  # 전용 ____ 토큰 완료 여부 검사. 남아 있으면 실패
 ```
 
-`.github/workflows/ci.yml`로 main 푸시·PR마다 GitHub Actions가 위 검증과 8번 포트폴리오의 lint, 단위/통합 테스트, 빌드, Docker 이미지 빌드를 자동 실행합니다.
+`npm run verify`는 `verify:structure`의 별칭이며 학습 완료를 뜻하지 않습니다. `progress`와 `verify:learning`은 지정된 starter 소스의 전용 `____` 토큰만 집계하며 일반 `TODO`나 서술형 답안은 판정하지 않습니다. 학습 중에는 `progress`로 현황을 보고, 제출 직전에 `verify:learning`과 실제 실행 결과를 함께 확인합니다.
 
-남은 빈칸 개수는 루트 폴더에서 확인합니다.
+`.github/workflows/ci.yml`로 main 푸시·PR마다 GitHub Actions가 루트 구조 검증과 8번 포트폴리오의 포맷·lint·테스트·빌드·제출 감사, Docker 이미지 실행을 자동 확인합니다. CI 통과는 현재 자동화 범위의 통과를 뜻하며 모든 학습 빈칸이나 배포 품질을 보증하지 않습니다.
+
+지정된 starter 소스의 남은 전용 `____` 토큰과 체크리스트 진행률은 루트 폴더에서 확인합니다.
 
 ```bash
 npm run progress
@@ -191,12 +194,24 @@ npm run progress
 - 11번 Spring Boot 단계는 JDK 21과 Gradle wrapper가 필요합니다(`brew install openjdk@21`).
 - 12번 테스트 단계는 추가 설치가 거의 없습니다. Vitest와 JUnit은 각 프로젝트 의존성으로 들어갑니다.
 - 13번 Git 협업 단계는 GitHub 계정과 두 개의 로컬 클론으로 진행합니다.
-- 14번 Docker 단계는 Docker Desktop 설치가 필요합니다.
+- 14번 Docker 단계는 Docker Desktop과 컨테이너화할 원본 코드가 필요합니다. Node 실습은 완성한 4단계의 `package.json`, `package-lock.json`, `src`를 복사하고, Spring 실습은 11단계에서 직접 만든 `starter/board-api`를 사용합니다.
 - 15번 CS 기초 단계는 별도 설치 없이 질문에 자기 답안을 작성하는 흐름입니다.
-- 16번 보안 단계는 4단계 Express 환경에서 작은 스크립트를 실행합니다. 추가 설치는 없습니다.
+- 16번 보안 단계는 별도 npm 실습입니다. `16-security`에서 `npm install`과 `npm run check`를 먼저 실행하며, SQL Injection 실습에만 로컬 MySQL 또는 Docker MySQL이 추가로 필요합니다.
 - 17번 면접 대비 단계는 마크다운 카드를 채우는 흐름입니다.
 - VS Code와 REST Client 확장을 쓰면 `requests.http` 파일로 API를 쉽게 테스트할 수 있습니다.
 - MongoDB 단계는 로컬 MongoDB 또는 MongoDB Atlas 중 하나가 필요합니다.
 - 실제 제출용 프로젝트는 `08-fullstack-portfolio-project`부터 먼저 완성해 GitHub에 올려도 좋습니다.
 - 포트폴리오 프로젝트의 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)를 보면 1~7단계 코드가 실제 프로젝트 기능으로 어떻게 연결됐는지 확인할 수 있습니다.
 - 이력서·지원서용 문장은 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)에 정리했습니다.
+
+14번과 16번의 자세한 실행 전제는 각 단계 README에서 확인합니다.
+
+```bash
+# 14번은 완성한 4번/11번 소스를 준비한 뒤 진행
+open 14-docker-deploy/README.md
+
+# 16번 공통 준비
+cd 16-security
+npm install
+npm run check
+```
