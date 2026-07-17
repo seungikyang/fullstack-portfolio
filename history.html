@@ -703,6 +703,18 @@
                 <td class="status-pass">50개 통과</td>
               </tr>
               <tr>
+                <td>후속 분리 테스트</td>
+                <td>포트를 사용하지 않는 server·web Vitest 파일 재실행</td>
+                <td class="status-pass">서버 30개·웹 4개 통과</td>
+              </tr>
+              <tr>
+                <td>후속 API 테스트</td>
+                <td>Supertest API 통합 테스트 16개 재실행</td>
+                <td class="status-not-run">
+                  실행 환경의 포트 바인딩 제한(<code>EPERM</code>)으로 미실행
+                </td>
+              </tr>
+              <tr>
                 <td>실제 API 흐름</td>
                 <td><code>npm run test:api</code></td>
                 <td class="status-pass">인증·워크북·CRUD smoke test 통과</td>
@@ -735,8 +747,10 @@
 
         <div class="commit-list">
           <article class="commit">
-            <code>2026.07.17</code>
-            <p><strong>feat</strong> 17단계를 잇는 HTML 취업 워크북 목차 추가.</p>
+            <code>7f93dc1</code>
+            <p>
+              <strong>feat</strong> 17단계를 잇는 HTML 취업 워크북 목차 추가.
+            </p>
           </article>
           <article class="commit">
             <code>ca1ec8a</code>
@@ -765,9 +779,10 @@
           <strong>브라우저 픽셀 검수는 별도로 한 번 더 필요합니다.</strong>
           <p>
             연결된 브라우저가 로컬 <code>file://</code> URL을 보안 정책으로
-            차단해 화면을 직접 열지 못했습니다. 반응형 CSS와 17단계 링크 대상은
-            정적으로 검증했습니다. 링크로 여는 <code>.md</code> 문서의 서식도
-            GitHub, 코드 편집기, 로컬 웹 서버에 따라 달라질 수 있습니다.
+            차단했고, 실행 환경은 로컬 서버의 포트 바인딩도 허용하지 않아 화면을
+            직접 열지 못했습니다. 반응형 CSS와 17단계 링크 대상은 정적으로
+            검증했습니다. 링크로 여는 <code>.md</code> 문서의 서식도 GitHub,
+            코드 편집기, 로컬 웹 서버에 따라 달라질 수 있습니다.
           </p>
         </div>
       </section>
