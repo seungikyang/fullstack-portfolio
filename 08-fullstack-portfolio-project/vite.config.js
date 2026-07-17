@@ -2,14 +2,15 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// 개발 중에는 프론트엔드(5173)에서 보낸 /api 요청을 백엔드(5100)로 프록시한다.
+// 개발 중에는 프론트엔드(3000)에서 보낸 /api 요청을 백엔드(5100)로 프록시한다.
 // 이렇게 하면 브라우저 입장에서는 같은 주소라서 CORS 문제가 생기지 않는다.
 const API_TARGET = process.env.VITE_API_URL || "http://localhost:5100";
 
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173,
+    port: 3000,
+    strictPort: true,
     // host: true는 0.0.0.0 바인딩. 로컬에서는 localhost로도 접속되고
     // Docker/DevContainer 안에서도 호스트 머신에서 접속할 수 있게 한다.
     host: true,
@@ -19,5 +20,10 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  preview: {
+    host: true,
+    port: 3000,
+    strictPort: true
   }
 });

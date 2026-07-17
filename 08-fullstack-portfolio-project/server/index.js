@@ -127,7 +127,7 @@ async function seedDemoData(store) {
 export async function createApp(options = {}) {
   const app = express();
   const store = new JsonStore(options.dataFile || process.env.DATA_FILE || defaultDataFile);
-  const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
+  const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:3000";
   // 개발 편의: localhost와 127.0.0.1을 모두 허용한다. Origin이 없는 요청(curl, smoke test)도 허용한다.
   const allowedOrigins = new Set([
     clientOrigin,

@@ -67,7 +67,7 @@ const server = spawn(process.execPath, ["server/index.js"], {
     DATA_FILE: dataFile,
     JWT_SECRET: "smoke-test-secret",
     SEED_DEMO: "false",
-    CLIENT_ORIGIN: "http://localhost:5173"
+    CLIENT_ORIGIN: "http://localhost:3000"
   },
   stdio: ["ignore", "pipe", "pipe"]
 });

@@ -9,8 +9,11 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
     "dev:api": "node --watch server/index.js",
+    "dev:stop": "node scripts/free-port.js 3000",
+    "predev:web": "npm run dev:stop",
     "dev:web": "vite",
     "build": "vite build",
+    "prepreview": "npm run dev:stop",
     "preview": "vite preview",
     "start": "node server/index.js",
     "audit:submit": "node scripts/submission-audit.js",

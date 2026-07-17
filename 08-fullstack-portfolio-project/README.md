@@ -68,7 +68,9 @@ cp .env.example .env
 npm run dev
 ```
 
-`npm run dev`는 API 서버(`http://localhost:5100`)와 프론트엔드(`http://localhost:5173`)를 함께 실행합니다. 브라우저에서 **`http://localhost:5173`** 을 엽니다.
+`npm run dev`는 API 서버(`http://localhost:5100`)와 프론트엔드(`http://localhost:3000`)를 함께 실행합니다. 브라우저에서 **`http://localhost:3000`** 을 엽니다.
+
+프론트엔드 포트는 항상 3000번으로 고정됩니다. 실행 전에 3000번을 사용 중인 수신 프로세스가 있으면 자동으로 종료하며, 직접 정리하려면 `npm run dev:stop`을 실행합니다. 종료 권한이 없으면 3001번으로 이동하지 않고 오류를 표시한 뒤 중단합니다.
 
 프론트엔드는 API 주소를 따로 적지 않고 같은 주소로 `/api` 요청을 보냅니다. 개발 중에는 Vite가 그 요청을 자동으로 API 서버(5100)로 전달(proxy)하므로 CORS 설정을 신경 쓰지 않아도 됩니다. 이는 7단계에서 배운 "같은 서버면 `API_BASE`를 빈 문자열로 둔다"와 같은 원리입니다.
 
@@ -131,7 +133,7 @@ docker compose up --build
 ```bash
 docker compose -f docker-compose.dev.yml up
 # API:   http://localhost:5100
-# Vite:  http://localhost:5173
+# Vite:  http://localhost:3000
 ```
 
 루트의 `.devcontainer/devcontainer.json`을 쓰면 VS Code가 자동으로 이 환경에 붙고 ESLint·Prettier·Docker·Java 확장까지 한 번에 설치됩니다.

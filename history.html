@@ -451,6 +451,7 @@
         <nav aria-label="변경 이력 목차">
           <a href="./index.html">학습 목차</a>
           <a href="#html-guide">HTML 허브</a>
+          <a href="#dev-port">개발 포트</a>
           <a href="#reason">배경</a>
           <a href="#changes">주요 변경</a>
           <a href="#verification">검증</a>
@@ -538,6 +539,59 @@
           <div>단계별 실습</div>
           <div>실행·검증</div>
           <div>포트폴리오·면접</div>
+        </div>
+      </section>
+
+      <section id="dev-port" aria-labelledby="dev-port-title">
+        <div class="section-heading">
+          <h2 id="dev-port-title">2026.07.17 · 개발 주소 3000 고정</h2>
+          <p>
+            Career Hub 프론트엔드는 포트 충돌이 있어도 3001 이상으로 이동하지
+            않고 항상 <code>http://localhost:3000</code>을 사용합니다.
+          </p>
+        </div>
+
+        <div class="change-grid">
+          <article class="change-card">
+            <h3>충돌 프로세스 자동 종료</h3>
+            <p>
+              <code>npm run dev:web</code>과 <code>npm run preview</code>를
+              시작하기 전에 3000번을 수신 중인 PID를 찾아 종료합니다. 직접
+              정리할 때는 <code>npm run dev:stop</code>을 사용합니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>다음 포트 이동 금지</h3>
+            <p>
+              Vite 개발 서버와 preview에 <code>port: 3000</code>과
+              <code>strictPort: true</code>를 함께 적용했습니다. 종료 권한이
+              없으면 주소를 바꾸지 않고 오류로 중단합니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>운영체제별 PID 탐색</h3>
+            <p>
+              macOS·Linux는 <code>lsof</code>와 <code>fuser</code>, Windows는
+              <code>netstat</code>와 <code>taskkill</code>을 사용합니다. 정확히
+              3000번을 수신하는 프로세스만 대상으로 삼습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>연결 설정 동기화</h3>
+            <p>
+              CORS 기본값, 환경 변수 예시, API smoke test, 개발용 Docker 포트와
+              실행 문서를 모두 3000번으로 맞췄습니다. Express API는 기존
+              5100번을 유지합니다.
+            </p>
+          </article>
+        </div>
+
+        <div class="flow" role="group" aria-label="고정 개발 포트 실행 흐름">
+          <div>npm run dev</div>
+          <div>3000 PID 확인</div>
+          <div>기존 프로세스 종료</div>
+          <div>Vite 3000 실행</div>
+          <div>API 5100 프록시</div>
         </div>
       </section>
 
@@ -705,13 +759,37 @@
               <tr>
                 <td>후속 분리 테스트</td>
                 <td>포트를 사용하지 않는 server·web Vitest 파일 재실행</td>
-                <td class="status-pass">서버 30개·웹 4개 통과</td>
+                <td class="status-pass">서버 33개·웹 4개 통과</td>
               </tr>
               <tr>
                 <td>후속 API 테스트</td>
                 <td>Supertest API 통합 테스트 16개 재실행</td>
                 <td class="status-not-run">
                   실행 환경의 포트 바인딩 제한(<code>EPERM</code>)으로 미실행
+                </td>
+              </tr>
+              <tr>
+                <td>개발 포트 PID 파서</td>
+                <td>
+                  <code>npx vitest run --project server scripts/free-port.test.js</code>
+                </td>
+                <td class="status-pass">PID 파서·프로세스 종료 3개 통과</td>
+              </tr>
+              <tr>
+                <td>개발 포트 정리</td>
+                <td><code>npm run dev:stop</code></td>
+                <td class="status-pass">3000번 사용 가능 상태 확인</td>
+              </tr>
+              <tr>
+                <td>Vite 고정 포트</td>
+                <td><code>npm run dev:web</code></td>
+                <td class="status-pass">3001 이동 없이 3000번 단일 시도 확인</td>
+              </tr>
+              <tr>
+                <td>개발 Docker 설정</td>
+                <td>YAML 파싱과 <code>docker compose config</code></td>
+                <td class="status-not-run">
+                  YAML 통과·현재 환경에 Compose 플러그인이 없어 스키마 검증 미실행
                 </td>
               </tr>
               <tr>

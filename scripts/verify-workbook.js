@@ -90,6 +90,8 @@ const requiredPaths = [
   "08-fullstack-portfolio-project/scripts/api-smoke-test.js",
   "08-fullstack-portfolio-project/scripts/submission-audit.js",
   "08-fullstack-portfolio-project/scripts/clean-generated.js",
+  "08-fullstack-portfolio-project/scripts/free-port.js",
+  "08-fullstack-portfolio-project/scripts/free-port.test.js",
   "08-fullstack-portfolio-project/Dockerfile",
   "08-fullstack-portfolio-project/docker-compose.yml",
   "08-fullstack-portfolio-project/eslint.config.js",
@@ -280,6 +282,8 @@ const sourceFiles = [
   "08-fullstack-portfolio-project/scripts/api-smoke-test.js",
   "08-fullstack-portfolio-project/scripts/submission-audit.js",
   "08-fullstack-portfolio-project/scripts/clean-generated.js",
+  "08-fullstack-portfolio-project/scripts/free-port.js",
+  "08-fullstack-portfolio-project/scripts/free-port.test.js",
   "09-typescript/starter/01-basic-types.ts",
   "09-typescript/starter/02-interface-design.ts",
   "09-typescript/starter/03-react-todo.tsx",
@@ -316,7 +320,7 @@ const packageScripts = {
   "05-database-mongodb/package.json": ["dev", "start"],
   "06-login-auth/package.json": ["dev", "start"],
   "07-project-deploy/package.json": ["dev", "start"],
-  "08-fullstack-portfolio-project/package.json": ["dev", "build", "start", "audit:submit", "clean:generated", "test:api", "test:unit", "lint", "format:check", "verify"],
+  "08-fullstack-portfolio-project/package.json": ["dev", "dev:stop", "build", "start", "audit:submit", "clean:generated", "test:api", "test:unit", "lint", "format:check", "verify"],
   "09-typescript/package.json": ["typecheck", "build"],
   "12-testing/starter/js/package.json": ["test"]
 };
