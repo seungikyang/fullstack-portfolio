@@ -1,5 +1,7 @@
 # 6단계 정답 확인
 
+[문제로 돌아가기](./problems.md) · [인증 요청 모음](./requests.http) · [완료 체크](../student-checklist.md) · [다음 단계](../07-project-deploy/README.md)
+
 먼저 직접 풀어본 뒤 확인하세요. 로그인 기능에서는 "비밀번호를 안전하게 저장하는가"와 "보호된 API를 막는가"를 반드시 확인해야 합니다. 아래 번호는 코드 안의 `빈칸` 번호와 같습니다.
 
 ## 빈칸 1 (server.js · 비밀번호 해시)
@@ -17,7 +19,7 @@ name: name || "학습자",
 ## 빈칸 3 (auth.js · 토큰 payload)
 
 ```js
-email: user.email
+email: user.email;
 ```
 
 ## 빈칸 4 (auth.js · Bearer 접두사 제거)

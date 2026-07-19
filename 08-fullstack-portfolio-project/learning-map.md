@@ -53,4 +53,4 @@ Career Hub는 `01-html-css`부터 `07-project-deploy`까지의 개념을 한 앱
 - `server/data-store.js`를 MongoDB 또는 PostgreSQL 모델로 교체합니다. (저장소 추상화의 PostgreSQL 구현 사례는 같은 저장소 안의 [monorepo-mini-app](../monorepo-mini-app/)에서 확인할 수 있습니다 — `NotesStore` 인터페이스 + `InMemoryNotesStore`/`PostgresNotesStore` 두 구현을 환경변수로 전환.)
 - 지원 현황에 검색, 필터, 정렬을 추가합니다.
 - 프로젝트별 README 자동 생성 기능을 추가합니다.
-- 저장소에 포함된 `render.yaml`/`fly.toml`을 사용해 실제 배포 후 도메인을 README에 첨부합니다.
+- 저장소에 포함된 `render.yaml`/`fly.toml`을 사용해 실제 배포한 경우에만 도메인을 README에 첨부합니다. JSON 기록 보존은 영속 볼륨이나 외부 DB를 설정하고 재시작 후 다시 조회한 경우에만 완료로 표시합니다.

@@ -1,5 +1,7 @@
 # Career Hub Fullstack Portfolio
 
+[HTML 목차](../index.html) · [학습 연결](./learning-map.md) · [제출 점검](./submission-checklist.md) · [이력서·면접 근거](./resume-assets.md) · [다음 단계](../09-typescript/README.md)
+
 SI/SW 취업 준비자가 목표 설정부터 포트폴리오, 지원, 면접 준비까지 기록하는 fullstack 취업 워크북입니다.
 
 React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검증을 한 저장소에서 실행하고 설명하는 포트폴리오 후보입니다. 실제 제출 전에는 아래 검증 명령과 [제출 체크리스트](./submission-checklist.md)를 직접 확인해야 합니다.
@@ -164,15 +166,16 @@ docker compose -f docker-compose.dev.yml up
 
 ## 배포
 
-두 가지 매니페스트가 함께 들어 있습니다. 둘 다 무료 플랜으로 시작할 수 있습니다.
+두 가지 매니페스트가 함께 들어 있습니다. 저장 방식이 JSON 파일이므로 제출용 배포는 영속 볼륨이 있는 환경을 사용하고, 무료 Render는 화면 시연용으로만 구분합니다.
 
 ### Render.com
 
 저장소 루트에 `render.yaml`이 있으므로 Render 대시보드에서 "New + Blueprint"로 자동 인식됩니다.
 
 - `JWT_SECRET`은 Render가 자동 생성.
-- `CLIENT_ORIGIN`은 배포 후 생긴 도메인을 대시보드에서 직접 입력.
 - free 플랜은 idle 시 자동 sleep → 첫 요청에 cold start.
+- free 서비스의 파일시스템은 임시이므로 재시작·재배포 뒤 계정과 취업 기록이 사라질 수 있습니다. [Render Persistent Disks 안내](https://render.com/docs/disks)를 확인하고, 데이터 보존이 필요한 제출 링크에는 persistent disk 또는 외부 DB를 사용하세요.
+- 프론트와 API를 다른 도메인으로 나눈 경우에만 `CLIENT_ORIGIN`에 프론트 주소를 설정합니다. 기본 단일 컨테이너 배포는 같은 주소를 사용합니다.
 
 ### fly.io
 
@@ -185,6 +188,8 @@ flyctl deploy
 ```
 
 데이터는 `/data`에 마운트된 볼륨에 저장되어 재배포 후에도 보존됩니다. Tokyo(nrt) 리전이 한국 사용자에 가장 가깝습니다.
+
+배포 링크를 제출하기 전에는 회원가입 → 워크북 저장 → 앱 재시작 → 재로그인 후 같은 기록 조회를 직접 확인합니다. 이 검증 전에는 “운영 데이터 보존”이 아니라 “배포 매니페스트 작성”으로만 설명합니다.
 
 ## API 문서
 

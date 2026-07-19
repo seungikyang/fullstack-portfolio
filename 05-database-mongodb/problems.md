@@ -1,5 +1,7 @@
 # 5단계 문제
 
+[단계 설명](./README.md) · [DB 요청 모음](./requests.http) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 빈칸은 `src/models/Post.js`의 1번, 그다음 `src/server.js`의 2~8번 순서입니다.
 
 ## 문제 1. 모델 완성하고 이해하기 (Post.js · 빈칸 1)

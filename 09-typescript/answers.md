@@ -1,5 +1,7 @@
 # 9단계 정답 예시
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../10-sql-oracle/README.md)
+
 정답을 먼저 보지 마세요. 빈칸을 채우다 막혔을 때만 확인합니다.
 
 ## 1번 정답 예시
@@ -23,7 +25,7 @@ export function head<T>(items: T[]): T | undefined {
 ## 2번 정답 예시
 
 ```ts
-export type Role = 'admin' | 'user';
+export type Role = "admin" | "user";
 
 export interface User {
   id: string;
@@ -37,7 +39,7 @@ export function createUser(email: string, name: string): User {
     id: crypto.randomUUID(),
     email,
     name,
-    role: 'user',
+    role: "user",
   };
 }
 ```
@@ -61,7 +63,7 @@ interface TodoItemProps {
 function TodoItem({ todo, onToggle }: TodoItemProps) {
   return (
     <li onClick={() => onToggle(todo.id)}>
-      {todo.done ? '[x]' : '[ ]'} {todo.text}
+      {todo.done ? "[x]" : "[ ]"} {todo.text}
     </li>
   );
 }
@@ -77,7 +79,7 @@ export function TodoList() {
 ## 4번 정답 예시
 
 ```ts
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 interface Post {
   id: number;
@@ -100,17 +102,23 @@ interface ErrorResponse {
 
 const posts: Post[] = [];
 
-app.get('/posts/:id', (req: Request<PostParams>, res: Response<Post | ErrorResponse>) => {
-  const post = posts.find((p) => p.id === Number(req.params.id));
-  if (!post) return res.status(404).json({ error: 'not found' });
-  res.json(post);
-});
+app.get(
+  "/posts/:id",
+  (req: Request<PostParams>, res: Response<Post | ErrorResponse>) => {
+    const post = posts.find((p) => p.id === Number(req.params.id));
+    if (!post) return res.status(404).json({ error: "not found" });
+    res.json(post);
+  },
+);
 
-app.post('/posts', (req: Request<{}, Post, CreatePostBody>, res: Response<Post>) => {
-  const next: Post = { id: posts.length + 1, ...req.body };
-  posts.push(next);
-  res.status(201).json(next);
-});
+app.post(
+  "/posts",
+  (req: Request<{}, Post, CreatePostBody>, res: Response<Post>) => {
+    const next: Post = { id: posts.length + 1, ...req.body };
+    posts.push(next);
+    res.status(201).json(next);
+  },
+);
 ```
 
 설명. `Request<Params, ResBody, ReqBody>` 순서를 기억하세요. 응답 타입을 `Post | ErrorResponse`로 두면 호출자가 분기 처리를 강제받습니다.
@@ -119,8 +127,8 @@ app.post('/posts', (req: Request<{}, Post, CreatePostBody>, res: Response<Post>)
 
 ```ts
 export function formatValue(value: string | number | Date): string {
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number') return value.toFixed(2);
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return value.toFixed(2);
   if (value instanceof Date) return value.toISOString();
   // 도달 불가
   const _exhaustive: never = value;
@@ -140,8 +148,11 @@ export async function fetchJson<T>(url: string): Promise<T> {
 }
 
 // 사용
-interface User { id: string; name: string; }
-const me = await fetchJson<User>('/api/me');
+interface User {
+  id: string;
+  name: string;
+}
+const me = await fetchJson<User>("/api/me");
 ```
 
 설명. 호출자가 타입을 지정하므로 응답 모델을 명시할 수 있습니다. 다만 런타임에서 실제 응답이 다를 수 있어 zod 같은 런타임 검증 라이브러리를 함께 쓰는 실무 패턴도 있습니다.

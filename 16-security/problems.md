@@ -1,5 +1,7 @@
 # 16단계 보안 문제 모음
 
+[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 각 문제는 1) 취약한 코드 실행, 2) 공격 재현, 3) 방어 코드 적용, 4) 같은 공격이 막히는지 확인의 4단계로 진행합니다. 막히면 `answers.md`와 비교합니다.
 
 먼저 공통 의존성과 문법을 확인합니다.
@@ -175,18 +177,18 @@ cd ../11-java-spring/starter/board-api
 
 [OWASP Top 10 2021](https://owasp.org/Top10/ko/) 페이지를 보고 각 항목을 한 줄로 자기 말로 적으세요.
 
-| 번호 | 항목 | 한 줄 요약 |
-| --- | --- | --- |
-| A01 | Broken Access Control | |
-| A02 | Cryptographic Failures | |
-| A03 | Injection | |
-| A04 | Insecure Design | |
-| A05 | Security Misconfiguration | |
-| A06 | Vulnerable and Outdated Components | |
-| A07 | Identification and Authentication Failures | |
-| A08 | Software and Data Integrity Failures | |
-| A09 | Security Logging and Monitoring Failures | |
-| A10 | Server-Side Request Forgery (SSRF) | |
+| 번호 | 항목                                       | 한 줄 요약 |
+| ---- | ------------------------------------------ | ---------- |
+| A01  | Broken Access Control                      |            |
+| A02  | Cryptographic Failures                     |            |
+| A03  | Injection                                  |            |
+| A04  | Insecure Design                            |            |
+| A05  | Security Misconfiguration                  |            |
+| A06  | Vulnerable and Outdated Components         |            |
+| A07  | Identification and Authentication Failures |            |
+| A08  | Software and Data Integrity Failures       |            |
+| A09  | Security Logging and Monitoring Failures   |            |
+| A10  | Server-Side Request Forgery (SSRF)         |            |
 
 ## 자가 점검
 

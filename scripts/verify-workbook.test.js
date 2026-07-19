@@ -5,6 +5,7 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 const {
+  findLearningPathErrors,
   findLocalLinkErrors,
   findPortContractErrors,
   findTrackErrors,
@@ -150,6 +151,89 @@ test("01~17단계 순서·중복과 트랙별 필수 산출물을 검사한다",
   );
   assert.equal(
     errors.some((error) => error.includes("project-pitch-template.md")),
+    true,
+  );
+});
+
+test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준을 검사한다", (t) => {
+  const root = createFixture();
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+
+  write(
+    root,
+    "index.html",
+    '<a class="button" href="./START-HERE.md">시작 워크시트 열기</a>\n',
+  );
+  write(
+    root,
+    "START-HERE.md",
+    "[전체 경로](./01-html-css/README.md)\n[지원 직전](./08-fullstack-portfolio-project/README.md)\n",
+  );
+
+  const standardFolders = guideFolders.filter(
+    (folder) =>
+      folder !== "08-fullstack-portfolio-project" &&
+      folder !== "17-interview-prep",
+  );
+
+  for (const folder of standardFolders) {
+    const folderIndex = guideFolders.indexOf(folder);
+    const nextFolder = guideFolders[folderIndex + 1];
+    const extraReadmeLink = [
+      "04-node-board-api",
+      "05-database-mongodb",
+      "06-login-auth",
+    ].includes(folder)
+      ? "[요청](./requests.http)"
+      : folder === "07-project-deploy"
+        ? "[배포](./deploy-checklist.md)"
+        : "";
+    const completion =
+      folder === "10-sql-oracle" ? "starter/07-index.sql 실행 계획" : "";
+
+    write(
+      root,
+      `${folder}/README.md`,
+      `[문제](./problems.md) [정답](./answers.md) [체크](../student-checklist.md) ${extraReadmeLink} ${completion}\n`,
+    );
+    write(
+      root,
+      `${folder}/problems.md`,
+      "[설명](./README.md) [정답](./answers.md) [체크](../student-checklist.md)\n",
+    );
+    write(
+      root,
+      `${folder}/answers.md`,
+      `[문제](./problems.md) [체크](../student-checklist.md) [다음](../${nextFolder}/README.md)\n`,
+    );
+  }
+
+  write(
+    root,
+    "08-fullstack-portfolio-project/README.md",
+    "[학습](./learning-map.md) [제출](./submission-checklist.md) [근거](./resume-assets.md) [다음](../09-typescript/README.md)\n",
+  );
+  write(
+    root,
+    "17-interview-prep/README.md",
+    "[카드](./interview-cards.md) [자기소개](./self-intro-templates.md) [STAR](./behavioral-questions.md) [설명](./project-pitch-template.md) [체크](../student-checklist.md)\n",
+  );
+  write(
+    root,
+    "student-checklist.md",
+    `${guideFolders.map((_, index) => `## ${index + 1}단계`).join("\n")}\nSpring 프로젝트를 직접 만든 경우\nNode 앱 또는 Spring 앱\n`,
+  );
+
+  assert.deepEqual(findLearningPathErrors(root), []);
+
+  write(
+    root,
+    "01-html-css/answers.md",
+    "[문제](./problems.md) [체크](../student-checklist.md)\n",
+  );
+  const errors = findLearningPathErrors(root);
+  assert.equal(
+    errors.some((error) => error.includes("../02-javascript-basics/README.md")),
     true,
   );
 });

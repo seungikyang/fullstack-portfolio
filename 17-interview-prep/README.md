@@ -1,5 +1,7 @@
 # 17단계 면접 대비 통합
 
+[HTML 목차](../index.html) · [기술 카드](./interview-cards.md) · [자기소개](./self-intro-templates.md) · [인성·STAR](./behavioral-questions.md) · [프로젝트 설명](./project-pitch-template.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 1~16단계에서 분산돼 있던 면접 질문을 한 파일로 모아, 면접 직전에 한 자리에서 복습할 수 있게 만듭니다. 자기소개·기술 면접·인성 면접 세 영역을 모두 다룹니다.

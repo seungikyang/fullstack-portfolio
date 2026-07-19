@@ -131,6 +131,9 @@ async function seedDemoData(store) {
 export async function createApp(options = {}) {
   assertAuthConfig();
   const app = express();
+  if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+  }
   const store = new JsonStore(options.dataFile || process.env.DATA_FILE || defaultDataFile);
   const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:3000";
   // 개발 편의: localhost와 127.0.0.1을 모두 허용한다. Origin이 없는 요청(curl, smoke test)도 허용한다.
@@ -192,7 +195,9 @@ export async function createApp(options = {}) {
           return callback(null, true);
         }
 
-        return callback(new Error("허용되지 않은 출처입니다."));
+        // 같은 서버에서 제공하는 프론트 요청은 CORS 헤더가 없어도 정상 처리된다.
+        // 별도 출처에는 허용 헤더를 보내지 않아 브라우저의 교차 출처 호출을 막는다.
+        return callback(null, false);
       }
     })
   );
@@ -411,8 +416,25 @@ export async function createApp(options = {}) {
   // pino-http가 req.log를 채워 두므로 요청 컨텍스트(requestId 포함)와 함께 로그를 남긴다.
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => {
-    (req.log || logger).error({ err: error }, "unhandled error");
-    res.status(500).json({ message: "서버 오류가 발생했습니다." });
+    const status = Number(error.status || error.statusCode);
+    const clientStatus = status >= 400 && status < 500 ? status : 500;
+
+    if (clientStatus === 500) {
+      (req.log || logger).error({ err: error }, "unhandled error");
+    } else {
+      (req.log || logger).warn({ err: error }, "client request rejected");
+    }
+
+    if (clientStatus === 400 && error.type === "entity.parse.failed") {
+      return res.status(400).json({ message: "JSON 요청 본문 형식이 올바르지 않습니다." });
+    }
+    if (clientStatus === 413 || error.type === "entity.too.large") {
+      return res.status(413).json({ message: "요청 본문은 1MB를 넘을 수 없습니다." });
+    }
+
+    return res.status(clientStatus).json({
+      message: clientStatus === 500 ? "서버 오류가 발생했습니다." : "요청을 처리할 수 없습니다."
+    });
   });
 
   return app;

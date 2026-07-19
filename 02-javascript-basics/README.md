@@ -1,5 +1,7 @@
 # 2단계 JavaScript 기초
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 변수, 조건문, 반복문, 함수, DOM 이벤트를 이용해 버튼 반응과 간단한 계산기를 만듭니다.

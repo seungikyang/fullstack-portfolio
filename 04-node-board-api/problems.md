@@ -1,5 +1,7 @@
 # 4단계 문제
 
+[단계 설명](./README.md) · [API 요청 모음](./requests.http) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 `src/server.js`를 위에서 아래로 읽으면 빈칸이 1번부터 8번까지 순서대로 나옵니다.
 
 ## 문제 1. 목록 조회 API (빈칸 1)

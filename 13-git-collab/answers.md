@@ -1,5 +1,7 @@
 # 13단계 Git 협업 정답 예시
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../14-docker-deploy/README.md)
+
 각 문제는 명령 자체보다 "왜 그 명령을 쓰는가"를 설명할 수 있어야 합니다.
 
 ## 1번 정답 예시

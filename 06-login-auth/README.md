@@ -1,5 +1,7 @@
 # 6단계 로그인 기능
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 회원가입, 로그인, JWT 인증 미들웨어를 구현하며 웹서비스 인증 흐름을 익힙니다.
@@ -14,6 +16,8 @@ npm run dev
 ```
 
 브라우저에서 `http://localhost:4200/health`를 열어 서버 상태를 확인하세요.
+
+[인증 요청 모음](./requests.http)을 VS Code REST Client로 위에서 아래 순서대로 실행하거나, 같은 요청을 Postman·curl로 보내 회원가입·로그인·보호 API 응답을 확인하세요.
 
 막히면 `answers.md`를 보고 다시 직접 고칩니다.
 

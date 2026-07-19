@@ -1,5 +1,7 @@
 # 14단계 Docker 정답 예시
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../15-cs-fundamentals/README.md)
+
 ## 1번 정답 예시
 
 ```dockerfile
@@ -122,8 +124,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
       - run: npm ci
         working-directory: 14-docker-deploy/starter/node-board
       - run: npm test
@@ -135,8 +137,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
       - run: ./gradlew test --no-daemon
         working-directory: 11-java-spring/starter/board-api
 ```

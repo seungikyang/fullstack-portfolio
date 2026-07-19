@@ -1,5 +1,7 @@
 # 14단계 Docker와 배포 자동화
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 Docker로 애플리케이션을 컨테이너로 패키징하고, docker compose로 앱 + DB를 함께 실행하는 흐름을 익힙니다. SI/SW 실무에서는 "개발 환경에서는 됐는데 운영에서는 안 된다" 문제를 줄이기 위해 컨테이너화가 사실상 표준이 됐습니다.

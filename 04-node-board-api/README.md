@@ -1,5 +1,7 @@
 # 4단계 백엔드 Node.js
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 Node.js와 Express로 게시판 API를 만들며 서버, 라우팅, 요청, 응답의 흐름을 익힙니다.
@@ -13,6 +15,8 @@ npm run dev
 ```
 
 브라우저에서 `http://localhost:4000/health`를 열어 서버 상태를 확인하세요.
+
+[API 요청 모음](./requests.http)을 VS Code REST Client로 위에서 아래 순서대로 실행하거나, 같은 요청을 Postman·curl로 보내 CRUD 상태 코드와 응답을 확인하세요.
 
 막히면 `answers.md`를 보고 다시 직접 고칩니다.
 

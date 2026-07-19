@@ -1,5 +1,7 @@
 # 1단계 HTML과 CSS 배우기
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 자기소개 페이지를 만들며 HTML 태그와 CSS 배치를 익힙니다.

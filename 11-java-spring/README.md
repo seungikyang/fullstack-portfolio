@@ -1,5 +1,7 @@
 # 11단계 Java와 Spring Boot
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 Java + Spring을 요구하는 SI/SW 공고가 많습니다. 4단계 Express 게시판 API를 Spring Boot로 다시 작성하면서, 같은 REST API가 두 스택에서 어떻게 표현되는지 비교합니다.
@@ -121,15 +123,15 @@ SI/SW 실무에서 Spring은 다음과 같이 쓰입니다.
 
 ## Express와 Spring 같은 기능 비교
 
-| 기능 | Express | Spring Boot |
-| --- | --- | --- |
-| 라우터 | `app.get('/posts', handler)` | `@GetMapping("/posts")` |
-| 요청 body | `req.body.title` | `@RequestBody PostDto dto` |
-| URL 파라미터 | `req.params.id` | `@PathVariable Long id` |
-| 상태 코드 | `res.status(201).json(...)` | `ResponseEntity.status(201).body(...)` |
-| 미들웨어 | `app.use(fn)` | `@Component`로 등록되는 Filter/Interceptor |
-| DB 연결 | `mongoose.connect(...)` | `application.yml`의 datasource 설정 |
-| ORM | Mongoose | Spring Data JPA / Hibernate |
+| 기능         | Express                      | Spring Boot                                |
+| ------------ | ---------------------------- | ------------------------------------------ |
+| 라우터       | `app.get('/posts', handler)` | `@GetMapping("/posts")`                    |
+| 요청 body    | `req.body.title`             | `@RequestBody PostDto dto`                 |
+| URL 파라미터 | `req.params.id`              | `@PathVariable Long id`                    |
+| 상태 코드    | `res.status(201).json(...)`  | `ResponseEntity.status(201).body(...)`     |
+| 미들웨어     | `app.use(fn)`                | `@Component`로 등록되는 Filter/Interceptor |
+| DB 연결      | `mongoose.connect(...)`      | `application.yml`의 datasource 설정        |
+| ORM          | Mongoose                     | Spring Data JPA / Hibernate                |
 
 ## 면접 연습
 

@@ -1,39 +1,45 @@
 # 12단계 테스트 정답 예시
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../13-git-collab/README.md)
+
 ## 1번 정답 예시
 
 ```ts
 // starter/js/src/calculator.ts
-export function add(a: number, b: number): number { return a + b; }
-export function subtract(a: number, b: number): number { return a - b; }
+export function add(a: number, b: number): number {
+  return a + b;
+}
+export function subtract(a: number, b: number): number {
+  return a - b;
+}
 export function divide(a: number, b: number): number {
-  if (b === 0) throw new Error('cannot divide by zero');
+  if (b === 0) throw new Error("cannot divide by zero");
   return a / b;
 }
 
 // starter/js/src/calculator.test.ts
-import { describe, expect, test } from 'vitest';
-import { add, subtract, divide } from './calculator';
+import { describe, expect, test } from "vitest";
+import { add, subtract, divide } from "./calculator";
 
-describe('calculator', () => {
-  test('add는 두 수의 합을 반환한다', () => {
+describe("calculator", () => {
+  test("add는 두 수의 합을 반환한다", () => {
     expect(add(2, 3)).toBe(5);
   });
 
-  test('subtract는 두 수의 차이를 반환한다', () => {
+  test("subtract는 두 수의 차이를 반환한다", () => {
     expect(subtract(5, 2)).toBe(3);
   });
 
-  test('add는 음수를 처리한다', () => {
+  test("add는 음수를 처리한다", () => {
     expect(add(-1, -2)).toBe(-3);
   });
 
-  test('divide는 부동소수점을 처리한다', () => {
+  test("divide는 부동소수점을 처리한다", () => {
     expect(divide(1, 3)).toBeCloseTo(0.333, 3);
   });
 
-  test('divide는 0으로 나눌 때 예외를 던진다', () => {
-    expect(() => divide(1, 0)).toThrow('cannot divide by zero');
+  test("divide는 0으로 나눌 때 예외를 던진다", () => {
+    expect(() => divide(1, 0)).toThrow("cannot divide by zero");
   });
 });
 ```
@@ -44,38 +50,38 @@ describe('calculator', () => {
 
 ```ts
 // starter/js/src/app.test.ts
-import { describe, expect, test, beforeEach } from 'vitest';
-import request from 'supertest';
-import { createApp } from './app';
+import { describe, expect, test, beforeEach } from "vitest";
+import request from "supertest";
+import { createApp } from "./app";
 
-describe('Posts API', () => {
+describe("Posts API", () => {
   let app: ReturnType<typeof createApp>;
 
   beforeEach(() => {
     app = createApp();
   });
 
-  test('GET /posts는 빈 배열을 반환한다', async () => {
-    const res = await request(app).get('/posts');
+  test("GET /posts는 빈 배열을 반환한다", async () => {
+    const res = await request(app).get("/posts");
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);
   });
 
-  test('POST /posts는 게시글을 생성한다', async () => {
+  test("POST /posts는 게시글을 생성한다", async () => {
     const res = await request(app)
-      .post('/posts')
-      .send({ title: 't', content: 'c' });
+      .post("/posts")
+      .send({ title: "t", content: "c" });
     expect(res.status).toBe(201);
-    expect(res.body).toMatchObject({ title: 't', content: 'c' });
+    expect(res.body).toMatchObject({ title: "t", content: "c" });
   });
 
-  test('POST /posts는 body가 부족하면 400을 반환한다', async () => {
-    const res = await request(app).post('/posts').send({ title: 't' });
+  test("POST /posts는 body가 부족하면 400을 반환한다", async () => {
+    const res = await request(app).post("/posts").send({ title: "t" });
     expect(res.status).toBe(400);
   });
 
-  test('GET /posts/:id는 없는 id에 404를 반환한다', async () => {
-    const res = await request(app).get('/posts/9999');
+  test("GET /posts/:id는 없는 id에 404를 반환한다", async () => {
+    const res = await request(app).get("/posts/9999");
     expect(res.status).toBe(404);
   });
 });
@@ -87,21 +93,21 @@ describe('Posts API', () => {
 
 ```ts
 // starter/js/src/notification.test.ts
-import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { notifyUser } from './notification';
-import * as mailer from './mailer';
+import { describe, expect, test, vi, beforeEach } from "vitest";
+import { notifyUser } from "./notification";
+import * as mailer from "./mailer";
 
-describe('notifyUser', () => {
+describe("notifyUser", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
   });
 
-  test('mailer를 올바른 인자로 호출한다', async () => {
-    const spy = vi.spyOn(mailer, 'sendMail').mockResolvedValue(undefined);
-    await notifyUser({ email: 'a@b.c', name: '홍길동' });
+  test("mailer를 올바른 인자로 호출한다", async () => {
+    const spy = vi.spyOn(mailer, "sendMail").mockResolvedValue(undefined);
+    await notifyUser({ email: "a@b.c", name: "홍길동" });
     expect(spy).toHaveBeenCalledWith(
-      'a@b.c',
-      expect.stringContaining('홍길동'),
+      "a@b.c",
+      expect.stringContaining("홍길동"),
       expect.any(String),
     );
   });
@@ -230,6 +236,6 @@ npx vitest run --coverage
 
 ## 테스트 작성 원칙
 
-- 테스트 이름은 "주어_조건_결과" 형태로 작성하면 실패 시 원인 추적이 쉽습니다.
+- 테스트 이름은 "주어*조건*결과" 형태로 작성하면 실패 시 원인 추적이 쉽습니다.
 - 테스트가 외부 시스템(실제 DB, 실제 메일 서버)에 의존하면 느리고 깨지기 쉽습니다.
 - 한 테스트에서 단언(assert)은 가능한 한 적게. 한 테스트에서 너무 많은 것을 검증하면 실패 원인이 모호해집니다.

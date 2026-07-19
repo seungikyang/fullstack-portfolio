@@ -1,5 +1,7 @@
 # 5단계 데이터베이스
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 MongoDB와 Mongoose를 사용해 게시글 데이터를 실제 데이터베이스에 저장하고 CRUD를 구현합니다.
@@ -56,6 +58,8 @@ npm run dev
 - Atlas(D)이면 `MONGODB_URI` 값을 복사한 `mongodb+srv://...` 주소로 바꿉니다.
 - 서버 실행 후 터미널에 `MongoDB에 연결되었습니다.` 가 보이면 성공입니다.
 - 데이터를 눈으로 보고 싶으면 [MongoDB Compass](https://www.mongodb.com/products/tools/compass) 또는 [mongosh](https://www.mongodb.com/docs/mongodb-shell/)로 같은 주소에 접속하세요.
+
+[DB 요청 모음](./requests.http)을 VS Code REST Client로 위에서 아래 순서대로 실행하거나, 같은 요청을 Postman·curl로 보내 생성·조회·수정·삭제 후 DB 값이 바뀌는지 확인하세요.
 
 ### 연결이 안 될 때
 

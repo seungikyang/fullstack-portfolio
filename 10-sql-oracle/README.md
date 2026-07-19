@@ -1,5 +1,7 @@
 # 10단계 SQL과 RDBMS (Oracle 중심)
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 관계형 데이터베이스의 핵심 SQL을 손에 익힙니다. Oracle, MySQL, PostgreSQL 같은 RDBMS를 요구하는 웹 백엔드 공고가 많으므로, 5단계 MongoDB와 다른 JOIN·트랜잭션 흐름을 함께 학습합니다.
@@ -9,6 +11,8 @@ Oracle SQL 표기를 기본으로 하되, MySQL과 다른 부분은 표로 정�
 ## 실행 방법
 
 세 가지 환경 중 하나를 선택합니다.
+
+[SQL 문제 순서](./problems.md)에 맞춰 `starter/01-ddl.sql`부터 `starter/07-index.sql`까지 차례대로 실행합니다.
 
 1. **Oracle XE(Express Edition)** 로컬 설치. 학습용 무료 버전입니다.
 2. **Oracle Live SQL** (https://livesql.oracle.com). 설치 없이 브라우저에서 바로 실행합니다.
@@ -27,6 +31,7 @@ Oracle SQL 표기를 기본으로 하되, MySQL과 다른 부분은 표로 정�
 - INNER JOIN과 LEFT JOIN의 차이를 SELECT 결과 행 수로 설명할 수 있습니다.
 - 서브쿼리(스칼라, 인라인 뷰)를 한 번 이상 작성했습니다.
 - 트랜잭션의 COMMIT, ROLLBACK을 직접 실험했습니다.
+- 인덱스 적용 전후 실행 계획을 비교하고 조회 방식이 달라진 이유를 설명할 수 있습니다.
 
 완료로 표시하기 전 [학습 근거 4종](../student-checklist.md#단계마다-남길-4종-근거)에 실행한 SQL, 결과 행, 해결한 SQL 오류, 쿼리가 있는 파일 위치를 기록합니다.
 
@@ -53,13 +58,13 @@ SI/SW 실무에서 SQL은 다음과 같은 가치를 가집니다.
 
 ## Oracle vs MySQL 주요 차이
 
-| 기능 | Oracle | MySQL |
-| --- | --- | --- |
-| 자동 증가 키 | SEQUENCE + TRIGGER 또는 IDENTITY | AUTO_INCREMENT |
-| 페이지네이션 | `ROWNUM` 또는 12c부터 `FETCH FIRST N ROWS ONLY` | `LIMIT N OFFSET M` |
-| 더미 테이블 | `DUAL` | 없음 (`SELECT 1`) |
-| 문자열 연결 | `||` | `CONCAT()` |
-| 날짜 함수 | `SYSDATE`, `TO_DATE` | `NOW()`, `STR_TO_DATE` |
+| 기능         | Oracle                                          | MySQL                  |
+| ------------ | ----------------------------------------------- | ---------------------- | --- | ---------- |
+| 자동 증가 키 | SEQUENCE + TRIGGER 또는 IDENTITY                | AUTO_INCREMENT         |
+| 페이지네이션 | `ROWNUM` 또는 12c부터 `FETCH FIRST N ROWS ONLY` | `LIMIT N OFFSET M`     |
+| 더미 테이블  | `DUAL`                                          | 없음 (`SELECT 1`)      |
+| 문자열 연결  | `                                               |                        | `   | `CONCAT()` |
+| 날짜 함수    | `SYSDATE`, `TO_DATE`                            | `NOW()`, `STR_TO_DATE` |
 
 ## 면접 연습
 

@@ -22,7 +22,7 @@ React와 Express로 작성한 취업 워크북으로, 네 단계 준비도와 JW
 
 ## 면접 1분 설명
 
-Career Hub는 SI/SW 취업 준비자가 목표 직무와 주간 행동, 제출 자료, 지원 현황을 관리하는 fullstack 취업 워크북입니다. 프론트엔드는 React로 만들었고, 백엔드는 Express REST API로 구성했습니다. 회원가입과 로그인은 bcrypt 비밀번호 해시와 JWT 인증을 사용했고, 워크북과 지원 기록, 프로젝트는 JSON 파일 저장소에 보존됩니다. 1~7단계에서 학습한 HTML/CSS, JavaScript, React, API, 데이터 저장, 로그인, 배포 준비를 하나의 제출용 프로젝트로 연결한 것이 핵심입니다.
+Career Hub는 SI/SW 취업 준비자가 목표 직무와 주간 행동, 제출 자료, 지원 현황을 관리하는 fullstack 취업 워크북입니다. 프론트엔드는 React로 만들었고, 백엔드는 Express REST API로 구성했습니다. 회원가입과 로그인은 bcrypt 비밀번호 해시와 JWT 인증을 사용했고, 워크북과 지원 기록, 프로젝트는 로컬 또는 영속 볼륨의 JSON 파일 저장소에 보존됩니다. 1~7단계에서 학습한 HTML/CSS, JavaScript, React, API, 데이터 저장, 로그인, 배포 준비를 하나의 제출용 프로젝트로 연결한 것이 핵심입니다.
 
 ## 면접 질문과 답변 포인트
 

@@ -109,4 +109,33 @@ describe("OpenAPI 계약 동기화", () => {
       expect.arrayContaining(["204", "401", "404"])
     );
   });
+
+  it("rate-limit과 JSON 본문 제한 응답을 실제 미들웨어 범위에 맞게 명시한다", () => {
+    for (const operations of Object.values(spec.paths)) {
+      for (const [method, operation] of Object.entries(operations)) {
+        if (!["get", "post", "patch", "delete"].includes(method)) continue;
+        expect(operation.responses).toHaveProperty("429");
+        if (operation.requestBody) {
+          expect(operation.responses).toHaveProperty("413");
+        }
+      }
+    }
+  });
+
+  it("인증 길이·프로젝트 URL·내 정보 응답의 실제 입력 계약을 명시한다", () => {
+    const register =
+      spec.paths["/api/auth/register"].post.requestBody.content["application/json"].schema;
+    const login = spec.paths["/api/auth/login"].post.requestBody.content["application/json"].schema;
+    const projectInput = spec.components.schemas.ProjectInput.properties;
+    const meSchema = spec.paths["/api/me"].get.responses["200"].content["application/json"].schema;
+
+    expect(register.properties.name.maxLength).toBe(80);
+    expect(register.properties.email.maxLength).toBe(254);
+    expect(register.properties.password.maxLength).toBe(128);
+    expect(login.properties.email.maxLength).toBe(254);
+    expect(login.properties.password.maxLength).toBe(128);
+    expect(projectInput.repoUrl.pattern).toContain("https?");
+    expect(projectInput.deployUrl.pattern).toContain("https?");
+    expect(meSchema.required).toContain("user");
+  });
 });

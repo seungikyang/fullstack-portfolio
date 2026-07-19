@@ -1,5 +1,7 @@
 # 9단계 문제 모음
 
+[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 `starter/` 폴더의 `____`, `// TODO` 표시를 직접 채우세요. 막히면 `answers.md`와 비교합니다.
 
 ## 1번. 기본 타입 붙이기

@@ -1,5 +1,7 @@
 # 16단계 웹 보안 기초
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 OWASP Top 10 중 신입 개발자가 가장 흔히 만드는 보안 실수와 그 방어법을 직접 코드로 익힙니다. 6단계에서 다룬 비밀번호 해시·JWT는 인증 한 축에 불과합니다. 이 단계에서는 인증 외에 입력 검증·출력 인코딩·요청 위조·환경 분리까지 다룹니다.
@@ -16,13 +18,13 @@ npm run check
 
 `npm run check`는 다섯 JavaScript 파일의 문법만 검사합니다. 각 문제는 취약 상태 실행 → 공격 재현 → 서버 종료 → 방어 TODO 작성 → 같은 요청 재검증 순서로 진행합니다.
 
-| 실습 | 실행 명령 | 포트 | 추가 준비 |
-| --- | --- | --- | --- |
-| 저장형 XSS | `npm run start:xss-stored` | 3000 | 문제 1의 취약 출력 상태를 먼저 만듭니다. |
-| 반사형 XSS | `npm run start:xss-reflected` | 3000 | 문제 2의 취약 출력 상태를 먼저 만듭니다. |
-| SQL Injection | `npm run start:sqli` | 3000 | MySQL과 `starter/03-sql-injection-setup.sql`이 필요합니다. |
-| CSRF | `npm run start:csrf` | 4000 | curl cookie jar로 두 경로를 비교합니다. |
-| CORS | `npm run start:cors` | 3000 | 허용·거부 Origin을 비교합니다. |
+| 실습          | 실행 명령                     | 포트 | 추가 준비                                                  |
+| ------------- | ----------------------------- | ---- | ---------------------------------------------------------- |
+| 저장형 XSS    | `npm run start:xss-stored`    | 3000 | 문제 1의 취약 출력 상태를 먼저 만듭니다.                   |
+| 반사형 XSS    | `npm run start:xss-reflected` | 3000 | 문제 2의 취약 출력 상태를 먼저 만듭니다.                   |
+| SQL Injection | `npm run start:sqli`          | 3000 | MySQL과 `starter/03-sql-injection-setup.sql`이 필요합니다. |
+| CSRF          | `npm run start:csrf`          | 4000 | curl cookie jar로 두 경로를 비교합니다.                    |
+| CORS          | `npm run start:cors`          | 3000 | 허용·거부 Origin을 비교합니다.                             |
 
 3000번을 쓰는 실습은 동시에 실행할 수 없습니다. 한 실습의 확인을 마치면 `Ctrl+C`로 종료한 뒤 다음 명령을 실행합니다. SQL과 CSRF의 준비·검증 명령은 [problems.md](./problems.md)에 있습니다.
 

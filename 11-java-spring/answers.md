@@ -1,5 +1,7 @@
 # 11단계 Spring Boot 정답 예시
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../12-testing/README.md)
+
 정답을 먼저 보지 마세요. 직접 작성해보고 막혔을 때만 비교합니다.
 
 ## 1번 정답 예시
@@ -231,13 +233,13 @@ spring:
 
 ## 8번 비교 예시
 
-| 비교 항목 | Express | Spring |
-| --- | --- | --- |
-| 라우터 정의 | `app.post('/posts', handler)` | `@PostMapping("/posts")` |
-| 요청 body | `req.body.title` (express.json) | `@RequestBody PostCreateRequest req` |
-| 검증 | 직접 if 또는 zod/joi | `@Valid` + Bean Validation |
-| 응답 상태 | `res.status(201).json(...)` | `@ResponseStatus(CREATED)` |
-| DB 저장 | `Post.create(...)` (Mongoose) | `repository.save(entity)` (JPA) |
+| 비교 항목   | Express                         | Spring                               |
+| ----------- | ------------------------------- | ------------------------------------ |
+| 라우터 정의 | `app.post('/posts', handler)`   | `@PostMapping("/posts")`             |
+| 요청 body   | `req.body.title` (express.json) | `@RequestBody PostCreateRequest req` |
+| 검증        | 직접 if 또는 zod/joi            | `@Valid` + Bean Validation           |
+| 응답 상태   | `res.status(201).json(...)`     | `@ResponseStatus(CREATED)`           |
+| DB 저장     | `Post.create(...)` (Mongoose)   | `repository.save(entity)` (JPA)      |
 
 ## 자주 막히는 부분
 

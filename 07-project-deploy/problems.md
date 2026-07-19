@@ -1,5 +1,7 @@
 # 7단계 문제
 
+[단계 설명](./README.md) · [배포 점검](./deploy-checklist.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 빈칸은 `public/app.js`의 1~6번, 그다음 `src/server.js`의 7~9번 순서입니다.
 
 ## 문제 1. API 주소 연결하기 (app.js · 빈칸 1)

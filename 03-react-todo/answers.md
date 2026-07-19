@@ -1,5 +1,7 @@
 # 3단계 정답 확인
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../04-node-board-api/README.md)
+
 먼저 직접 풀어본 뒤 확인하세요. React에서는 화면에 보이는 값이 state에서 나온다는 감각을 잡는 것이 핵심입니다. 아래 번호는 코드 안의 `빈칸` 번호와 같습니다.
 
 ## 빈칸 1 (App.jsx · 남은 개수)
@@ -17,7 +19,7 @@ const title = input.trim();
 ## 빈칸 3 (App.jsx · 완료 토글)
 
 ```jsx
-done: !todo.done
+done: !todo.done;
 ```
 
 ## 빈칸 4 (App.jsx · 입력값 저장)

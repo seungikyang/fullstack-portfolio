@@ -1,5 +1,7 @@
 # 12단계 자동화 테스트
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 코드가 의도대로 동작하는지 수동 확인이 아닌 자동화 테스트로 검증하는 능력을 익힙니다. SI/SW 실무에서는 인수인계와 유지보수가 잦아 "테스트가 통과해야 PR을 머지한다"는 흐름이 점점 표준이 되고 있습니다.
@@ -59,14 +61,14 @@ JavaScript 테스트만 완료했다면 Vitest와 supertest 결과만 설명합�
 
 ## JS 진영 vs Java 진영 비교
 
-| 개념 | Vitest/Jest | JUnit 5 |
-| --- | --- | --- |
-| 테스트 정의 | `test('...', () => {})` | `@Test void name() {}` |
-| 단언 | `expect(x).toBe(y)` | `assertEquals(y, x)` |
-| 모킹 | `vi.mock(...)`, `vi.fn()` | `Mockito.mock(...)`, `@Mock` |
-| 라이프사이클 | `beforeEach`, `afterEach` | `@BeforeEach`, `@AfterEach` |
-| API 호출 | `supertest(app).get(...)` | `MockMvc.perform(get(...))` |
-| 실행 | `npm test` | `./gradlew test` |
+| 개념         | Vitest/Jest               | JUnit 5                      |
+| ------------ | ------------------------- | ---------------------------- |
+| 테스트 정의  | `test('...', () => {})`   | `@Test void name() {}`       |
+| 단언         | `expect(x).toBe(y)`       | `assertEquals(y, x)`         |
+| 모킹         | `vi.mock(...)`, `vi.fn()` | `Mockito.mock(...)`, `@Mock` |
+| 라이프사이클 | `beforeEach`, `afterEach` | `@BeforeEach`, `@AfterEach`  |
+| API 호출     | `supertest(app).get(...)` | `MockMvc.perform(get(...))`  |
+| 실행         | `npm test`                | `./gradlew test`             |
 
 ## 면접 연습
 

@@ -1,5 +1,7 @@
 # 1단계 문제
 
+[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 문제 1. HTML 뼈대 채우기
 
 `starter/index.html`에서 `____`로 표시된 값을 채워 자기소개 페이지를 완성하세요.
@@ -25,4 +27,3 @@
 - `header`, `main`, `section` 태그를 나눈 이유는 무엇인가요?
 - flexbox와 grid는 각각 어느 부분에 사용했나요?
 - 모바일에서 레이아웃이 바뀌어야 하는 이유는 무엇인가요?
-

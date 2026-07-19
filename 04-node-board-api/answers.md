@@ -1,5 +1,7 @@
 # 4단계 정답 확인
 
+[문제로 돌아가기](./problems.md) · [API 요청 모음](./requests.http) · [완료 체크](../student-checklist.md) · [다음 단계](../05-database-mongodb/README.md)
+
 먼저 직접 풀어본 뒤 확인하세요. API 학습에서는 브라우저보다 `requests.http` 또는 Postman 같은 도구로 요청과 응답을 보는 것이 좋습니다. 아래 번호는 코드 안의 `빈칸` 번호와 같습니다.
 
 ## 빈칸 1 (GET /posts)

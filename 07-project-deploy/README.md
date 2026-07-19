@@ -1,5 +1,7 @@
 # 7단계 프로젝트 및 배포
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [배포 점검](./deploy-checklist.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 지금까지 배운 내용을 합쳐 미니 블로그 프로젝트를 완성하고 배포 준비까지 경험합니다.
@@ -22,7 +24,7 @@ npm run dev
 - `public/index.html`은 화면 구조를 담당합니다.
 - `public/app.js`는 API 호출과 화면 렌더링을 담당합니다.
 - `public/styles.css`는 최종 프로젝트 화면 스타일을 담당합니다.
-- `deploy-checklist.md`는 배포 전 확인 목록입니다.
+- [배포 점검표](./deploy-checklist.md)는 배포 전 확인 목록입니다.
 
 ## 완료 기준
 

@@ -108,8 +108,8 @@
 - [ ] Vitest로 순수 함수 단위 테스트 5개 이상을 통과시켰습니다.
 - [ ] supertest로 Express 라우터 통합 테스트를 통과시켰습니다.
 - [ ] `vi.spyOn` 또는 `vi.mock`으로 외부 의존성을 모킹했습니다.
-- [ ] JUnit 5 + Mockito로 `PostService` 단위 테스트를 통과시켰습니다.
-- [ ] `@WebMvcTest`로 Controller 통합 테스트를 통과시켰습니다.
+- [ ] 11단계 Spring 프로젝트를 직접 만든 경우, JUnit 5 + Mockito로 `PostService` 단위 테스트를 통과시켰습니다.
+- [ ] 같은 Spring 프로젝트가 있는 경우, `@WebMvcTest`로 Controller 통합 테스트를 통과시켰습니다.
 - [ ] 커버리지 보고서를 출력하고 테스트가 부족한 줄을 확인했습니다.
 
 ## 13단계 Git 협업
@@ -123,9 +123,9 @@
 
 ## 14단계 Docker와 CI
 
-- [ ] Node 앱과 Spring 앱을 각각 Dockerfile로 빌드했습니다.
+- [ ] Node 앱 또는 Spring 앱 중 직접 만든 대상을 Dockerfile로 빌드했습니다.
 - [ ] `.dockerignore`로 컨텍스트 크기를 줄였습니다.
-- [ ] 멀티 스테이지 빌드로 Spring 이미지 크기를 줄였습니다.
+- [ ] 멀티 스테이지 빌드를 적용한 경우 전후 이미지 크기를 비교했습니다.
 - [ ] docker compose로 앱과 Postgres를 함께 실행했습니다.
 - [ ] GitHub Actions로 push 시 자동 테스트가 실행됩니다.
 - [ ] 멀티 스테이지 빌드 전후 이미지 크기를 비교한 메모가 있습니다.

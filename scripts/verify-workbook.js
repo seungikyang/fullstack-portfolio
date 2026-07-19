@@ -56,11 +56,13 @@ const requiredPaths = [
   "05-database-mongodb/answers.md",
   "05-database-mongodb/src/server.js",
   "05-database-mongodb/src/models/Post.js",
+  "05-database-mongodb/requests.http",
   "06-login-auth/README.md",
   "06-login-auth/problems.md",
   "06-login-auth/answers.md",
   "06-login-auth/src/server.js",
   "06-login-auth/src/auth.js",
+  "06-login-auth/requests.http",
   "07-project-deploy/README.md",
   "07-project-deploy/problems.md",
   "07-project-deploy/answers.md",
@@ -126,6 +128,7 @@ const requiredPaths = [
   "12-testing/problems.md",
   "12-testing/answers.md",
   "12-testing/starter/js/package.json",
+  "12-testing/starter/js/package-lock.json",
   "12-testing/starter/js/src/calculator.ts",
   "12-testing/starter/js/src/calculator.test.ts",
   "12-testing/starter/js/src/app.ts",
@@ -615,6 +618,93 @@ function findTrackErrors(workbookRoot) {
   return errors;
 }
 
+function findLearningPathErrors(workbookRoot) {
+  const errors = [];
+  const read = (relativePath) => {
+    const filePath = path.join(workbookRoot, relativePath);
+    return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "";
+  };
+  const expectLink = (relativePath, target) => {
+    if (!read(relativePath).includes(`(${target})`)) {
+      errors.push(`${relativePath}에 ${target} 학습 동선 링크가 없습니다.`);
+    }
+  };
+
+  const index = read("index.html");
+  if (!index.includes('class="button" href="./START-HERE.md"')) {
+    errors.push("index.html의 첫 CTA가 START-HERE.md를 열지 않습니다.");
+  }
+
+  expectLink("START-HERE.md", "./01-html-css/README.md");
+  expectLink("START-HERE.md", "./08-fullstack-portfolio-project/README.md");
+
+  const standardFolders = guideFolders.filter(
+    (folder) =>
+      folder !== "08-fullstack-portfolio-project" &&
+      folder !== "17-interview-prep",
+  );
+
+  for (const folder of standardFolders) {
+    expectLink(`${folder}/README.md`, "./problems.md");
+    expectLink(`${folder}/README.md`, "./answers.md");
+    expectLink(`${folder}/README.md`, "../student-checklist.md");
+    expectLink(`${folder}/problems.md`, "./README.md");
+    expectLink(`${folder}/problems.md`, "./answers.md");
+    expectLink(`${folder}/problems.md`, "../student-checklist.md");
+    expectLink(`${folder}/answers.md`, "./problems.md");
+    expectLink(`${folder}/answers.md`, "../student-checklist.md");
+
+    const folderIndex = guideFolders.indexOf(folder);
+    const nextFolder = guideFolders[folderIndex + 1];
+    expectLink(`${folder}/answers.md`, `../${nextFolder}/README.md`);
+  }
+
+  for (const folder of [
+    "04-node-board-api",
+    "05-database-mongodb",
+    "06-login-auth",
+  ]) {
+    expectLink(`${folder}/README.md`, "./requests.http");
+  }
+  expectLink("07-project-deploy/README.md", "./deploy-checklist.md");
+
+  for (const target of [
+    "./learning-map.md",
+    "./submission-checklist.md",
+    "./resume-assets.md",
+    "../09-typescript/README.md",
+  ]) {
+    expectLink("08-fullstack-portfolio-project/README.md", target);
+  }
+
+  for (const target of [
+    "./interview-cards.md",
+    "./self-intro-templates.md",
+    "./behavioral-questions.md",
+    "./project-pitch-template.md",
+    "../student-checklist.md",
+  ]) {
+    expectLink("17-interview-prep/README.md", target);
+  }
+
+  if (
+    !read("10-sql-oracle/README.md").includes("starter/07-index.sql") ||
+    !read("10-sql-oracle/README.md").includes("실행 계획")
+  ) {
+    errors.push("10단계 README에 인덱스 실행 계획 완료 기준이 없습니다.");
+  }
+
+  const checklist = read("student-checklist.md");
+  if (!checklist.includes("Spring 프로젝트를 직접 만든 경우")) {
+    errors.push("12단계 JUnit 완료 기준이 조건부로 표시되지 않았습니다.");
+  }
+  if (!checklist.includes("Node 앱 또는 Spring 앱")) {
+    errors.push("14단계 Docker 완료 기준이 실제 수행 대상 기준이 아닙니다.");
+  }
+
+  return errors;
+}
+
 function findPortContractErrors(workbookRoot) {
   const errors = [];
   const portfolioRoot = path.join(
@@ -821,6 +911,10 @@ function main() {
     fail(error);
   }
 
+  for (const error of findLearningPathErrors(root)) {
+    fail(error);
+  }
+
   for (const error of findPortContractErrors(root)) {
     fail(error);
   }
@@ -837,6 +931,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  findLearningPathErrors,
   findLocalLinkErrors,
   findPortContractErrors,
   findTrackErrors,

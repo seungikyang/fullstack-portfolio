@@ -1,5 +1,7 @@
 # 10단계 SQL 문제 모음
 
+[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 `starter/` 폴더의 빈칸을 채워가며 차례대로 실행하세요. 막히면 `answers.md`와 비교합니다.
 
 각 문제는 Oracle 문법 기준입니다. MySQL로 푸는 경우 README의 차이표를 참고해 변환하세요.

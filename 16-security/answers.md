@@ -1,13 +1,15 @@
 # 16단계 보안 정답과 해설
 
+[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../17-interview-prep/README.md)
+
 ## 1번. 저장형 XSS
 
 취약 코드.
 
 ```js
-app.get('/posts/:id', (req, res) => {
+app.get("/posts/:id", (req, res) => {
   const post = posts.find((p) => p.id === Number(req.params.id));
-  res.send(`<h1>${post.title}</h1><div>${post.content}</div>`);  // 위험
+  res.send(`<h1>${post.title}</h1><div>${post.content}</div>`); // 위험
 });
 ```
 
@@ -16,16 +18,18 @@ app.get('/posts/:id', (req, res) => {
 ```js
 function escapeHtml(s) {
   return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-app.get('/posts/:id', (req, res) => {
+app.get("/posts/:id", (req, res) => {
   const post = posts.find((p) => p.id === Number(req.params.id));
-  res.send(`<h1>${escapeHtml(post.title)}</h1><div>${escapeHtml(post.content)}</div>`);
+  res.send(
+    `<h1>${escapeHtml(post.title)}</h1><div>${escapeHtml(post.content)}</div>`,
+  );
 });
 ```
 
@@ -35,8 +39,8 @@ app.get('/posts/:id', (req, res) => {
 
 ```js
 // Express + EJS
-app.get('/search', (req, res) => {
-  res.render('search', { q: req.query.q });  // EJS의 <%= %>가 자동 escape
+app.get("/search", (req, res) => {
+  res.render("search", { q: req.query.q }); // EJS의 <%= %>가 자동 escape
 });
 ```
 
@@ -50,7 +54,7 @@ app.get('/search', (req, res) => {
 
 ```js
 // Node + mysql2 콜백
-const sql = `SELECT * FROM users WHERE name = '${req.query.name}'`;  // 위험
+const sql = `SELECT * FROM users WHERE name = '${req.query.name}'`; // 위험
 connection.query(sql, (err, rows) => res.json(rows));
 ```
 
@@ -59,7 +63,7 @@ connection.query(sql, (err, rows) => res.json(rows));
 ```js
 // 파라미터화 쿼리
 connection.query(
-  'SELECT * FROM users WHERE name = ?',
+  "SELECT * FROM users WHERE name = ?",
   [req.query.name],
   (err, rows) => res.json(rows),
 );
@@ -137,26 +141,28 @@ XSS vs CSRF.
 위험한 설정.
 
 ```js
-app.use(cors({ origin: '*', credentials: true }));  // 동시에 쓰면 브라우저가 거부
+app.use(cors({ origin: "*", credentials: true })); // 동시에 쓰면 브라우저가 거부
 ```
 
 안전한 설정.
 
 ```js
-const allowed = ['http://localhost:3000', 'https://app.example.com'];
+const allowed = ["http://localhost:3000", "https://app.example.com"];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowed.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 ```
 
 설명. CORS는 **브라우저가 검증**합니다. 서버는 응답 헤더로 "이 출처는 허용"이라고 알리고, 위반 시 브라우저가 응답을 JS에 노출하지 않습니다. 따라서 curl이나 백엔드 호출은 CORS와 무관합니다.
@@ -180,19 +186,19 @@ Preflight(OPTIONS)는 다음 조건에서 발생합니다.
 ## 7번. 비밀번호 정책
 
 ```js
-import bcrypt from 'bcrypt';
-const COST = 12;  // 2026년 기준 권장. 4년 전 권장이 10이었음.
+import bcrypt from "bcrypt";
+const COST = 12; // 2026년 기준 권장. 4년 전 권장이 10이었음.
 const hash = await bcrypt.hash(password, COST);
 ```
 
 ```js
 // 사용자 열거 공격 방어
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const user = await User.findOne({ email });
-  const ok = user && await bcrypt.compare(password, user.passwordHash);
+  const ok = user && (await bcrypt.compare(password, user.passwordHash));
   if (!ok) {
     // 같은 응답으로 통일
-    return res.status(401).json({ error: 'invalid email or password' });
+    return res.status(401).json({ error: "invalid email or password" });
   }
   // ...
 });
@@ -225,18 +231,18 @@ CI 워크플로우 추가 예시.
 
 ## 9번. OWASP Top 10 한 줄 요약
 
-| 번호 | 항목 | 한 줄 요약 |
-| --- | --- | --- |
-| A01 | Broken Access Control | 인증된 사용자가 자기 권한 밖 자원에 접근할 수 있는 결함. |
-| A02 | Cryptographic Failures | 약한 알고리즘·평문 저장·잘못된 인증서 검증 같은 암호학적 실수. |
-| A03 | Injection | SQL Injection, NoSQL Injection, 명령어 주입 등 사용자 입력이 구조를 바꾸는 공격. |
-| A04 | Insecure Design | 코드 버그가 아닌 설계 단계의 보안 결함. |
-| A05 | Security Misconfiguration | 기본 비밀번호, 노출된 관리 페이지, 부적절한 헤더 같은 설정 오류. |
-| A06 | Vulnerable and Outdated Components | 패치되지 않은 라이브러리·프레임워크 사용. |
-| A07 | Identification and Authentication Failures | 약한 비밀번호 정책, 세션 관리 결함, 토큰 노출. |
-| A08 | Software and Data Integrity Failures | 무결성 검증 없는 업데이트 채널, CI/CD 파이프라인 조작. |
-| A09 | Security Logging and Monitoring Failures | 침해를 알아챌 수 없는 로깅·모니터링 부재. |
-| A10 | Server-Side Request Forgery (SSRF) | 서버가 사용자 입력대로 내부 자원에 요청을 보내는 결함. |
+| 번호 | 항목                                       | 한 줄 요약                                                                       |
+| ---- | ------------------------------------------ | -------------------------------------------------------------------------------- |
+| A01  | Broken Access Control                      | 인증된 사용자가 자기 권한 밖 자원에 접근할 수 있는 결함.                         |
+| A02  | Cryptographic Failures                     | 약한 알고리즘·평문 저장·잘못된 인증서 검증 같은 암호학적 실수.                   |
+| A03  | Injection                                  | SQL Injection, NoSQL Injection, 명령어 주입 등 사용자 입력이 구조를 바꾸는 공격. |
+| A04  | Insecure Design                            | 코드 버그가 아닌 설계 단계의 보안 결함.                                          |
+| A05  | Security Misconfiguration                  | 기본 비밀번호, 노출된 관리 페이지, 부적절한 헤더 같은 설정 오류.                 |
+| A06  | Vulnerable and Outdated Components         | 패치되지 않은 라이브러리·프레임워크 사용.                                        |
+| A07  | Identification and Authentication Failures | 약한 비밀번호 정책, 세션 관리 결함, 토큰 노출.                                   |
+| A08  | Software and Data Integrity Failures       | 무결성 검증 없는 업데이트 채널, CI/CD 파이프라인 조작.                           |
+| A09  | Security Logging and Monitoring Failures   | 침해를 알아챌 수 없는 로깅·모니터링 부재.                                        |
+| A10  | Server-Side Request Forgery (SSRF)         | 서버가 사용자 입력대로 내부 자원에 요청을 보내는 결함.                           |
 
 ## 면접에서 자주 묻는 답 패턴
 

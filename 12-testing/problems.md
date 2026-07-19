@@ -1,5 +1,7 @@
 # 12단계 테스트 문제 모음
 
+[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 `starter/` 폴더의 빈칸을 채워가며 진행합니다. JS와 Java 양쪽을 모두 다룹니다.
 
 ## 1번. 순수 함수 단위 테스트 (Vitest)

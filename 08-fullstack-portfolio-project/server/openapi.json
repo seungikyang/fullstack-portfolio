@@ -155,8 +155,16 @@
               { "type": "string", "description": "쉼표로 구분한 기술 스택" }
             ]
           },
-          "repoUrl": { "type": "string", "maxLength": 500 },
-          "deployUrl": { "type": "string", "maxLength": 500 },
+          "repoUrl": {
+            "type": "string",
+            "maxLength": 500,
+            "pattern": "^(?:$|https?://.+)$"
+          },
+          "deployUrl": {
+            "type": "string",
+            "maxLength": 500,
+            "pattern": "^(?:$|https?://.+)$"
+          },
           "highlight": { "type": "string", "maxLength": 1000 }
         }
       },
@@ -252,6 +260,14 @@
       "NotFound": {
         "description": "리소스를 찾을 수 없음",
         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "PayloadTooLarge": {
+        "description": "요청 본문이 1MB 제한을 초과함",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "TooManyRequests": {
+        "description": "요청 비율 제한 초과",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
       }
     }
   },
@@ -271,7 +287,8 @@
                 }
               }
             }
-          }
+          },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -279,7 +296,10 @@
       "get": {
         "tags": ["system"],
         "summary": "OpenAPI 명세 다운로드",
-        "responses": { "200": { "description": "OpenAPI 3 문서" } }
+        "responses": {
+          "200": { "description": "OpenAPI 3 문서" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
       }
     },
     "/api/auth/register": {
@@ -294,9 +314,9 @@
                 "type": "object",
                 "required": ["email", "password"],
                 "properties": {
-                  "name": { "type": "string" },
-                  "email": { "type": "string", "format": "email" },
-                  "password": { "type": "string", "minLength": 8 }
+                  "name": { "type": "string", "maxLength": 80 },
+                  "email": { "type": "string", "format": "email", "maxLength": 254 },
+                  "password": { "type": "string", "minLength": 8, "maxLength": 128 }
                 }
               }
             }
@@ -310,12 +330,14 @@
             }
           },
           "400": { "$ref": "#/components/responses/Validation" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
           "409": {
             "description": "이미 가입된 이메일",
             "content": {
               "application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
             }
-          }
+          },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -331,8 +353,8 @@
                 "type": "object",
                 "required": ["email", "password"],
                 "properties": {
-                  "email": { "type": "string", "format": "email" },
-                  "password": { "type": "string" }
+                  "email": { "type": "string", "format": "email", "maxLength": 254 },
+                  "password": { "type": "string", "maxLength": 128 }
                 }
               }
             }
@@ -346,7 +368,9 @@
             }
           },
           "400": { "$ref": "#/components/responses/Validation" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -362,12 +386,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "user": { "$ref": "#/components/schemas/User" } }
+                  "properties": { "user": { "$ref": "#/components/schemas/User" } },
+                  "required": ["user"]
                 }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -383,7 +409,8 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/Dashboard" } }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -399,7 +426,8 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/Workbook" } }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       },
       "patch": {
@@ -420,7 +448,9 @@
             }
           },
           "400": { "$ref": "#/components/responses/Validation" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -441,7 +471,8 @@
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       },
       "post": {
@@ -469,7 +500,9 @@
             }
           },
           "400": { "$ref": "#/components/responses/Validation" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -496,7 +529,9 @@
           },
           "400": { "$ref": "#/components/responses/Validation" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       },
       "delete": {
@@ -509,7 +544,8 @@
         "responses": {
           "204": { "description": "삭제됨" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -527,7 +563,8 @@
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       },
       "post": {
@@ -555,7 +592,9 @@
             }
           },
           "400": { "$ref": "#/components/responses/Validation" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     },
@@ -582,7 +621,9 @@
           },
           "400": { "$ref": "#/components/responses/Validation" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       },
       "delete": {
@@ -595,7 +636,8 @@
         "responses": {
           "204": { "description": "삭제됨" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
     }

@@ -1,5 +1,7 @@
 # 14단계 Docker 문제 모음
 
+[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 `starter/` 폴더의 빈칸을 채우며 진행합니다. 막히면 `answers.md`와 비교하세요.
 
 ## 1번. Node 앱 Dockerfile

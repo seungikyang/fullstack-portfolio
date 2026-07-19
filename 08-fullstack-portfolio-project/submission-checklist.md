@@ -13,6 +13,7 @@
 - [ ] `npm run audit:submit`이 성공합니다.
 - [ ] `npm run verify` (format, lint, build, unit/API test, 제출 감사)가 성공합니다.
 - [ ] ZIP으로 제출한다면 `npm run clean:generated`를 실행했습니다.
+- [ ] 배포 링크를 제출한다면 회원가입·저장·재시작·재로그인 후 같은 기록이 남는지 확인했습니다.
 
 ## GitHub 정리
 
@@ -50,3 +51,4 @@
 - [ ] 보호 API는 토큰 없이 접근하면 401을 반환합니다.
 - [ ] `NODE_ENV=production`에서 예제값이 아닌 32자 이상의 `JWT_SECRET`이 없으면 시작이 거부되는지 확인했습니다.
 - [ ] `SEED_DEMO` 기본값이 `false`이며, 운영 배포에서 데모 계정을 만들지 않는지 확인했습니다.
+- [ ] Render free는 임시 시연용임을 표시하고, 데이터 보존을 주장하는 배포는 영속 볼륨 또는 외부 DB를 사용합니다.

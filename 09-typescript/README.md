@@ -1,5 +1,7 @@
 # 9단계 TypeScript
 
+[HTML 목차](../index.html) · [문제 풀기](./problems.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+
 ## 목표
 
 JavaScript에 정적 타입을 입혀 컴파일 시점에 오류를 잡는 능력을 익힙니다. 신규 프로젝트의 대부분은 TypeScript 기반이라, SI/SW 채용에서도 TS 경험 여부를 점점 더 자주 묻습니다.

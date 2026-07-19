@@ -79,6 +79,67 @@ describe("Career Hub API", () => {
     expect(res.body.user).not.toHaveProperty("passwordHash");
   });
 
+  it("배포 도메인과 같은 서버에서 보낸 Origin 요청도 회원가입을 처리한다", async () => {
+    const res = await request(app)
+      .post("/api/auth/register")
+      .set("Origin", "https://career-hub.fly.dev")
+      .send({ name: "배포 사용자", email: "deploy@example.com", password: "password123" });
+
+    expect(res.status).toBe(201);
+    expect(res.headers["access-control-allow-origin"]).toBeUndefined();
+  });
+
+  it("허용하지 않은 교차 출처의 preflight에는 CORS 허용 헤더를 보내지 않는다", async () => {
+    const res = await request(app)
+      .options("/api/auth/register")
+      .set("Origin", "https://attacker.example")
+      .set("Access-Control-Request-Method", "POST");
+
+    expect(res.status).not.toBe(500);
+    expect(res.headers["access-control-allow-origin"]).toBeUndefined();
+  });
+
+  it("인증 요청이 15분에 20회를 넘으면 429를 반환한다", async () => {
+    const previousNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "development";
+
+    try {
+      const limitedApp = await createApp({ dataFile: join(dir, "rate-limit-data.json") });
+      const statuses = [];
+      for (let attempt = 0; attempt < 21; attempt += 1) {
+        const response = await request(limitedApp)
+          .post("/api/auth/login")
+          .send({ email: "missing@example.com", password: "password123" });
+        statuses.push(response.status);
+      }
+
+      expect(statuses.slice(0, 20).every((status) => status === 401)).toBe(true);
+      expect(statuses[20]).toBe(429);
+    } finally {
+      process.env.NODE_ENV = previousNodeEnv;
+    }
+  });
+
+  it("잘못된 JSON은 서버 오류가 아닌 400으로 분류한다", async () => {
+    const res = await request(app)
+      .post("/api/auth/register")
+      .set("Content-Type", "application/json")
+      .send("{");
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toMatch(/JSON 요청 본문/);
+  });
+
+  it("1MB를 넘는 JSON 본문은 413으로 분류한다", async () => {
+    const res = await request(app)
+      .post("/api/auth/register")
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify({ name: "가".repeat(1_100_000) }));
+
+    expect(res.status).toBe(413);
+    expect(res.body.message).toMatch(/1MB/);
+  });
+
   it("같은 이메일로 두 번 가입하면 409를 반환한다", async () => {
     const payload = { name: "t", email: "dup@example.com", password: "password123" };
     await request(app).post("/api/auth/register").send(payload).expect(201);
