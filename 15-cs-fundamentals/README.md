@@ -11,11 +11,17 @@
 ## 실행 방법
 
 ```bash
-# 별도 설치 없음
+# macOS
 open 15-cs-fundamentals/problems.md
+
+# Linux
+xdg-open 15-cs-fundamentals/problems.md
+
+# Windows
+start 15-cs-fundamentals/problems.md
 ```
 
-문제마다 자기 답안을 한 단락(3~5문장)으로 적어보고, `answers.md`와 비교하세요. **모범 답안을 외우지 말고**, 차이를 보고 자기 답안을 고쳐 다시 적습니다.
+명령 대신 [HTML 실행 지도](../index.html#run-15)에서 21문제 시작을 눌러도 됩니다. 문제마다 자기 답안을 한 단락(3~5문장)으로 적어보고, `answers.md`와 비교하세요. **모범 답안을 외우지 말고**, 차이를 보고 자기 답안을 고쳐 다시 적습니다.
 
 ## 완료 기준
 

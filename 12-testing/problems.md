@@ -34,7 +34,7 @@
 
 `starter/js/src/notification.ts`는 이메일 전송 함수에 의존합니다.
 
-- 이메일 함수를 `vi.mock`으로 가짜로 대체.
+- `vi.spyOn(mailer, "sendMail")`로 이메일 함수를 감시하고 가짜 반환값을 설정.
 - `notifyUser` 호출 시 이메일 함수가 인자 `(to, subject, body)`로 호출되는지 검증.
 
 ## 4번. JUnit 5 단위 테스트

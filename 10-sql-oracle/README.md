@@ -59,11 +59,11 @@ SI/SW 실무에서 SQL은 다음과 같은 가치를 가집니다.
 ## Oracle vs MySQL 주요 차이
 
 | 기능         | Oracle                                          | MySQL                  |
-| ------------ | ----------------------------------------------- | ---------------------- | --- | ---------- |
+| ------------ | ----------------------------------------------- | ---------------------- |
 | 자동 증가 키 | SEQUENCE + TRIGGER 또는 IDENTITY                | AUTO_INCREMENT         |
 | 페이지네이션 | `ROWNUM` 또는 12c부터 `FETCH FIRST N ROWS ONLY` | `LIMIT N OFFSET M`     |
 | 더미 테이블  | `DUAL`                                          | 없음 (`SELECT 1`)      |
-| 문자열 연결  | `                                               |                        | `   | `CONCAT()` |
+| 문자열 연결  | `\|\|`                                          | `CONCAT()`             |
 | 날짜 함수    | `SYSDATE`, `TO_DATE`                            | `NOW()`, `STR_TO_DATE` |
 
 ## 면접 연습

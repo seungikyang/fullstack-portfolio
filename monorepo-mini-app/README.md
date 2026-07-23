@@ -57,7 +57,7 @@ npm run dev                          # predev가 shared를 빌드한 뒤 API(520
 # http://localhost:5174 접속
 ```
 
-토큰을 설정하지 않은 개발 모드는 학습 편의를 위한 **로컬 전용 무인증 모드**입니다. 인터넷에 공개하지 마세요. 토큰을 시험하려면 `NOTE_HUB_ACCESS_TOKEN=local-test-token npm run dev`로 실행하고 화면의 “API 접근 토큰”에 같은 값을 입력합니다.
+토큰을 설정하지 않은 개발 모드는 학습 편의를 위한 **로컬 전용 무인증 모드**입니다. 인터넷에 공개하지 마세요. 토큰을 시험하려면 `NOTE_HUB_ACCESS_TOKEN=local-test-token-with-at-least-32-characters npm run dev`로 실행하고 화면의 “API 접근 토큰”에 같은 값을 입력합니다.
 
 ### B. Postgres 백엔드로 실행 (실서비스에 더 가까움)
 
@@ -97,6 +97,8 @@ npm run prepare                # husky 활성화 (1회)
 `api/src/server.test.ts`와 `openapi-sync.test.ts`는 `@note-hub/shared`의 `ApiRoutes` 런타임 값을 import 하므로 shared가 먼저 빌드되어 있어야 합니다. 루트 `pretest` 훅이 이를 자동으로 처리합니다.
 
 `.husky/pre-commit`이 lint-staged를 실행해 스테이지된 파일만 ESLint + Prettier로 자동 정리합니다.
+
+루트 GitHub Actions는 `npm ci` 후 format·lint·typecheck·41개 테스트·build를 실행하고, Linux Docker 잡에서는 접근 토큰을 포함한 Postgres 노트 생성·조회 smoke를 확인합니다. 로컬 테스트 수와 CI 정의는 실제 실행 시점에 다시 확인한 뒤 지원 자료에 사용합니다.
 
 ## API 요약
 

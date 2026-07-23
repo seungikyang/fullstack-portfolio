@@ -125,6 +125,8 @@ npm run clean:generated
 | `SEED_DEMO`      | 기본값은 `false`입니다. `true`이고 저장소에 사용자가 없을 때만 데모 계정을 만듭니다.                                                              |
 | `VITE_SHOW_DEMO` | 로그인 화면에 데모 이메일·비밀번호 안내를 표시할 때만 `true`로 둡니다. 서버의 데모 사용자 생성 여부는 `SEED_DEMO`가 별도로 결정합니다.            |
 
+고급 실행 변수로 `LOG_LEVEL`은 서버 로그 수준, `VITE_API_URL`은 Vite에서 직접 호출할 API 주소, `SKIP_DEV_PORT_CLEANUP`은 개발 compose에서 호스트 3000번 정리를 건너뛸 때 사용합니다. 기본 실행에서는 변경할 필요가 없습니다.
+
 ## Docker로 실행
 
 로컬 Docker Desktop이 설치되어 있으면 컨테이너로도 띄울 수 있습니다.
@@ -158,7 +160,7 @@ docker compose -f docker-compose.dev.yml up
 
 ## CI
 
-`.github/workflows/ci.yml`에서 main 푸시와 PR마다 다음 작업이 실행됩니다.
+루트 `.github/workflows/ci.yml`에서 main 푸시와 PR마다 다음 Career Hub 관련 작업이 실행됩니다. 같은 워크플로의 Note Hub 잡은 별도 프로그램을 검증합니다.
 
 1. 루트 워크북 구조 검증 (`npm run verify:structure`와 같은 `npm run verify`).
 2. Career Hub format check, lint, 단위·통합 테스트, 빌드, API smoke test, 제출 감사.

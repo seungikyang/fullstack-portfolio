@@ -23,6 +23,10 @@ jobs:
           node-version: "22.12"
       - name: Verify workbook structure
         run: npm run verify
+      - name: Install learner-safe React example
+        run: npm ci --prefix 03-react-todo
+      - name: Verify learner-safe programs
+        run: npm run verify:programs
 
   portfolio:
     name: Career Hub portfolio (lint + test + build)
@@ -138,13 +142,23 @@ jobs:
           exit 1
       - name: Smoke - create and list note
         run: |
-          curl -fsS -X POST http://127.0.0.1:5200/api/notes \
+          created=$(curl -fsS -X POST http://127.0.0.1:5200/api/notes \
             -H 'content-type: application/json' \
             -H 'authorization: Bearer ci-note-hub-access-token-with-at-least-32-characters' \
-            -d '{"title":"ci-note","body":"hello","tags":["ci"]}'
+            -d '{"title":"ci-note","body":"hello","tags":["ci"]}')
+          note_id=$(printf '%s' "$created" | sed -n 's/.*"id":"\([^"]*\)".*/\1/p')
+          test -n "$note_id"
           curl -fsS http://127.0.0.1:5200/api/notes \
             -H 'authorization: Bearer ci-note-hub-access-token-with-at-least-32-characters' \
             | grep -q '"title":"ci-note"'
+          curl -fsS -X DELETE "http://127.0.0.1:5200/api/notes/$note_id" \
+            -H 'authorization: Bearer ci-note-hub-access-token-with-at-least-32-characters'
+          if curl -fsS http://127.0.0.1:5200/api/notes \
+            -H 'authorization: Bearer ci-note-hub-access-token-with-at-least-32-characters' \
+            | grep -q '"title":"ci-note"'; then
+            echo "Deleted note still appears"
+            exit 1
+          fi
       - name: Tear down
         if: always()
         working-directory: monorepo-mini-app

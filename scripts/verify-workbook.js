@@ -103,6 +103,7 @@ const requiredPaths = [
   "09-typescript/problems.md",
   "09-typescript/answers.md",
   "09-typescript/package.json",
+  "09-typescript/package-lock.json",
   "09-typescript/tsconfig.json",
   "09-typescript/starter/01-basic-types.ts",
   "09-typescript/starter/02-interface-design.ts",
@@ -167,6 +168,7 @@ const requiredPaths = [
   "17-interview-prep/behavioral-questions.md",
   "17-interview-prep/project-pitch-template.md",
   "monorepo-mini-app/README.md",
+  "monorepo-mini-app/.env.example",
   "monorepo-mini-app/package.json",
   "monorepo-mini-app/tsconfig.base.json",
   "monorepo-mini-app/vitest.config.ts",
@@ -201,6 +203,7 @@ const requiredPaths = [
   "monorepo-mini-app/packages/web/src/test/setup.ts",
   "scripts/verify-workbook.js",
   "scripts/verify-workbook.test.js",
+  "scripts/verify-programs.js",
   "scripts/check-progress.js",
 ];
 
@@ -315,6 +318,7 @@ const sourceFiles = [
   "16-security/starter/05-cors.js",
   "scripts/verify-workbook.js",
   "scripts/verify-workbook.test.js",
+  "scripts/verify-programs.js",
   "scripts/check-progress.js",
 ];
 
@@ -324,6 +328,7 @@ const packageScripts = {
     "progress",
     "verify",
     "verify:structure",
+    "verify:programs",
     "verify:learning",
   ],
   "03-react-todo/package.json": ["dev", "build", "preview"],
@@ -345,7 +350,16 @@ const packageScripts = {
     "verify",
   ],
   "09-typescript/package.json": ["typecheck", "build"],
-  "12-testing/starter/js/package.json": ["test"],
+  "12-testing/starter/js/package.json": ["test", "test:coverage"],
+  "16-security/package.json": ["check"],
+  "monorepo-mini-app/package.json": [
+    "dev",
+    "lint",
+    "format:check",
+    "typecheck",
+    "test",
+    "build",
+  ],
 };
 
 const guideFolders = [

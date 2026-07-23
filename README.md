@@ -20,25 +20,25 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 이 저장소는 폴더 번호 순서대로 따라가면 "기초 → 통합 → 취업 제출"로 이어지도록 설계했습니다. 한 번에 다 보지 말고 아래 순서로만 진행하세요.
 
-| 순서 | 폴더 | 여기서 손에 넣는 실무 능력 |
-| --- | --- | --- |
-| 1 | `01-html-css` | 화면을 시맨틱 태그와 반응형 CSS로 짜는 능력 |
-| 2 | `02-javascript-basics` | 입력·이벤트·배열을 다뤄 화면을 움직이는 능력 |
-| 3 | `03-react-todo` | 컴포넌트·state·props로 화면을 구조화하는 능력 |
-| 4 | `04-node-board-api` | Express로 REST API와 HTTP 상태 코드를 다루는 능력 |
-| 5 | `05-database-mongodb` | 데이터를 DB에 저장·조회·수정·삭제하는 능력 |
-| 6 | `06-login-auth` | 비밀번호 해시와 JWT로 인증을 구현하는 능력 |
-| 7 | `07-project-deploy` | 프론트·백을 연결하고 배포를 준비하는 능력 |
-| 8 | `08-fullstack-portfolio-project` | 1~7을 하나의 제출용 fullstack 앱으로 통합하는 능력 |
-| 9 | `09-typescript` | 코드에 정적 타입을 입혀 컴파일 시점에 오류를 잡는 능력 |
-| 10 | `10-sql-oracle` | Oracle/MySQL 기반 RDBMS에서 JOIN·집계·트랜잭션을 다루는 능력 |
-| 11 | `11-java-spring` | Spring Boot로 Controller·Service·Repository 계층을 분리한 REST API를 만드는 능력 |
-| 12 | `12-testing` | Vitest와 JUnit으로 단위·통합 테스트를 작성하는 능력 |
-| 13 | `13-git-collab` | feature 브랜치·PR·충돌 해결로 팀 협업 흐름을 따르는 능력 |
-| 14 | `14-docker-deploy` | Docker로 앱을 패키징하고 GitHub Actions로 CI 파이프라인을 구성하는 능력 |
-| 15 | `15-cs-fundamentals` | 네트워크·OS·DB이론·자료구조 기본기를 자기 말로 설명하는 능력 |
-| 16 | `16-security` | XSS·SQL Injection·CSRF·CORS·OWASP Top 10의 방어 코드를 작성하는 능력 |
-| 17 | `17-interview-prep` | 1~16단계 학습을 면접 답변으로 통합·연습하는 능력 |
+| 순서 | 폴더                             | 여기서 손에 넣는 실무 능력                                                       |
+| ---- | -------------------------------- | -------------------------------------------------------------------------------- |
+| 1    | `01-html-css`                    | 화면을 시맨틱 태그와 반응형 CSS로 짜는 능력                                      |
+| 2    | `02-javascript-basics`           | 입력·이벤트·배열을 다뤄 화면을 움직이는 능력                                     |
+| 3    | `03-react-todo`                  | 컴포넌트·state·props로 화면을 구조화하는 능력                                    |
+| 4    | `04-node-board-api`              | Express로 REST API와 HTTP 상태 코드를 다루는 능력                                |
+| 5    | `05-database-mongodb`            | 데이터를 DB에 저장·조회·수정·삭제하는 능력                                       |
+| 6    | `06-login-auth`                  | 비밀번호 해시와 JWT로 인증을 구현하는 능력                                       |
+| 7    | `07-project-deploy`              | 프론트·백을 연결하고 배포를 준비하는 능력                                        |
+| 8    | `08-fullstack-portfolio-project` | 1~7을 하나의 제출용 fullstack 앱으로 통합하는 능력                               |
+| 9    | `09-typescript`                  | 코드에 정적 타입을 입혀 컴파일 시점에 오류를 잡는 능력                           |
+| 10   | `10-sql-oracle`                  | Oracle/MySQL 기반 RDBMS에서 JOIN·집계·트랜잭션을 다루는 능력                     |
+| 11   | `11-java-spring`                 | Spring Boot로 Controller·Service·Repository 계층을 분리한 REST API를 만드는 능력 |
+| 12   | `12-testing`                     | Vitest와 JUnit으로 단위·통합 테스트를 작성하는 능력                              |
+| 13   | `13-git-collab`                  | feature 브랜치·PR·충돌 해결로 팀 협업 흐름을 따르는 능력                         |
+| 14   | `14-docker-deploy`               | Docker로 앱을 패키징하고 GitHub Actions로 CI 파이프라인을 구성하는 능력          |
+| 15   | `15-cs-fundamentals`             | 네트워크·OS·DB이론·자료구조 기본기를 자기 말로 설명하는 능력                     |
+| 16   | `16-security`                    | XSS·SQL Injection·CSRF·CORS·OWASP Top 10의 방어 코드를 작성하는 능력             |
+| 17   | `17-interview-prep`              | 1~16단계 학습을 면접 답변으로 통합·연습하는 능력                                 |
 
 1~8번은 풀스택 앱 한 개를 직접 실행하는 기초 트랙입니다. 9~14번은 목표 공고에서 요구하는 TypeScript·SQL·Spring·테스트·협업·Docker 근거를 보강하는 트랙입니다. 15~17번은 학습 결과를 CS·보안·면접 답변으로 정리하는 트랙입니다. 모든 단계를 끝냈다는 사실만으로 채용 결과가 보장되지는 않으므로, 지원 일정과 공고에 맞춰 우선순위를 조정합니다.
 
@@ -57,7 +57,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 ## 먼저 읽을 파일
 
-- [index.html](./index.html)은 추천 경로, 17단계 학습 자료, 취업 준비 문서를 클릭해서 이동하는 단일 HTML 목차입니다.
+- [index.html](./index.html)은 추천 경로, 17단계 학습 자료, 폴더별 실행·검증 지도, 취업 준비 문서를 클릭해서 이동하는 단일 HTML 목차입니다.
 - [START-HERE.md](./START-HERE.md)는 목표 직무와 지원 시기에 따라 첫 학습 경로를 정하는 단일 시작점입니다.
 - [history.html](./history.html)은 취업 워크북 개선의 배경, 구현 내용, 검증 결과를 정리한 변경 이력입니다.
 - [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~17번 폴더를 실행 근거, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
@@ -69,25 +69,25 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 ## 단계 구성
 
-| 단계 | 폴더 | 목표 |
-| --- | --- | --- |
-| 1단계 | `01-html-css` | 자기소개 페이지 만들기 |
-| 2단계 | `02-javascript-basics` | 버튼 이벤트와 계산기 만들기 |
-| 3단계 | `03-react-todo` | React Todo 앱 만들기 |
-| 4단계 | `04-node-board-api` | Express 게시판 API 만들기 |
-| 5단계 | `05-database-mongodb` | MongoDB CRUD 연결하기 |
-| 6단계 | `06-login-auth` | 회원가입과 로그인 구현하기 |
-| 7단계 | `07-project-deploy` | 미니 프로젝트 완성 후 배포 준비하기 |
-| 포트폴리오 | `08-fullstack-portfolio-project` | 취업 제출용 fullstack 미니 프로젝트 |
-| 9단계 | `09-typescript` | React/Express에 TypeScript 적용하기 |
-| 10단계 | `10-sql-oracle` | Oracle SQL로 JOIN·집계·트랜잭션 실습 |
-| 11단계 | `11-java-spring` | Spring Boot로 4단계 게시판 API 다시 만들기 |
-| 12단계 | `12-testing` | Vitest와 JUnit으로 자동화 테스트 작성 |
-| 13단계 | `13-git-collab` | 브랜치 전략, PR 리뷰, 충돌 해결 |
-| 14단계 | `14-docker-deploy` | Docker 컨테이너화와 GitHub Actions CI |
-| 15단계 | `15-cs-fundamentals` | CS 기초 21문제 자기 답안 작성 |
-| 16단계 | `16-security` | OWASP Top 10과 XSS·SQLi·CSRF 방어 코드 |
-| 17단계 | `17-interview-prep` | 1~16단계 면접 카드 통합과 자기소개·STAR 답안 |
+| 단계       | 폴더                             | 목표                                         |
+| ---------- | -------------------------------- | -------------------------------------------- |
+| 1단계      | `01-html-css`                    | 자기소개 페이지 만들기                       |
+| 2단계      | `02-javascript-basics`           | 버튼 이벤트와 계산기 만들기                  |
+| 3단계      | `03-react-todo`                  | React Todo 앱 만들기                         |
+| 4단계      | `04-node-board-api`              | Express 게시판 API 만들기                    |
+| 5단계      | `05-database-mongodb`            | MongoDB CRUD 연결하기                        |
+| 6단계      | `06-login-auth`                  | 회원가입과 로그인 구현하기                   |
+| 7단계      | `07-project-deploy`              | 미니 프로젝트 완성 후 배포 준비하기          |
+| 포트폴리오 | `08-fullstack-portfolio-project` | 취업 제출용 fullstack 미니 프로젝트          |
+| 9단계      | `09-typescript`                  | React/Express에 TypeScript 적용하기          |
+| 10단계     | `10-sql-oracle`                  | Oracle SQL로 JOIN·집계·트랜잭션 실습         |
+| 11단계     | `11-java-spring`                 | Spring Boot로 4단계 게시판 API 다시 만들기   |
+| 12단계     | `12-testing`                     | Vitest와 JUnit으로 자동화 테스트 작성        |
+| 13단계     | `13-git-collab`                  | 브랜치 전략, PR 리뷰, 충돌 해결              |
+| 14단계     | `14-docker-deploy`               | Docker 컨테이너화와 GitHub Actions CI        |
+| 15단계     | `15-cs-fundamentals`             | CS 기초 21문제 자기 답안 작성                |
+| 16단계     | `16-security`                    | OWASP Top 10과 XSS·SQLi·CSRF 방어 코드       |
+| 17단계     | `17-interview-prep`              | 1~16단계 면접 카드 통합과 자기소개·STAR 답안 |
 
 모든 단계에는 목표와 실행 방법을 설명하는 `README.md`가 있습니다. 코드 실습 단계는 대체로 `problems.md`, `answers.md`, `starter` 또는 `src`를 함께 제공하지만 단계 성격에 따라 구성이 다릅니다.
 
@@ -110,7 +110,7 @@ xdg-open 01-html-css/starter/index.html
 start 01-html-css/starter/index.html
 ```
 
-3단계부터는 각 폴더에서 의존성을 설치한 뒤 실행합니다.
+03~09의 npm 기반 코드 단계와 16단계 보안 실습은 각 폴더에서 의존성을 설치한 뒤 실행합니다. 10~17단계에는 SQL 실행, 사용자가 직접 만드는 Spring 프로젝트, 테스트, Git 협업, Docker, 답안·면접 녹음처럼 서로 다른 검증 방식이 있으므로 [HTML 실행 지도](./index.html#run-map)의 단계별 조건을 먼저 확인합니다.
 
 ```bash
 cd 03-react-todo
@@ -135,22 +135,24 @@ npm run dev
 ```bash
 cd monorepo-mini-app
 npm install
-npm run build -w @note-hub/shared
-npm run dev
+npm run dev # predev가 shared 패키지를 먼저 빌드
 # API: http://localhost:5200, Web: http://localhost:5174
 ```
+
+Note Hub의 무토큰 개발 모드는 로컬 학습 전용입니다. 공개 운영에서는 32자 이상의 `NOTE_HUB_ACCESS_TOKEN`이 없으면 시작을 거부하고 노트 API에 Bearer 인증을 요구합니다.
 
 루트 명령은 구조 검증과 학습 진행 확인을 구분합니다.
 
 ```bash
 npm run verify:structure # 저장소 구조와 필수 파일 검사. npm run verify와 동일
+npm run verify:programs  # 미완성 빈칸과 무관한 03 build, 02·04~07·16 문법 검사
 npm run progress         # starter 소스의 전용 ____ 토큰과 체크리스트 진행률 보고
 npm run verify:learning  # 전용 ____ 토큰 완료 여부 검사. 남아 있으면 실패
 ```
 
-`npm run verify`는 `verify:structure`의 별칭이며 학습 완료를 뜻하지 않습니다. `progress`와 `verify:learning`은 지정된 starter 소스의 전용 `____` 토큰만 집계하며 일반 `TODO`나 서술형 답안은 판정하지 않습니다. 학습 중에는 `progress`로 현황을 보고, 제출 직전에 `verify:learning`과 실제 실행 결과를 함께 확인합니다.
+`npm run verify`는 `verify:structure`의 별칭이며 학습 완료를 뜻하지 않습니다. `verify:programs`도 학습 답안을 채우기 전 통과할 수 있는 빌드·문법 검사만 실행합니다. `progress`와 `verify:learning`은 지정된 starter 소스의 전용 `____` 토큰만 집계하며 일반 `TODO`나 서술형 답안은 판정하지 않습니다. 학습 중에는 `progress`로 현황을 보고, 제출 직전에 `verify:learning`과 실제 실행 결과를 함께 확인합니다.
 
-`.github/workflows/ci.yml`로 main 푸시·PR마다 GitHub Actions가 루트 구조 검증과 8번 포트폴리오의 포맷·lint·테스트·빌드·제출 감사, Docker 이미지 실행을 자동 확인합니다. CI 통과는 현재 자동화 범위의 통과를 뜻하며 모든 학습 빈칸이나 배포 품질을 보증하지 않습니다.
+`.github/workflows/ci.yml`로 main 푸시·PR마다 GitHub Actions가 루트 구조·학습자 안전 프로그램 검사, Career Hub의 포맷·lint·테스트·빌드·제출 감사와 Docker health, Note Hub의 포맷·lint·typecheck·테스트·빌드와 인증된 Postgres Docker smoke를 자동 확인합니다. CI 통과는 현재 자동화 범위의 통과를 뜻하며 모든 학습 빈칸이나 실제 외부 배포 품질을 보증하지 않습니다.
 
 지정된 starter 소스의 남은 전용 `____` 토큰과 체크리스트 진행률은 루트 폴더에서 확인합니다.
 

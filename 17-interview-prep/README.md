@@ -11,10 +11,17 @@
 ## 실행 방법
 
 ```bash
+# macOS
 open 17-interview-prep/interview-cards.md
+
+# Linux
+xdg-open 17-interview-prep/interview-cards.md
+
+# Windows
+start 17-interview-prep/interview-cards.md
 ```
 
-각 카드에 자기 답안을 직접 채우세요. 답을 외우는 게 아니라, **자기 경험과 코드에 연결한 자기만의 문장**을 만드는 게 목표입니다.
+명령 대신 [HTML 실행 지도](../index.html#run-17)에서 기술 카드를 눌러도 됩니다. 각 카드에 자기 답안을 직접 채우세요. 답을 외우는 게 아니라, **자기 경험과 코드에 연결한 자기만의 문장**을 만드는 게 목표입니다.
 
 ## 완료 기준
 
