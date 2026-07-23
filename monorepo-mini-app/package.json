@@ -14,7 +14,9 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "pretypecheck": "npm run build -w @note-hub/shared",
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "predev": "npm run build -w @note-hub/shared",
     "dev": "npm-run-all -p dev:api dev:web",
     "dev:api": "npm run dev -w @note-hub/api",
     "dev:web": "npm run dev -w @note-hub/web",

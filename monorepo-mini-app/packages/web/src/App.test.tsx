@@ -19,11 +19,13 @@ describe("App", () => {
   let fetchMock: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    sessionStorage.clear();
     fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
   });
 
   afterEach(() => {
+    sessionStorage.clear();
     vi.unstubAllGlobals();
   });
 
@@ -36,7 +38,7 @@ describe("App", () => {
     render(<App />);
 
     expect(await screen.findByText(/아직 노트가 없습니다/)).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledWith("/api/notes");
+    expect(fetchMock).toHaveBeenCalledWith("/api/notes", { headers: {} });
   });
 
   it("기존 노트가 있으면 목록에 렌더된다", async () => {
@@ -80,5 +82,25 @@ describe("App", () => {
 
     const postCall = fetchMock.mock.calls.find(([, init]) => init?.method === "POST");
     expect(postCall?.[0]).toBe("/api/notes");
+  });
+
+  it("연결한 토큰을 sessionStorage에 보관하고 API Bearer 헤더로 보낸다", async () => {
+    const accessToken = "web-test-access-token";
+    fetchMock
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+      .mockResolvedValueOnce({ ok: true, json: async () => [] });
+    const user = userEvent.setup();
+    render(<App />);
+    await screen.findByText(/아직 노트가 없습니다/);
+
+    await user.type(screen.getByLabelText("접근 토큰"), accessToken);
+    await user.click(screen.getByRole("button", { name: /^연결$/ }));
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenLastCalledWith("/api/notes", {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+    });
+    expect(sessionStorage.getItem("noteHubAccessToken")).toBe(accessToken);
   });
 });

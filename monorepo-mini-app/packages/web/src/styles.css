@@ -70,6 +70,22 @@ code {
 .form button:hover {
   background: #1e293b;
 }
+.button-row {
+  display: flex;
+  gap: 8px;
+}
+.form .secondary-button {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.form .secondary-button:hover {
+  background: #cbd5e1;
+}
+.hint {
+  color: #64748b;
+  font-size: 13px;
+  margin: 10px 0 0;
+}
 .error {
   color: #b91c1c;
   margin: 12px 0 0;

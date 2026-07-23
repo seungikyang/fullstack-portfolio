@@ -21,6 +21,13 @@ export interface ApiError {
   errors?: string[];
 }
 
+export const NoteLimits = {
+  title: 120,
+  body: 10_000,
+  tags: 20,
+  tag: 50
+} as const;
+
 // API 경로를 한 곳에서 정의해 양쪽이 같은 문자열을 본다.
 export const ApiRoutes = {
   health: "/api/health",

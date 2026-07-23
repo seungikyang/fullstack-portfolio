@@ -1,7 +1,7 @@
 // 노트 저장소의 공통 인터페이스와 인메모리 구현, 그리고 입력 검증 함수.
 // 인터페이스를 분리해 두면 Postgres 등 다른 백엔드를 같은 시그니처로 갈아 끼울 수 있다(notes-store-pg.ts 참고).
 import { randomUUID } from "node:crypto";
-import type { CreateNoteInput, Note } from "@note-hub/shared";
+import { NoteLimits, type CreateNoteInput, type Note } from "@note-hub/shared";
 
 export interface NotesStore {
   list(): Promise<Note[]>;
@@ -50,15 +50,28 @@ export function validateCreate(payload: unknown): { value: CreateNoteInput; erro
 
   if (!title) errors.push("title is required");
   if (!body) errors.push("body is required");
+  if (title.length > NoteLimits.title) {
+    errors.push(`title must be ${NoteLimits.title} characters or fewer`);
+  }
+  if (body.length > NoteLimits.body) {
+    errors.push(`body must be ${NoteLimits.body} characters or fewer`);
+  }
 
   let tags: string[] = [];
   if (Array.isArray(tagsRaw)) {
-    tags = tagsRaw.filter((t): t is string => typeof t === "string");
-  } else if (typeof tagsRaw === "string") {
-    tags = tagsRaw
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
+    if (tagsRaw.length > NoteLimits.tags) {
+      errors.push(`tags must contain ${NoteLimits.tags} items or fewer`);
+    }
+    if (tagsRaw.some((tag) => typeof tag !== "string")) {
+      errors.push("tags must contain only strings");
+    } else {
+      tags = tagsRaw.map((tag) => tag.trim()).filter(Boolean);
+      if (tags.some((tag) => tag.length > NoteLimits.tag)) {
+        errors.push(`each tag must be ${NoteLimits.tag} characters or fewer`);
+      }
+    }
+  } else if (tagsRaw !== undefined) {
+    errors.push("tags must be an array");
   }
 
   return { value: { title, body, tags }, errors };

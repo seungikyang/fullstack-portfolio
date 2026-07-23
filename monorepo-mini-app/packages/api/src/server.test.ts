@@ -4,6 +4,8 @@ import request from "supertest";
 import { createApp } from "./server.js";
 import { InMemoryNotesStore } from "./notes-store.js";
 
+const ACCESS_TOKEN = "test-access-token-with-at-least-32-characters";
+
 describe("Note Hub API", () => {
   let app: ReturnType<typeof createApp>;
 
@@ -60,5 +62,62 @@ describe("Note Hub API", () => {
     expect(res.body.openapi.startsWith("3.")).toBe(true);
     expect(res.body.info?.title).toBe("Note Hub API");
     expect(res.body.paths).toHaveProperty("/api/notes");
+  });
+
+  it("운영 환경은 32자 이상의 access token이 없으면 앱 생성을 거부한다", () => {
+    expect(() =>
+      createApp({
+        store: new InMemoryNotesStore(),
+        accessToken: "short",
+        nodeEnv: "production"
+      })
+    ).toThrow(/NOTE_HUB_ACCESS_TOKEN/);
+  });
+
+  it("토큰이 설정되면 notes 경로에 올바른 Bearer 토큰을 요구한다", async () => {
+    const protectedApp = createApp({
+      store: new InMemoryNotesStore(),
+      accessToken: ACCESS_TOKEN
+    });
+
+    await request(protectedApp).get("/api/notes").expect(401);
+    await request(protectedApp)
+      .get("/api/notes")
+      .set("Authorization", "Bearer wrong-token")
+      .expect(401);
+    await request(protectedApp)
+      .get("/api/notes")
+      .set("Authorization", `Bearer ${ACCESS_TOKEN}`)
+      .expect(200);
+  });
+
+  it("CORS는 설정한 client origin만 응답 헤더로 허용한다", async () => {
+    const allowed = await request(app)
+      .get("/api/health")
+      .set("Origin", "http://localhost:5174")
+      .expect(200);
+    const denied = await request(app)
+      .get("/api/health")
+      .set("Origin", "https://attacker.example")
+      .expect(200);
+
+    expect(allowed.headers["access-control-allow-origin"]).toBe("http://localhost:5174");
+    expect(denied.headers["access-control-allow-origin"]).toBeUndefined();
+  });
+
+  it("malformed JSON은 400, 100KB 초과 본문은 413을 반환한다", async () => {
+    const malformed = await request(app)
+      .post("/api/notes")
+      .set("Content-Type", "application/json")
+      .send("{bad");
+    const tooLarge = await request(app)
+      .post("/api/notes")
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify({ title: "t", body: "x".repeat(101 * 1024) }));
+
+    expect(malformed.status).toBe(400);
+    expect(malformed.body.message).toMatch(/JSON/);
+    expect(tooLarge.status).toBe(413);
+    expect(tooLarge.body.message).toMatch(/100KB/);
   });
 });

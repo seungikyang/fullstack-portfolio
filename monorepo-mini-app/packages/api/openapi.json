@@ -12,6 +12,13 @@
     { "name": "notes", "description": "노트 CRUD" }
   ],
   "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "NOTE_HUB_ACCESS_TOKEN. 운영 환경에서 필수이며 로컬 무토큰 학습에서는 생략할 수 있다."
+      }
+    },
     "schemas": {
       "Error": {
         "type": "object",
@@ -25,9 +32,13 @@
         "type": "object",
         "properties": {
           "id": { "type": "string", "format": "uuid" },
-          "title": { "type": "string" },
-          "body": { "type": "string" },
-          "tags": { "type": "array", "items": { "type": "string" } },
+          "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "body": { "type": "string", "minLength": 1, "maxLength": 10000 },
+          "tags": {
+            "type": "array",
+            "maxItems": 20,
+            "items": { "type": "string", "maxLength": 50 }
+          },
           "createdAt": { "type": "string", "format": "date-time" }
         },
         "required": ["id", "title", "body", "tags", "createdAt"]
@@ -35,13 +46,12 @@
       "CreateNoteInput": {
         "type": "object",
         "properties": {
-          "title": { "type": "string" },
-          "body": { "type": "string" },
+          "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "body": { "type": "string", "minLength": 1, "maxLength": 10000 },
           "tags": {
-            "oneOf": [
-              { "type": "array", "items": { "type": "string" } },
-              { "type": "string", "description": "쉼표로 구분된 문자열도 허용" }
-            ]
+            "type": "array",
+            "maxItems": 20,
+            "items": { "type": "string", "maxLength": 50 }
           }
         },
         "required": ["title", "body"]
@@ -58,6 +68,14 @@
     "responses": {
       "Validation": {
         "description": "검증 실패",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "Unauthorized": {
+        "description": "Bearer 접근 토큰 누락 또는 불일치",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "PayloadTooLarge": {
+        "description": "JSON 요청 본문이 100KB를 초과함",
         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
       },
       "NotFound": {
@@ -97,6 +115,7 @@
       "get": {
         "tags": ["notes"],
         "summary": "노트 목록 (최신순)",
+        "security": [{ "BearerAuth": [] }],
         "responses": {
           "200": {
             "description": "노트 배열",
@@ -105,12 +124,14 @@
                 "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Note" } }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       },
       "post": {
         "tags": ["notes"],
         "summary": "노트 생성",
+        "security": [{ "BearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -124,7 +145,9 @@
               "application/json": { "schema": { "$ref": "#/components/schemas/Note" } }
             }
           },
-          "400": { "$ref": "#/components/responses/Validation" }
+          "400": { "$ref": "#/components/responses/Validation" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" }
         }
       }
     },
@@ -132,6 +155,7 @@
       "delete": {
         "tags": ["notes"],
         "summary": "노트 삭제",
+        "security": [{ "BearerAuth": [] }],
         "parameters": [
           {
             "in": "path",
@@ -142,6 +166,7 @@
         ],
         "responses": {
           "204": { "description": "삭제 성공" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }

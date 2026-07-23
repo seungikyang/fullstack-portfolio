@@ -10,6 +10,7 @@ DevContainer(가상환경)에서 동작하는 풀스택 TypeScript 모노레포 
 - **단일 실행**: `npm run dev` 한 줄로 API(5200)와 Web(5174)이 동시에 뜹니다.
 - **자동화 테스트**: Vitest로 shared/api/web 3개 환경 단위·통합 테스트가 한 번에 실행됩니다.
 - **컨테이너 배포**: 멀티 스테이지 Dockerfile + Postgres compose로 단일 이미지 운영 배포.
+- **운영 접근 제어**: 운영에서는 32자 이상의 `NOTE_HUB_ACCESS_TOKEN`을 필수로 검사하고 노트 API에 Bearer 인증을 적용합니다.
 
 ## 구조
 
@@ -52,10 +53,11 @@ monorepo-mini-app/
 ```bash
 cd monorepo-mini-app
 npm install
-npm run build -w @note-hub/shared   # 1회 (다른 패키지가 dist를 import)
-npm run dev                          # API(5200) + Web(5174) 동시
+npm run dev                          # predev가 shared를 빌드한 뒤 API(5200) + Web(5174) 동시 실행
 # http://localhost:5174 접속
 ```
+
+토큰을 설정하지 않은 개발 모드는 학습 편의를 위한 **로컬 전용 무인증 모드**입니다. 인터넷에 공개하지 마세요. 토큰을 시험하려면 `NOTE_HUB_ACCESS_TOKEN=local-test-token npm run dev`로 실행하고 화면의 “API 접근 토큰”에 같은 값을 입력합니다.
 
 ### B. Postgres 백엔드로 실행 (실서비스에 더 가까움)
 
@@ -63,7 +65,6 @@ npm run dev                          # API(5200) + Web(5174) 동시
 cd monorepo-mini-app
 docker compose -f docker-compose.dev.yml up -d   # Postgres만 컨테이너로
 npm install
-npm run build -w @note-hub/shared
 DATABASE_URL=postgres://notehub:notehub@localhost:5432/notehub npm run dev
 ```
 
@@ -73,9 +74,12 @@ DATABASE_URL=postgres://notehub:notehub@localhost:5432/notehub npm run dev
 
 ```bash
 cd monorepo-mini-app
+export NOTE_HUB_ACCESS_TOKEN="$(openssl rand -hex 32)"
 docker compose up --build
 # http://localhost:5200 접속 (API와 정적 web이 같은 포트)
 ```
+
+운영 모드는 토큰이 없거나 32자보다 짧으면 서버 시작을 거부합니다. 화면에서 같은 토큰을 연결하면 현재 탭의 `sessionStorage`에만 보관하고 모든 노트 요청에 `Authorization: Bearer` 헤더를 붙입니다.
 
 ## 테스트와 품질
 
@@ -100,9 +104,11 @@ npm run prepare                # husky 활성화 (1회)
 | -------- | ------------------- | ------------------------------------ |
 | `GET`    | `/api/health`       | 헬스 체크 (DB 핑 포함, 실패 시 503)  |
 | `GET`    | `/api/openapi.json` | OpenAPI 3 스펙                       |
-| `GET`    | `/api/notes`        | 노트 목록 (최신순)                   |
-| `POST`   | `/api/notes`        | 노트 생성 (`{ title, body, tags? }`) |
-| `DELETE` | `/api/notes/:id`    | 노트 삭제                            |
+| `GET`    | `/api/notes`        | 노트 목록 (최신순, 운영 Bearer 필요) |
+| `POST`   | `/api/notes`        | 노트 생성 (운영 Bearer 필요)         |
+| `DELETE` | `/api/notes/:id`    | 노트 삭제 (운영 Bearer 필요)         |
+
+노트 입력은 제목 120자, 본문 10,000자, 태그 20개, 태그당 50자로 제한됩니다. `tags`는 문자열 배열만 허용하며 잘못된 JSON은 400, 100KB 초과 본문은 413으로 응답합니다.
 
 ## API 문서
 
@@ -118,7 +124,7 @@ curl http://localhost:5200/api/openapi.json | jq
 
 ### Render.com (권장 — Postgres 함께 무료)
 
-`render.yaml`에 web 서비스와 Postgres 데이터베이스가 함께 정의되어 있습니다. Render 대시보드에서 "New + Blueprint"로 자동 인식되며 `DATABASE_URL`은 자동으로 web 서비스에 주입됩니다.
+`render.yaml`에 web 서비스와 Postgres 데이터베이스가 함께 정의되어 있습니다. Render 대시보드에서 "New + Blueprint"로 자동 인식되며 `DATABASE_URL`은 자동으로 web 서비스에 주입됩니다. `NOTE_HUB_ACCESS_TOKEN`은 `sync: false`라 대시보드에서 32자 이상의 임의값을 직접 입력해야 합니다.
 
 Render 무료 Postgres는 90일 후 만료되므로 시연 후엔 백업이 필요합니다.
 
@@ -129,17 +135,20 @@ flyctl auth login
 flyctl postgres create --name note-hub-db --region nrt
 flyctl launch --no-deploy --copy-config
 flyctl postgres attach --app note-hub note-hub-db    # DATABASE_URL 자동 주입
+flyctl secrets set NOTE_HUB_ACCESS_TOKEN="$(openssl rand -hex 32)"
 flyctl deploy
 # 최초 1회는 psql로 packages/api/db/init.sql 실행 필요
 ```
 
 ## 환경변수
 
-| 이름                | 기본값    | 설명                                   |
-| ------------------- | --------- | -------------------------------------- |
-| `PORT`              | `5200`    | Express API 포트                       |
-| `DATABASE_URL`      | (없음)    | 설정되면 Postgres, 없으면 인메모리     |
-| `POSTGRES_PASSWORD` | `notehub` | docker-compose.yml의 Postgres 비밀번호 |
+| 이름                    | 기본값                  | 설명                                                         |
+| ----------------------- | ----------------------- | ------------------------------------------------------------ |
+| `PORT`                  | `5200`                  | Express API 포트                                             |
+| `DATABASE_URL`          | (없음)                  | 설정되면 Postgres, 없으면 인메모리                           |
+| `CLIENT_ORIGIN`         | `http://localhost:5174` | 별도 프론트 개발 서버에서 허용할 CORS Origin                 |
+| `NOTE_HUB_ACCESS_TOKEN` | (없음)                  | 설정 시 노트 API Bearer 인증 사용, 운영에서는 32자 이상 필수 |
+| `POSTGRES_PASSWORD`     | `notehub`               | docker-compose.yml의 Postgres 비밀번호                       |
 
 ## 면접에서 설명할 포인트
 

@@ -34,6 +34,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5200
+      NOTE_HUB_ACCESS_TOKEN: ${NOTE_HUB_ACCESS_TOKEN:?NOTE_HUB_ACCESS_TOKEN must be set}
+      CLIENT_ORIGIN: http://localhost:5200
       DATABASE_URL: postgres://notehub:${POSTGRES_PASSWORD:-notehub}@postgres:5432/notehub
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:5200/api/health"]

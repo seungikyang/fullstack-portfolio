@@ -1,3 +1,5 @@
+// 인메모리 저장소와 노트 입력 검증 규칙을 확인한다.
+import { NoteLimits } from "@note-hub/shared";
 import { describe, expect, it } from "vitest";
 import { InMemoryNotesStore, validateCreate } from "./notes-store.js";
 
@@ -63,9 +65,33 @@ describe("validateCreate", () => {
     expect(errors).toContain("body is required");
   });
 
-  it("tags가 콤마 문자열이면 파싱된다", () => {
-    const { value } = validateCreate({ title: "t", body: "b", tags: " a, b ,c " });
-    expect(value.tags).toEqual(["a", "b", "c"]);
+  it("tags가 배열이 아니면 오류", () => {
+    const { errors } = validateCreate({ title: "t", body: "b", tags: "a,b,c" });
+    expect(errors).toContain("tags must be an array");
+  });
+
+  it("제목과 본문 길이 제한을 검사한다", () => {
+    const { errors } = validateCreate({
+      title: "t".repeat(NoteLimits.title + 1),
+      body: "b".repeat(NoteLimits.body + 1)
+    });
+    expect(errors).toContain(`title must be ${NoteLimits.title} characters or fewer`);
+    expect(errors).toContain(`body must be ${NoteLimits.body} characters or fewer`);
+  });
+
+  it("태그 개수와 항목 길이 제한을 검사한다", () => {
+    const tooMany = validateCreate({
+      title: "t",
+      body: "b",
+      tags: Array.from({ length: NoteLimits.tags + 1 }, (_, index) => `tag-${index}`)
+    });
+    const tooLong = validateCreate({
+      title: "t",
+      body: "b",
+      tags: ["x".repeat(NoteLimits.tag + 1)]
+    });
+    expect(tooMany.errors).toContain(`tags must contain ${NoteLimits.tags} items or fewer`);
+    expect(tooLong.errors).toContain(`each tag must be ${NoteLimits.tag} characters or fewer`);
   });
 
   it("payload가 null/undefined여도 안전하게 오류만 반환", () => {

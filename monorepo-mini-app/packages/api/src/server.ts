@@ -2,15 +2,22 @@
 // 그대로 import하기 때문에 백엔드의 응답 형태가 프론트엔드와 항상 동기화된다.
 // DATABASE_URL이 설정되면 Postgres, 없으면 인메모리 저장소를 사용한다.
 import { existsSync, readFileSync } from "node:fs";
+import { timingSafeEqual } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import cors from "cors";
-import express, { type ErrorRequestHandler, type Request, type Response } from "express";
+import express, {
+  type ErrorRequestHandler,
+  type Request,
+  type RequestHandler,
+  type Response
+} from "express";
 import { ApiRoutes, type ApiError } from "@note-hub/shared";
 import { InMemoryNotesStore, type NotesStore, validateCreate } from "./notes-store.js";
 import { PostgresNotesStore } from "./notes-store-pg.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const MIN_PRODUCTION_ACCESS_TOKEN_LENGTH = 32;
 
 // OpenAPI 스펙은 빌드 산출물 옆 또는 패키지 루트에서 찾는다.
 // dev(tsx): src/ → ../openapi.json, build 후(dist): dist/ → ../openapi.json — 둘 다 정상 동작.
@@ -37,14 +44,81 @@ export interface AppOptions {
   store?: NotesStore;
   /** 빌드된 웹(dist) 경로. 지정하면 같은 서버에서 정적 파일도 함께 제공한다. */
   webDist?: string;
+  accessToken?: string;
+  clientOrigin?: string;
+  nodeEnv?: string;
+}
+
+export function assertAccessConfig(accessToken: string, nodeEnv = process.env.NODE_ENV): void {
+  if (nodeEnv === "production" && accessToken.length < MIN_PRODUCTION_ACCESS_TOKEN_LENGTH) {
+    throw new Error("production requires NOTE_HUB_ACCESS_TOKEN with at least 32 characters");
+  }
+}
+
+function tokensMatch(expected: string, actual: string): boolean {
+  const expectedBuffer = Buffer.from(expected);
+  const actualBuffer = Buffer.from(actual);
+  return (
+    expectedBuffer.length === actualBuffer.length && timingSafeEqual(expectedBuffer, actualBuffer)
+  );
+}
+
+function requireNoteAccess(accessToken: string): RequestHandler {
+  return (req, res, next) => {
+    if (!accessToken) {
+      return next();
+    }
+
+    const authorization = req.get("authorization") ?? "";
+    const presentedToken = authorization.startsWith("Bearer ")
+      ? authorization.slice("Bearer ".length)
+      : "";
+
+    if (!presentedToken || !tokensMatch(accessToken, presentedToken)) {
+      const error: ApiError = { message: "valid Bearer access token required" };
+      return res.status(401).json(error);
+    }
+
+    return next();
+  };
+}
+
+function errorStatus(error: unknown): number {
+  if (typeof error !== "object" || error === null) return 500;
+  const candidate = error as { status?: unknown; statusCode?: unknown };
+  const status = Number(candidate.status ?? candidate.statusCode);
+  return status >= 400 && status < 600 ? status : 500;
+}
+
+function errorType(error: unknown): string {
+  if (typeof error !== "object" || error === null) return "";
+  return String((error as { type?: unknown }).type ?? "");
 }
 
 export function createApp(options: AppOptions = {}): express.Express {
+  const accessToken = (
+    options.accessToken !== undefined
+      ? options.accessToken
+      : (process.env.NOTE_HUB_ACCESS_TOKEN ?? "")
+  ).trim();
+  assertAccessConfig(accessToken, options.nodeEnv ?? process.env.NODE_ENV);
+
   const app = express();
   const store = options.store ?? createStore();
+  const clientOrigin = options.clientOrigin ?? process.env.CLIENT_ORIGIN ?? "http://localhost:5174";
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin(origin, callback) {
+        if (!origin || origin === clientOrigin) {
+          return callback(null, true);
+        }
+        return callback(null, false);
+      }
+    })
+  );
   app.use(express.json({ limit: "100kb" }));
+  app.use(ApiRoutes.notes, requireNoteAccess(accessToken));
 
   app.get(ApiRoutes.health, async (_req: Request, res: Response) => {
     let dbOk: boolean;
@@ -108,9 +182,27 @@ export function createApp(options: AppOptions = {}): express.Express {
   }
 
   const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-    console.error(err);
-    const error: ApiError = { message: "internal server error" };
-    res.status(500).json(error);
+    const status = errorStatus(err);
+    const type = errorType(err);
+
+    if (status === 400 && type === "entity.parse.failed") {
+      const error: ApiError = { message: "invalid JSON body" };
+      res.status(400).json(error);
+      return;
+    }
+    if (status === 413 || type === "entity.too.large") {
+      const error: ApiError = { message: "request body must not exceed 100KB" };
+      res.status(413).json(error);
+      return;
+    }
+
+    if (status >= 500) {
+      console.error(err);
+    }
+    const error: ApiError = {
+      message: status >= 500 ? "internal server error" : "request could not be processed"
+    };
+    res.status(status).json(error);
   };
   app.use(errorHandler);
 

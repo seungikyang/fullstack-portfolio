@@ -1,22 +1,31 @@
 // Note Hub 메인 화면. 모노레포의 핵심 장점을 보여주기 위해 백엔드와 같은 타입(Note, CreateNoteInput)을
 // @note-hub/shared에서 import해서 사용한다. 백엔드 응답 타입이 바뀌면 여기서 컴파일 에러가 난다.
-import { useEffect, useState, type FormEvent } from "react";
-import { ApiRoutes, isNote, type CreateNoteInput, type Note } from "@note-hub/shared";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { ApiRoutes, isNote, NoteLimits, type CreateNoteInput, type Note } from "@note-hub/shared";
 
 const emptyInput: CreateNoteInput = { title: "", body: "", tags: [] };
+const accessTokenSessionKey = "noteHubAccessToken";
+
+function accessHeaders(accessToken: string): Record<string, string> {
+  return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+}
 
 export default function App() {
+  const [accessToken, setAccessToken] = useState(
+    () => sessionStorage.getItem(accessTokenSessionKey) ?? ""
+  );
+  const [tokenInput, setTokenInput] = useState(accessToken);
   const [notes, setNotes] = useState<Note[]>([]);
   const [input, setInput] = useState<CreateNoteInput>(emptyInput);
   const [tagsText, setTagsText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function loadNotes(): Promise<void> {
+  const loadNotes = useCallback(async (token: string): Promise<void> => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(ApiRoutes.notes);
+      const res = await fetch(ApiRoutes.notes, { headers: accessHeaders(token) });
       if (!res.ok) throw new Error(`목록 조회 실패 (${res.status})`);
       const data = (await res.json()) as unknown;
       if (!Array.isArray(data) || !data.every(isNote)) {
@@ -28,11 +37,28 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    void loadNotes();
-  }, []);
+    void loadNotes(accessToken);
+  }, [accessToken, loadNotes]);
+
+  function handleConnect(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    const nextToken = tokenInput.trim();
+    sessionStorage.setItem(accessTokenSessionKey, nextToken);
+    if (nextToken === accessToken) {
+      void loadNotes(nextToken);
+      return;
+    }
+    setAccessToken(nextToken);
+  }
+
+  function handleDisconnect(): void {
+    sessionStorage.removeItem(accessTokenSessionKey);
+    setTokenInput("");
+    setAccessToken("");
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -45,28 +71,39 @@ export default function App() {
         .map((t) => t.trim())
         .filter(Boolean)
     };
-    const res = await fetch(ApiRoutes.notes, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) {
-      const body = (await res.json().catch(() => ({}))) as { message?: string };
-      setError(body.message ?? `생성 실패 (${res.status})`);
-      return;
+    try {
+      const res = await fetch(ApiRoutes.notes, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...accessHeaders(accessToken) },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as { message?: string };
+        setError(body.message ?? `생성 실패 (${res.status})`);
+        return;
+      }
+      setInput(emptyInput);
+      setTagsText("");
+      await loadNotes(accessToken);
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : String(requestError));
     }
-    setInput(emptyInput);
-    setTagsText("");
-    await loadNotes();
   }
 
   async function handleDelete(id: string): Promise<void> {
-    const res = await fetch(ApiRoutes.noteById(id), { method: "DELETE" });
-    if (!res.ok && res.status !== 204) {
-      setError(`삭제 실패 (${res.status})`);
-      return;
+    try {
+      const res = await fetch(ApiRoutes.noteById(id), {
+        method: "DELETE",
+        headers: accessHeaders(accessToken)
+      });
+      if (!res.ok) {
+        setError(`삭제 실패 (${res.status})`);
+        return;
+      }
+      await loadNotes(accessToken);
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : String(requestError));
     }
-    await loadNotes();
   }
 
   return (
@@ -80,11 +117,41 @@ export default function App() {
       </header>
 
       <section className="card">
+        <h2>API 접근 토큰</h2>
+        <form onSubmit={handleConnect} className="form token-form">
+          <label>
+            <span>접근 토큰</span>
+            <input
+              aria-describedby="token-help"
+              autoComplete="off"
+              required
+              type="password"
+              value={tokenInput}
+              onChange={(event) => setTokenInput(event.target.value)}
+            />
+          </label>
+          <div className="button-row">
+            <button type="submit">연결</button>
+            {accessToken && (
+              <button className="secondary-button" type="button" onClick={handleDisconnect}>
+                연결 해제
+              </button>
+            )}
+          </div>
+        </form>
+        <p className="hint" id="token-help">
+          운영 API 토큰은 현재 브라우저 탭의 sessionStorage에만 보관됩니다. 로컬 무토큰 학습은 입력
+          없이 바로 사용할 수 있습니다.
+        </p>
+      </section>
+
+      <section className="card">
         <h2>새 노트</h2>
         <form onSubmit={handleSubmit} className="form">
           <label>
             <span>제목</span>
             <input
+              maxLength={NoteLimits.title}
               required
               value={input.title}
               onChange={(e) => setInput({ ...input, title: e.target.value })}
@@ -93,6 +160,7 @@ export default function App() {
           <label>
             <span>본문</span>
             <textarea
+              maxLength={NoteLimits.body}
               required
               rows={4}
               value={input.body}
@@ -101,8 +169,15 @@ export default function App() {
           </label>
           <label>
             <span>태그 (쉼표 구분)</span>
-            <input value={tagsText} onChange={(e) => setTagsText(e.target.value)} />
+            <input
+              aria-describedby="tags-help"
+              value={tagsText}
+              onChange={(e) => setTagsText(e.target.value)}
+            />
           </label>
+          <p className="hint" id="tags-help">
+            최대 {NoteLimits.tags}개, 태그당 {NoteLimits.tag}자까지 입력할 수 있습니다.
+          </p>
           <button type="submit">추가</button>
         </form>
         {error && <p className="error">{error}</p>}

@@ -5,10 +5,10 @@ import type { CreateNoteInput, Note } from "@note-hub/shared";
 import type { NotesStore } from "./notes-store.js";
 
 export class PostgresNotesStore implements NotesStore {
-  private pool: pg.Pool;
+  private pool: Pick<pg.Pool, "query" | "end">;
 
-  constructor(connectionString: string) {
-    this.pool = new pg.Pool({ connectionString, max: 10 });
+  constructor(connectionString: string, pool?: Pick<pg.Pool, "query" | "end">) {
+    this.pool = pool ?? new pg.Pool({ connectionString, max: 10 });
   }
 
   async ping(): Promise<boolean> {

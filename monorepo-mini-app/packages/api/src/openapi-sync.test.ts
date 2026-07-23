@@ -9,15 +9,31 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { ApiRoutes, type Note } from "@note-hub/shared";
+import { ApiRoutes, NoteLimits, type Note } from "@note-hub/shared";
 import { InMemoryNotesStore } from "./notes-store.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const openApiPath = join(__dirname, "../openapi.json");
 const spec = JSON.parse(readFileSync(openApiPath, "utf8")) as {
-  paths: Record<string, unknown>;
+  paths: Record<
+    string,
+    Record<
+      string,
+      { security?: Array<Record<string, unknown>>; responses?: Record<string, unknown> }
+    >
+  >;
   components: {
-    schemas: Record<string, { properties?: Record<string, unknown>; required?: string[] }>;
+    securitySchemes: Record<string, unknown>;
+    schemas: Record<
+      string,
+      {
+        properties?: Record<
+          string,
+          { maxLength?: number; maxItems?: number; items?: { maxLength?: number } }
+        >;
+        required?: string[];
+      }
+    >;
   };
 };
 
@@ -57,5 +73,26 @@ describe("OpenAPI ↔ shared 동기화", () => {
     const actualKeys = Object.keys(created).sort();
     const props = spec.components.schemas.Note?.properties ?? {};
     expect(actualKeys).toEqual(Object.keys(props).sort());
+  });
+
+  it("notes 작업은 BearerAuth와 401 응답을 선언한다", () => {
+    expect(spec.components.securitySchemes).toHaveProperty("BearerAuth");
+    for (const operation of [
+      spec.paths["/api/notes"]?.get,
+      spec.paths["/api/notes"]?.post,
+      spec.paths["/api/notes/{id}"]?.delete
+    ]) {
+      expect(operation?.security).toEqual([{ BearerAuth: [] }]);
+      expect(operation?.responses).toHaveProperty("401");
+    }
+  });
+
+  it("CreateNoteInput 길이 제한과 413 응답이 서버 계약과 일치한다", () => {
+    const properties = spec.components.schemas.CreateNoteInput?.properties ?? {};
+    expect(properties.title?.maxLength).toBe(NoteLimits.title);
+    expect(properties.body?.maxLength).toBe(NoteLimits.body);
+    expect(properties.tags?.maxItems).toBe(NoteLimits.tags);
+    expect(properties.tags?.items?.maxLength).toBe(NoteLimits.tag);
+    expect(spec.paths["/api/notes"]?.post?.responses).toHaveProperty("413");
   });
 });
