@@ -17,7 +17,7 @@ npm run dev
 ```
 
 - `npm run typecheck`로 컴파일 오류를 확인합니다.
-- `npm run build`로 production 빌드가 통과되는지 확인합니다.
+- 이 단계는 타입 연습 전용이라 JavaScript 산출물을 만들지 않습니다. `npm run build`도 기존 사용자를 위한 `typecheck` 별칭이며 production build 경험으로 설명하지 않습니다.
 
 막히면 `answers.md`를 보고 다시 직접 고칩니다.
 

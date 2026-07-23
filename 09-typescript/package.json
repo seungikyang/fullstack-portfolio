@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "tsc",
+    "build": "npm run typecheck",
     "dev": "tsc --watch"
   },
   "devDependencies": {
