@@ -162,8 +162,19 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
   write(
     root,
     "index.html",
-    '<a class="button" href="./START-HERE.md">시작 워크시트 열기</a>\n',
+    [
+      '<a class="button" href="./START-HERE.md">시작 워크시트 열기</a>',
+      ...guideFolders.flatMap((folder) => {
+        const stage = folder.slice(0, 2);
+        return [
+          `<a href="#run-${stage}">실행·검증</a>`,
+          `<article id="run-${stage}"></article>`,
+        ];
+      }),
+      '<article id="run-notehub"><a href="./monorepo-mini-app/README.md">Note Hub 실행</a></article>',
+    ].join("\n"),
   );
+  write(root, "monorepo-mini-app/README.md", "# Note Hub\n");
   write(
     root,
     "START-HERE.md",
@@ -234,6 +245,20 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
   const errors = findLearningPathErrors(root);
   assert.equal(
     errors.some((error) => error.includes("../02-javascript-basics/README.md")),
+    true,
+  );
+
+  fs.writeFileSync(
+    path.join(root, "index.html"),
+    fs
+      .readFileSync(path.join(root, "index.html"), "utf8")
+      .replace('<a href="#run-09">실행·검증</a>', ""),
+  );
+  const programErrors = findLearningPathErrors(root);
+  assert.equal(
+    programErrors.some((error) =>
+      error.includes("09단계 카드에 실행·검증 링크"),
+    ),
     true,
   );
 });

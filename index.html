@@ -241,7 +241,8 @@
 
       .start-grid,
       .path-grid,
-      .support-grid {
+      .support-grid,
+      .run-grid {
         display: grid;
         gap: 16px;
       }
@@ -427,6 +428,75 @@
         transform: translateY(-1px);
       }
 
+      .run-card {
+        display: grid;
+        grid-template-columns: 70px minmax(220px, 0.9fr) minmax(260px, 1.1fr);
+        gap: 22px;
+        align-items: start;
+        padding: 22px;
+        scroll-margin-top: 92px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+
+      .run-card:target {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+
+      .run-number {
+        display: grid;
+        width: 54px;
+        height: 54px;
+        place-items: center;
+        border-radius: 16px;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .run-card h3 {
+        margin-bottom: 6px;
+        color: var(--navy);
+      }
+
+      .run-card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--green);
+        font-size: 14px;
+      }
+
+      .run-card p {
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .run-command {
+        display: block;
+        overflow-wrap: anywhere;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #eef2f7;
+        color: var(--navy);
+        font-size: 13px;
+      }
+
+      .run-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .run-links a {
+        color: var(--blue-dark);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
       .routine {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -538,6 +608,7 @@
         .header-inner,
         .section-heading,
         .lesson-card,
+        .run-card,
         .footer-inner {
           display: flex;
           align-items: flex-start;
@@ -615,6 +686,7 @@
           <a href="#start">시작 방법</a>
           <a href="#path">추천 경로</a>
           <a href="#curriculum">전체 목차</a>
+          <a href="#run-map">실행 지도</a>
           <a href="#routine">공부 방법</a>
           <a href="#career">취업 준비</a>
         </nav>
@@ -777,6 +849,7 @@
                   <a class="lesson-link" href="./01-html-css/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-01">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -802,6 +875,7 @@
                     href="./02-javascript-basics/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-02">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -823,6 +897,7 @@
                   <a class="lesson-link" href="./03-react-todo/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-03">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -844,6 +919,7 @@
                   <a class="lesson-link" href="./04-node-board-api/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-04">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -867,6 +943,7 @@
                   <a class="lesson-link" href="./05-database-mongodb/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-05">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -888,6 +965,7 @@
                   <a class="lesson-link" href="./06-login-auth/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-06">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -909,6 +987,7 @@
                   <a class="lesson-link" href="./07-project-deploy/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-07">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -936,6 +1015,7 @@
                     href="./08-fullstack-portfolio-project/submission-checklist.md"
                     >제출 점검</a
                   >
+                  <a class="lesson-link" href="#run-08">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -969,6 +1049,7 @@
                   <a class="lesson-link" href="./09-typescript/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-09">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -990,6 +1071,7 @@
                   <a class="lesson-link" href="./10-sql-oracle/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-10">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1011,6 +1093,7 @@
                   <a class="lesson-link" href="./11-java-spring/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-11">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1032,6 +1115,7 @@
                   <a class="lesson-link" href="./12-testing/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-12">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1053,6 +1137,7 @@
                   <a class="lesson-link" href="./13-git-collab/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-13">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1074,6 +1159,7 @@
                   <a class="lesson-link" href="./14-docker-deploy/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-14">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1107,6 +1193,7 @@
                   <a class="lesson-link" href="./15-cs-fundamentals/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-15">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1128,6 +1215,7 @@
                   <a class="lesson-link" href="./16-security/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="#run-16">실행·검증</a>
                 </div>
               </div>
             </article>
@@ -1153,10 +1241,445 @@
                     href="./17-interview-prep/project-pitch-template.md"
                     >프로젝트 설명</a
                   >
+                  <a class="lesson-link" href="#run-17">실행·검증</a>
                 </div>
               </div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section id="run-map" aria-labelledby="run-map-title">
+        <div class="section-heading">
+          <h2 id="run-map-title">폴더별 프로그램 실행 지도.</h2>
+          <p>
+            각 단계에서 무엇을 준비하고 어떤 명령을 실행하며 무엇을 확인할지 한
+            곳에 모았습니다. 빈칸을 직접 채운 뒤 실행 결과와 오류, 수정한 코드
+            위치를 완료 증거로 남기세요.
+          </p>
+        </div>
+
+        <div class="run-grid">
+          <article class="run-card" id="run-01" data-stage="01">
+            <span class="run-number">01</span>
+            <div>
+              <h3>HTML·CSS 화면</h3>
+              <strong>준비·실행</strong>
+              <p>빈칸을 채운 뒤 starter HTML을 브라우저로 엽니다.</p>
+              <code class="run-command">01-html-css/starter/index.html</code>
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                데스크톱·모바일 화면, 접근 가능한 구조, 고친 CSS 위치를
+                남깁니다.
+              </p>
+              <div class="run-links">
+                <a href="./01-html-css/starter/index.html">화면 열기</a>
+                <a href="./01-html-css/README.md">실행 설명</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-02" data-stage="02">
+            <span class="run-number">02</span>
+            <div>
+              <h3>JavaScript 화면</h3>
+              <strong>준비·실행</strong>
+              <p>app.js의 빈칸을 채우고 브라우저 Console을 함께 엽니다.</p>
+              <code class="run-command"
+                >02-javascript-basics/starter/index.html</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>버튼·계산기·할 일 동작과 해결한 Console 오류를 기록합니다.</p>
+              <div class="run-links">
+                <a href="./02-javascript-basics/starter/index.html"
+                  >화면 열기</a
+                >
+                <a href="./02-javascript-basics/README.md">실행 설명</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-03" data-stage="03">
+            <span class="run-number">03</span>
+            <div>
+              <h3>React Todo</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 03-react-todo &amp;&amp; npm install &amp;&amp; npm run
+                dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                추가·완료 전환을 확인하고 마지막에 npm run build를 통과시킵니다.
+              </p>
+              <div class="run-links">
+                <a href="./03-react-todo/README.md">실행 설명</a>
+                <a href="./03-react-todo/problems.md">구현 문제</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-04" data-stage="04">
+            <span class="run-number">04</span>
+            <div>
+              <h3>Node 게시판 API</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 04-node-board-api &amp;&amp; npm install &amp;&amp; npm run
+                dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                health와 CRUD 요청의 응답 본문·상태 코드를 순서대로 남깁니다.
+              </p>
+              <div class="run-links">
+                <a href="./04-node-board-api/requests.http">API 요청 실행</a>
+                <a href="./04-node-board-api/README.md">실행 설명</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-05" data-stage="05">
+            <span class="run-number">05</span>
+            <div>
+              <h3>MongoDB CRUD</h3>
+              <strong>준비·실행</strong>
+              <p>MongoDB 또는 Atlas를 먼저 실행하고 연결 주소를 준비합니다.</p>
+              <code class="run-command"
+                >cd 05-database-mongodb &amp;&amp; npm install &amp;&amp; npm
+                run dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                생성·수정·삭제 후 DB 값과 재시작 뒤 데이터 보존을 확인합니다.
+              </p>
+              <div class="run-links">
+                <a href="./05-database-mongodb/requests.http">DB 요청 실행</a>
+                <a href="./05-database-mongodb/README.md">DB 준비 방법</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-06" data-stage="06">
+            <span class="run-number">06</span>
+            <div>
+              <h3>로그인·JWT</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 06-login-auth &amp;&amp; cp .env.example .env &amp;&amp; npm
+                install &amp;&amp; npm run dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                가입 201, 중복 409, 로그인 실패 401, 보호 API 성공을 비교합니다.
+              </p>
+              <div class="run-links">
+                <a href="./06-login-auth/requests.http">인증 요청 실행</a>
+                <a href="./06-login-auth/README.md">실행 설명</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-07" data-stage="07">
+            <span class="run-number">07</span>
+            <div>
+              <h3>미니 블로그·배포</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 07-project-deploy &amp;&amp; npm install &amp;&amp; npm run
+                dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                localhost:4300 화면과 API 연결을 보고 배포 점검표를 완료합니다.
+              </p>
+              <div class="run-links">
+                <a href="./07-project-deploy/deploy-checklist.md">배포 점검</a>
+                <a href="./07-project-deploy/README.md">실행 설명</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-08" data-stage="08">
+            <span class="run-number">08</span>
+            <div>
+              <h3>Career Hub</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 08-fullstack-portfolio-project &amp;&amp; npm install
+                &amp;&amp; cp .env.example .env &amp;&amp; npm run dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                localhost:3000의 네 단계 워크북을 확인하고 npm run verify를
+                통과시킵니다.
+              </p>
+              <div class="run-links">
+                <a href="./08-fullstack-portfolio-project/README.md"
+                  >프로젝트 실행</a
+                >
+                <a
+                  href="./08-fullstack-portfolio-project/submission-checklist.md"
+                  >제출 점검</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-09" data-stage="09">
+            <span class="run-number">09</span>
+            <div>
+              <h3>TypeScript 타입 검사</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 09-typescript &amp;&amp; npm install &amp;&amp; npm run
+                typecheck</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                빈칸을 모두 채운 뒤 typecheck 오류 0개와 고친 타입 위치를
+                남깁니다.
+              </p>
+              <div class="run-links">
+                <a href="./09-typescript/README.md">타입 검사 설명</a>
+                <a href="./09-typescript/problems.md">타입 문제</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-10" data-stage="10">
+            <span class="run-number">10</span>
+            <div>
+              <h3>SQL·Oracle</h3>
+              <strong>준비·실행</strong>
+              <p>
+                Oracle Live SQL 또는 로컬 RDBMS에서 01부터 07까지 순서대로
+                실행합니다.
+              </p>
+              <code class="run-command"
+                >starter/01-ddl.sql → starter/07-index.sql</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                결과 행, 트랜잭션 전후 값, 인덱스 실행 계획 차이를 기록합니다.
+              </p>
+              <div class="run-links">
+                <a href="./10-sql-oracle/starter/01-ddl.sql">첫 SQL 열기</a>
+                <a href="./10-sql-oracle/README.md">실행 순서</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-11" data-stage="11">
+            <span class="run-number">11</span>
+            <div>
+              <h3>Java·Spring Boot</h3>
+              <strong>준비·실행</strong>
+              <p>
+                Spring Initializr로 starter/board-api를 직접 만든 경우에만
+                실행합니다.
+              </p>
+              <code class="run-command"
+                >cd 11-java-spring/starter/board-api &amp;&amp; ./gradlew
+                bootRun</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                CRUD·400·404·H2를 확인하기 전에는 Spring 구현 완료로 쓰지
+                않습니다.
+              </p>
+              <div class="run-links">
+                <a href="./11-java-spring/README.md">프로젝트 생성·검증</a>
+                <a href="./11-java-spring/starter/README.md">starter 안내</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-12" data-stage="12">
+            <span class="run-number">12</span>
+            <div>
+              <h3>자동화 테스트</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 12-testing/starter/js &amp;&amp; npm install &amp;&amp; npm
+                test</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                처음 실패를 확인한 뒤 빈칸을 채워 통과시키고, Spring 테스트는
+                프로젝트가 있을 때만 실행합니다.
+              </p>
+              <div class="run-links">
+                <a href="./12-testing/README.md">JS·JUnit 조건</a>
+                <a href="./12-testing/problems.md">테스트 문제</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-13" data-stage="13">
+            <span class="run-number">13</span>
+            <div>
+              <h3>Git 협업</h3>
+              <strong>준비·실행</strong>
+              <p>
+                연습 저장소를 두 폴더에 복제해 개발자 A·B의 충돌 상황을
+                만듭니다.
+              </p>
+              <code class="run-command"
+                >feature branch → PR → review → conflict 해결</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                PR 주소, 리뷰 반영, 충돌 해결 커밋과 사용한 명령을 남깁니다.
+              </p>
+              <div class="run-links">
+                <a href="./13-git-collab/README.md">협업 실행 순서</a>
+                <a href="./13-git-collab/problems.md">협업 문제</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-14" data-stage="14">
+            <span class="run-number">14</span>
+            <div>
+              <h3>Docker·CI</h3>
+              <strong>준비·실행</strong>
+              <p>
+                4단계 Node 또는 직접 만든 11단계 Spring 원본을 먼저 준비합니다.
+              </p>
+              <code class="run-command"
+                >docker build → docker run → docker compose → CI</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                직접 수행한 앱의 이미지·컨테이너·health·CI 결과만 설명합니다.
+              </p>
+              <div class="run-links">
+                <a href="./14-docker-deploy/README.md">선행 조건·명령</a>
+                <a href="./14-docker-deploy/problems.md">Docker 문제</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-15" data-stage="15">
+            <span class="run-number">15</span>
+            <div>
+              <h3>CS 답안 워크북</h3>
+              <strong>준비·실행</strong>
+              <p>
+                별도 설치 없이 problems.md의 21문제에 자기 답안을 먼저 씁니다.
+              </p>
+              <code class="run-command"
+                >답안 작성 → 소리 내어 설명 → 모범 답안 비교</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                고친 오개념과 연결되는 01~14단계 코드 위치를 답안에 붙입니다.
+              </p>
+              <div class="run-links">
+                <a href="./15-cs-fundamentals/problems.md">21문제 시작</a>
+                <a href="./15-cs-fundamentals/README.md">연습 방법</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-16" data-stage="16">
+            <span class="run-number">16</span>
+            <div>
+              <h3>웹 보안 실습</h3>
+              <strong>준비·실행</strong>
+              <code class="run-command"
+                >cd 16-security &amp;&amp; npm install &amp;&amp; npm run
+                check</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                start:* 실습을 하나씩 실행해 공격 전후 응답과 방어 코드 위치를
+                비교합니다.
+              </p>
+              <div class="run-links">
+                <a href="./16-security/problems.md">공격·방어 순서</a>
+                <a href="./16-security/README.md">실행 명령표</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-17" data-stage="17">
+            <span class="run-number">17</span>
+            <div>
+              <h3>면접 답변 워크북</h3>
+              <strong>준비·실행</strong>
+              <p>기술 카드와 자기소개·STAR 템플릿에 실제 경험을 직접 씁니다.</p>
+              <code class="run-command"
+                >30초 → 1분 → 3분 녹음 → 피드백 반영</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>자기 코드와 실행 로그를 인용한 답변만 최종 카드로 남깁니다.</p>
+              <div class="run-links">
+                <a href="./17-interview-prep/interview-cards.md">기술 카드</a>
+                <a href="./17-interview-prep/README.md">면접 실행 순서</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="run-card" id="run-notehub">
+            <span class="run-number">LAB</span>
+            <div>
+              <h3>Note Hub 모노레포</h3>
+              <strong>실전 확장 프로그램</strong>
+              <code class="run-command"
+                >cd monorepo-mini-app &amp;&amp; npm install &amp;&amp; npm run
+                dev</code
+              >
+            </div>
+            <div>
+              <strong>확인·취업 증거</strong>
+              <p>
+                공유 타입, API·Web 동시 실행, 41개 테스트와 build를 확인합니다.
+                공개 운영은 32자 이상 접근 토큰이 필수입니다.
+              </p>
+              <div class="run-links">
+                <a href="./monorepo-mini-app/README.md">Note Hub 실행·검증</a>
+                <a href="./monorepo-mini-app/packages/api/openapi.json"
+                  >OpenAPI</a
+                >
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -1230,6 +1753,14 @@
             <h3>면접 연습</h3>
             <p>자기 코드 한 줄을 근거로 30초, 1분, 3분 답변을 만듭니다.</p>
             <span class="label">면접 워크북 열기 →</span>
+          </a>
+          <a class="support-card" href="#run-notehub">
+            <h3>Note Hub 실전 확장</h3>
+            <p>
+              TypeScript 모노레포의 공유 타입, PostgreSQL 저장소와 접근 제어를
+              검증합니다.
+            </p>
+            <span class="label">실행 지도 보기 →</span>
           </a>
         </div>
       </section>

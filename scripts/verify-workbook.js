@@ -634,6 +634,23 @@ function findLearningPathErrors(workbookRoot) {
   if (!index.includes('class="button" href="./START-HERE.md"')) {
     errors.push("index.html의 첫 CTA가 START-HERE.md를 열지 않습니다.");
   }
+  for (const folder of guideFolders) {
+    const stage = folder.slice(0, 2);
+    if (!index.includes(`href="#run-${stage}"`)) {
+      errors.push(
+        `index.html의 ${stage}단계 카드에 실행·검증 링크가 없습니다.`,
+      );
+    }
+    if (!index.includes(`id="run-${stage}"`)) {
+      errors.push(`index.html의 ${stage}단계 실행 지도 항목이 없습니다.`);
+    }
+  }
+  if (
+    !index.includes('id="run-notehub"') ||
+    !index.includes('href="./monorepo-mini-app/README.md"')
+  ) {
+    errors.push("index.html에 Note Hub 실행·검증 지도가 없습니다.");
+  }
 
   expectLink("START-HERE.md", "./01-html-css/README.md");
   expectLink("START-HERE.md", "./08-fullstack-portfolio-project/README.md");
