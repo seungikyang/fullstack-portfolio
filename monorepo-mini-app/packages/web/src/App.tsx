@@ -1,7 +1,14 @@
 // Note Hub 메인 화면. 모노레포의 핵심 장점을 보여주기 위해 백엔드와 같은 타입(Note, CreateNoteInput)을
 // @note-hub/shared에서 import해서 사용한다. 백엔드 응답 타입이 바뀌면 여기서 컴파일 에러가 난다.
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { ApiRoutes, isNote, NoteLimits, type CreateNoteInput, type Note } from "@note-hub/shared";
+import {
+  ApiRoutes,
+  isNote,
+  normalizeTags,
+  NoteLimits,
+  type CreateNoteInput,
+  type Note
+} from "@note-hub/shared";
 
 const emptyInput: CreateNoteInput = { title: "", body: "", tags: [] };
 const accessTokenSessionKey = "noteHubAccessToken";
@@ -66,10 +73,7 @@ export default function App() {
     const payload: CreateNoteInput = {
       title: input.title,
       body: input.body,
-      tags: tagsText
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean)
+      tags: normalizeTags(tagsText.split(","))
     };
     try {
       const res = await fetch(ApiRoutes.notes, {

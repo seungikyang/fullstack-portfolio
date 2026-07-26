@@ -74,6 +74,7 @@ describe("App", () => {
 
     await user.type(screen.getByLabelText("제목"), "새 노트");
     await user.type(screen.getByLabelText("본문"), "new");
+    await user.type(screen.getByLabelText("태그 (쉼표 구분)"), " tag1, , tag2 ");
     await user.click(screen.getByRole("button", { name: "추가" }));
 
     await waitFor(() => {
@@ -82,6 +83,11 @@ describe("App", () => {
 
     const postCall = fetchMock.mock.calls.find(([, init]) => init?.method === "POST");
     expect(postCall?.[0]).toBe("/api/notes");
+    expect(JSON.parse(String(postCall?.[1]?.body))).toEqual({
+      title: "새 노트",
+      body: "new",
+      tags: ["tag1", "tag2"]
+    });
   });
 
   it("연결한 토큰을 sessionStorage에 보관하고 API Bearer 헤더로 보낸다", async () => {

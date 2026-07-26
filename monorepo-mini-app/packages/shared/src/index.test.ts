@@ -1,6 +1,16 @@
 // 공유 패키지의 타입 가드와 경로 헬퍼 단위 테스트.
 import { describe, expect, it } from "vitest";
-import { ApiRoutes, isNote, type Note } from "./index.js";
+import { ApiRoutes, isNote, normalizeTags, type Note } from "./index.js";
+
+describe("normalizeTags", () => {
+  it("공백과 빈 항목만 제거하고 순서·중복·원본 배열을 보존한다", () => {
+    const tags = [" js ", "", "js", " api "];
+
+    expect(normalizeTags(tags)).toEqual(["js", "js", "api"]);
+    expect(tags).toEqual([" js ", "", "js", " api "]);
+    expect(normalizeTags()).toEqual([]);
+  });
+});
 
 describe("isNote", () => {
   it("올바른 Note는 true", () => {

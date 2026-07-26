@@ -36,6 +36,10 @@ export const ApiRoutes = {
   noteById: (id: string) => `/api/notes/${id}`
 } as const;
 
+export function normalizeTags(tags: readonly string[] = []): string[] {
+  return tags.map((tag) => tag.trim()).filter(Boolean);
+}
+
 // 타입 가드. fetch 응답이 Note인지 런타임에 확인할 때 사용.
 export function isNote(value: unknown): value is Note {
   if (typeof value !== "object" || value === null) return false;

@@ -50,9 +50,13 @@ describe("InMemoryNotesStore", () => {
 
 describe("validateCreate", () => {
   it("정상 payload는 errors 비어 있음", () => {
-    const { value, errors } = validateCreate({ title: "t", body: "b", tags: ["x"] });
+    const { value, errors } = validateCreate({
+      title: "t",
+      body: "b",
+      tags: [" x ", "", "y"]
+    });
     expect(errors).toEqual([]);
-    expect(value).toEqual({ title: "t", body: "b", tags: ["x"] });
+    expect(value).toEqual({ title: "t", body: "b", tags: ["x", "y"] });
   });
 
   it("title이 비면 오류", () => {
@@ -90,7 +94,13 @@ describe("validateCreate", () => {
       body: "b",
       tags: ["x".repeat(NoteLimits.tag + 1)]
     });
+    const tooManyEmpty = validateCreate({
+      title: "t",
+      body: "b",
+      tags: Array.from({ length: NoteLimits.tags + 1 }, () => "")
+    });
     expect(tooMany.errors).toContain(`tags must contain ${NoteLimits.tags} items or fewer`);
+    expect(tooManyEmpty.errors).toContain(`tags must contain ${NoteLimits.tags} items or fewer`);
     expect(tooLong.errors).toContain(`each tag must be ${NoteLimits.tag} characters or fewer`);
   });
 

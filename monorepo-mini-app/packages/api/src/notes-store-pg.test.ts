@@ -65,7 +65,13 @@ describe("PostgresNotesStore", () => {
       "body",
       ["tag"]
     ]);
-    expect(note.createdAt).toBe(createdAt.toISOString());
+    expect(note).toEqual({
+      id: "2",
+      title: "title",
+      body: "body",
+      tags: ["tag"],
+      createdAt: createdAt.toISOString()
+    });
   });
 
   it("delete는 id를 파라미터로 전달한다", async () => {

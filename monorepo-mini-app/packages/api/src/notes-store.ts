@@ -1,7 +1,7 @@
 // 노트 저장소의 공통 인터페이스와 인메모리 구현, 그리고 입력 검증 함수.
 // 인터페이스를 분리해 두면 Postgres 등 다른 백엔드를 같은 시그니처로 갈아 끼울 수 있다(notes-store-pg.ts 참고).
 import { randomUUID } from "node:crypto";
-import { NoteLimits, type CreateNoteInput, type Note } from "@note-hub/shared";
+import { normalizeTags, NoteLimits, type CreateNoteInput, type Note } from "@note-hub/shared";
 
 export interface NotesStore {
   list(): Promise<Note[]>;
@@ -23,7 +23,7 @@ export class InMemoryNotesStore implements NotesStore {
       id: randomUUID(),
       title: input.title.trim(),
       body: input.body.trim(),
-      tags: (input.tags ?? []).map((tag) => tag.trim()).filter(Boolean),
+      tags: normalizeTags(input.tags),
       createdAt: new Date().toISOString()
     };
     this.notes.push(note);
@@ -65,7 +65,7 @@ export function validateCreate(payload: unknown): { value: CreateNoteInput; erro
     if (tagsRaw.some((tag) => typeof tag !== "string")) {
       errors.push("tags must contain only strings");
     } else {
-      tags = tagsRaw.map((tag) => tag.trim()).filter(Boolean);
+      tags = normalizeTags(tagsRaw);
       if (tags.some((tag) => tag.length > NoteLimits.tag)) {
         errors.push(`each tag must be ${NoteLimits.tag} characters or fewer`);
       }
