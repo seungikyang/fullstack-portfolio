@@ -454,8 +454,8 @@
         <a class="brand" href="#top">Fullstack Career Workbook</a>
         <nav aria-label="변경 이력 목차">
           <a href="./index.html">학습 목차</a>
-          <a href="#loop-2026-07-24">최신 개선</a>
-          <a href="#loop-2026-07-19">이전 루프</a>
+          <a href="#loop-2026-07-26">최신 개선</a>
+          <a href="#loop-2026-07-24">이전 루프</a>
           <a href="#audit-2026-07-17">이전 점검</a>
           <a href="#html-guide">HTML 허브</a>
           <a href="#workbook-flow">네 단계 워크북</a>
@@ -470,35 +470,114 @@
 
     <main id="top" class="page-shell">
       <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">Change History · 2026.07.24</p>
+        <p class="eyebrow">Change History · 2026.07.26</p>
         <h1 id="page-title">모든 폴더를 실행 가능한 취업 워크북으로.</h1>
         <p class="hero-copy">
-          17단계 목차에서 각 폴더의 준비, 실행, 확인과 취업 증거로 바로
-          이동하도록 연결했습니다. Career Hub와 Note Hub는 코드·문서·API 계약을
-          맞추고 자동 테스트, 브라우저와 의존성 감사까지 반복 검증했습니다.
+          17단계 목차에서 문제, 세 단계 힌트, 정답 비교와 취업 증거까지 이어지게
+          했습니다. 학습 완료 조건과 Career Hub·Note Hub의 배포 계약을 코드와
+          테스트로 고정하고 자동·브라우저 검증을 반복했습니다.
         </p>
         <div class="meta-row" role="group" aria-label="변경 범위">
-          <span class="pill">17단계 실행 지도</span>
-          <span class="pill">폴더별 실행 계약</span>
-          <span class="pill">Note Hub 접근 제어</span>
+          <span class="pill">15개 단계별 힌트</span>
+          <span class="pill">106개 학습 체크</span>
+          <span class="pill">배포 계약 회귀 테스트</span>
           <span class="pill">자동·브라우저 회귀 검증</span>
         </div>
       </section>
 
       <div class="metric-grid" role="group" aria-label="핵심 결과">
         <article class="metric">
-          <strong>17</strong>
-          <span>폴더별 실행·검증 앵커</span>
+          <strong>15</strong>
+          <span>표준 트랙의 세 단계 힌트 문서</span>
         </article>
         <article class="metric">
-          <strong>41</strong>
+          <strong>42</strong>
           <span>Note Hub 자동 테스트</span>
         </article>
         <article class="metric">
-          <strong>88</strong>
+          <strong>89</strong>
           <span>Career Hub 자동 테스트</span>
         </article>
       </div>
+
+      <section id="loop-2026-07-26" aria-labelledby="loop-2026-07-26-title">
+        <div class="section-heading">
+          <h2 id="loop-2026-07-26-title">
+            2026.07.26 · 단계별 힌트와 배포 계약 완성 루프
+          </h2>
+          <p>
+            학습 동선을 진단하고 힌트·진도·배포 경계의 실패 조건을 테스트로 먼저
+            고정했습니다. 수정 뒤에는 루트, Career Hub, Note Hub와 브라우저를
+            다시 검증해 문서의 수치와 실제 결과를 맞췄습니다.
+          </p>
+        </div>
+
+        <div class="change-grid">
+          <article class="change-card">
+            <h3>정답 전에 세 단계 힌트</h3>
+            <p>
+              08 포트폴리오와 17 면접 준비를 제외한 15개 표준 트랙에
+              <code>hints.md</code>를 추가했습니다. 개념 방향, 코드 위치, 구현
+              순서로 힌트를 점진적으로 공개하고 문제와 정답 문서에서 왕복할 수
+              있습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>학습 완료 조건을 수치로 고정</h3>
+            <p>
+              <code>verify:learning</code>은 <code>____</code>가 0개인 것뿐
+              아니라 체크리스트가 정확히 106개이며 모두 완료됐는지 확인합니다.
+              17개 트랙의 실행 명령, 관찰 결과, 해결 오류, 코드 위치와 면접
+              문장을 한 표에 기록하게 했습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>Career Hub 초기 응답 계약 보강</h3>
+            <p>
+              새 사용자의 빈 날짜와 아직 생성되지 않은 시각도 실제
+              <code>/api/workbook</code> 응답과 OpenAPI가 일치하게 했습니다.
+              초기 상태 회귀 테스트를 추가해 Career Hub 테스트를 89개로
+              늘렸습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>Note Hub 첫 배포를 자동 준비</h3>
+            <p>
+              Render Blueprint의 모노레포 루트와 경로를 명시하고 PostgreSQL
+              스키마를 최초 접근 전에 멱등적으로 초기화합니다. 스키마가 한 번만
+              준비되는지 검증해 Note Hub 테스트를 42개로 늘렸습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>의존성과 감사 결과를 구분</h3>
+            <p>
+              MongoDB 트랙은 보안 수정이 반영된 Mongoose 9.7.2로 올렸습니다.
+              Career Hub와 Note Hub의 운영 의존성 감사는 취약점 0개이며, 최신
+              개발 도구 전이 의존성 경고는 호환성을 깨는 강제 변경 없이 남은
+              위험으로 분리했습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>루트 작업과 임시 상태 정리</h3>
+            <p>
+              실제 Git 루트에서만 수정·커밋·푸시하도록 규칙을 고정했습니다. 별도
+              worktree와 임시 프로젝트 복사본이 없음을 대조한 뒤 소스가 아닌
+              로컬 에이전트 세션 상태만 정리 대상으로 분리했습니다.
+            </p>
+          </article>
+        </div>
+
+        <div
+          class="flow four"
+          role="group"
+          aria-label="2026년 7월 26일 검증 루프"
+        >
+          <div>학습·코드·경계 진단</div>
+          <div>실패 계약 테스트</div>
+          <div>최소 수정</div>
+          <div>전체·브라우저 재검증</div>
+        </div>
+      </section>
 
       <section id="loop-2026-07-24" aria-labelledby="loop-2026-07-24-title">
         <div class="section-heading">
@@ -1023,14 +1102,14 @@
                 <td>루트 검증기 테스트</td>
                 <td><code>npm test</code> at repository root</td>
                 <td class="status-pass">
-                  진도·링크·단계·학습 동선·포트 계약 7개 통과
+                  진도·링크·힌트·배포 계약 회귀 테스트 12개 통과
                 </td>
               </tr>
               <tr>
                 <td>워크북 구조와 문서 링크</td>
                 <td><code>npm run verify:structure</code></td>
                 <td class="status-pass">
-                  1~17단계·로컬 링크·실행 앵커·필수 산출물 통과
+                  1~17단계·로컬 링크·세 단계 힌트·배포 계약 통과
                 </td>
               </tr>
               <tr>
@@ -1047,29 +1126,29 @@
                   <code>npm run verify:learning</code>
                 </td>
                 <td class="status-not-run">
-                  학습용 <code>____</code> 178개가 남아 완료 검증은 예상대로
-                  실패
+                  학습용 <code>____</code> 178개와 미완료 체크 106개 때문에
+                  예상대로 실패
                 </td>
               </tr>
               <tr>
                 <td>Career Hub 통합 검증</td>
                 <td><code>npm run verify</code> in Career Hub</td>
                 <td class="status-pass">
-                  format·lint·build·88 tests·API smoke·감사 통과
+                  format·lint·build·89 tests·API smoke·운영 감사 통과
                 </td>
               </tr>
               <tr>
                 <td>OpenAPI 계약</td>
                 <td><code>server/openapi-sync.test.js</code></td>
                 <td class="status-pass">
-                  실제 라우트·입력·출력·400·413·429 계약 6개 통과
+                  실제 라우트·초기 출력·400·413·429 계약 7개 통과
                 </td>
               </tr>
               <tr>
                 <td>HTML 목차 브라우저</td>
                 <td>로컬 HTTP 서버 + 인앱 브라우저 1280px·390px</td>
                 <td class="status-pass">
-                  실행 카드 17개·링크 17개·Note Hub·가로 넘침 0·콘솔 오류 0
+                  학습 카드 17개·힌트 링크 15개·가로 넘침 0·콘솔 오류 0
                 </td>
               </tr>
               <tr>
@@ -1091,7 +1170,7 @@
                 <td>Note Hub 모노레포</td>
                 <td>format·lint·typecheck·test·build·audit</td>
                 <td class="status-pass">
-                  41개 테스트·인증 CRUD·build 통과·취약점 0개
+                  42개 테스트·스키마 초기화·build 통과·운영 취약점 0개
                 </td>
               </tr>
               <tr>
@@ -1100,8 +1179,8 @@
                   03~09단계·Career Hub·Note Hub에서
                   <code>npm audit</code>
                 </td>
-                <td class="status-pass">
-                  이번 루프의 감사 대상 모두 취약점 0개
+                <td class="status-not-run">
+                  운영 의존성은 0개. 최신 개발 도구 전이 의존성 경고는 별도 기록
                 </td>
               </tr>
               <tr>
@@ -1133,6 +1212,14 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>a3d913b</code>
+            <p><strong>feat</strong> 단계별 힌트와 학습 완료 계약 강화.</p>
+          </article>
+          <article class="commit">
+            <code>6d30da5</code>
+            <p><strong>fix</strong> 포트폴리오 배포 계약과 의존성 보강.</p>
+          </article>
           <article class="commit">
             <code>c919583</code>
             <p><strong>fix</strong> Note Hub 공개 접근과 오류 계약 보강.</p>
@@ -1211,7 +1298,11 @@
             학습용이며, 서버 인스턴스를 여러 개 띄우는 운영에는 적합하지
             않습니다. 제출용 데이터는 영속 볼륨 또는 외부 DB에서 재시작 후 다시
             조회해야 합니다. 12단계의 10개 테스트와 09단계 typecheck는 학습자가
-            빈칸을 채우기 전에는 의도대로 실패합니다.
+            빈칸을 채우기 전에는 의도대로 실패합니다. Career Hub와 Note Hub의
+            최신 전체 개발 의존성 감사에는 각각 6개와 7개의
+            <code>brace-expansion</code> 전이 의존성 경고가 남아 있지만 운영
+            의존성 감사 결과는 0개입니다. 호환성을 깨는
+            <code>npm audit fix --force</code>는 적용하지 않았습니다.
           </p>
         </div>
       </section>

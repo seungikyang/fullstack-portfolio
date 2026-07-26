@@ -16,6 +16,9 @@ review-report.md
 _workspace/
 08-fullstack-portfolio-project/_workspace/
 
+# 에이전트 임시 세션 상태 (소스 작업으로 사용하지 않음)
+.omc/
+
 # 임시 추출물 (대화 히스토리 추출 등)
 _history_extract.json
 
