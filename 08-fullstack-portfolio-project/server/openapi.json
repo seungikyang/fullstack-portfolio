@@ -173,7 +173,12 @@
         "properties": {
           "userId": { "type": "string" },
           "targetRole": { "type": "string" },
-          "targetDate": { "type": "string", "format": "date" },
+          "targetDate": {
+            "oneOf": [
+              { "type": "string", "format": "date" },
+              { "type": "string", "maxLength": 0 }
+            ]
+          },
           "weeklyGoal": { "type": "string" },
           "nextAction": { "type": "string" },
           "resumeReady": { "type": "boolean" },
@@ -181,8 +186,18 @@
           "selfIntroReady": { "type": "boolean" },
           "mockInterviewReady": { "type": "boolean" },
           "reflection": { "type": "string" },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "createdAt": {
+            "oneOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "string", "maxLength": 0 }
+            ]
+          },
+          "updatedAt": {
+            "oneOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "string", "maxLength": 0 }
+            ]
+          }
         },
         "required": [
           "userId",

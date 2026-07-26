@@ -102,13 +102,13 @@ npm run prepare                # husky 활성화 (1회)
 
 ## API 요약
 
-| Method   | Path                | 설명                                 |
-| -------- | ------------------- | ------------------------------------ |
-| `GET`    | `/api/health`       | 헬스 체크 (DB 핑 포함, 실패 시 503)  |
-| `GET`    | `/api/openapi.json` | OpenAPI 3 스펙                       |
-| `GET`    | `/api/notes`        | 노트 목록 (최신순, 운영 Bearer 필요) |
-| `POST`   | `/api/notes`        | 노트 생성 (운영 Bearer 필요)         |
-| `DELETE` | `/api/notes/:id`    | 노트 삭제 (운영 Bearer 필요)         |
+| Method   | Path                | 설명                                       |
+| -------- | ------------------- | ------------------------------------------ |
+| `GET`    | `/api/health`       | 헬스 체크 (DB 스키마·핑 포함, 실패 시 503) |
+| `GET`    | `/api/openapi.json` | OpenAPI 3 스펙                             |
+| `GET`    | `/api/notes`        | 노트 목록 (최신순, 운영 Bearer 필요)       |
+| `POST`   | `/api/notes`        | 노트 생성 (운영 Bearer 필요)               |
+| `DELETE` | `/api/notes/:id`    | 노트 삭제 (운영 Bearer 필요)               |
 
 노트 입력은 제목 120자, 본문 10,000자, 태그 20개, 태그당 50자로 제한됩니다. `tags`는 문자열 배열만 허용하며 잘못된 JSON은 400, 100KB 초과 본문은 413으로 응답합니다.
 
@@ -126,7 +126,9 @@ curl http://localhost:5200/api/openapi.json | jq
 
 ### Render.com (권장 — Postgres 함께 무료)
 
-`render.yaml`에 web 서비스와 Postgres 데이터베이스가 함께 정의되어 있습니다. Render 대시보드에서 "New + Blueprint"로 자동 인식되며 `DATABASE_URL`은 자동으로 web 서비스에 주입됩니다. `NOTE_HUB_ACCESS_TOKEN`은 `sync: false`라 대시보드에서 32자 이상의 임의값을 직접 입력해야 합니다.
+`render.yaml`에 web 서비스와 Postgres 데이터베이스가 함께 정의되어 있습니다. 이 파일은 모노레포 하위에 있으므로 Render 대시보드에서 "New + Blueprint"를 선택한 뒤 Blueprint Path에 `monorepo-mini-app/render.yaml`을 입력합니다. 서비스의 `rootDir`도 같은 폴더로 고정되어 Dockerfile과 build context를 그 위치에서 찾습니다.
+
+`DATABASE_URL`은 web 서비스에 자동 주입되고, 앱이 Postgres를 처음 사용할 때 `notes` 테이블과 인덱스를 멱등하게 준비합니다. `NOTE_HUB_ACCESS_TOKEN`은 `sync: false`라 대시보드에서 32자 이상의 임의값을 직접 입력해야 합니다.
 
 Render 무료 Postgres는 90일 후 만료되므로 시연 후엔 백업이 필요합니다.
 
@@ -139,7 +141,7 @@ flyctl launch --no-deploy --copy-config
 flyctl postgres attach --app note-hub note-hub-db    # DATABASE_URL 자동 주입
 flyctl secrets set NOTE_HUB_ACCESS_TOKEN="$(openssl rand -hex 32)"
 flyctl deploy
-# 최초 1회는 psql로 packages/api/db/init.sql 실행 필요
+# 앱이 시작된 뒤 첫 DB 확인에서 notes 테이블과 인덱스를 자동 준비
 ```
 
 ## 환경변수
@@ -172,7 +174,7 @@ Dockerfile의 빌드 단계에서 web을 정적 파일로 만들고, 런타임 �
 
 ### DB 헬스체크는 왜 필요한가요?
 
-서버 프로세스가 살아 있어도 DB 연결이 끊기면 실제 서비스는 정상 동작하지 않을 수 있습니다. `/api/health`에서 `store.ping()`까지 확인하면 앱과 DB 상태를 함께 판단할 수 있습니다. 컨테이너 환경에서는 헬스체크 실패를 기준으로 재시작이나 트래픽 제외를 자동화할 수 있습니다.
+서버 프로세스가 살아 있어도 DB 연결이 끊기거나 필수 테이블이 없으면 실제 서비스는 정상 동작하지 않을 수 있습니다. PostgreSQL 저장소는 첫 사용 전에 스키마를 멱등하게 준비하고 `/api/health`에서 `store.ping()`까지 확인합니다. 컨테이너 환경에서는 헬스체크 실패를 기준으로 재시작이나 트래픽 제외를 자동화할 수 있습니다.
 
 ## 8번 Career Hub와 비교
 

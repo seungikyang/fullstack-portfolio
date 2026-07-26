@@ -90,6 +90,29 @@ describe("OpenAPI 계약 동기화", () => {
     expect(project).toHaveProperty("updatedAt");
   });
 
+  it("빈 Workbook 응답의 날짜 필드를 OpenAPI도 빈 문자열로 허용한다", () => {
+    const store = new JsonStore(dataFile);
+    const user = store.createUser({
+      name: "워크북 테스터",
+      email: "workbook-openapi@example.com",
+      passwordHash: "hash"
+    });
+    const workbook = store.getWorkbook(user.id);
+    const properties = spec.components.schemas.Workbook.properties;
+
+    for (const [field, format] of [
+      ["targetDate", "date"],
+      ["createdAt", "date-time"],
+      ["updatedAt", "date-time"]
+    ]) {
+      expect(workbook[field]).toBe("");
+      expect(properties[field].oneOf).toEqual([
+        { type: "string", format },
+        { type: "string", maxLength: 0 }
+      ]);
+    }
+  });
+
   it("생성 필수 필드와 프로젝트 API의 400·401 응답을 명시한다", () => {
     const applicationCreate =
       spec.paths["/api/applications"].post.requestBody.content["application/json"].schema;

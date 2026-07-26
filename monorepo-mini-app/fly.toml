@@ -6,7 +6,7 @@
 #   4. flyctl postgres attach --app note-hub note-hub-db  # DATABASE_URL을 자동 주입
 #   5. flyctl secrets set NOTE_HUB_ACCESS_TOKEN=$(openssl rand -hex 32)
 #   6. flyctl deploy
-# attach 단계에서 packages/api/db/init.sql은 적용되지 않으므로 한 번은 psql로 직접 실행해야 한다.
+# 앱이 Postgres를 처음 사용할 때 notes 테이블과 인덱스를 멱등하게 준비한다.
 
 app = "note-hub"
 primary_region = "nrt"

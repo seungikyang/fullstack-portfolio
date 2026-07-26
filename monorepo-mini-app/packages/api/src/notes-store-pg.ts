@@ -4,19 +4,41 @@ import pg from "pg";
 import type { CreateNoteInput, Note } from "@note-hub/shared";
 import type { NotesStore } from "./notes-store.js";
 
+const POSTGRES_SCHEMA_SQL = `
+  CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+  CREATE TABLE IF NOT EXISTS notes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    tags TEXT[] NOT NULL DEFAULT '{}',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  );
+
+  CREATE INDEX IF NOT EXISTS notes_created_at_idx ON notes (created_at DESC);
+`;
+
 export class PostgresNotesStore implements NotesStore {
   private pool: Pick<pg.Pool, "query" | "end">;
+  private schemaReady?: Promise<void>;
 
   constructor(connectionString: string, pool?: Pick<pg.Pool, "query" | "end">) {
     this.pool = pool ?? new pg.Pool({ connectionString, max: 10 });
   }
 
+  private ensureSchema(): Promise<void> {
+    this.schemaReady ??= this.pool.query(POSTGRES_SCHEMA_SQL).then(() => undefined);
+    return this.schemaReady;
+  }
+
   async ping(): Promise<boolean> {
+    await this.ensureSchema();
     const res = await this.pool.query("SELECT 1 AS ok");
     return res.rows[0]?.ok === 1;
   }
 
   async list(): Promise<Note[]> {
+    await this.ensureSchema();
     const { rows } = await this.pool.query<{
       id: string;
       title: string;
@@ -35,6 +57,7 @@ export class PostgresNotesStore implements NotesStore {
   }
 
   async create(input: CreateNoteInput): Promise<Note> {
+    await this.ensureSchema();
     const tags = (input.tags ?? []).map((t) => t.trim()).filter(Boolean);
     const { rows } = await this.pool.query<{
       id: string;
@@ -62,6 +85,7 @@ export class PostgresNotesStore implements NotesStore {
   }
 
   async delete(id: string): Promise<boolean> {
+    await this.ensureSchema();
     const { rowCount } = await this.pool.query(`DELETE FROM notes WHERE id = $1`, [id]);
     return (rowCount ?? 0) > 0;
   }
