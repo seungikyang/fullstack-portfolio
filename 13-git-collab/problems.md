@@ -1,6 +1,6 @@
 # 13단계 Git 협업 문제 모음
 
-[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+[단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
 각 문제는 실제 명령을 직접 실행하는 실습입니다. 결과 출력 또는 캡처를 `notes.md` 같은 메모에 남기세요. 막히면 `answers.md`와 비교합니다.
 

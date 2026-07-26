@@ -13,7 +13,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 1. [HTML 학습 목차](./index.html)에서 전체 흐름을 보고 [START-HERE.md](./START-HERE.md)에 목표를 적습니다.
 2. 단계별 `README.md`와 `problems.md`를 보고 `starter` 또는 `src` 폴더의 빈칸을 채웁니다.
 3. 브라우저 또는 npm 명령으로 실행해 결과를 확인합니다.
-4. 막히면 `answers.md`를 보고 어느 부분을 놓쳤는지 비교합니다.
+4. 막히면 `hints.md`의 1단계부터 한 단계씩 보고, 그래도 풀리지 않을 때만 `answers.md`와 비교합니다.
 5. [student-checklist.md](./student-checklist.md)를 체크하고 실행 명령·관찰 결과·해결한 오류·코드 위치를 기록합니다.
 
 ## 폴더부터 실무까지 (공부 순서)
@@ -44,7 +44,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 진행 방식은 단계마다 똑같습니다.
 
-1. **공부**. 폴더의 `README.md`를 읽고 `problems.md`의 `빈칸`을 직접 채웁니다. 막히면 `references.md`의 "에러 읽는 법"을 먼저 보고, 그래도 막히면 `answers.md`와 비교합니다.
+1. **공부**. 폴더의 `README.md`를 읽고 `problems.md`의 `빈칸`을 직접 채웁니다. 막히면 `references.md`의 "에러 읽는 법"과 `hints.md`의 1~3단계를 순서대로 보고, 그래도 풀리지 않을 때만 `answers.md`와 비교합니다.
 2. **통합**. 1~7을 끝내면 `08-fullstack-portfolio-project`를 실행해 배운 것이 실제 앱의 어디에 쓰였는지 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)로 확인합니다.
 3. **제출**. 8번을 GitHub에 올리고 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)의 문장으로 이력서·자기소개서를 작성합니다. 올리기 전 [submission-checklist.md](./08-fullstack-portfolio-project/submission-checklist.md)로 점검합니다.
 4. **설명**. 실행 명령, 관찰 결과, 해결한 오류, 코드 위치를 근거로 "내가 직접 고친 코드 한 줄"과 "1~7이 8에 어떻게 연결됐는지"를 자기 말로 설명합니다.
@@ -89,7 +89,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 | 16단계     | `16-security`                    | OWASP Top 10과 XSS·SQLi·CSRF 방어 코드       |
 | 17단계     | `17-interview-prep`              | 1~16단계 면접 카드 통합과 자기소개·STAR 답안 |
 
-모든 단계에는 목표와 실행 방법을 설명하는 `README.md`가 있습니다. 코드 실습 단계는 대체로 `problems.md`, `answers.md`, `starter` 또는 `src`를 함께 제공하지만 단계 성격에 따라 구성이 다릅니다.
+모든 단계에는 목표와 실행 방법을 설명하는 `README.md`가 있습니다. 표준 실습 단계는 `problems.md` → `hints.md` → `answers.md`와 `starter` 또는 `src`를 함께 제공하지만 단계 성격에 따라 구성이 다릅니다.
 
 - 8단계는 실행 가능한 Career Hub와 `learning-map.md`, `resume-assets.md`, `submission-checklist.md`를 중심으로 구성됩니다.
 - 15단계는 CS 질문·답안 문서, 17단계는 면접 카드·자기소개·STAR·프로젝트 설명 템플릿이 중심입니다.
@@ -147,10 +147,10 @@ Note Hub의 무토큰 개발 모드는 로컬 학습 전용입니다. 공개 운
 npm run verify:structure # 저장소 구조와 필수 파일 검사. npm run verify와 동일
 npm run verify:programs  # 미완성 빈칸과 무관한 03 build, 02·04~07·16 문법 검사
 npm run progress         # starter 소스의 전용 ____ 토큰과 체크리스트 진행률 보고
-npm run verify:learning  # 전용 ____ 토큰 완료 여부 검사. 남아 있으면 실패
+npm run verify:learning  # 전용 ____ 토큰과 체크리스트를 모두 완료했는지 검사
 ```
 
-`npm run verify`는 `verify:structure`의 별칭이며 학습 완료를 뜻하지 않습니다. `verify:programs`도 학습 답안을 채우기 전 통과할 수 있는 빌드·문법 검사만 실행합니다. `progress`와 `verify:learning`은 지정된 starter 소스의 전용 `____` 토큰만 집계하며 일반 `TODO`나 서술형 답안은 판정하지 않습니다. 학습 중에는 `progress`로 현황을 보고, 제출 직전에 `verify:learning`과 실제 실행 결과를 함께 확인합니다.
+`npm run verify`는 `verify:structure`의 별칭이며 학습 완료를 뜻하지 않습니다. `verify:programs`도 학습 답안을 채우기 전 통과할 수 있는 빌드·문법 검사만 실행합니다. `progress`는 지정된 starter 소스의 전용 `____` 토큰과 체크리스트 전체를 함께 집계합니다. `verify:learning`은 토큰이 0개이고 체크리스트가 전부 완료됐을 때만 통과합니다. 일반 `TODO`나 서술형 답안의 내용 자체는 자동 판정할 수 없으므로 단계별 실행 결과와 답안은 체크리스트의 취업 증거 표에 직접 기록합니다.
 
 `.github/workflows/ci.yml`로 main 푸시·PR마다 GitHub Actions가 루트 구조·학습자 안전 프로그램 검사, Career Hub의 포맷·lint·테스트·빌드·제출 감사와 Docker health, Note Hub의 포맷·lint·typecheck·테스트·빌드와 인증된 Postgres Docker smoke를 자동 확인합니다. CI 통과는 현재 자동화 범위의 통과를 뜻하며 모든 학습 빈칸이나 실제 외부 배포 품질을 보증하지 않습니다.
 

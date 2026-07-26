@@ -1,6 +1,6 @@
 # 6단계 정답 확인
 
-[문제로 돌아가기](./problems.md) · [인증 요청 모음](./requests.http) · [완료 체크](../student-checklist.md) · [다음 단계](../07-project-deploy/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [인증 요청 모음](./requests.http) · [완료 체크](../student-checklist.md) · [다음 단계](../07-project-deploy/README.md)
 
 먼저 직접 풀어본 뒤 확인하세요. 로그인 기능에서는 "비밀번호를 안전하게 저장하는가"와 "보호된 API를 막는가"를 반드시 확인해야 합니다. 아래 번호는 코드 안의 `빈칸` 번호와 같습니다.
 

@@ -1,6 +1,6 @@
 # 6단계 문제
 
-[단계 설명](./README.md) · [인증 요청 모음](./requests.http) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+[단계 설명](./README.md) · [인증 요청 모음](./requests.http) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
 빈칸은 인증 흐름 순서대로 번호가 붙어 있습니다. 회원가입(`server.js` 빈칸 1, 2) → 토큰 발급/검증(`auth.js` 빈칸 3, 4) → 로그인(`server.js` 빈칸 5) 순서로 푸세요.
 

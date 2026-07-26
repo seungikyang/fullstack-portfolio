@@ -1,6 +1,6 @@
 # 16단계 보안 정답과 해설
 
-[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../17-interview-prep/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [완료 체크](../student-checklist.md) · [다음 단계](../17-interview-prep/README.md)
 
 ## 1번. 저장형 XSS
 

@@ -1,6 +1,6 @@
 # 1단계 정답 확인
 
-[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../02-javascript-basics/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [완료 체크](../student-checklist.md) · [다음 단계](../02-javascript-basics/README.md)
 
 먼저 직접 풀어본 뒤 확인하세요. 정답은 하나만 있는 것이 아니며, 아래 코드는 초보자가 안정적으로 통과할 수 있는 예시입니다.
 

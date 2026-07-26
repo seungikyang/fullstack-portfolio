@@ -1,6 +1,6 @@
 # 7단계 정답 확인
 
-[문제로 돌아가기](./problems.md) · [배포 점검](./deploy-checklist.md) · [완료 체크](../student-checklist.md) · [다음 단계](../08-fullstack-portfolio-project/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [배포 점검](./deploy-checklist.md) · [완료 체크](../student-checklist.md) · [다음 단계](../08-fullstack-portfolio-project/README.md)
 
 먼저 직접 풀어본 뒤 확인하세요. 마지막 프로젝트는 "내가 만든 전체 흐름을 설명할 수 있는가"가 가장 중요합니다. 아래 번호는 코드 안의 `빈칸` 번호와 같습니다.
 

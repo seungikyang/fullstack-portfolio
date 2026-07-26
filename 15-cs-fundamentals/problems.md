@@ -1,6 +1,6 @@
 # 15단계 CS 기초 문제 모음
 
-[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+[단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
 각 문제에 자기 답안을 직접 작성하세요. 한 단락(3~5문장)이면 충분합니다. 답안 끝에 "이 개념이 1~14단계의 어느 코드와 연결되는가"를 한 줄 덧붙입니다.
 

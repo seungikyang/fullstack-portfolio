@@ -1,6 +1,6 @@
 # 3단계 문제
 
-[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+[단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
 각 문제 번호는 코드 안의 `빈칸` 번호와 똑같습니다. `App.jsx`를 위에서 아래로 읽으면 빈칸이 1번부터 순서대로 나옵니다.
 

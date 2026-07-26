@@ -31,40 +31,47 @@ const requiredPaths = [
   "portfolio-template.md",
   "01-html-css/README.md",
   "01-html-css/problems.md",
+  "01-html-css/hints.md",
   "01-html-css/answers.md",
   "01-html-css/starter/index.html",
   "01-html-css/starter/styles.css",
   "02-javascript-basics/README.md",
   "02-javascript-basics/problems.md",
+  "02-javascript-basics/hints.md",
   "02-javascript-basics/answers.md",
   "02-javascript-basics/starter/index.html",
   "02-javascript-basics/starter/styles.css",
   "02-javascript-basics/starter/app.js",
   "03-react-todo/README.md",
   "03-react-todo/problems.md",
+  "03-react-todo/hints.md",
   "03-react-todo/answers.md",
   "03-react-todo/package.json",
   "03-react-todo/src/App.jsx",
   "03-react-todo/src/components/TodoItem.jsx",
   "04-node-board-api/README.md",
   "04-node-board-api/problems.md",
+  "04-node-board-api/hints.md",
   "04-node-board-api/answers.md",
   "04-node-board-api/src/server.js",
   "04-node-board-api/requests.http",
   "05-database-mongodb/README.md",
   "05-database-mongodb/problems.md",
+  "05-database-mongodb/hints.md",
   "05-database-mongodb/answers.md",
   "05-database-mongodb/src/server.js",
   "05-database-mongodb/src/models/Post.js",
   "05-database-mongodb/requests.http",
   "06-login-auth/README.md",
   "06-login-auth/problems.md",
+  "06-login-auth/hints.md",
   "06-login-auth/answers.md",
   "06-login-auth/src/server.js",
   "06-login-auth/src/auth.js",
   "06-login-auth/requests.http",
   "07-project-deploy/README.md",
   "07-project-deploy/problems.md",
+  "07-project-deploy/hints.md",
   "07-project-deploy/answers.md",
   "07-project-deploy/deploy-checklist.md",
   "07-project-deploy/src/server.js",
@@ -101,6 +108,7 @@ const requiredPaths = [
   "08-fullstack-portfolio-project/vitest.config.js",
   "09-typescript/README.md",
   "09-typescript/problems.md",
+  "09-typescript/hints.md",
   "09-typescript/answers.md",
   "09-typescript/package.json",
   "09-typescript/package-lock.json",
@@ -113,6 +121,7 @@ const requiredPaths = [
   "09-typescript/starter/06-generic-fetch.ts",
   "10-sql-oracle/README.md",
   "10-sql-oracle/problems.md",
+  "10-sql-oracle/hints.md",
   "10-sql-oracle/answers.md",
   "10-sql-oracle/starter/01-ddl.sql",
   "10-sql-oracle/starter/02-select.sql",
@@ -123,10 +132,12 @@ const requiredPaths = [
   "10-sql-oracle/starter/07-index.sql",
   "11-java-spring/README.md",
   "11-java-spring/problems.md",
+  "11-java-spring/hints.md",
   "11-java-spring/answers.md",
   "11-java-spring/starter/README.md",
   "12-testing/README.md",
   "12-testing/problems.md",
+  "12-testing/hints.md",
   "12-testing/answers.md",
   "12-testing/starter/js/package.json",
   "12-testing/starter/js/package-lock.json",
@@ -139,9 +150,11 @@ const requiredPaths = [
   "12-testing/starter/js/src/notification.test.ts",
   "13-git-collab/README.md",
   "13-git-collab/problems.md",
+  "13-git-collab/hints.md",
   "13-git-collab/answers.md",
   "14-docker-deploy/README.md",
   "14-docker-deploy/problems.md",
+  "14-docker-deploy/hints.md",
   "14-docker-deploy/answers.md",
   "14-docker-deploy/starter/node-board/Dockerfile",
   "14-docker-deploy/starter/node-board/.dockerignore",
@@ -152,9 +165,11 @@ const requiredPaths = [
   "14-docker-deploy/starter/.github/workflows/ci.yml",
   "15-cs-fundamentals/README.md",
   "15-cs-fundamentals/problems.md",
+  "15-cs-fundamentals/hints.md",
   "15-cs-fundamentals/answers.md",
   "16-security/README.md",
   "16-security/problems.md",
+  "16-security/hints.md",
   "16-security/answers.md",
   "16-security/starter/01-xss-stored.js",
   "16-security/starter/02-xss-reflected.js",
@@ -560,7 +575,7 @@ function expectedTrackFiles(folder) {
     return ["README.md", "interview-cards.md", "project-pitch-template.md"];
   }
 
-  return ["README.md", "problems.md", "answers.md"];
+  return ["README.md", "problems.md", "hints.md", "answers.md"];
 }
 
 function findTrackErrors(workbookRoot) {
@@ -677,13 +692,26 @@ function findLearningPathErrors(workbookRoot) {
 
   for (const folder of standardFolders) {
     expectLink(`${folder}/README.md`, "./problems.md");
+    expectLink(`${folder}/README.md`, "./hints.md");
     expectLink(`${folder}/README.md`, "./answers.md");
     expectLink(`${folder}/README.md`, "../student-checklist.md");
     expectLink(`${folder}/problems.md`, "./README.md");
+    expectLink(`${folder}/problems.md`, "./hints.md");
     expectLink(`${folder}/problems.md`, "./answers.md");
     expectLink(`${folder}/problems.md`, "../student-checklist.md");
     expectLink(`${folder}/answers.md`, "./problems.md");
+    expectLink(`${folder}/answers.md`, "./hints.md");
     expectLink(`${folder}/answers.md`, "../student-checklist.md");
+    expectLink(`${folder}/hints.md`, "./problems.md");
+    expectLink(`${folder}/hints.md`, "./answers.md");
+    expectLink(`${folder}/hints.md`, "../student-checklist.md");
+
+    const hints = read(`${folder}/hints.md`);
+    for (const level of ["1단계", "2단계", "3단계"]) {
+      if (!hints.includes(level)) {
+        errors.push(`${folder}/hints.md에 ${level} 힌트가 없습니다.`);
+      }
+    }
 
     const folderIndex = guideFolders.indexOf(folder);
     const nextFolder = guideFolders[folderIndex + 1];
@@ -731,6 +759,42 @@ function findLearningPathErrors(workbookRoot) {
   }
   if (!checklist.includes("Node 앱 또는 Spring 앱")) {
     errors.push("14단계 Docker 완료 기준이 실제 수행 대상 기준이 아닙니다.");
+  }
+
+  return errors;
+}
+
+function findDeploymentContractErrors(workbookRoot) {
+  const errors = [];
+  const read = (relativePath) => {
+    const filePath = path.join(workbookRoot, relativePath);
+    return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "";
+  };
+  const renderBlueprint = read("monorepo-mini-app/render.yaml");
+  const noteHubReadme = read("monorepo-mini-app/README.md");
+  const postgresStore = read(
+    "monorepo-mini-app/packages/api/src/notes-store-pg.ts",
+  );
+
+  if (!renderBlueprint.includes("rootDir: monorepo-mini-app")) {
+    errors.push(
+      "Note Hub Render Blueprint가 monorepo-mini-app을 rootDir로 사용하지 않습니다.",
+    );
+  }
+
+  if (!noteHubReadme.includes("`monorepo-mini-app/render.yaml`")) {
+    errors.push(
+      "Note Hub README에 하위 Render Blueprint Path 안내가 없습니다.",
+    );
+  }
+
+  if (
+    !postgresStore.includes("CREATE TABLE IF NOT EXISTS notes") ||
+    !postgresStore.includes("await this.ensureSchema()")
+  ) {
+    errors.push(
+      "Note Hub PostgreSQL 저장소가 첫 사용 전에 notes 스키마를 준비하지 않습니다.",
+    );
   }
 
   return errors;
@@ -896,12 +960,17 @@ function main() {
     const workbookIndex = readFile("index.html");
 
     for (const folder of guideFolders) {
-      const expectedLinks = ["README.md", "problems.md", "answers.md"];
+      const expectedLinks = [
+        "README.md",
+        "problems.md",
+        "hints.md",
+        "answers.md",
+      ];
 
       if (folder === "08-fullstack-portfolio-project") {
         expectedLinks.splice(
           1,
-          2,
+          3,
           "learning-map.md",
           "submission-checklist.md",
         );
@@ -910,7 +979,7 @@ function main() {
       if (folder === "17-interview-prep") {
         expectedLinks.splice(
           1,
-          2,
+          3,
           "interview-cards.md",
           "project-pitch-template.md",
         );
@@ -946,6 +1015,10 @@ function main() {
     fail(error);
   }
 
+  for (const error of findDeploymentContractErrors(root)) {
+    fail(error);
+  }
+
   for (const error of findPortContractErrors(root)) {
     fail(error);
   }
@@ -962,6 +1035,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  findDeploymentContractErrors,
   findLearningPathErrors,
   findLocalLinkErrors,
   findPortContractErrors,

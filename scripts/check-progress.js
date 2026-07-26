@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
+const EXPECTED_CHECKLIST_TOTAL = 106;
 const stages = [
   "01-html-css",
   "02-javascript-basics",
@@ -15,7 +16,7 @@ const stages = [
   "10-sql-oracle",
   "12-testing",
   "14-docker-deploy",
-  "16-security"
+  "16-security",
 ];
 
 const sourceExtensions = new Set([
@@ -26,14 +27,16 @@ const sourceExtensions = new Set([
   ".ts",
   ".tsx",
   ".sql",
-  ".yml"
+  ".yml",
 ]);
 
-const sourceFileNames = new Set([
-  "Dockerfile",
-  ".dockerignore"
+const sourceFileNames = new Set(["Dockerfile", ".dockerignore"]);
+const ignoredDirectories = new Set([
+  ".git",
+  "coverage",
+  "dist",
+  "node_modules",
 ]);
-const ignoredDirectories = new Set([".git", "coverage", "dist", "node_modules"]);
 
 function walk(directory) {
   const entries = fs.readdirSync(directory, { withFileTypes: true });
@@ -51,7 +54,10 @@ function walk(directory) {
       continue;
     }
 
-    if (sourceExtensions.has(path.extname(entry.name)) || sourceFileNames.has(entry.name)) {
+    if (
+      sourceExtensions.has(path.extname(entry.name)) ||
+      sourceFileNames.has(entry.name)
+    ) {
       files.push(fullPath);
     }
   }
@@ -66,7 +72,7 @@ function countPlaceholders(content) {
 function countStagePlaceholders(stagePath) {
   return walk(stagePath).reduce(
     (total, file) => total + countPlaceholders(fs.readFileSync(file, "utf8")),
-    0
+    0,
   );
 }
 
@@ -97,10 +103,12 @@ function checklistProgress(checklist) {
     "풀스택 기초": { completed: 0, total: 0 },
     "SI 실전 보강": { completed: 0, total: 0 },
     "채용 직전 마감": { completed: 0, total: 0 },
-    "최종 취업 준비": { completed: 0, total: 0 }
+    "최종 취업 준비": { completed: 0, total: 0 },
   };
   let currentHeading = "";
   let nextItem = null;
+  let completed = 0;
+  let total = 0;
 
   for (const line of checklist.split(/\r?\n/)) {
     const headingMatch = line.match(/^## (.+)$/);
@@ -116,22 +124,45 @@ function checklistProgress(checklist) {
       continue;
     }
 
+    const isCompleted = itemMatch[1].toLowerCase() === "x";
+    total += 1;
+    completed += isCompleted ? 1 : 0;
+
+    if (!isCompleted && !nextItem) {
+      nextItem = { heading: currentHeading, task: itemMatch[2] };
+    }
+
     const phase = phaseForHeading(currentHeading);
 
     if (!phase) {
       continue;
     }
 
-    const isCompleted = itemMatch[1].toLowerCase() === "x";
     phases[phase].total += 1;
     phases[phase].completed += isCompleted ? 1 : 0;
-
-    if (!isCompleted && !nextItem) {
-      nextItem = { heading: currentHeading, task: itemMatch[2] };
-    }
   }
 
-  return { phases, nextItem };
+  return { completed, phases, nextItem, total };
+}
+
+function learningVerificationErrors({ completed, total, totalBlanks }) {
+  const errors = [];
+
+  if (totalBlanks > 0) {
+    errors.push(`전용 ____ 토큰이 ${totalBlanks}개 남아 있습니다.`);
+  }
+
+  if (completed < total) {
+    errors.push(`학습 체크리스트가 ${completed}/${total}개 완료 상태입니다.`);
+  }
+
+  if (total !== EXPECTED_CHECKLIST_TOTAL) {
+    errors.push(
+      `학습 체크리스트 항목 수가 ${total}개입니다. ${EXPECTED_CHECKLIST_TOTAL}개여야 합니다.`,
+    );
+  }
+
+  return errors;
 }
 
 function run({ rootDirectory = root, verifyLearning = false } = {}) {
@@ -151,15 +182,26 @@ function run({ rootDirectory = root, verifyLearning = false } = {}) {
     console.log("아직 공부할 빈칸이 남아 있습니다. 한 단계씩 채워보세요.");
   }
 
-  const checklist = fs.readFileSync(path.join(rootDirectory, "student-checklist.md"), "utf8");
-  const { phases, nextItem } = checklistProgress(checklist);
+  const checklist = fs.readFileSync(
+    path.join(rootDirectory, "student-checklist.md"),
+    "utf8",
+  );
+  const { completed, phases, nextItem, total } = checklistProgress(checklist);
 
   console.log("\n취업 준비 체크 진행률");
 
   for (const [name, phase] of Object.entries(phases)) {
-    const percent = phase.total === 0 ? 0 : Math.round((phase.completed / phase.total) * 100);
-    console.log(`${name}: ${phase.completed}/${phase.total}개 완료 (${percent}%)`);
+    const percent =
+      phase.total === 0 ? 0 : Math.round((phase.completed / phase.total) * 100);
+    console.log(
+      `${name}: ${phase.completed}/${phase.total}개 완료 (${percent}%)`,
+    );
   }
+
+  const totalPercent = total === 0 ? 0 : Math.round((completed / total) * 100);
+  console.log(
+    `전체 체크리스트: ${completed}/${total}개 완료 (${totalPercent}%)`,
+  );
 
   if (nextItem) {
     console.log(`다음 체크 항목: ${nextItem.heading} — ${nextItem.task}`);
@@ -167,12 +209,23 @@ function run({ rootDirectory = root, verifyLearning = false } = {}) {
     console.log("취업 준비 체크리스트를 모두 완료했습니다.");
   }
 
-  if (verifyLearning && totalBlanks > 0) {
-    console.error(`학습 검증 실패: 전용 ____ 토큰이 ${totalBlanks}개 남아 있습니다.`);
-    process.exitCode = 1;
+  if (verifyLearning) {
+    const errors = learningVerificationErrors({
+      completed,
+      total,
+      totalBlanks,
+    });
+
+    for (const error of errors) {
+      console.error(`학습 검증 실패: ${error}`);
+    }
+
+    if (errors.length > 0) {
+      process.exitCode = 1;
+    }
   }
 
-  return { phases, nextItem, totalBlanks };
+  return { completed, phases, nextItem, total, totalBlanks };
 }
 
 if (require.main === module) {
@@ -180,9 +233,11 @@ if (require.main === module) {
 }
 
 module.exports = {
+  EXPECTED_CHECKLIST_TOTAL,
   checklistProgress,
   countPlaceholders,
   countStagePlaceholders,
+  learningVerificationErrors,
   phaseForHeading,
-  run
+  run,
 };

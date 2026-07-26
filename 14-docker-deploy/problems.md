@@ -1,6 +1,6 @@
 # 14단계 Docker 문제 모음
 
-[단계 설명](./README.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+[단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
 `starter/` 폴더의 빈칸을 채우며 진행합니다. 막히면 `answers.md`와 비교하세요.
 

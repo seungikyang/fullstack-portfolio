@@ -5,6 +5,7 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 const {
+  findDeploymentContractErrors,
   findLearningPathErrors,
   findLocalLinkErrors,
   findPortContractErrors,
@@ -46,7 +47,7 @@ function createFixture() {
         ? ["README.md", "learning-map.md", "submission-checklist.md"]
         : folder === "17-interview-prep"
           ? ["README.md", "interview-cards.md", "project-pitch-template.md"]
-          : ["README.md", "problems.md", "answers.md"];
+          : ["README.md", "problems.md", "hints.md", "answers.md"];
 
     for (const file of files) {
       write(root, path.join(folder, file));
@@ -205,17 +206,22 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
     write(
       root,
       `${folder}/README.md`,
-      `[문제](./problems.md) [정답](./answers.md) [체크](../student-checklist.md) ${extraReadmeLink} ${completion}\n`,
+      `[문제](./problems.md) [힌트](./hints.md) [정답](./answers.md) [체크](../student-checklist.md) ${extraReadmeLink} ${completion}\n`,
     );
     write(
       root,
       `${folder}/problems.md`,
-      "[설명](./README.md) [정답](./answers.md) [체크](../student-checklist.md)\n",
+      "[설명](./README.md) [힌트](./hints.md) [정답](./answers.md) [체크](../student-checklist.md)\n",
+    );
+    write(
+      root,
+      `${folder}/hints.md`,
+      "[문제](./problems.md) [정답](./answers.md) [체크](../student-checklist.md)\n\n## 1단계\n\n## 2단계\n\n## 3단계\n",
     );
     write(
       root,
       `${folder}/answers.md`,
-      `[문제](./problems.md) [체크](../student-checklist.md) [다음](../${nextFolder}/README.md)\n`,
+      `[문제](./problems.md) [힌트](./hints.md) [체크](../student-checklist.md) [다음](../${nextFolder}/README.md)\n`,
     );
   }
 
@@ -281,6 +287,45 @@ test("Career Hub의 3000 고정과 3001 미사용 계약을 검사한다", (t) =
 
   assert.equal(
     errors.some((error) => error.includes("3001")),
+    true,
+  );
+});
+
+test("Note Hub의 Render 경로와 Postgres 스키마 준비 계약을 검사한다", (t) => {
+  const root = createFixture();
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+
+  write(
+    root,
+    "monorepo-mini-app/render.yaml",
+    "services:\n  - type: web\n    rootDir: monorepo-mini-app\n",
+  );
+  write(
+    root,
+    "monorepo-mini-app/README.md",
+    "Blueprint Path는 `monorepo-mini-app/render.yaml`입니다.\n",
+  );
+  write(
+    root,
+    "monorepo-mini-app/packages/api/src/notes-store-pg.ts",
+    "const schema = `CREATE TABLE IF NOT EXISTS notes`;\nasync function ready() { await this.ensureSchema(); }\n",
+  );
+
+  assert.deepEqual(findDeploymentContractErrors(root), []);
+
+  fs.writeFileSync(path.join(root, "monorepo-mini-app/render.yaml"), "");
+  fs.writeFileSync(
+    path.join(root, "monorepo-mini-app/packages/api/src/notes-store-pg.ts"),
+    "",
+  );
+  const errors = findDeploymentContractErrors(root);
+
+  assert.equal(
+    errors.some((error) => error.includes("rootDir")),
+    true,
+  );
+  assert.equal(
+    errors.some((error) => error.includes("notes 스키마")),
     true,
   );
 });

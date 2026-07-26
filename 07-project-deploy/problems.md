@@ -1,6 +1,6 @@
 # 7단계 문제
 
-[단계 설명](./README.md) · [배포 점검](./deploy-checklist.md) · [막혔을 때 정답 비교](./answers.md) · [완료 체크](../student-checklist.md)
+[단계 설명](./README.md) · [배포 점검](./deploy-checklist.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
 빈칸은 `public/app.js`의 1~6번, 그다음 `src/server.js`의 7~9번 순서입니다.
 

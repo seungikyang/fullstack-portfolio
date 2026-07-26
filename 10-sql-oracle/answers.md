@@ -1,6 +1,6 @@
 # 10단계 SQL 정답 예시
 
-[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../11-java-spring/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [완료 체크](../student-checklist.md) · [다음 단계](../11-java-spring/README.md)
 
 정답을 먼저 보지 마세요. 직접 작성해보고 막혔을 때만 비교합니다.
 

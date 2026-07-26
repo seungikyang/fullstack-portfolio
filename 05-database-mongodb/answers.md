@@ -1,6 +1,6 @@
 # 5단계 정답 확인
 
-[문제로 돌아가기](./problems.md) · [DB 요청 모음](./requests.http) · [완료 체크](../student-checklist.md) · [다음 단계](../06-login-auth/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [DB 요청 모음](./requests.http) · [완료 체크](../student-checklist.md) · [다음 단계](../06-login-auth/README.md)
 
 먼저 직접 풀어본 뒤 확인하세요. 데이터베이스 단계에서는 서버를 끄고 다시 켜도 데이터가 남는지 확인하는 것이 중요합니다. 아래 번호는 코드 안의 `빈칸` 번호와 같습니다.
 

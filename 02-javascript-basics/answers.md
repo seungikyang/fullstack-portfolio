@@ -1,6 +1,6 @@
 # 2단계 정답 확인
 
-[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../03-react-todo/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [완료 체크](../student-checklist.md) · [다음 단계](../03-react-todo/README.md)
 
 먼저 직접 풀어본 뒤 확인하세요. JavaScript는 작은 단위로 고치고 브라우저 콘솔 오류를 읽는 연습이 중요합니다.
 

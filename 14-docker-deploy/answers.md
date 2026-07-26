@@ -1,6 +1,6 @@
 # 14단계 Docker 정답 예시
 
-[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../15-cs-fundamentals/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [완료 체크](../student-checklist.md) · [다음 단계](../15-cs-fundamentals/README.md)
 
 ## 1번 정답 예시
 

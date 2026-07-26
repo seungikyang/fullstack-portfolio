@@ -1,6 +1,6 @@
 # 15단계 CS 기초 모범 답안
 
-[문제로 돌아가기](./problems.md) · [완료 체크](../student-checklist.md) · [다음 단계](../16-security/README.md)
+[문제로 돌아가기](./problems.md) · [단계별 힌트로 돌아가기](./hints.md) · [완료 체크](../student-checklist.md) · [다음 단계](../16-security/README.md)
 
 자기 답안을 먼저 작성한 뒤에만 보세요. 모범 답안은 "한 가지 정답"이 아니라 "면접에서 통하는 답안의 한 예시"입니다.
 
