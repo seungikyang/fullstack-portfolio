@@ -86,7 +86,7 @@ docker compose up --build
 ```bash
 npm test                       # pretest 훅이 @note-hub/shared를 먼저 빌드한 뒤 shared+api+web 모두 실행
 npm run test:watch             # watch 모드 (역시 pretest:watch가 shared를 먼저 빌드)
-npm test -w @note-hub/api      # 특정 패키지만 (이때는 shared 빌드를 수동으로: npm run build -w @note-hub/shared)
+npm run build -w @note-hub/shared && npx vitest run --project api  # API 테스트만
 npm run lint                   # ESLint (typescript-eslint + react)
 npm run lint:fix               # 자동 수정
 npm run format:check           # Prettier 포맷 검사
@@ -98,7 +98,7 @@ npm run prepare                # husky 활성화 (1회)
 
 `.husky/pre-commit`이 lint-staged를 실행해 스테이지된 파일만 ESLint + Prettier로 자동 정리합니다.
 
-루트 GitHub Actions는 `npm ci` 후 format·lint·typecheck·41개 테스트·build를 실행하고, Linux Docker 잡에서는 접근 토큰을 포함한 Postgres 노트 생성·조회 smoke를 확인합니다. 로컬 테스트 수와 CI 정의는 실제 실행 시점에 다시 확인한 뒤 지원 자료에 사용합니다.
+루트 GitHub Actions는 `npm ci` 후 format·lint·typecheck·43개 테스트·build를 실행하고, Linux Docker 잡에서는 접근 토큰을 포함한 Postgres 노트 생성·조회 smoke를 확인합니다. 로컬 테스트 수와 CI 정의는 실제 실행 시점에 다시 확인한 뒤 지원 자료에 사용합니다.
 
 ## API 요약
 

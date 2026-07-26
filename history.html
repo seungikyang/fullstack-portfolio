@@ -475,13 +475,13 @@
         <p class="hero-copy">
           17단계 목차에서 문제, 세 단계 힌트, 정답 비교와 취업 증거까지 이어지게
           했습니다. 학습 완료 조건과 Career Hub·Note Hub의 배포 계약을 코드와
-          테스트로 고정하고 자동·브라우저 검증을 반복했습니다.
+          테스트로 고정하고 Orca 공식 CLI를 포함한 브라우저 검증을 반복했습니다.
         </p>
         <div class="meta-row" role="group" aria-label="변경 범위">
           <span class="pill">15개 단계별 힌트</span>
           <span class="pill">106개 학습 체크</span>
           <span class="pill">배포 계약 회귀 테스트</span>
-          <span class="pill">자동·브라우저 회귀 검증</span>
+          <span class="pill">Orca 공식 CLI 재현</span>
         </div>
       </section>
 
@@ -491,7 +491,7 @@
           <span>표준 트랙의 세 단계 힌트 문서</span>
         </article>
         <article class="metric">
-          <strong>42</strong>
+          <strong>43</strong>
           <span>Note Hub 자동 테스트</span>
         </article>
         <article class="metric">
@@ -503,7 +503,7 @@
       <section id="loop-2026-07-26" aria-labelledby="loop-2026-07-26-title">
         <div class="section-heading">
           <h2 id="loop-2026-07-26-title">
-            2026.07.26 · 단계별 힌트와 배포 계약 완성 루프
+            2026.07.26 · 단계별 힌트와 배포·중복 정리 루프
           </h2>
           <p>
             학습 동선을 진단하고 힌트·진도·배포 경계의 실패 조건을 테스트로 먼저
@@ -545,7 +545,8 @@
             <p>
               Render Blueprint의 모노레포 루트와 경로를 명시하고 PostgreSQL
               스키마를 최초 접근 전에 멱등적으로 초기화합니다. 스키마가 한 번만
-              준비되는지 검증해 Note Hub 테스트를 42개로 늘렸습니다.
+              준비되는지 검증하고 데이터 변환 회귀 테스트를 더해 Note Hub
+              테스트를 43개로 늘렸습니다.
             </p>
           </article>
           <article class="change-card">
@@ -565,6 +566,25 @@
               로컬 에이전트 세션 상태만 정리 대상으로 분리했습니다.
             </p>
           </article>
+          <article class="change-card">
+            <h3>Note Hub 데이터 변환 중복 정리</h3>
+            <p>
+              Web, API validator, 인메모리, PostgreSQL 네 곳의 태그 trim·빈 값
+              제거를 <code>@note-hub/shared</code>의
+              <code>normalizeTags</code>로 통합했습니다. PostgreSQL 목록과
+              생성의 행 변환도 <code>toNote</code> 하나로 모으고 원본 20개 제한,
+              순서, 중복과 입력 불변성을 테스트로 보존했습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>Orca 공식 CLI로 문제집 열기</h3>
+            <p>
+              앱 번들의 공식 CLI에서 <code>tab create --url</code> 계약을
+              확인했습니다. 고정 루트에서 문제집 URL로 새 Orca 탭을 만들고 활성
+              탭, 제목, 로드 오류 없음과 학습 카드 17개를
+              <code>tab show</code>와 <code>eval</code>로 재검증했습니다.
+            </p>
+          </article>
         </div>
 
         <div
@@ -572,10 +592,10 @@
           role="group"
           aria-label="2026년 7월 26일 검증 루프"
         >
-          <div>학습·코드·경계 진단</div>
-          <div>실패 계약 테스트</div>
-          <div>최소 수정</div>
-          <div>전체·브라우저 재검증</div>
+          <div>중복·경계 진단</div>
+          <div>회귀 계약 고정</div>
+          <div>공유 규칙 통합</div>
+          <div>전체·Orca 재검증</div>
         </div>
       </section>
 
@@ -1152,6 +1172,17 @@
                 </td>
               </tr>
               <tr>
+                <td>Orca 문제집 탭</td>
+                <td>
+                  앱 번들 CLI의
+                  <code>tab create --url http://127.0.0.1:4187/index.html</code>
+                </td>
+                <td class="status-pass">
+                  main worktree의 활성 탭·제목·학습 카드 17개·로드 오류 없음
+                  확인
+                </td>
+              </tr>
+              <tr>
                 <td>12단계 테스트 실습</td>
                 <td><code>npm test</code>와 <code>npm audit</code></td>
                 <td class="status-not-run">
@@ -1170,7 +1201,7 @@
                 <td>Note Hub 모노레포</td>
                 <td>format·lint·typecheck·test·build·audit</td>
                 <td class="status-pass">
-                  42개 테스트·스키마 초기화·build 통과·운영 취약점 0개
+                  43개 테스트·공유 정규화·build 통과·운영 취약점 0개
                 </td>
               </tr>
               <tr>
@@ -1212,6 +1243,10 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>fd600fa</code>
+            <p><strong>refactor</strong> Note Hub 데이터 변환 중복 정리.</p>
+          </article>
           <article class="commit">
             <code>a3d913b</code>
             <p><strong>feat</strong> 단계별 힌트와 학습 완료 계약 강화.</p>
