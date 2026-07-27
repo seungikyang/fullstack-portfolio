@@ -97,6 +97,23 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 ## 실행 안내
 
+### Orca에서 문제집 목차 열기
+
+저장소 루트에서 다음 서버를 실행하면 폴더 이름을 포함한 고정 주소로 문제집 목차를 열 수 있습니다.
+
+```bash
+npm run serve:workbook
+# http://127.0.0.1:4187/fullstack/
+```
+
+서버를 실행한 터미널은 학습하는 동안 그대로 둡니다. 저장소 폴더 이름이 `fullstack`이므로 문제집 주소는 항상 `http://127.0.0.1:4187/fullstack/`입니다. 루트 주소 `http://127.0.0.1:4187/`로 접속해도 같은 주소로 이동하며, 서버는 상위 폴더가 아니라 이 저장소 내부 파일만 제공합니다.
+
+Orca 앱 번들의 공식 CLI로 새 탭을 만들 때는 루트에서 다음 명령을 실행합니다.
+
+```bash
+/Applications/Orca.app/Contents/Resources/bin/orca tab create --url http://127.0.0.1:4187/fullstack/
+```
+
 1단계와 2단계는 HTML 파일을 브라우저로 열면 됩니다. OS별로 명령이 다릅니다.
 
 ```bash
