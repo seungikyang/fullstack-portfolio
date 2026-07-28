@@ -454,8 +454,8 @@
         <a class="brand" href="#top">Fullstack Career Workbook</a>
         <nav aria-label="변경 이력 목차">
           <a href="./index.html">학습 목차</a>
-          <a href="#loop-2026-07-27">최신 개선</a>
-          <a href="#loop-2026-07-26">이전 루프</a>
+          <a href="#loop-2026-07-28">최신 개선</a>
+          <a href="#loop-2026-07-27">이전 루프</a>
           <a href="#audit-2026-07-17">이전 점검</a>
           <a href="#html-guide">HTML 허브</a>
           <a href="#workbook-flow">네 단계 워크북</a>
@@ -470,19 +470,19 @@
 
     <main id="top" class="page-shell">
       <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">Change History · 2026.07.27</p>
+        <p class="eyebrow">Change History · 2026.07.28</p>
         <h1 id="page-title">모든 폴더를 실행 가능한 취업 워크북으로.</h1>
         <p class="hero-copy">
           17단계 목차에서 문제, 세 단계 힌트, 정답 비교와 취업 증거까지 이어지게
           했습니다. 학습 완료 조건과 Career Hub·Note Hub의 배포 계약을 코드와
-          테스트로 고정하고, 폴더 이름을 포함한 같은 주소로 Orca에서 문제집을
-          다시 열 수 있게 했습니다.
+          테스트로 고정했습니다. 고정 URI에서 모바일 화면 전환과 Markdown
+          문서의 문제→힌트→정답 흐름까지 웹 화면으로 이어지게 했습니다.
         </p>
         <div class="meta-row" role="group" aria-label="변경 범위">
           <span class="pill">15개 단계별 힌트</span>
           <span class="pill">106개 학습 체크</span>
           <span class="pill">배포 계약 회귀 테스트</span>
-          <span class="pill">Orca 고정 URI 재현</span>
+          <span class="pill">UI·문서 전환 검증</span>
         </div>
       </section>
 
@@ -500,6 +500,66 @@
           <span>Career Hub 자동 테스트</span>
         </article>
       </div>
+
+      <section id="loop-2026-07-28" aria-labelledby="loop-2026-07-28-title">
+        <div class="section-heading">
+          <h2 id="loop-2026-07-28-title">
+            2026.07.28 · 문제집 UI·화면 전환·UX 검증 루프
+          </h2>
+          <p>
+            실제 고정 URI를 데스크톱과 모바일에서 열고 목차, 실행 카드, 시작
+            워크시트, 문제, 힌트와 정답을 차례로 이동했습니다. 재현된 가림과
+            문서 전환 문제를 수정한 뒤 같은 검사를 반복했습니다.
+          </p>
+        </div>
+
+        <div class="change-grid">
+          <article class="change-card">
+            <h3>모바일 앵커 가림 해소</h3>
+            <p>
+              390px 화면에서 고정 헤더가 목차 제목 약 70px와 실행 카드 상단 약
+              37px를 가렸습니다. 모바일 이동 여백을 적용해 섹션 제목과 선택된
+              카드 테두리가 헤더 아래에 완전히 보이게 했습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>Markdown도 웹 문서로 전환</h3>
+            <p>
+              <code>README.md</code>, <code>problems.md</code>,
+              <code>hints.md</code>와 <code>answers.md</code>를 표·코드·링크가
+              동작하는 반응형 HTML로 렌더링합니다. 출력은 정화하고 CSP를 적용해
+              원문 스크립트와 위험한 링크를 실행하지 않습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>문제→힌트→정답 왕복</h3>
+            <p>
+              Markdown 제목 ID를 구조 검증기와 같은 규칙으로 생성했습니다.
+              상대 링크와 문서 앵커를 유지해 문제에서 단계별 힌트, 정답 예시,
+              체크리스트와 문제집 목차로 계속 이동할 수 있습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>키보드와 모션 환경 보강</h3>
+            <p>
+              본문 바로가기 후 실제 <code>main</code>에 포커스가 이동하도록
+              했습니다. 모션 감소 설정에서는 부드러운 스크롤을 끄고 Note Hub
+              안내 수치를 실제 43개 테스트와 맞췄습니다.
+            </p>
+          </article>
+        </div>
+
+        <div
+          class="flow four"
+          role="group"
+          aria-label="2026년 7월 28일 UI와 UX 검증 루프"
+        >
+          <div>실제 화면 진단</div>
+          <div>전환 실패 재현</div>
+          <div>최소 수정</div>
+          <div>자동·브라우저 재검증</div>
+        </div>
+      </section>
 
       <section id="loop-2026-07-27" aria-labelledby="loop-2026-07-27-title">
         <div class="section-heading">
@@ -1175,7 +1235,7 @@
                 <td>루트 검증기 테스트</td>
                 <td><code>npm test</code> at repository root</td>
                 <td class="status-pass">
-                  진도·고정 URI·링크·힌트·배포 계약 회귀 테스트 13개 통과
+                  진도·Markdown UI·링크·힌트·배포 계약 회귀 테스트 14개 통과
                 </td>
               </tr>
               <tr>
@@ -1221,7 +1281,7 @@
                 <td>HTML 목차 브라우저</td>
                 <td>로컬 HTTP 서버 + 인앱 브라우저 1280px·390px</td>
                 <td class="status-pass">
-                  학습 카드 17개·힌트 링크 15개·가로 넘침 0·콘솔 오류 0
+                  카드 17개·힌트 15개·모바일 앵커 가림 0·가로 넘침 0·오류 0
                 </td>
               </tr>
               <tr>
@@ -1234,7 +1294,7 @@
                   >
                 </td>
                 <td class="status-pass">
-                  고정 URI·활성 탭·제목·학습 카드 17개·로드 오류 없음 확인
+                  고정 URI·Markdown 렌더링·문서 링크·학습 카드 17개·오류 없음
                 </td>
               </tr>
               <tr>
@@ -1298,6 +1358,10 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>b2a9699</code>
+            <p><strong>feat</strong> 문제집 UI와 문서 전환 개선.</p>
+          </article>
           <article class="commit">
             <code>f700dca</code>
             <p><strong>feat</strong> 문제집 폴더명 고정 URI 서버 추가.</p>

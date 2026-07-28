@@ -108,6 +108,8 @@ npm run serve:workbook
 
 서버를 실행한 터미널은 학습하는 동안 그대로 둡니다. 저장소 폴더 이름이 `fullstack`이므로 문제집 주소는 항상 `http://127.0.0.1:4187/fullstack/`입니다. 루트 주소 `http://127.0.0.1:4187/`로 접속해도 같은 주소로 이동하며, 서버는 상위 폴더가 아니라 이 저장소 내부 파일만 제공합니다.
 
+목차의 `README.md`, `problems.md`, `hints.md`, `answers.md` 링크는 같은 서버에서 읽기 쉬운 HTML 문서로 표시됩니다. 표·코드·체크리스트와 문서 안 상대 링크·제목 앵커를 유지하며, 원문 HTML은 정화하고 Content Security Policy를 적용합니다.
+
 Orca 앱 번들의 공식 CLI로 새 탭을 만들 때는 루트에서 다음 명령을 실행합니다.
 
 ```bash
