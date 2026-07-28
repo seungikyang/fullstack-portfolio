@@ -550,9 +550,9 @@
             <h3>저장 경계와 화면 동작 검증</h3>
             <p>
               저장 대상 50개, 동일 출처·편집 토큰·1MB 제한·파일 버전·저장소
-              경계를 자동 테스트로 고정했습니다. 1798×1198 브라우저에서 실제
-              저장과 원본 복원, 힌트·정답 열기, 가로 넘침 0과 콘솔 오류 0을
-              확인했습니다.
+              경계와 원자적 저장을 자동 테스트로 고정했습니다. 실제 브라우저에서
+              임시 수정·저장·새로고침 유지·원본 복원, 힌트·정답 열기, 가로
+              넘침 0과 콘솔 오류 0을 확인했습니다.
             </p>
           </article>
         </div>
@@ -1303,7 +1303,8 @@
                 <td>루트 검증기 테스트</td>
                 <td><code>npm test</code> at repository root</td>
                 <td class="status-pass">
-                  진도·Markdown UI·링크·힌트·배포 계약 회귀 테스트 14개 통과
+                  진도·웹 편집·Markdown UI·링크·힌트·배포 계약 회귀 테스트
+                  17개 통과
                 </td>
               </tr>
               <tr>
@@ -1350,6 +1351,13 @@
                 <td>로컬 HTTP 서버 + 인앱 브라우저 1280px·390px</td>
                 <td class="status-pass">
                   카드 17개·힌트 15개·모바일 앵커 가림 0·가로 넘침 0·오류 0
+                </td>
+              </tr>
+              <tr>
+                <td>웹 실습 코드 편집</td>
+                <td>1단계 HTML 임시 수정·저장·새로고침·원문 복구</td>
+                <td class="status-pass">
+                  저장 유지·원문 복구·힌트와 정답 펼침·가로 넘침 0·오류 0
                 </td>
               </tr>
               <tr>
@@ -1426,6 +1434,18 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>599854f</code>
+            <p><strong>docs</strong> 웹 실습 편집 흐름 동기화.</p>
+          </article>
+          <article class="commit">
+            <code>b861cbb</code>
+            <p><strong>feat</strong> 웹 실습 코드 편집과 인라인 도움말 추가.</p>
+          </article>
+          <article class="commit">
+            <code>f49fe57</code>
+            <p><strong>feat</strong> 문제에서 실제 실습 코드로 연결.</p>
+          </article>
           <article class="commit">
             <code>b2a9699</code>
             <p><strong>feat</strong> 문제집 UI와 문서 전환 개선.</p>
