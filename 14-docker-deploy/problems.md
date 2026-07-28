@@ -2,6 +2,17 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+Dockerfile부터 compose와 CI까지 실제 파일을 문제 번호 순서대로 수정하세요.
+
+- [Node Dockerfile 코드 보기](./starter/node-board/Dockerfile?view=source)
+- [Node .dockerignore 보기](./starter/node-board/.dockerignore?view=source)
+- [Spring Dockerfile 코드 보기](./starter/spring-board/Dockerfile?view=source)
+- [Postgres compose 코드 보기](./starter/compose-postgres/docker-compose.yml?view=source)
+- [compose 환경 변수 예시 보기](./starter/compose-postgres/.env.example?view=source)
+- [GitHub Actions CI 코드 보기](./starter/.github/workflows/ci.yml?view=source)
+
 `starter/` 폴더의 빈칸을 채우며 진행합니다. 막히면 `answers.md`와 비교하세요.
 
 ## 1번. Node 앱 Dockerfile

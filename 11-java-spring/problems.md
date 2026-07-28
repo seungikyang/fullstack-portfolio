@@ -2,6 +2,12 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 프로젝트 바로 시작하기
+
+이 단계는 완성된 starter 코드를 제공하지 않는 프로젝트 생성형 문제입니다. 먼저 안내에 따라 Spring Initializr 프로젝트를 만든 뒤 아래에 적힌 Java 파일을 직접 작성하세요.
+
+- [Spring 프로젝트 생성·파일 배치 안내](./starter/README.md)
+
 `starter/board-api/src/main/java/com/example/board/` 안에서 빈칸을 채웁니다. 막히면 `answers.md`와 비교하세요.
 
 Spring Initializr로 받은 프로젝트 위에서 진행한다는 전제로 문제를 구성했습니다. 패키지 이름은 자유롭게 바꿔도 됩니다.

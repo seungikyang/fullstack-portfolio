@@ -2,6 +2,13 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+빈칸 번호를 문제와 비교하면서 두 컴포넌트 파일을 수정하세요.
+
+- [App.jsx 실습 코드 보기](./src/App.jsx?view=source)
+- [TodoItem.jsx 실습 코드 보기](./src/components/TodoItem.jsx?view=source)
+
 각 문제 번호는 코드 안의 `빈칸` 번호와 똑같습니다. `App.jsx`를 위에서 아래로 읽으면 빈칸이 1번부터 순서대로 나옵니다.
 
 ## 문제 1. 남은 할 일 개수 계산하기 (App.jsx · 빈칸 1)

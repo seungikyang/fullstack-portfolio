@@ -2,6 +2,17 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+문제 번호와 같은 순서의 TypeScript 파일을 열어 빈칸과 TODO를 채우세요.
+
+- [1번 기본 타입 코드 보기](./starter/01-basic-types.ts?view=source)
+- [2번 인터페이스 코드 보기](./starter/02-interface-design.ts?view=source)
+- [3번 React 타입 코드 보기](./starter/03-react-todo.tsx?view=source)
+- [4번 Express 타입 코드 보기](./starter/04-express-typed.ts?view=source)
+- [5번 타입 좁히기 코드 보기](./starter/05-narrowing.ts?view=source)
+- [6번 제네릭 함수 코드 보기](./starter/06-generic-fetch.ts?view=source)
+
 `starter/` 폴더의 `____`, `// TODO` 표시를 직접 채우세요. 막히면 `answers.md`와 비교합니다.
 
 ## 1번. 기본 타입 붙이기

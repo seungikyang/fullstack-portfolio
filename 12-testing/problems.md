@@ -2,6 +2,19 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+JS 테스트 파일과 테스트 대상 코드를 함께 열어 실패 테스트부터 작성하세요. Java 실습은 11단계 Spring 프로젝트를 만든 경우에만 진행합니다.
+
+- [계산기 코드 보기](./starter/js/src/calculator.ts?view=source)
+- [계산기 테스트 코드 보기](./starter/js/src/calculator.test.ts?view=source)
+- [Express 앱 코드 보기](./starter/js/src/app.ts?view=source)
+- [Express 통합 테스트 코드 보기](./starter/js/src/app.test.ts?view=source)
+- [알림 코드 보기](./starter/js/src/notification.ts?view=source)
+- [메일러 코드 보기](./starter/js/src/mailer.ts?view=source)
+- [알림 테스트 코드 보기](./starter/js/src/notification.test.ts?view=source)
+- [11단계 Spring 프로젝트 생성 안내](../11-java-spring/starter/README.md)
+
 `starter/` 폴더의 빈칸을 채워가며 진행합니다. JS와 Java 양쪽을 모두 다룹니다.
 
 ## 1번. 순수 함수 단위 테스트 (Vitest)

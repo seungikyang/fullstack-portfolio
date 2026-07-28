@@ -2,6 +2,18 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+취약한 코드와 방어 TODO를 같은 파일에서 비교하며 공격 전후를 검증하세요.
+
+- [저장형 XSS 코드 보기](./starter/01-xss-stored.js?view=source)
+- [반사형 XSS 코드 보기](./starter/02-xss-reflected.js?view=source)
+- [SQL Injection 코드 보기](./starter/03-sql-injection.js?view=source)
+- [SQL Injection 준비 SQL 보기](./starter/03-sql-injection-setup.sql?view=source)
+- [CSRF 공격 화면 코드 보기](./starter/04-csrf-demo/vulnerable.html?view=source)
+- [CSRF 방어 서버 코드 보기](./starter/04-csrf-demo/protected.js?view=source)
+- [CORS 코드 보기](./starter/05-cors.js?view=source)
+
 각 문제는 1) 취약한 코드 실행, 2) 공격 재현, 3) 방어 코드 적용, 4) 같은 공격이 막히는지 확인의 4단계로 진행합니다. 막히면 `answers.md`와 비교합니다.
 
 먼저 공통 의존성과 문법을 확인합니다.

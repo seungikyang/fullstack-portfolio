@@ -24,6 +24,28 @@ const contentTypes = {
   ".png": "image/png",
   ".svg": "image/svg+xml; charset=utf-8",
 };
+const sourceViewExtensions = new Set([
+  ".css",
+  ".html",
+  ".http",
+  ".java",
+  ".js",
+  ".jsx",
+  ".json",
+  ".md",
+  ".properties",
+  ".sql",
+  ".ts",
+  ".tsx",
+  ".xml",
+  ".yaml",
+  ".yml",
+]);
+const sourceViewNames = new Set([
+  ".dockerignore",
+  ".env.example",
+  "Dockerfile",
+]);
 
 function send(response, statusCode, body) {
   response.writeHead(statusCode, { "Content-Type": "text/plain; charset=utf-8" });
@@ -136,6 +158,32 @@ async function renderMarkdownDocument(markdown, documentTitle) {
 </html>`;
 }
 
+function canRenderSource(filePath) {
+  return (
+    sourceViewNames.has(path.basename(filePath)) ||
+    sourceViewExtensions.has(path.extname(filePath).toLowerCase())
+  );
+}
+
+async function renderSourceDocument(source, documentTitle) {
+  const longestFence = Math.max(
+    0,
+    ...[...source.matchAll(/`+/g)].map((match) => match[0].length),
+  );
+  const fence = "`".repeat(Math.max(3, longestFence + 1));
+  const markdown = [
+    `# ${documentTitle}`,
+    "",
+    "> 읽기 전용 실습 코드입니다. 문제의 빈칸과 TODO는 로컬 파일에서 직접 수정하세요.",
+    "",
+    fence,
+    source,
+    fence,
+  ].join("\n");
+
+  return renderMarkdownDocument(markdown, documentTitle);
+}
+
 function isOutsideWorkbook(filePath) {
   const relativePath = path.relative(WORKBOOK_ROOT, filePath);
   return (
@@ -152,7 +200,9 @@ async function handleRequest(request, response) {
     return;
   }
 
-  const pathname = new URL(request.url, `http://${HOST}:${PORT}`).pathname;
+  const requestUrl = new URL(request.url, `http://${HOST}:${PORT}`);
+  const pathname = requestUrl.pathname;
+  const isSourceView = requestUrl.searchParams.get("view") === "source";
   const workbookBasePath = WORKBOOK_PATH.slice(0, -1);
 
   if (pathname === "/" || pathname === workbookBasePath) {
@@ -186,19 +236,30 @@ async function handleRequest(request, response) {
       filePath = path.join(filePath, "index.html");
     }
 
+    if (isSourceView && !canRenderSource(filePath)) {
+      send(response, 415, "Source preview not supported");
+      return;
+    }
+
     const body = await fs.readFile(filePath);
     const isMarkdown = path.extname(filePath).toLowerCase() === ".md";
-    const responseBody = isMarkdown
-      ? await renderMarkdownDocument(body.toString("utf8"), path.basename(filePath))
-      : body;
+    const isHtmlDocument = isMarkdown || isSourceView;
+    const responseBody = isSourceView
+      ? await renderSourceDocument(body.toString("utf8"), path.basename(filePath))
+      : isMarkdown
+        ? await renderMarkdownDocument(
+            body.toString("utf8"),
+            path.basename(filePath),
+          )
+        : body;
     const responseHeaders = {
-      "Content-Type": isMarkdown
+      "Content-Type": isHtmlDocument
         ? "text/html; charset=utf-8"
         : (contentTypes[path.extname(filePath).toLowerCase()] ??
           "application/octet-stream"),
       "X-Content-Type-Options": "nosniff",
     };
-    if (isMarkdown) {
+    if (isHtmlDocument) {
       responseHeaders["Content-Security-Policy"] =
         "default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
     }
@@ -238,5 +299,6 @@ module.exports = {
   HOST,
   PORT,
   renderMarkdownDocument,
+  renderSourceDocument,
   WORKBOOK_PATH,
 };

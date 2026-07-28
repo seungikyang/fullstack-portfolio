@@ -2,6 +2,15 @@
 
 [단계 설명](./README.md) · [DB 요청 모음](./requests.http) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+모델을 먼저 완성한 뒤 서버의 생성·수정·삭제 빈칸을 순서대로 채우세요.
+
+- [Post 모델 실습 코드 보기](./src/models/Post.js?view=source)
+- [서버 실습 코드 보기](./src/server.js?view=source)
+- [DB 연결 코드 보기](./src/db.js?view=source)
+- [DB 요청 코드 보기](./requests.http?view=source)
+
 빈칸은 `src/models/Post.js`의 1번, 그다음 `src/server.js`의 2~8번 순서입니다.
 
 ## 문제 1. 모델 완성하고 이해하기 (Post.js · 빈칸 1)

@@ -9,6 +9,7 @@ const {
   findLearningPathErrors,
   findLocalLinkErrors,
   findPortContractErrors,
+  findProblemWorkLinkErrors,
   findTrackErrors,
 } = require("./verify-workbook.js");
 
@@ -265,6 +266,54 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
     programErrors.some((error) =>
       error.includes("09단계 카드에 실행·검증 링크"),
     ),
+    true,
+  );
+});
+
+test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검사한다", (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "problem-work-links-"));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+
+  write(
+    root,
+    "01-html-css/problems.md",
+    "[HTML 코드](./starter/index.html?view=source)\n",
+  );
+  write(root, "01-html-css/starter/index.html", "<main>실습</main>\n");
+  write(
+    root,
+    "15-cs-fundamentals/problems.md",
+    "이 단계는 별도 starter 코드가 없는 서술형 문제입니다.\n",
+  );
+
+  const expectations = {
+    "01-html-css": {
+      links: ["./starter/index.html?view=source"],
+    },
+    "15-cs-fundamentals": {
+      links: [],
+      marker: "서술형 문제",
+    },
+  };
+
+  assert.deepEqual(findProblemWorkLinkErrors(root, expectations), []);
+
+  fs.writeFileSync(
+    path.join(root, "01-html-css/problems.md"),
+    "[HTML 코드](./starter/missing.html?view=source)\n",
+  );
+  fs.writeFileSync(
+    path.join(root, "15-cs-fundamentals/problems.md"),
+    "진행 방식이 빠진 문제 문서입니다.\n",
+  );
+  const errors = findProblemWorkLinkErrors(root, expectations);
+
+  assert.equal(
+    errors.some((error) => error.includes("실제 실습 파일 링크")),
+    true,
+  );
+  assert.equal(
+    errors.some((error) => error.includes("서술형 문제 진행 방식")),
     true,
   );
 });

@@ -2,6 +2,14 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+문제를 읽은 뒤 실제 빈칸이 있는 파일을 열어 수정하세요.
+
+- [HTML 실습 코드 보기](./starter/index.html?view=source)
+- [CSS 실습 코드 보기](./starter/styles.css?view=source)
+- [현재 자기소개 화면 실행](./starter/index.html)
+
 ## 문제 1. HTML 뼈대 채우기
 
 `starter/index.html`에서 `____`로 표시된 값을 채워 자기소개 페이지를 완성하세요.

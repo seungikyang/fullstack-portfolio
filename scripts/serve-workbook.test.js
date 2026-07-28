@@ -72,6 +72,23 @@ test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단�
     /<h1 id="취업-워크북-시작하기">취업 워크북 시작하기<\/h1>/,
   );
 
+  const sourceResponse = await fetch(
+    `${origin}${WORKBOOK_PATH}01-html-css/starter/index.html?view=source`,
+  );
+  assert.equal(sourceResponse.status, 200);
+  assert.match(
+    sourceResponse.headers.get("content-type"),
+    /^text\/html; charset=utf-8$/,
+  );
+  assert.match(
+    sourceResponse.headers.get("content-security-policy"),
+    /default-src 'none'/,
+  );
+  const sourceDocument = await sourceResponse.text();
+  assert.match(sourceDocument, /읽기 전용 실습 코드/);
+  assert.match(sourceDocument, /&lt;html lang="ko"&gt;/);
+  assert.equal(sourceDocument.match(/<html lang="ko">/g)?.length, 1);
+
   const outsideResponse = await fetch(`${origin}/history.html`);
   assert.equal(outsideResponse.status, 404);
 

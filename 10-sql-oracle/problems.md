@@ -2,6 +2,18 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+SQL 파일을 번호 순서대로 열어 빈칸을 채우고 Oracle에서 실행하세요.
+
+- [1번 DDL 코드 보기](./starter/01-ddl.sql?view=source)
+- [2번 SELECT 코드 보기](./starter/02-select.sql?view=source)
+- [3번 집계 코드 보기](./starter/03-aggregate.sql?view=source)
+- [4번 JOIN 코드 보기](./starter/04-join.sql?view=source)
+- [5번 서브쿼리 코드 보기](./starter/05-subquery.sql?view=source)
+- [6번 트랜잭션 코드 보기](./starter/06-transaction.sql?view=source)
+- [7번 인덱스 코드 보기](./starter/07-index.sql?view=source)
+
 `starter/` 폴더의 빈칸을 채워가며 차례대로 실행하세요. 막히면 `answers.md`와 비교합니다.
 
 각 문제는 Oracle 문법 기준입니다. MySQL로 푸는 경우 README의 차이표를 참고해 변환하세요.

@@ -2,6 +2,13 @@
 
 [단계 설명](./README.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+문제의 빈칸은 JavaScript 파일에 있습니다. HTML 화면은 실행 결과를 확인할 때 사용하세요.
+
+- [JavaScript 실습 코드 보기](./starter/app.js?view=source)
+- [현재 실습 화면 실행](./starter/index.html)
+
 ## 문제 1. 버튼 클릭 이벤트
 
 `app.js`에서 버튼을 찾고 `click` 이벤트를 연결하세요.

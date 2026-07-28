@@ -2,6 +2,15 @@
 
 [단계 설명](./README.md) · [인증 요청 모음](./requests.http) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+회원가입·로그인 서버와 JWT 발급·검증 코드를 인증 흐름 순서대로 수정하세요.
+
+- [회원가입·로그인 코드 보기](./src/server.js?view=source)
+- [JWT 인증 코드 보기](./src/auth.js?view=source)
+- [사용자 저장 코드 보기](./src/users.js?view=source)
+- [인증 요청 코드 보기](./requests.http?view=source)
+
 빈칸은 인증 흐름 순서대로 번호가 붙어 있습니다. 회원가입(`server.js` 빈칸 1, 2) → 토큰 발급/검증(`auth.js` 빈칸 3, 4) → 로그인(`server.js` 빈칸 5) 순서로 푸세요.
 
 ## 문제 1. 회원가입 완성하기 (server.js · 빈칸 1, 2)

@@ -2,6 +2,15 @@
 
 [단계 설명](./README.md) · [배포 점검](./deploy-checklist.md) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+브라우저 코드와 서버 코드를 완성한 뒤 실행 화면과 배포 체크리스트를 확인하세요.
+
+- [브라우저 실습 코드 보기](./public/app.js?view=source)
+- [서버 실습 코드 보기](./src/server.js?view=source)
+- [현재 게시판 화면 실행](./public/index.html)
+- [배포 체크리스트 열기](./deploy-checklist.md)
+
 빈칸은 `public/app.js`의 1~6번, 그다음 `src/server.js`의 7~9번 순서입니다.
 
 ## 문제 1. API 주소 연결하기 (app.js · 빈칸 1)

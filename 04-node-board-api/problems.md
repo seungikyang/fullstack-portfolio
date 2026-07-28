@@ -2,6 +2,13 @@
 
 [단계 설명](./README.md) · [API 요청 모음](./requests.http) · 학습 흐름. [문제](./problems.md) → [단계별 힌트](./hints.md) → [정답 비교](./answers.md) → [완료 체크](../student-checklist.md)
 
+## 실습 파일 바로 열기
+
+서버 코드의 빈칸을 채운 뒤 요청 모음으로 각 API를 검증하세요.
+
+- [서버 실습 코드 보기](./src/server.js?view=source)
+- [API 요청 코드 보기](./requests.http?view=source)
+
 `src/server.js`를 위에서 아래로 읽으면 빈칸이 1번부터 8번까지 순서대로 나옵니다.
 
 ## 문제 1. 목록 조회 API (빈칸 1)

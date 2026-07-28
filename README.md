@@ -44,7 +44,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 진행 방식은 단계마다 똑같습니다.
 
-1. **공부**. 폴더의 `README.md`를 읽고 `problems.md`의 `빈칸`을 직접 채웁니다. 막히면 `references.md`의 "에러 읽는 법"과 `hints.md`의 1~3단계를 순서대로 보고, 그래도 풀리지 않을 때만 `answers.md`와 비교합니다.
+1. **공부**. 폴더의 `README.md`를 읽고 `problems.md`에서 문제를 확인한 뒤 상단의 실습 파일 링크로 실제 `starter`·`src` 코드를 열어 빈칸을 직접 채웁니다. 막히면 `references.md`의 "에러 읽는 법"과 `hints.md`의 1~3단계를 순서대로 보고, 그래도 풀리지 않을 때만 `answers.md`와 비교합니다.
 2. **통합**. 1~7을 끝내면 `08-fullstack-portfolio-project`를 실행해 배운 것이 실제 앱의 어디에 쓰였는지 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)로 확인합니다.
 3. **제출**. 8번을 GitHub에 올리고 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)의 문장으로 이력서·자기소개서를 작성합니다. 올리기 전 [submission-checklist.md](./08-fullstack-portfolio-project/submission-checklist.md)로 점검합니다.
 4. **설명**. 실행 명령, 관찰 결과, 해결한 오류, 코드 위치를 근거로 "내가 직접 고친 코드 한 줄"과 "1~7이 8에 어떻게 연결됐는지"를 자기 말로 설명합니다.
@@ -109,6 +109,8 @@ npm run serve:workbook
 서버를 실행한 터미널은 학습하는 동안 그대로 둡니다. 저장소 폴더 이름이 `fullstack`이므로 문제집 주소는 항상 `http://127.0.0.1:4187/fullstack/`입니다. 루트 주소 `http://127.0.0.1:4187/`로 접속해도 같은 주소로 이동하며, 서버는 상위 폴더가 아니라 이 저장소 내부 파일만 제공합니다.
 
 목차의 `README.md`, `problems.md`, `hints.md`, `answers.md` 링크는 같은 서버에서 읽기 쉬운 HTML 문서로 표시됩니다. 표·코드·체크리스트와 문서 안 상대 링크·제목 앵커를 유지하며, 원문 HTML은 정화하고 Content Security Policy를 적용합니다.
+
+코드형 문제의 `problems.md` 상단에는 실제 실습 파일 링크가 있습니다. `?view=source`가 붙은 링크는 HTML·JavaScript·TypeScript·SQL·Docker 설정을 실행하거나 다운로드하지 않고 읽기 전용 코드 화면으로 표시합니다. 화면에서 빈칸 위치를 확인한 뒤 같은 로컬 파일을 편집기에서 직접 수정하세요. 11단계는 Spring 프로젝트 생성 안내로 연결하고, 13단계와 15단계는 각각 명령·협업형과 서술형 문제로 구분합니다.
 
 Orca 앱 번들의 공식 CLI로 새 탭을 만들 때는 루트에서 다음 명령을 실행합니다.
 
