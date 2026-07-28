@@ -5,6 +5,10 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 const {
+  editableProblemPaths,
+  problemWorkTracks,
+} = require("./problem-work-files.js");
+const {
   findDeploymentContractErrors,
   findLearningPathErrors,
   findLocalLinkErrors,
@@ -106,6 +110,17 @@ function createFixture() {
 
   return root;
 }
+
+test("웹 편집 허용 계약은 문제에 연결된 실습 파일 50개로 제한한다", () => {
+  assert.equal(editableProblemPaths.size, 50);
+  assert.equal(Object.keys(problemWorkTracks).length, 15);
+  assert.equal(
+    [...editableProblemPaths].some((file) =>
+      /(?:answers|hints|README|scripts)\b/.test(file),
+    ),
+    false,
+  );
+});
 
 test("Markdown과 HTML의 로컬 파일·앵커를 검사한다", (t) => {
   const root = createFixture();

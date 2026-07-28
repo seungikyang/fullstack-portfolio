@@ -2,6 +2,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { markdownSlug } = require("./markdown-slug.js");
+const { problemWorkTracks } = require("./problem-work-files.js");
 
 const root = path.resolve(__dirname, "..");
 
@@ -217,8 +218,10 @@ const requiredPaths = [
   "monorepo-mini-app/packages/web/src/App.tsx",
   "monorepo-mini-app/packages/web/src/App.test.tsx",
   "monorepo-mini-app/packages/web/src/test/setup.ts",
+  "scripts/problem-work-files.js",
   "scripts/verify-workbook.js",
   "scripts/verify-workbook.test.js",
+  "scripts/workbook-editor.js",
   "scripts/verify-programs.js",
   "scripts/check-progress.js",
 ];
@@ -332,8 +335,10 @@ const sourceFiles = [
   "16-security/starter/03-sql-injection.js",
   "16-security/starter/04-csrf-demo/protected.js",
   "16-security/starter/05-cors.js",
+  "scripts/problem-work-files.js",
   "scripts/verify-workbook.js",
   "scripts/verify-workbook.test.js",
+  "scripts/workbook-editor.js",
   "scripts/verify-programs.js",
   "scripts/check-progress.js",
 ];
@@ -398,117 +403,18 @@ const guideFolders = [
   "17-interview-prep",
 ];
 
-const problemWorkExpectations = {
-  "01-html-css": {
-    links: [
-      "./starter/index.html?view=source",
-      "./starter/styles.css?view=source",
-    ],
-  },
-  "02-javascript-basics": {
-    links: ["./starter/app.js?view=source"],
-  },
-  "03-react-todo": {
-    links: [
-      "./src/App.jsx?view=source",
-      "./src/components/TodoItem.jsx?view=source",
-    ],
-  },
-  "04-node-board-api": {
-    links: [
-      "./src/server.js?view=source",
-      "./requests.http?view=source",
-    ],
-  },
-  "05-database-mongodb": {
-    links: [
-      "./src/models/Post.js?view=source",
-      "./src/server.js?view=source",
-      "./src/db.js?view=source",
-      "./requests.http?view=source",
-    ],
-  },
-  "06-login-auth": {
-    links: [
-      "./src/server.js?view=source",
-      "./src/auth.js?view=source",
-      "./src/users.js?view=source",
-      "./requests.http?view=source",
-    ],
-  },
-  "07-project-deploy": {
-    links: [
-      "./public/app.js?view=source",
-      "./src/server.js?view=source",
-    ],
-  },
-  "09-typescript": {
-    links: [
-      "./starter/01-basic-types.ts?view=source",
-      "./starter/02-interface-design.ts?view=source",
-      "./starter/03-react-todo.tsx?view=source",
-      "./starter/04-express-typed.ts?view=source",
-      "./starter/05-narrowing.ts?view=source",
-      "./starter/06-generic-fetch.ts?view=source",
-    ],
-  },
-  "10-sql-oracle": {
-    links: [
-      "./starter/01-ddl.sql?view=source",
-      "./starter/02-select.sql?view=source",
-      "./starter/03-aggregate.sql?view=source",
-      "./starter/04-join.sql?view=source",
-      "./starter/05-subquery.sql?view=source",
-      "./starter/06-transaction.sql?view=source",
-      "./starter/07-index.sql?view=source",
-    ],
-  },
-  "11-java-spring": {
-    links: ["./starter/README.md"],
-    marker: "프로젝트 생성형 문제",
-  },
-  "12-testing": {
-    links: [
-      "./starter/js/src/calculator.ts?view=source",
-      "./starter/js/src/calculator.test.ts?view=source",
-      "./starter/js/src/app.ts?view=source",
-      "./starter/js/src/app.test.ts?view=source",
-      "./starter/js/src/notification.ts?view=source",
-      "./starter/js/src/mailer.ts?view=source",
-      "./starter/js/src/notification.test.ts?view=source",
-      "../11-java-spring/starter/README.md",
-    ],
-  },
-  "13-git-collab": {
-    links: [],
-    marker: "명령·협업형 문제",
-  },
-  "14-docker-deploy": {
-    links: [
-      "./starter/node-board/Dockerfile?view=source",
-      "./starter/node-board/.dockerignore?view=source",
-      "./starter/spring-board/Dockerfile?view=source",
-      "./starter/compose-postgres/docker-compose.yml?view=source",
-      "./starter/compose-postgres/.env.example?view=source",
-      "./starter/.github/workflows/ci.yml?view=source",
-    ],
-  },
-  "15-cs-fundamentals": {
-    links: [],
-    marker: "서술형 문제",
-  },
-  "16-security": {
-    links: [
-      "./starter/01-xss-stored.js?view=source",
-      "./starter/02-xss-reflected.js?view=source",
-      "./starter/03-sql-injection.js?view=source",
-      "./starter/03-sql-injection-setup.sql?view=source",
-      "./starter/04-csrf-demo/vulnerable.html?view=source",
-      "./starter/04-csrf-demo/protected.js?view=source",
-      "./starter/05-cors.js?view=source",
-    ],
-  },
-};
+const problemWorkExpectations = Object.fromEntries(
+  Object.entries(problemWorkTracks).map(([folder, track]) => [
+    folder,
+    {
+      links: [
+        ...track.files.map((file) => `./${file}?view=source`),
+        ...(track.guideLinks || []),
+      ],
+      marker: track.marker,
+    },
+  ]),
+);
 
 const documentSkipDirectories = new Set([
   ".agents",
