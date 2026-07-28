@@ -632,6 +632,12 @@
           padding: 58px 0;
         }
 
+        main,
+        main section,
+        .run-card {
+          scroll-margin-top: 150px;
+        }
+
         .start-grid,
         .path-grid,
         .support-grid,
@@ -649,6 +655,12 @@
 
         .routine {
           padding: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
         }
       }
 
@@ -714,7 +726,7 @@
       </div>
     </div>
 
-    <main id="main" class="shell">
+    <main id="main" class="shell" tabindex="-1">
       <section id="start" aria-labelledby="start-title">
         <div class="section-heading">
           <h2 id="start-title">딱 세 가지만 먼저 하세요.</h2>
@@ -1714,7 +1726,7 @@
             <div>
               <strong>확인·취업 증거</strong>
               <p>
-                공유 타입, API·Web 동시 실행, 41개 테스트와 build를 확인합니다.
+                공유 타입, API·Web 동시 실행, 43개 테스트와 build를 확인합니다.
                 공개 운영은 32자 이상 접근 토큰이 필수입니다.
               </p>
               <div class="run-links">

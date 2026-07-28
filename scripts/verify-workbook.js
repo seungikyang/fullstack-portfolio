@@ -1,6 +1,7 @@
 // 풀스택 학습 문제집의 필수 파일과 빈칸 실습 구성을 검증하는 스크립트
 const fs = require("node:fs");
 const path = require("node:path");
+const { markdownSlug } = require("./markdown-slug.js");
 
 const root = path.resolve(__dirname, "..");
 
@@ -428,17 +429,6 @@ function walkDocuments(directory) {
   }
 
   return files;
-}
-
-function markdownSlug(value) {
-  return value
-    .replace(/<[^>]+>/g, "")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/[`*_~]/g, "")
-    .trim()
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s_-]/gu, "")
-    .replace(/\s+/g, "-");
 }
 
 function documentAnchors(filePath) {
