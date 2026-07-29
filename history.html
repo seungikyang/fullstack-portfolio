@@ -454,7 +454,7 @@
         <a class="brand" href="#top">Fullstack Career Workbook</a>
         <nav aria-label="변경 이력 목차">
           <a href="./index.html">학습 목차</a>
-          <a href="#loop-2026-07-29">최신 개선</a>
+          <a href="#editor-audit-2026-07-29">최신 개선</a>
           <a href="#loop-2026-07-28">이전 루프</a>
           <a href="#audit-2026-07-17">이전 점검</a>
           <a href="#html-guide">HTML 허브</a>
@@ -505,6 +505,72 @@
           <span>문제 화면에서 직접 편집하는 실습 코드</span>
         </article>
       </div>
+
+      <section
+        id="editor-audit-2026-07-29"
+        aria-labelledby="editor-audit-2026-07-29-title"
+      >
+        <div class="section-heading">
+          <h2 id="editor-audit-2026-07-29-title">
+            2026.07.29 · 웹 편집기 전수 검증과 저장 상태 보호
+          </h2>
+          <p>
+            한 파일의 저장 성공에서 멈추지 않고 편집 허용 파일 50개의 화면
+            계약을 전수 검사했습니다. 저장 요청 중 계속 입력할 때 최신 내용이
+            저장된 것으로 잘못 표시되는 경계도 재현 테스트로 수정했습니다.
+          </p>
+        </div>
+
+        <div class="change-grid">
+          <article class="change-card">
+            <h3>편집 화면 50개 전수 계약</h3>
+            <p>
+              실제 허용 파일 50개를 모두 HTTP로 열어 200 응답, 편집기, 저장과
+              다시 불러오기 버튼, 접힌 힌트·정답, 현재 파일 해시가 있는지
+              확인합니다. 파일 목록이 바뀌거나 도움말 연결이 빠지면 루트
+              테스트가 실패합니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>저장 중 추가 입력 보호</h3>
+            <p>
+              저장 버튼을 누른 순간의 코드만 요청 본문으로 고정하고 응답이 올
+              때까지 중복 저장을 막습니다. 그 사이 입력한 코드는 저장 완료로
+              오인하지 않고 <em>저장 중 추가한 변경</em> 상태로 남겨 다음 저장
+              대상으로 유지합니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>파일 종류별 실제 화면 확인</h3>
+            <p>
+              CSS, JavaScript, JSX, HTTP 요청, TSX, SQL, Dockerfile, YAML과
+              보안 HTML 대표 9개 화면을 브라우저에서 확인했습니다. 모든 화면에
+              버튼 2개, 기본적으로 접힌 도움말 2개와 실제 파일 내용이 있었고
+              가로 넘침은 0개였습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>모바일 단축키 저장과 원문 복구</h3>
+            <p>
+              모바일 크기에서 편집기·도구 모음·도움말이 화면 안에 들어오고
+              도움말은 한 열로 표시됐습니다. 보안 HTML에 임시 주석을
+              <code>Command + S</code>로 저장해 새로고침 유지까지 확인한 뒤
+              원문 613자로 복구했으며 브라우저 오류는 0개였습니다.
+            </p>
+          </article>
+        </div>
+
+        <div
+          class="flow four"
+          role="group"
+          aria-label="2026년 7월 29일 웹 편집기 전수 검증 루프"
+        >
+          <div>50개 화면 전수 검사</div>
+          <div>저장 경쟁 상태 재현</div>
+          <div>저장 상태 수정</div>
+          <div>자동·모바일 재검증</div>
+        </div>
+      </section>
 
       <section id="loop-2026-07-29" aria-labelledby="loop-2026-07-29-title">
         <div class="section-heading">
@@ -1304,7 +1370,7 @@
                 <td><code>npm test</code> at repository root</td>
                 <td class="status-pass">
                   진도·웹 편집·Markdown UI·링크·힌트·배포 계약 회귀 테스트
-                  17개 통과
+                  19개 통과
                 </td>
               </tr>
               <tr>
@@ -1355,9 +1421,10 @@
               </tr>
               <tr>
                 <td>웹 실습 코드 편집</td>
-                <td>1단계 HTML 임시 수정·저장·새로고침·원문 복구</td>
+                <td>50개 화면 자동 검사 + 대표 9종·모바일 브라우저</td>
                 <td class="status-pass">
-                  저장 유지·원문 복구·힌트와 정답 펼침·가로 넘침 0·오류 0
+                  단축키 저장 유지·원문 복구·힌트와 정답 펼침·가로 넘침 0·오류
+                  0
                 </td>
               </tr>
               <tr>
@@ -1434,6 +1501,14 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>94f0083</code>
+            <p><strong>fix</strong> 저장 중 추가 입력 상태 보호.</p>
+          </article>
+          <article class="commit">
+            <code>862def5</code>
+            <p><strong>docs</strong> 웹 편집 저장과 검증 안내 보강.</p>
+          </article>
           <article class="commit">
             <code>599854f</code>
             <p><strong>docs</strong> 웹 실습 편집 흐름 동기화.</p>
