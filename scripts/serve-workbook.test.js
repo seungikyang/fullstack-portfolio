@@ -5,10 +5,13 @@ const fs = require("node:fs/promises");
 const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
+const vm = require("node:vm");
+const { editableProblemPaths } = require("./problem-work-files.js");
 const {
   createWorkbookServer,
   HOST,
   renderMarkdownDocument,
+  sourceVersion,
   WORKBOOK_PATH,
 } = require("./serve-workbook.js");
 
@@ -248,3 +251,161 @@ test("허용된 실습 파일만 저장하고 외부 변경과 경로 이탈을 
     false,
   );
 });
+
+test("실제 편집 허용 파일 50개는 편집기와 접힌 도움말을 모두 제공한다", async (t) => {
+  const server = createWorkbookServer();
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+
+  const port = server.address().port;
+  const origin = `http://${HOST}:${port}`;
+  const results = await Promise.all(
+    [...editableProblemPaths].map(async (relativePath) => {
+      const response = await fetch(
+        `${origin}${WORKBOOK_PATH}${relativePath}?view=source`,
+      );
+      return {
+        document: await response.text(),
+        relativePath,
+        response,
+      };
+    }),
+  );
+
+  assert.equal(results.length, 50);
+  for (const { document, relativePath, response } of results) {
+    const source = await fs.readFile(
+      path.join(__dirname, "..", relativePath),
+      "utf8",
+    );
+    assert.equal(response.status, 200, relativePath);
+    assert.match(
+      response.headers.get("content-type"),
+      /^text\/html; charset=utf-8$/,
+      relativePath,
+    );
+    assert.match(document, /data-source-workspace/, relativePath);
+    assert.match(document, /data-source-editor/, relativePath);
+    assert.match(document, /data-save-source/, relativePath);
+    assert.match(document, /data-reload-source/, relativePath);
+    assert.match(document, /<details>\s*<summary>1~3단계 힌트 확인/, relativePath);
+    assert.match(document, /<details>\s*<summary>정답 비교 열기/, relativePath);
+    assert.match(
+      document,
+      new RegExp(`data-source-version="${sourceVersion(source)}"`),
+      relativePath,
+    );
+  }
+});
+
+test("저장 중 추가 입력은 저장 완료로 오인하거나 중복 전송하지 않는다", async () => {
+  const editor = createFakeElement({ value: "처음 내용" });
+  const saveButton = createFakeElement({ disabled: false });
+  const reloadButton = createFakeElement();
+  const status = createFakeElement({ dataset: {}, textContent: "" });
+  const workspace = {
+    dataset: {
+      editToken: "test-token",
+      sourceVersion: "version-1",
+    },
+    querySelector(selector) {
+      return {
+        "[data-reload-source]": reloadButton,
+        "[data-save-source]": saveButton,
+        "[data-save-status]": status,
+        "[data-source-editor]": editor,
+      }[selector];
+    },
+  };
+  const documentListeners = new Map();
+  const windowListeners = new Map();
+  const pendingRequests = [];
+  const editorScript = await fs.readFile(
+    path.join(__dirname, "workbook-editor.js"),
+    "utf8",
+  );
+
+  vm.runInNewContext(editorScript, {
+    Date,
+    Error,
+    JSON,
+    document: {
+      addEventListener(type, listener) {
+        documentListeners.set(type, listener);
+      },
+      querySelector() {
+        return workspace;
+      },
+    },
+    fetch(url, options) {
+      return new Promise((resolve) => {
+        pendingRequests.push({ options, resolve, url });
+      });
+    },
+    location: { href: "http://127.0.0.1:4187/fullstack/file?view=source" },
+    window: {
+      addEventListener(type, listener) {
+        windowListeners.set(type, listener);
+      },
+      confirm() {
+        return true;
+      },
+    },
+  });
+
+  assert.equal(saveButton.disabled, true);
+  editor.value = "첫 번째 저장 내용";
+  editor.listeners.get("input")();
+  assert.equal(saveButton.disabled, false);
+
+  const firstSave = saveButton.listeners.get("click")();
+  assert.equal(saveButton.disabled, true);
+  assert.equal(status.dataset.state, "saving");
+
+  editor.value = "저장 중 추가한 내용";
+  editor.listeners.get("input")();
+  assert.equal(saveButton.disabled, true);
+  assert.equal(status.dataset.state, "saving");
+  assert.equal(pendingRequests.length, 1);
+  assert.equal(
+    JSON.parse(pendingRequests[0].options.body).content,
+    "첫 번째 저장 내용",
+  );
+
+  pendingRequests[0].resolve({
+    json: async () => ({ version: "version-2" }),
+    ok: true,
+  });
+  await firstSave;
+  assert.equal(saveButton.disabled, false);
+  assert.equal(status.dataset.state, "dirty");
+
+  const secondSave = saveButton.listeners.get("click")();
+  assert.equal(pendingRequests.length, 2);
+  assert.equal(
+    JSON.parse(pendingRequests[1].options.body).content,
+    "저장 중 추가한 내용",
+  );
+  pendingRequests[1].resolve({
+    json: async () => ({ version: "version-3" }),
+    ok: true,
+  });
+  await secondSave;
+  assert.equal(saveButton.disabled, true);
+  assert.equal(status.dataset.state, "saved");
+});
+
+function createFakeElement(initialValues = {}) {
+  return {
+    dataset: {},
+    disabled: false,
+    listeners: new Map(),
+    textContent: "",
+    value: "",
+    ...initialValues,
+    addEventListener(type, listener) {
+      this.listeners.set(type, listener);
+    },
+  };
+}

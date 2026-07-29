@@ -11,6 +11,7 @@
   const status = workspace.querySelector("[data-save-status]");
   let sourceVersion = workspace.dataset.sourceVersion;
   let savedValue = editor.value;
+  let isSaving = false;
 
   const setStatus = (message, state = "idle") => {
     status.textContent = message;
@@ -19,7 +20,10 @@
 
   const updateDirtyState = () => {
     const isDirty = editor.value !== savedValue;
-    saveButton.disabled = !isDirty;
+    saveButton.disabled = isSaving || !isDirty;
+    if (isSaving) {
+      return;
+    }
     if (isDirty) {
       setStatus("저장하지 않은 변경이 있습니다.", "dirty");
     } else {
@@ -28,11 +32,13 @@
   };
 
   const saveSource = async () => {
-    if (saveButton.disabled) {
+    if (isSaving || editor.value === savedValue) {
       return;
     }
 
-    saveButton.disabled = true;
+    const contentToSave = editor.value;
+    isSaving = true;
+    updateDirtyState();
     setStatus("파일을 저장하고 있습니다.", "saving");
 
     try {
@@ -43,7 +49,7 @@
           "X-Workbook-Edit-Token": workspace.dataset.editToken,
         },
         body: JSON.stringify({
-          content: editor.value,
+          content: contentToSave,
           version: sourceVersion,
         }),
       });
@@ -55,16 +61,23 @@
 
       sourceVersion = result.version;
       workspace.dataset.sourceVersion = sourceVersion;
-      savedValue = editor.value;
+      savedValue = contentToSave;
+      isSaving = false;
       const savedAt = new Date().toLocaleTimeString("ko-KR", {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
       });
-      setStatus(`${savedAt}에 파일을 저장했습니다.`, "saved");
+      updateDirtyState();
+      if (editor.value === savedValue) {
+        setStatus(`${savedAt}에 파일을 저장했습니다.`, "saved");
+      } else {
+        setStatus("저장 중 추가한 변경이 남아 있습니다.", "dirty");
+      }
     } catch (error) {
+      isSaving = false;
       setStatus(error.message, "error");
-      saveButton.disabled = false;
+      saveButton.disabled = editor.value === savedValue;
     }
   };
 
