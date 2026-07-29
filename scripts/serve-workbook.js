@@ -149,6 +149,7 @@ function renderWorkbookDocument(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
     <title>${safeTitle} | 풀스택 취업 워크북</title>
     <style>
       :root { color-scheme: light; --navy: #16243d; --blue: #2563eb; --paper: #f7f6f2; --line: #dbe1ea; --muted: #64748b; }
@@ -180,6 +181,18 @@ function renderWorkbookDocument(
       button:hover:not(:disabled), button:focus-visible { border-color: var(--blue); color: #1d4ed8; }
       button:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 3px; }
       button:disabled { cursor: not-allowed; opacity: 0.55; }
+      .problem-document main { width: min(1420px, calc(100% - 40px)); padding: clamp(24px, 3vw, 42px); }
+      .problem-workspace { display: grid; grid-template-columns: minmax(0, 1.85fr) minmax(320px, 0.75fr); gap: 30px; align-items: start; }
+      .problem-content { min-width: 0; }
+      .problem-content a[href*="?view=source"] { display: inline-flex; align-items: center; min-height: 40px; padding: 7px 12px; border: 1px solid #bfdbfe; border-radius: 9px; background: #eff6ff; font-weight: 800; text-decoration: none; }
+      .problem-content a[href*="?view=source"]::before { margin-right: 7px; content: "↗"; }
+      .problem-help { position: sticky; top: 90px; max-height: calc(100vh - 122px); overflow-y: auto; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: #f8fafc; }
+      .problem-help h2 { margin: 0 0 10px; padding: 0; border: 0; font-size: 26px; }
+      .problem-help-intro { margin-top: 0; color: #475569; }
+      .problem-help details { margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+      .problem-help summary { padding: 13px 14px; color: var(--navy); font-weight: 900; cursor: pointer; }
+      .problem-help details[open] summary { border-bottom: 1px solid var(--line); }
+      .problem-help .support-content { padding-top: 4px; }
       .source-document main { width: min(1180px, calc(100% - 40px)); }
       .source-path { color: var(--muted); overflow-wrap: anywhere; }
       .editor-toolbar { position: sticky; top: 74px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 20px 0 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, 0.96); }
@@ -196,10 +209,15 @@ function renderWorkbookDocument(
       .support-content { max-height: 620px; overflow: auto; padding: 0 18px 20px; border-top: 1px solid var(--line); }
       .support-content h1 { margin-top: 20px; font-size: 26px; }
       .support-content h2 { font-size: 22px; }
+      @media (max-width: 960px) {
+        .problem-workspace { grid-template-columns: 1fr; }
+        .problem-help { position: static; max-height: none; }
+      }
       @media (max-width: 560px) {
         .header-inner { min-height: 72px; align-items: flex-start; justify-content: center; padding: 12px 0; flex-direction: column; gap: 2px; }
         main { width: calc(100% - 24px); margin-top: 12px; padding: 22px 18px; border-radius: 12px; }
         h1, h2, h3 { scroll-margin-top: 92px; }
+        .problem-document main { width: calc(100% - 24px); }
         .source-document main { width: calc(100% - 24px); }
         .editor-toolbar { top: 84px; }
         .source-editor { min-height: 460px; padding: 14px; }
@@ -228,6 +246,53 @@ async function renderMarkdownDocument(
 ) {
   const safeContent = await renderMarkdownContent(markdown);
   return renderWorkbookDocument(safeContent, documentTitle, { workbookPath });
+}
+
+async function renderProblemDocument(
+  problemMarkdown,
+  documentTitle,
+  {
+    answersMarkdown = "",
+    hintsMarkdown = "",
+    relativePath = "",
+    workbookPath = WORKBOOK_PATH,
+  } = {},
+) {
+  const trackFolder = problemTrackForPath(relativePath);
+  const linkBase = `${workbookPath}${trackFolder}/`;
+  const [problemContent, hintsContent, answersContent] = await Promise.all([
+    renderMarkdownContent(problemMarkdown, { linkBase }),
+    renderMarkdownContent(hintsMarkdown, {
+      linkBase,
+      slugPrefix: "problem-hint-",
+    }),
+    renderMarkdownContent(answersMarkdown, {
+      linkBase,
+      slugPrefix: "problem-answer-",
+    }),
+  ]);
+  const safeContent = `<div class="problem-workspace">
+      <article class="problem-content" aria-label="문제와 실습 파일">
+        ${problemContent}
+      </article>
+      <aside class="problem-help" aria-labelledby="problem-help-title">
+        <h2 id="problem-help-title">힌트와 정답</h2>
+        <p class="problem-help-intro">문제를 먼저 풀고 실제 코드를 수정하세요. 막히면 힌트를 순서대로 확인한 뒤 마지막에 정답과 비교하세요.</p>
+        <details>
+          <summary>1~3단계 힌트 확인</summary>
+          <div class="support-content">${hintsContent}</div>
+        </details>
+        <details>
+          <summary>정답 비교 열기</summary>
+          <div class="support-content">${answersContent}</div>
+        </details>
+      </aside>
+    </div>`;
+
+  return renderWorkbookDocument(safeContent, documentTitle, {
+    bodyClass: "problem-document",
+    workbookPath,
+  });
 }
 
 function sourceVersion(source) {
@@ -551,6 +616,10 @@ async function handleRequest(request, response, context) {
 
     const body = await fs.readFile(filePath);
     const isMarkdown = path.extname(filePath).toLowerCase() === ".md";
+    const isProblemDocument =
+      isMarkdown &&
+      path.basename(filePath) === "problems.md" &&
+      problemTrackForPath(relativePath);
     const isHtmlDocument = isMarkdown || isSourceView;
     let responseBody = body;
     if (isSourceView) {
@@ -571,6 +640,28 @@ async function handleRequest(request, response, context) {
         {
           answersMarkdown,
           editToken: context.editToken,
+          hintsMarkdown,
+          relativePath,
+          workbookPath: context.workbookPath,
+        },
+      );
+    } else if (isProblemDocument) {
+      const trackFolder = problemTrackForPath(relativePath);
+      const [hintsMarkdown, answersMarkdown] = await Promise.all([
+        fs.readFile(
+          path.join(context.workbookRoot, trackFolder, "hints.md"),
+          "utf8",
+        ),
+        fs.readFile(
+          path.join(context.workbookRoot, trackFolder, "answers.md"),
+          "utf8",
+        ),
+      ]);
+      responseBody = await renderProblemDocument(
+        body.toString("utf8"),
+        path.basename(filePath),
+        {
+          answersMarkdown,
           hintsMarkdown,
           relativePath,
           workbookPath: context.workbookPath,
@@ -643,6 +734,7 @@ module.exports = {
   HOST,
   PORT,
   renderMarkdownDocument,
+  renderProblemDocument,
   renderSourceDocument,
   saveProblemSource,
   sourceVersion,

@@ -6,7 +6,10 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 const vm = require("node:vm");
-const { editableProblemPaths } = require("./problem-work-files.js");
+const {
+  editableProblemPaths,
+  problemWorkTracks,
+} = require("./problem-work-files.js");
 const {
   createWorkbookServer,
   HOST,
@@ -100,6 +103,24 @@ test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단�
   assert.match(sourceDocument, /&lt;html lang=&quot;ko&quot;&gt;/);
   assert.equal(sourceDocument.match(/<html lang="ko">/g)?.length, 1);
 
+  const problemResponse = await fetch(
+    `${origin}${WORKBOOK_PATH}02-javascript-basics/problems.md`,
+  );
+  assert.equal(problemResponse.status, 200);
+  const problemDocument = await problemResponse.text();
+  assert.match(problemDocument, /<body class="problem-document">/);
+  assert.match(problemDocument, /<link rel="icon" href="data:," \/>/);
+  assert.match(problemDocument, /class="problem-workspace"/);
+  assert.match(
+    problemDocument,
+    /href="\/fullstack\/02-javascript-basics\/starter\/app\.js\?view=source"/,
+  );
+  assert.match(problemDocument, /<summary>1~3단계 힌트 확인<\/summary>/);
+  assert.match(problemDocument, /<summary>정답 비교 열기<\/summary>/);
+  assert.match(problemDocument, /id="problem-hint-2단계-단계별-힌트"/);
+  assert.match(problemDocument, /id="problem-answer-2단계-정답-확인"/);
+  assert.doesNotMatch(problemDocument, /<details open/);
+
   const outsideResponse = await fetch(`${origin}/history.html`);
   assert.equal(outsideResponse.status, 404);
 
@@ -107,6 +128,60 @@ test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단�
     `${origin}${WORKBOOK_PATH}%2e%2e%2Fpackage.json`,
   );
   assert.equal(traversalResponse.status, 403);
+});
+
+test("15개 표준 문제 페이지는 실제 코드와 접힌 힌트·정답을 한 화면에 제공한다", async (t) => {
+  const server = createWorkbookServer();
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+
+  const port = server.address().port;
+  const origin = `http://${HOST}:${port}`;
+  const results = await Promise.all(
+    Object.entries(problemWorkTracks).map(async ([folder, track]) => {
+      const response = await fetch(
+        `${origin}${WORKBOOK_PATH}${folder}/problems.md`,
+      );
+      return {
+        document: await response.text(),
+        folder,
+        response,
+        track,
+      };
+    }),
+  );
+
+  assert.equal(results.length, 15);
+  for (const { document, folder, response, track } of results) {
+    assert.equal(response.status, 200, folder);
+    assert.match(document, /<body class="problem-document">/, folder);
+    assert.match(document, /class="problem-workspace"/, folder);
+    assert.match(document, /aria-labelledby="problem-help-title"/, folder);
+    assert.match(
+      document,
+      /<details>\s*<summary>1~3단계 힌트 확인/,
+      folder,
+    );
+    assert.match(
+      document,
+      /<details>\s*<summary>정답 비교 열기/,
+      folder,
+    );
+    assert.match(document, /id="problem-hint-/, folder);
+    assert.match(document, /id="problem-answer-/, folder);
+    assert.doesNotMatch(document, /<details open/, folder);
+
+    for (const file of track.files) {
+      assert.equal(
+        document.includes(
+          `href="${WORKBOOK_PATH}${folder}/${file}?view=source"`,
+        ),
+        true,
+        `${folder}/${file}`,
+      );
+    }
+  }
 });
 
 test("허용된 실습 파일만 저장하고 외부 변경과 경로 이탈을 막는다", async (t) => {
