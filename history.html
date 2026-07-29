@@ -454,7 +454,7 @@
         <a class="brand" href="#top">Fullstack Career Workbook</a>
         <nav aria-label="변경 이력 목차">
           <a href="./index.html">학습 목차</a>
-          <a href="#editor-audit-2026-07-29">최신 개선</a>
+          <a href="#problem-page-2026-07-29">최신 개선</a>
           <a href="#loop-2026-07-28">이전 루프</a>
           <a href="#audit-2026-07-17">이전 점검</a>
           <a href="#html-guide">HTML 허브</a>
@@ -477,10 +477,11 @@
           했습니다. 학습 완료 조건과 Career Hub·Note Hub의 배포 계약을 코드와
           테스트로 고정했습니다. 고정 URI에서 모바일 화면 전환과 Markdown
           문서의 문제→실습 코드 편집→힌트→정답 흐름까지 한 화면으로 이어지게
-          했습니다.
+          했습니다. 15개 표준 문제 화면은 실제 코드 링크와 접힌 도움말을 한
+          작업 공간에 배치했습니다.
         </p>
         <div class="meta-row" role="group" aria-label="변경 범위">
-          <span class="pill">15개 단계별 힌트</span>
+          <span class="pill">15개 통합 문제 화면</span>
           <span class="pill">106개 학습 체크</span>
           <span class="pill">배포 계약 회귀 테스트</span>
           <span class="pill">50개 웹 편집 실습 파일</span>
@@ -490,7 +491,7 @@
       <div class="metric-grid" role="group" aria-label="핵심 결과">
         <article class="metric">
           <strong>15</strong>
-          <span>표준 트랙의 세 단계 힌트 문서</span>
+          <span>문제·힌트·정답 통합 화면</span>
         </article>
         <article class="metric">
           <strong>43</strong>
@@ -505,6 +506,71 @@
           <span>문제 화면에서 직접 편집하는 실습 코드</span>
         </article>
       </div>
+
+      <section
+        id="problem-page-2026-07-29"
+        aria-labelledby="problem-page-2026-07-29-title"
+      >
+        <div class="section-heading">
+          <h2 id="problem-page-2026-07-29-title">
+            2026.07.29 · 문제·실제 코드·도움말 통합
+          </h2>
+          <p>
+            문제를 읽은 뒤 별도 문서와 읽기 전용 코드 화면을 왕복하던 흐름을
+            하나의 작업 공간으로 정리했습니다. 15개 표준 문제 페이지에서 실제
+            파일 편집기로 이동하고, 같은 화면에서 힌트와 정답을 단계적으로
+            확인할 수 있습니다.
+          </p>
+        </div>
+
+        <div class="change-grid">
+          <article class="change-card">
+            <h3>15개 문제 화면 공통 배치</h3>
+            <p>
+              01~07단계와 09~16단계의 <code>problems.md</code>를 데스크톱
+              2열 작업 공간으로 표시합니다. 문제는 왼쪽에, 접힌 도움말은
+              오른쪽 고정 패널에 두고 모바일에서는 문제 아래 한 열로
+              배치합니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>50개 실제 파일 편집기로 직접 이동</h3>
+            <p>
+              문제에 연결된 <code>starter</code>, <code>src</code>, 테스트,
+              SQL, Docker와 YAML 파일 링크를 파란색 편집 버튼으로 강조했습니다.
+              링크는 같은 로컬 파일을 저장하는 기존 보안 편집기로 바로
+              이동합니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>힌트와 정답을 문제 옆에서 확인</h3>
+            <p>
+              기존 <code>hints.md</code>와 <code>answers.md</code>를 재사용해
+              내용을 중복 관리하지 않습니다. 두 도움말은 기본적으로 접혀
+              있으므로 먼저 풀고 1~3단계 힌트, 정답 비교 순서로 열 수 있습니다.
+            </p>
+          </article>
+          <article class="change-card">
+            <h3>자동·데스크톱·모바일 재검증</h3>
+            <p>
+              15개 화면의 응답, 도움말, 앵커와 50개 코드 링크를 자동
+              검사했습니다. 1200×1151 데스크톱과 390×844 모바일에서 배치,
+              펼침 동작, 코드 편집기 이동과 가로 넘침 0을 확인했습니다.
+            </p>
+          </article>
+        </div>
+
+        <div
+          class="flow four"
+          role="group"
+          aria-label="2026년 7월 29일 통합 문제 화면 검증 루프"
+        >
+          <div>문제 화면 열기</div>
+          <div>실제 코드 편집</div>
+          <div>힌트·정답 확인</div>
+          <div>자동·반응형 검증</div>
+        </div>
+      </section>
 
       <section
         id="editor-audit-2026-07-29"
@@ -1501,6 +1567,10 @@
         </div>
 
         <div class="commit-list">
+          <article class="commit">
+            <code>5c5fda1</code>
+            <p><strong>feat</strong> 문제 페이지에 코드와 도움말 통합.</p>
+          </article>
           <article class="commit">
             <code>94f0083</code>
             <p><strong>fix</strong> 저장 중 추가 입력 상태 보호.</p>
