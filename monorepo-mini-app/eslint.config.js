@@ -1,8 +1,7 @@
-// Note Hub 모노레포 ESLint 9 flat config. TypeScript는 typescript-eslint, React는 별도 플러그인.
+// Note Hub 모노레포 ESLint 10 flat config. TypeScript는 typescript-eslint, React Hooks는 별도 플러그인.
 // 패키지별로 환경(node/browser)을 분리한다.
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 
@@ -40,7 +39,6 @@ export default [
   {
     files: ["packages/web/**/*.{ts,tsx}"],
     plugins: {
-      react,
       "react-hooks": reactHooks
     },
     languageOptions: {
@@ -49,14 +47,8 @@ export default [
       parserOptions: { ecmaFeatures: { jsx: true } },
       globals: { ...globals.browser }
     },
-    settings: {
-      react: { version: "detect" }
-    },
     rules: {
-      ...(react.configs.flat?.recommended?.rules ?? {}),
       ...(reactHooks.configs.recommended?.rules ?? {}),
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }]
     }
   },

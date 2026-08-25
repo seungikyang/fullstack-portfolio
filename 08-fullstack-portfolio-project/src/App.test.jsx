@@ -1,5 +1,4 @@
 // 취업 워크북 화면의 입력과 저장 흐름을 검증하는 프론트엔드 테스트
-import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {

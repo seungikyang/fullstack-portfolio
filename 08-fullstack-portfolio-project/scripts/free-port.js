@@ -60,7 +60,9 @@ async function findUnixPids(port) {
       return parsePids(output);
     } catch (fallbackError) {
       if (fallbackError.code === "ENOENT") {
-        throw new Error("포트 확인 명령(lsof 또는 fuser)을 찾을 수 없습니다.");
+        throw new Error("포트 확인 명령(lsof 또는 fuser)을 찾을 수 없습니다.", {
+          cause: fallbackError
+        });
       }
 
       throw fallbackError;

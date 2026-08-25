@@ -7,7 +7,7 @@
 
 services:
   app-dev:
-    image: node:22.12-bookworm
+    image: node:24.19.0-bookworm
     container_name: career-hub-dev
     working_dir: /app
     command: bash -lc "npm install && npm run dev"

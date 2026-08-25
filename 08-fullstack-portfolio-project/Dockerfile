@@ -2,7 +2,7 @@
 # 1단계(build): 의존성 설치 + Vite 프론트엔드 빌드
 # 2단계(runtime): production 의존성과 빌드 산출물만 담아 이미지 크기를 줄인다.
 
-FROM node:22.12-alpine AS build
+FROM node:24.19.0-alpine AS build
 WORKDIR /app
 
 # package*.json만 먼저 복사해 의존성 변화가 없을 때 도커 캐시 레이어를 재사용한다.
@@ -12,7 +12,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:22.12-alpine AS runtime
+FROM node:24.19.0-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=5100

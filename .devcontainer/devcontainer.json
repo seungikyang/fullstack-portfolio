@@ -1,9 +1,9 @@
 {
   "name": "fullstack-portfolio dev",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:5-24-bookworm",
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
-      "version": "21",
+      "version": "25",
       "installGradle": true
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {

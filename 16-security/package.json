@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.19"
+    "node": ">=24.19"
   },
   "scripts": {
     "check": "node --check starter/01-xss-stored.js && node --check starter/02-xss-reflected.js && node --check starter/03-sql-injection.js && node --check starter/04-csrf-demo/protected.js && node --check starter/05-cors.js",
@@ -18,6 +18,6 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "mysql2": "^3.23.0"
+    "mysql2": "^3.24.2"
   }
 }

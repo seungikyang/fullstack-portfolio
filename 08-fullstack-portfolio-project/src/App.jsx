@@ -1,5 +1,5 @@
 // Career Hub의 로그인, 대시보드, CRUD 화면을 구성하는 React 컴포넌트
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
   BriefcaseBusiness,
@@ -374,10 +374,6 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    setForm(workbook);
-  }, [workbook]);
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -1096,9 +1092,6 @@ export default function App() {
       return;
     }
 
-    setIsLoading(true);
-    setError("");
-
     try {
       const [meData, dashboardData, workbookData, applicationData, projectData] = await Promise.all(
         [
@@ -1124,9 +1117,15 @@ export default function App() {
     }
   }, []);
 
-  const reload = useCallback(() => loadAll(token), [loadAll, token]);
+  const reload = useCallback(() => {
+    setIsLoading(true);
+    setError("");
+    return loadAll(token);
+  }, [loadAll, token]);
 
   function handleAuth(data) {
+    setIsLoading(true);
+    setError("");
     setToken(data.token);
     setUser(data.user);
     localStorage.setItem("careerHubToken", data.token);
@@ -1143,6 +1142,8 @@ export default function App() {
   }
 
   useEffect(() => {
+    // 인증 토큰이 바뀔 때 외부 API 상태를 동기화하며, 실제 상태 갱신은 요청 완료 후 수행한다.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadAll(token);
   }, [loadAll, token]);
 
@@ -1219,6 +1220,7 @@ export default function App() {
 
         {activeTab === "workbook" ? (
           <WorkbookSection
+            key={JSON.stringify(workbook)}
             token={token}
             workbook={workbook}
             dashboard={dashboard}
