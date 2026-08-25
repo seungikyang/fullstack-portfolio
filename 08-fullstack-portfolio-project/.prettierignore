@@ -3,3 +3,4 @@ dist
 coverage
 data/career-hub.json
 package-lock.json
+_workspace
