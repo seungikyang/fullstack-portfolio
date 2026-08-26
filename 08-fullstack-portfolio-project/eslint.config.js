@@ -1,7 +1,6 @@
-// Career Hub의 ESLint 9 flat config. 프론트엔드(React)와 백엔드(Node) 환경을 분리해 적용한다.
+// Career Hub의 ESLint 10 flat config. 프론트엔드(React)와 백엔드(Node) 환경을 분리해 적용한다.
 import js from "@eslint/js";
 import globals from "globals";
-import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
@@ -21,19 +20,9 @@ export default [
         ...globals.browser
       }
     },
-    plugins: {
-      react,
-      "react-hooks": reactHooks
-    },
-    settings: {
-      react: { version: "detect" }
-    },
+    plugins: { "react-hooks": reactHooks },
     rules: {
-      // eslint-plugin-react v7.37+ flat config 진입점은 react.configs.flat.recommended 이다.
-      ...(react.configs.flat?.recommended?.rules ?? {}),
       ...(reactHooks.configs.recommended?.rules ?? {}),
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }]
     }
   },

@@ -4,7 +4,7 @@
 #          (npm workspaces가 만드는 심볼릭링크는 COPY --from에서 깨지므로, 런타임에서 다시
 #           install하는 게 가장 단순하고 안정적이다.)
 
-FROM node:22.12-alpine AS build
+FROM node:24.19.0-alpine AS build
 WORKDIR /repo
 
 # package.json들만 먼저 복사해 의존성 변화가 없으면 도커 캐시 레이어를 재사용.
@@ -22,7 +22,7 @@ RUN npm run build -w @note-hub/shared \
  && npm run build -w @note-hub/api \
  && npm run build -w @note-hub/web
 
-FROM node:22.12-alpine AS runtime
+FROM node:24.19.0-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=5200

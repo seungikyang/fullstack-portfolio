@@ -6,7 +6,7 @@
 
 ```dockerfile
 # starter/node-board/Dockerfile
-FROM node:22-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
@@ -42,13 +42,13 @@ coverage
 ```dockerfile
 # starter/spring-board/Dockerfile
 # 1단계: build
-FROM eclipse-temurin:21-jdk AS build
+FROM eclipse-temurin:25-jdk AS build
 WORKDIR /workspace
 COPY . .
 RUN ./gradlew bootJar --no-daemon
 
 # 2단계: runtime
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 COPY --from=build /workspace/build/libs/*.jar app.jar
 EXPOSE 8080
@@ -73,7 +73,7 @@ services:
         condition: service_healthy
 
   db:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -121,10 +121,10 @@ jobs:
   node:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: "npm"
       - run: npm ci
         working-directory: 14-docker-deploy/starter/node-board
@@ -134,11 +134,11 @@ jobs:
   java:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
         with:
           distribution: "temurin"
-          java-version: "21"
+          java-version: "25"
       - run: ./gradlew test --no-daemon
         working-directory: 11-java-spring/starter/board-api
 ```

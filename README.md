@@ -202,7 +202,7 @@ npm run progress
 
 1. [Docker Desktop](https://www.docker.com/products/docker-desktop)과 VS Code의 "Dev Containers" 확장을 설치합니다.
 2. 이 폴더를 VS Code에서 연 뒤 명령 팔레트 → "Dev Containers: Reopen in Container".
-3. 컨테이너가 빌드되면 자동으로 Node 22.12 + JDK 21 + Gradle + Docker-in-Docker가 준비됩니다.
+3. 컨테이너가 빌드되면 자동으로 Node 24.19 LTS + JDK 25 LTS + Gradle + Docker-in-Docker가 준비됩니다.
 4. 9번 TypeScript, 11번 Spring Boot, 14번 Docker, 8번 포트폴리오까지 추가 설치 없이 바로 실행됩니다.
 
 ### 옵션 B. GitHub Codespaces
@@ -215,10 +215,10 @@ npm run progress
 
 ### 옵션 D. 직접 설치 (가장 전통적)
 
-- Node.js 22.12 이상(또는 20.19 이상)을 권장합니다. 8번 포트폴리오 프로젝트의 Vite 8이 요구하는 버전입니다.
+- Node.js 24.19 LTS 이상을 권장합니다. 8번 포트폴리오 프로젝트의 Vite 8 요구 사항도 충족합니다.
 - 9번 TypeScript 단계는 같은 Node 버전이면 됩니다.
 - 10번 SQL 단계는 Oracle Live SQL(브라우저 사용) 또는 Oracle XE/MySQL 로컬 설치 중 하나가 필요합니다.
-- 11번 Spring Boot 단계는 JDK 21과 Gradle wrapper가 필요합니다(`brew install openjdk@21`).
+- 11번 Spring Boot 단계는 JDK 25 LTS와 Gradle wrapper가 필요합니다(`brew install openjdk@25`).
 - 12번 테스트 단계는 추가 설치가 거의 없습니다. Vitest와 JUnit은 각 프로젝트 의존성으로 들어갑니다.
 - 13번 Git 협업 단계는 GitHub 계정과 두 개의 로컬 클론으로 진행합니다.
 - 14번 Docker 단계는 Docker Desktop과 컨테이너화할 원본 코드가 필요합니다. Node 실습은 완성한 4단계의 `package.json`, `package-lock.json`, `src`를 복사하고, Spring 실습은 11단계에서 직접 만든 `starter/board-api`를 사용합니다.

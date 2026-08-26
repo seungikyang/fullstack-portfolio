@@ -56,7 +56,7 @@
 
 - [React 공식 - 학습하기](https://react.dev/learn)
 - [React 공식 - state는 컴포넌트의 메모리](https://react.dev/learn/state-a-components-memory)
-- [Vite 공식 - 시작 가이드](https://vite.dev/guide/). Vite 8은 Node.js 20.19 이상 또는 22.12 이상을 요구합니다.
+- [Vite 공식 - 시작 가이드](https://vite.dev/guide/). Vite 8은 Node.js 20.19 이상 또는 22.12 이상을 요구하며, 이 저장소는 Node.js 24.19 LTS를 기준으로 합니다.
 - [Express 공식 - Hello world 예제](https://expressjs.com/ko/starter/hello-world.html)
 - [OWASP - Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
 - [MongoDB 공식 - CRUD Operations](https://www.mongodb.com/docs/manual/crud/)

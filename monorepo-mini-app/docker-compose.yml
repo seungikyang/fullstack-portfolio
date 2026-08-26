@@ -5,7 +5,7 @@
 
 services:
   postgres:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     container_name: note-hub-postgres
     restart: unless-stopped
     environment:
@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-notehub}
       POSTGRES_DB: notehub
     volumes:
-      - note-hub-pg-data:/var/lib/postgresql/data
+      - note-hub-pg18-data:/var/lib/postgresql/data
       - ./packages/api/db:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U notehub -d notehub"]
@@ -45,4 +45,4 @@ services:
       start_period: 15s
 
 volumes:
-  note-hub-pg-data:
+  note-hub-pg18-data:

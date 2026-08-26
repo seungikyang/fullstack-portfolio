@@ -12,24 +12,24 @@ Spring 전문가가 되는 것이 목표가 아닙니다. "신입으로서 Sprin
 
 ### 사전 준비
 
-- **JDK 21** 설치.
-  - macOS. `brew install openjdk@21` 후 PATH 등록 안내를 따릅니다.
-  - Windows. https://adoptium.net 에서 Temurin 21 installer로 설치.
-  - Linux. `sudo apt install openjdk-21-jdk` 또는 SDKMAN(`sdk install java 21-tem`).
+- **JDK 25 LTS** 설치.
+  - macOS. `brew install openjdk@25` 후 PATH 등록 안내를 따릅니다.
+  - Windows. https://adoptium.net 에서 Temurin 25 installer로 설치.
+  - Linux. 배포판 패키지 관리자 또는 SDKMAN(`sdk install java 25-tem`)으로 설치합니다.
 - **Maven** 또는 **Gradle**. Spring Initializr가 만든 프로젝트에 wrapper가 포함되므로 별도 설치 없이 `./mvnw` 또는 `./gradlew`로 실행할 수 있습니다.
 
 ### 설치 확인 (반드시 먼저)
 
 ```bash
 java -version
-# 출력 예시. openjdk 21.0.x 또는 더 높은 버전이 나와야 합니다.
+# 출력 예시. openjdk 25.0.x가 나와야 합니다.
 
 ./gradlew --version
 # starter/board-api/를 만든 뒤 그 안에서 실행하세요.
-# 출력 예시. Gradle 8.x, JVM 21.
+# 출력 예시. Gradle 9.x, JVM 25.
 ```
 
-JDK 21이 아니라 17이나 8이 잡히면 PATH나 `JAVA_HOME`을 확인하세요. 버전이 안 맞으면 Spring Boot 3.3+ 빌드가 실패합니다.
+JDK 25가 아니라 21이나 17이 잡히면 PATH나 `JAVA_HOME`을 확인하세요. 이 저장소는 Spring Boot 4.1+와 JDK 25 LTS 조합을 기준으로 합니다.
 
 ### 새 프로젝트 만들기
 
@@ -37,7 +37,7 @@ JDK 21이 아니라 17이나 8이 잡히면 PATH나 `JAVA_HOME`을 확인하세�
 2. 다음으로 설정.
    - Project. Gradle - Groovy.
    - Language. Java.
-   - Spring Boot. 3.3 이상.
+   - Spring Boot. 4.1 이상.
    - Dependencies. Spring Web, Spring Data JPA, H2 Database, Lombok, Validation.
    - Group/Artifact는 자유.
 3. Generate 버튼으로 zip을 받아 `starter/board-api` 폴더로 풉니다.

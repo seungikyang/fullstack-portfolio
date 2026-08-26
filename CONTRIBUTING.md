@@ -8,7 +8,7 @@
 
 1. **Dev Container / GitHub Codespaces (권장).** 루트 `.devcontainer/devcontainer.json` 기반. VS Code에서 "Reopen in Container"만 누르면 Node·JDK·Gradle·Docker가 동일 버전으로 준비됩니다. 코드 리뷰어/면접관 모두 같은 환경에서 재현 가능합니다.
 2. **mise.** 로컬에서 도구 버전만 통일하고 싶을 때. `mise install`로 `mise.toml`의 모든 도구가 설치됩니다.
-3. **직접 설치.** Node 22.12(또는 20.19), JDK 21. 루트 `.nvmrc`로 Node 버전이 고정됩니다 — `nvm use`로 맞출 수 있습니다.
+3. **직접 설치.** Node 24.19 LTS, JDK 25 LTS. 루트 `.nvmrc`로 Node 버전이 고정됩니다 — `nvm use`로 맞출 수 있습니다.
 
 OS 무관. 들여쓰기/줄바꿈은 `.editorconfig`로 통일됩니다.
 

@@ -9,7 +9,7 @@ DevContainer(가상환경)에서 동작하는 풀스택 TypeScript 모노레포 
 - **저장소 추상화**: `NotesStore` 인터페이스 한 개에 InMemory와 PostgreSQL 두 구현. `DATABASE_URL` 환경변수 유무로 자동 전환.
 - **단일 실행**: `npm run dev` 한 줄로 API(5200)와 Web(5174)이 동시에 뜹니다.
 - **자동화 테스트**: Vitest로 shared/api/web 3개 환경 단위·통합 테스트가 한 번에 실행됩니다.
-- **컨테이너 배포**: 멀티 스테이지 Dockerfile + Postgres compose로 단일 이미지 운영 배포.
+- **컨테이너 배포**: 멀티 스테이지 Dockerfile + PostgreSQL 18 compose로 단일 이미지 운영 배포.
 - **운영 접근 제어**: 운영에서는 32자 이상의 `NOTE_HUB_ACCESS_TOKEN`을 필수로 검사하고 노트 API에 Bearer 인증을 적용합니다.
 
 ## 구조
@@ -19,10 +19,10 @@ monorepo-mini-app/
 ├── package.json                  # workspaces + 공통 스크립트
 ├── tsconfig.base.json            # 공통 TS 설정
 ├── vitest.config.ts              # shared/api/web 3 projects
-├── eslint.config.js              # typescript-eslint + React (패키지별 분리)
+├── eslint.config.js              # typescript-eslint + React Hooks (패키지별 분리)
 ├── Dockerfile                    # 멀티 스테이지: build → runtime
-├── docker-compose.yml            # 운영: Postgres + 단일 app 이미지
-├── docker-compose.dev.yml        # 개발: Postgres만 컨테이너
+├── docker-compose.yml            # 운영: PostgreSQL 18 + 단일 app 이미지
+├── docker-compose.dev.yml        # 개발: PostgreSQL 18만 컨테이너
 ├── render.yaml                   # Render.com Blueprint (web + Postgres)
 ├── fly.toml                      # fly.io 설정
 └── packages/
@@ -59,7 +59,7 @@ npm run dev                          # predev가 shared를 빌드한 뒤 API(520
 
 토큰을 설정하지 않은 개발 모드는 학습 편의를 위한 **로컬 전용 무인증 모드**입니다. 인터넷에 공개하지 마세요. 토큰을 시험하려면 `NOTE_HUB_ACCESS_TOKEN=local-test-token-with-at-least-32-characters npm run dev`로 실행하고 화면의 “API 접근 토큰”에 같은 값을 입력합니다.
 
-### B. Postgres 백엔드로 실행 (실서비스에 더 가까움)
+### B. PostgreSQL 18 백엔드로 실행 (실서비스에 더 가까움)
 
 ```bash
 cd monorepo-mini-app
@@ -69,6 +69,8 @@ DATABASE_URL=postgres://notehub:notehub@localhost:5432/notehub npm run dev
 ```
 
 서버 콘솔에 `[notes] using PostgresNotesStore`가 나오면 Postgres에 연결된 것입니다.
+
+PostgreSQL 17에서 올린 기존 로컬 볼륨은 자동 변환하지 않습니다. Compose는 기존 데이터를 보존하기 위해 새 `note-hub-pg18-data` 볼륨을 사용하므로, 이전 데이터가 필요하면 PostgreSQL 공식 `pg_dump`/`pg_restore` 절차로 옮기세요.
 
 ### C. 운영 모드(단일 이미지 + Postgres)
 
@@ -87,7 +89,7 @@ docker compose up --build
 npm test                       # pretest 훅이 @note-hub/shared를 먼저 빌드한 뒤 shared+api+web 모두 실행
 npm run test:watch             # watch 모드 (역시 pretest:watch가 shared를 먼저 빌드)
 npm run build -w @note-hub/shared && npx vitest run --project api  # API 테스트만
-npm run lint                   # ESLint (typescript-eslint + react)
+npm run lint                   # ESLint (typescript-eslint + React Hooks)
 npm run lint:fix               # 자동 수정
 npm run format:check           # Prettier 포맷 검사
 npm run typecheck              # 전 패키지 tsc --noEmit
@@ -98,7 +100,7 @@ npm run prepare                # husky 활성화 (1회)
 
 `.husky/pre-commit`이 lint-staged를 실행해 스테이지된 파일만 ESLint + Prettier로 자동 정리합니다.
 
-루트 GitHub Actions는 `npm ci` 후 format·lint·typecheck·43개 테스트·build를 실행하고, Linux Docker 잡에서는 접근 토큰을 포함한 Postgres 노트 생성·조회 smoke를 확인합니다. 로컬 테스트 수와 CI 정의는 실제 실행 시점에 다시 확인한 뒤 지원 자료에 사용합니다.
+루트 GitHub Actions는 `npm ci` 후 format·lint·typecheck·43개 테스트·build를 실행하고, Linux Docker 잡에서는 접근 토큰을 포함한 PostgreSQL 18 노트 생성·조회 smoke를 확인합니다. 로컬 테스트 수와 CI 정의는 실제 실행 시점에 다시 확인한 뒤 지원 자료에 사용합니다.
 
 ## API 요약
 

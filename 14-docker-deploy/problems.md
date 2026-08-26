@@ -21,7 +21,7 @@ Dockerfile부터 compose와 CI까지 실제 파일을 문제 번호 순서대로
 
 먼저 워크북 루트에서 완성한 4단계의 `package.json`, `package-lock.json`, `src`를 `starter/node-board`로 복사합니다. Dockerfile이 `npm ci`를 실행하므로 lockfile이 반드시 같은 build context에 있어야 합니다.
 
-- 베이스 이미지는 `node:22-alpine`.
+- 베이스 이미지는 `node:24-alpine`.
 - `package*.json`을 먼저 복사해 `npm ci`를 실행 (캐시 최대화).
 - 그 다음 소스 코드 복사.
 - 포트 4000 노출.
@@ -52,8 +52,8 @@ curl http://localhost:4000/health
 
 이 폴더에는 Spring 프로젝트가 없습니다. 11단계에서 직접 만든 `11-java-spring/starter/board-api`가 `./gradlew bootRun`으로 실행되는지 먼저 확인한 뒤, 완성한 Dockerfile을 그 프로젝트 루트에 복사합니다.
 
-- 1단계. `eclipse-temurin:21-jdk`로 `./gradlew bootJar` 실행.
-- 2단계. `eclipse-temurin:21-jre-alpine`에 빌드 결과 jar만 복사.
+- 1단계. `eclipse-temurin:25-jdk`로 `./gradlew bootJar` 실행.
+- 2단계. `eclipse-temurin:25-jre-alpine`에 빌드 결과 jar만 복사.
 - 포트 8080 노출.
 - 실행 명령은 `java -jar app.jar`.
 
@@ -74,7 +74,7 @@ docker images spring-board
 `starter/compose-postgres/docker-compose.yml`의 빈칸을 채우세요.
 
 - `app` 서비스. 4번 게시판 API. `db`에 의존(`depends_on`).
-- `db` 서비스. `postgres:16-alpine`. 환경 변수로 `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` 설정. 볼륨 `pgdata`로 데이터 영속화.
+- `db` 서비스. `postgres:18-alpine`. 환경 변수로 `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` 설정. 볼륨 `pgdata`로 데이터 영속화.
 - `app`에 `DATABASE_URL` 환경 변수를 `postgresql://user:pass@db:5432/board`로 주입.
 
 검증.
@@ -100,8 +100,8 @@ docker compose exec db psql -U user -d board -c "\dt"
 `starter/.github/workflows/ci.yml`의 빈칸을 채우세요.
 
 - main 브랜치 push 또는 PR 시 실행.
-- Node 22로 `npm ci`, `npm test` 실행.
-- Java 21로 `./gradlew test` 실행 (job 분리).
+- Node 24 LTS로 `npm ci`, `npm test` 실행.
+- Java 25 LTS로 `./gradlew test` 실행 (job 분리).
 
 검증. 실제 GitHub에 push 한 뒤 Actions 탭에서 초록 체크가 뜨는지 확인하세요.
 

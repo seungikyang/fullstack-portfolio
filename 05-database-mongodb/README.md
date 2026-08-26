@@ -31,7 +31,7 @@ brew services start mongodb-community   # 백그라운드로 MongoDB 실행 시�
 ### 방법 C. Docker (도커가 이미 있다면 가장 간단)
 
 ```bash
-docker run --name fullstack-mongo -d -p 27017:27017 mongo:7
+docker run --name fullstack-mongo -d -p 27017:27017 mongo:8.3
 ```
 
 - 끄기. `docker stop fullstack-mongo` / 다시 켜기. `docker start fullstack-mongo`

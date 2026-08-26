@@ -20,7 +20,7 @@
 ### 3단계. Dockerfile 명령 수준
 
 ```dockerfile
-FROM <Node 22 Alpine 이미지>
+FROM <Node 24 Alpine 이미지>
 WORKDIR /app
 COPY <의존성 manifest 패턴> ./
 RUN npm ci
@@ -67,10 +67,10 @@ CMD ["node", "<서버 진입 파일>"]
 ### 3단계. Dockerfile 시그니처 수준
 
 ```dockerfile
-FROM <JDK 21 이미지> AS build
+FROM <JDK 25 이미지> AS build
 RUN ./gradlew bootJar
 
-FROM <JRE 21 Alpine 이미지>
+FROM <JRE 25 Alpine 이미지>
 COPY --from=build <빌드 jar 경로> app.jar
 EXPOSE <Spring 포트>
 ENTRYPOINT ["java", "-jar", "app.jar"]
@@ -100,7 +100,7 @@ services:
     environment:
       DATABASE_URL: postgresql://<user>:<pass>@db:5432/<database>
   db:
-    image: <Postgres 16 Alpine 이미지>
+    image: <Postgres 18 Alpine 이미지>
     volumes:
       - <볼륨 이름>:/var/lib/postgresql/data
 

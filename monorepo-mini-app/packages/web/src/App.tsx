@@ -47,6 +47,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // 접근 토큰이 바뀔 때 외부 API 상태를 동기화하며, 실제 목록 갱신은 요청 완료 후 수행한다.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadNotes(accessToken);
   }, [accessToken, loadNotes]);
 

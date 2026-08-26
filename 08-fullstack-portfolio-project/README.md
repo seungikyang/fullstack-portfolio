@@ -51,14 +51,14 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 - Auth. bcryptjs, jsonwebtoken.
 - Security. helmet, express-rate-limit, CORS.
 - Storage. JSON file store.
-- Quality. ESLint 9 (flat config), Prettier.
+- Quality. ESLint 10 (flat config), Prettier.
 - Test. Vitest, supertest, API smoke test 스크립트.
 - Container. 멀티 스테이지 Dockerfile + docker-compose.
 - CI. GitHub Actions (lint, test, build, docker smoke).
 
 ## 필요 환경
 
-- **Node.js 20.19 이상 또는 22.12 이상** (Vite 8 요구 사항). 권장은 LTS인 22.12+ 입니다.
+- **Node.js 24.19 LTS 이상**. Vite 8 요구 사항을 충족하는 저장소 표준 버전입니다.
 - 확인. `node --version`
 
 ## 실행 방법
