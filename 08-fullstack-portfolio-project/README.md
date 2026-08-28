@@ -67,6 +67,8 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 cd 08-fullstack-portfolio-project
 npm install
 cp .env.example .env
+# Windows cmd:        copy .env.example .env
+# Windows PowerShell: Copy-Item .env.example .env
 npm run dev
 ```
 

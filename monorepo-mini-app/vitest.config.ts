@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     projects: [
       {
+        // 공통 타입/함수 테스트는 DOM이 필요 없는 빠른 Node 환경에서 실행한다.
         test: {
           name: "shared",
           environment: "node",
@@ -13,6 +14,7 @@ export default defineConfig({
         }
       },
       {
+        // API 통합 테스트도 Node 환경이며 DB 대기 가능성을 고려해 제한 시간을 늘린다.
         test: {
           name: "api",
           environment: "node",
@@ -21,6 +23,7 @@ export default defineConfig({
         }
       },
       {
+        // React 컴포넌트 테스트에는 브라우저 DOM을 흉내 내는 jsdom과 React 플러그인이 필요하다.
         plugins: [react()],
         test: {
           name: "web",

@@ -100,7 +100,7 @@
 
 1. `08-fullstack-portfolio-project` 폴더로 이동합니다.
 2. `npm install`을 실행합니다.
-3. `cp .env.example .env`로 로컬 환경 파일을 만듭니다.
+3. `cp .env.example .env`로 로컬 환경 파일을 만듭니다. Windows PowerShell은 `Copy-Item .env.example .env`.
 4. `npm run dev`로 앱을 실행합니다.
 5. 브라우저에서 `http://localhost:3000`을 열고 기본 흐름에서는 회원가입으로 자기 계정을 만듭니다. 데모가 필요하면 `.env`에 `SEED_DEMO=true`와 `VITE_SHOW_DEMO=true`를 함께 명시한 뒤 빈 데이터 파일로 시작합니다.
 6. 지원 현황과 프로젝트를 직접 추가, 수정, 삭제합니다.

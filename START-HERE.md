@@ -78,6 +78,8 @@ cp .env.example .env
 npm run dev
 ```
 
+Windows PowerShell에서는 `cp` 대신 `Copy-Item .env.example .env`를 실행합니다.
+
 기본 설정은 데모 데이터를 만들지 않습니다. 회원가입으로 자기 계정을 만들고, 데모가 꼭 필요할 때만 `.env`의 `SEED_DEMO=true`와 `VITE_SHOW_DEMO=true`를 함께 명시합니다.
 
 ## 6. 매주 한 번 점검합니다

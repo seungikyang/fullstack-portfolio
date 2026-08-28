@@ -1,4 +1,5 @@
 // 저장소를 폴더명 기반 고정 URI로 제공하는 로컬 문제집 서버
+// 실행 방법: `npm run serve:workbook` → http://127.0.0.1:4187/fullstack/
 const crypto = require("node:crypto");
 const fs = require("node:fs/promises");
 const http = require("node:http");
@@ -10,15 +11,18 @@ const {
   problemTrackForPath,
 } = require("./problem-work-files.js");
 
-const WORKBOOK_ROOT = path.resolve(__dirname, "..");
-const WORKBOOK_SLUG = path.basename(WORKBOOK_ROOT);
+const WORKBOOK_ROOT = path.resolve(__dirname, ".."); // 이 스크립트의 한 단계 위 = 저장소 루트
+const WORKBOOK_SLUG = path.basename(WORKBOOK_ROOT); // 폴더 이름(예: fullstack)을 주소로 쓴다
 const WORKBOOK_PATH = `/${encodeURIComponent(WORKBOOK_SLUG)}/`;
-const HOST = "127.0.0.1";
+const HOST = "127.0.0.1"; // 내 컴퓨터에서만 접속 가능한 주소(외부에 노출되지 않는다)
 const PORT = 4187;
+// 웹에서 파일을 저장할 때 요구하는 비밀 토큰. 실행할 때마다 새로 만들어진다.
 const DEFAULT_EDIT_TOKEN = crypto.randomBytes(32).toString("hex");
+// 저장 요청 본문 최대 크기(1MB). 실습 파일 기준으로 넉넉한 값이면서 무한정 커지는 걸 막는다.
 const MAX_SOURCE_BYTES = 1024 * 1024;
 let markedPromise;
 
+// 확장자별로 브라우저에 알려줄 파일 형식(Content-Type)
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -32,16 +36,20 @@ const contentTypes = {
   ".svg": "image/svg+xml; charset=utf-8",
 };
 
+// 짧은 응답용 헬퍼. 상태 코드와 문자열을 그대로 보낸다
 function send(response, statusCode, body) {
   response.writeHead(statusCode, { "Content-Type": "text/plain; charset=utf-8" });
   response.end(body);
 }
 
+// marked(Markdown → HTML 변환기)는 ESM 모듈이라 처음 쓸 때 한 번만 불러와 재사용한다
 function getMarked() {
   markedPromise ??= import("marked").then(({ Marked }) => Marked);
   return markedPromise;
 }
 
+// HTML 특수문자(& < > " ')를 화면에 그대로 보이게 하는 문자로 바꾼다.
+// 사용자 입력을 HTML에 넣을 때 이걸 거치지 않으면 XSS 공격이 될 수 있다.
 function escapeHtml(value) {
   return String(value).replace(
     /[&<>"']/g,
@@ -56,13 +64,17 @@ function escapeHtml(value) {
   );
 }
 
+// Markdown 문서 안의 상대 링크를 문제집 주소 기준으로 고친다.
+// 문서는 폴더 안에 있지만 화면은 /fullstack/... 주소로 서빙되기 때문에 기준점이 필요하다.
 function resolveMarkdownHref(href, linkBase, slugPrefix) {
   if (!linkBase || !href) {
     return href;
   }
+  // 문서 내 이동(#제목)은 같은 페이지 안에서 처리하고, 제목마다 접두사를 붙여 충돌을 피한다
   if (href.startsWith("#")) {
     return `#${slugPrefix}${href.slice(1)}`;
   }
+  // 이미 절대 경로거나 http(s):, mailto: 등 완성된 링크면 그대로 둔다
   if (
     href.startsWith("/") ||
     href.startsWith("//") ||
@@ -71,16 +83,19 @@ function resolveMarkdownHref(href, linkBase, slugPrefix) {
     return href;
   }
 
+  // 나머지 상대 링크(./answers.md 등)는 문서 위치를 기준으로 실제 주소를 계산한다
   const resolved = new URL(href, `http://workbook.local${linkBase}`);
   return `${resolved.pathname}${resolved.search}${resolved.hash}`;
 }
 
+// Markdown 원문을 읽기 쉬운 HTML로 바꾼다. 표·코드블록(GFM)과 제목 앵커(id)를 지원한다.
 async function renderMarkdownContent(
   markdown,
   { linkBase = "", slugPrefix = "" } = {},
 ) {
   const Marked = await getMarked();
   const renderer = new Marked({ gfm: true });
+  // 같은 제목이 여러 번 나오면 "제목", "제목-1", "제목-2"처럼 번호를 붙여 id가 겹치지 않게 한다
   const slugCounts = new Map();
   renderer.use({
     renderer: {
@@ -102,8 +117,10 @@ async function renderMarkdownContent(
     },
   });
   const renderedMarkdown = renderer.parse(
-    markdown.replace(/^[\u200B-\u200F\uFEFF]/, ""),
+    markdown.replace(/^[\u200B-\u200F\uFEFF]/, ""), // 파일 맨 앞의 보이지 않는 문자(BOM 등)를 제거
   );
+  // 방금 만든 HTML에서 위험한 태그·속성을 걷어낸다(sanitize).
+  // 학습 문서에 필요한 details/img/input 정도만 추가로 허용한다.
   const safeContent = sanitizeHtml(renderedMarkdown, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       "details",
@@ -132,6 +149,8 @@ async function renderMarkdownContent(
   return safeContent;
 }
 
+// 문서 화면의 공통 뼈대(헤더·스타일·본문)를 붙여 완전한 HTML 페이지를 만든다.
+// 제목과 본문은 이미 정화된 값(safe*)만 받는다.
 function renderWorkbookDocument(
   safeContent,
   documentTitle,
@@ -221,6 +240,7 @@ function renderWorkbookDocument(
 </html>`;
 }
 
+// Markdown 파일 하나를 완성된 문서 화면으로 바꿔주는 편의 함수
 async function renderMarkdownDocument(
   markdown,
   documentTitle,
@@ -230,10 +250,13 @@ async function renderMarkdownDocument(
   return renderWorkbookDocument(safeContent, documentTitle, { workbookPath });
 }
 
+// 파일 내용의 SHA-256 해시를 "버전"으로 쓴다.
+// 내용이 1글자만 달라져도 해시가 완전히 달라지므로, 저장 충돌 감지에 딱 맞는 도구다.
 function sourceVersion(source) {
   return crypto.createHash("sha256").update(source).digest("hex");
 }
 
+// 실습 코드 편집 화면(편집기 + 힌트 + 정답 패널)을 만든다
 async function renderSourceDocument(
   source,
   documentTitle,
@@ -247,6 +270,7 @@ async function renderSourceDocument(
 ) {
   const trackFolder = problemTrackForPath(relativePath);
   const linkBase = trackFolder ? `${workbookPath}${trackFolder}/` : workbookPath;
+  // 힌트와 정답 문서를 미리 HTML로 만들어 둔다. 접두사를 달리해 제목 앵커가 겹치지 않게 한다.
   const [hintsContent, answersContent] = await Promise.all([
     renderMarkdownContent(hintsMarkdown, {
       linkBase,
@@ -257,7 +281,7 @@ async function renderSourceDocument(
       slugPrefix: "answer-",
     }),
   ]);
-  const safeSource = escapeHtml(source);
+  const safeSource = escapeHtml(source); // 코드 안의 < > 를 화면용 문자로 바꿔 textarea에 안전하게 넣는다
   const safeRelativePath = escapeHtml(relativePath);
   const safeEditToken = escapeHtml(editToken);
   const safeVersion = escapeHtml(sourceVersion(source));
@@ -307,10 +331,13 @@ async function renderSourceDocument(
   });
 }
 
+// 이 파일이 웹 편집이 허용된 실습 파일인지 확인한다
 function isEditableProblemPath(relativePath, editablePaths) {
   return editablePaths.has(relativePath.split(path.sep).join("/"));
 }
 
+// 요청한 경로가 저장소 바깥을 가리키는지 검사한다.
+// "../" 같은 경로 조작(디렉터리 트래버설)으로 컴퓨터의 다른 파일을 열지 못하게 막는 안전장치다.
 function isOutsideWorkbook(filePath, workbookRoot) {
   const relativePath = path.relative(workbookRoot, filePath);
   return (
@@ -320,6 +347,7 @@ function isOutsideWorkbook(filePath, workbookRoot) {
   );
 }
 
+// JSON 응답용 헬퍼
 function sendJson(response, statusCode, body) {
   response.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
@@ -328,6 +356,8 @@ function sendJson(response, statusCode, body) {
   response.end(JSON.stringify(body));
 }
 
+// 두 토큰을 비교한다. 단순 === 비교는 글자가 다른 지점을 발견하면 즉시 끝나서
+// "몇 글자가 맞았는지"를 측정하는 타이밍 공격에 쓰일 수 있어, 시간이 일정한 비교를 쓴다.
 function safeTokenEqual(actual, expected) {
   const actualBuffer = Buffer.from(actual || "");
   const expectedBuffer = Buffer.from(expected || "");
@@ -337,12 +367,14 @@ function safeTokenEqual(actual, expected) {
   );
 }
 
+// 요청 본문(저장할 코드)을 JSON으로 읽어들인다. 크기·인코딩·형식을 순서대로 검사한다.
 async function readJsonBody(request) {
   const chunks = [];
   let byteLength = 0;
 
   for await (const chunk of request) {
     byteLength += chunk.length;
+    // 1MB를 넘으면 더 받지 않고 중단한다(413 Payload Too Large)
     if (byteLength > MAX_SOURCE_BYTES) {
       const error = new Error("저장할 코드가 1MB 제한을 초과했습니다.");
       error.statusCode = 413;
@@ -353,6 +385,7 @@ async function readJsonBody(request) {
 
   const buffer = Buffer.concat(chunks);
   const text = buffer.toString("utf8");
+  // 다시 인코딩해 원본과 같은지 확인한다. UTF-8로 깨지는 바이트가 섞여 있으면 거절한다.
   if (!Buffer.from(text, "utf8").equals(buffer)) {
     const error = new Error("UTF-8 형식의 코드만 저장할 수 있습니다.");
     error.statusCode = 400;
@@ -368,6 +401,8 @@ async function readJsonBody(request) {
   }
 }
 
+// 웹 편집기의 저장 요청을 실제 파일에 반영하는 핵심 함수.
+// 검사 순서: 편집 허용 파일인지 → 요청 형식이 맞는지 → 저장소 안인지 → 버전(충돌) 확인 → 저장.
 async function saveProblemSource({
   content,
   editablePaths = editableProblemPaths,
@@ -389,6 +424,8 @@ async function saveProblemSource({
     };
   }
 
+  // symlink 등을 모두 따라간 "실제 경로"를 기준으로 다시 검사한다.
+  // 표면적 경로는 저장소 안처럼 보여도 실제로는 밖일 수 있기 때문이다.
   const [realWorkbookRoot, realFilePath, fileStats] = await Promise.all([
     fs.realpath(workbookRoot),
     fs.realpath(filePath),
@@ -401,6 +438,8 @@ async function saveProblemSource({
     };
   }
 
+  // 충돌 감지: 지금 디스크의 파일 버전이 편집기가 읽었던 버전과 다르면 저장을 거절한다.
+  // 다른 프로그램이 고친 내용을 모르고 덮어쓰는 사고를 막는다(409 Conflict).
   const currentSource = await fs.readFile(realFilePath, "utf8");
   if (sourceVersion(currentSource) !== expectedVersion) {
     return {
@@ -410,6 +449,8 @@ async function saveProblemSource({
     };
   }
 
+  // 임시 파일에 쓴 뒤 이름을 바꾸는(rename) 방식으로 저장한다.
+  // 쓰다가 실패해도 원본이 반쯤 덮여 쓰이는 일이 없다(원자적 저장).
   const temporaryPath = path.join(
     path.dirname(realFilePath),
     `.${path.basename(realFilePath)}.workbook-${crypto.randomUUID()}.tmp`,
@@ -417,12 +458,12 @@ async function saveProblemSource({
   try {
     await fs.writeFile(temporaryPath, content, {
       encoding: "utf8",
-      flag: "wx",
-      mode: fileStats.mode,
+      flag: "wx", // 같은 이름 임시 파일이 이미 있으면 실패한다
+      mode: fileStats.mode, // 원본 파일의 권한을 그대로 유지한다
     });
     await fs.rename(temporaryPath, realFilePath);
   } finally {
-    await fs.rm(temporaryPath, { force: true });
+    await fs.rm(temporaryPath, { force: true }); // 성공했으면 이미 rename되어 없고, 실패했으면 잔여물을 치운다
   }
 
   return {
@@ -432,7 +473,9 @@ async function saveProblemSource({
   };
 }
 
+// 모든 HTTP 요청이 거치는 라우팅 함수. 순서: 메서드 검사 → 주소 리다이렉트 → 경로 검사 → PUT 저장 또는 GET 파일 제공.
 async function handleRequest(request, response, context) {
+  // 이 서버가 허용하는 메서드는 읽기(GET/HEAD)와 저장(PUT)뿐이다
   if (!["GET", "HEAD", "PUT"].includes(request.method)) {
     response.setHeader("Allow", "GET, HEAD, PUT");
     send(response, 405, "Method Not Allowed");
@@ -442,20 +485,23 @@ async function handleRequest(request, response, context) {
   const requestOrigin = `http://${request.headers.host || `${HOST}:${PORT}`}`;
   const requestUrl = new URL(request.url, requestOrigin);
   const pathname = requestUrl.pathname;
-  const isSourceView = requestUrl.searchParams.get("view") === "source";
+  const isSourceView = requestUrl.searchParams.get("view") === "source"; // ?view=source면 편집 화면
   const workbookBasePath = context.workbookPath.slice(0, -1);
 
+  // 루트(/)나 /fullstack(슬래시 없음)으로 접속하면 항상 문제집 주소로 보낸다
   if (pathname === "/" || pathname === workbookBasePath) {
     response.writeHead(302, { Location: context.workbookPath });
     response.end();
     return;
   }
 
+  // 문제집 주소 아래가 아니면 처음부터 404. 슬러그로 고정 주소를 유지하기 위한 규칙이다.
   if (!pathname.startsWith(context.workbookPath)) {
     send(response, 404, "Not Found");
     return;
   }
 
+  // 주소에서 "폴더 안에서의 상대 경로"를 뽑아낸다 (한글 등은 인코딩되어 있으므로 디코딩)
   let relativePath;
   try {
     relativePath = decodeURIComponent(
@@ -466,6 +512,7 @@ async function handleRequest(request, response, context) {
     return;
   }
 
+  // 상대 경로를 실제 파일 경로로 바꾸고, 폴더를 가리키면 그 안의 index.html을 찾는다
   let filePath = path.resolve(
     context.workbookRoot,
     relativePath || "index.html",
@@ -490,6 +537,7 @@ async function handleRequest(request, response, context) {
     }
     filePath = realFilePath;
 
+    // 편집 화면은 허용된 실습 파일에만 열린다
     if (
       isSourceView &&
       !isEditableProblemPath(relativePath, context.editablePaths)
@@ -498,18 +546,21 @@ async function handleRequest(request, response, context) {
       return;
     }
 
+    // ── 저장(PUT) 처리 ──
     if (request.method === "PUT") {
       if (!isSourceView) {
         response.setHeader("Allow", "GET, HEAD");
         send(response, 405, "Method Not Allowed");
         return;
       }
+      // 검사 1: 요청이 같은 문제집 화면에서 왔는지(Origin 확인)
       if (request.headers.origin !== requestOrigin) {
         sendJson(response, 403, {
           message: "같은 문제집 화면에서 보낸 저장 요청만 허용됩니다.",
         });
         return;
       }
+      // 검사 2: 이 서버 인스턴스가 발급한 편집 토큰을 가지고 있는지
       if (
         !safeTokenEqual(
           request.headers["x-workbook-edit-token"],
@@ -521,6 +572,7 @@ async function handleRequest(request, response, context) {
         });
         return;
       }
+      // 검사 3: JSON 형식인지. 통과하면 본문을 읽고 saveProblemSource로 저장한다.
       if (
         !request.headers["content-type"]
           ?.toLowerCase()
@@ -549,11 +601,13 @@ async function handleRequest(request, response, context) {
       return;
     }
 
+    // ── 읽기(GET/HEAD) 처리 ── 파일을 그대로 주거나, Markdown·편집 화면은 HTML로 바꿔 준다
     const body = await fs.readFile(filePath);
     const isMarkdown = path.extname(filePath).toLowerCase() === ".md";
     const isHtmlDocument = isMarkdown || isSourceView;
     let responseBody = body;
     if (isSourceView) {
+      // 편집 화면에는 이 단계의 힌트·정답 문서가 함께 들어간다
       const trackFolder = problemTrackForPath(relativePath);
       const [hintsMarkdown, answersMarkdown] = await Promise.all([
         fs.readFile(
@@ -588,8 +642,10 @@ async function handleRequest(request, response, context) {
         ? "text/html; charset=utf-8"
         : (contentTypes[path.extname(filePath).toLowerCase()] ??
           "application/octet-stream"),
-      "X-Content-Type-Options": "nosniff",
+      "X-Content-Type-Options": "nosniff", // 파일 내용을 브라우저가 임의로 해석하지 않게 막는다
     };
+    // HTML 문서에는 CSP(콘텐츠 보안 정책)를 붙여 외부 스크립트 실행 등을 차단한다.
+    // 편집 화면은 자기 자신의 editor.js만 허용한다.
     if (isHtmlDocument) {
       responseHeaders["Content-Security-Policy"] =
         `default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; ${isSourceView ? "script-src 'self'; connect-src 'self'; " : ""}base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
@@ -598,6 +654,7 @@ async function handleRequest(request, response, context) {
     response.writeHead(200, responseHeaders);
     response.end(request.method === "HEAD" ? undefined : responseBody);
   } catch (error) {
+    // 파일이 없으면(ENOENT) 404, 저장 관련 오류는 본문에 담긴 상태 코드로 알려준다
     if (error.code === "ENOENT" || error.code === "EISDIR") {
       send(response, 404, "Not Found");
       return;
@@ -610,6 +667,7 @@ async function handleRequest(request, response, context) {
   }
 }
 
+// 서버 객체를 만드는 함수. 테스트에서 다른 폴더·토큰을 넣어 재사용할 수 있게 옵션으로 받는다.
 function createWorkbookServer(options = {}) {
   const workbookRoot = path.resolve(options.workbookRoot || WORKBOOK_ROOT);
   const workbookSlug = options.workbookSlug || path.basename(workbookRoot);
@@ -632,6 +690,7 @@ function createWorkbookServer(options = {}) {
   });
 }
 
+// node scripts/serve-workbook.js 로 직접 실행했을 때만 서버를 띄운다
 if (require.main === module) {
   createWorkbookServer().listen(PORT, HOST, () => {
     console.log(`문제집 주소: http://${HOST}:${PORT}${WORKBOOK_PATH}`);

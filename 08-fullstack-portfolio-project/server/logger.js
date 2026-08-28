@@ -2,6 +2,7 @@
 // 운영에서는 pino의 JSON 로그를 Loki/CloudWatch 같은 수집기로 보내는 것이 일반적이다.
 import pino from "pino";
 
+// NODE_ENV는 지금 실행 중인 환경을 알려주는 약속된 환경 변수다.
 const isTest = process.env.NODE_ENV === "test";
 
 export const logger = pino({
@@ -17,6 +18,6 @@ export const logger = pino({
     ],
     censor: "[REDACTED]"
   },
-  base: { service: "career-hub" },
-  timestamp: pino.stdTimeFunctions.isoTime
+  base: { service: "career-hub" }, // 모든 로그에 서비스 이름을 공통으로 붙인다.
+  timestamp: pino.stdTimeFunctions.isoTime // 사람이 읽기 쉬운 ISO 날짜를 기록한다.
 });

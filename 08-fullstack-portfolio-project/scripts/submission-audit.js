@@ -4,10 +4,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Career Hub 자체(root)와 한 단계 위 전체 워크북(workspaceRoot)을 구분해 검사한다.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const workspaceRoot = path.resolve(root, "..");
 
+// 제출물에서 빠지면 실행·검증·설명이 불가능해지는 필수 파일 목록이다.
 const requiredFiles = [
   "README.md",
   "learning-map.md",
@@ -44,6 +46,7 @@ const requiredFiles = [
   ".husky/pre-commit"
 ];
 
+// README가 실제 구현의 핵심 기술과 검증 방식을 설명하는지 확인할 검색어다.
 const requiredReadmeTerms = [
   "React",
   "Express",
@@ -70,6 +73,7 @@ const requiredLearningFolders = [
 
 const requiredRootGuideFolders = [...requiredLearningFolders, "08-fullstack-portfolio-project"];
 
+// 오류를 하나씩 모아 한 번 실행으로 누락 내용을 모두 보여준다.
 let hasError = false;
 
 function fail(message) {
@@ -77,10 +81,12 @@ function fail(message) {
   console.error(`제출 감사 실패: ${message}`);
 }
 
+// Career Hub 루트를 기준으로 UTF-8 텍스트 파일을 읽는 공통 헬퍼다.
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
 }
 
+// 1) 필수 파일의 존재 여부와 빈 파일 여부를 검사한다.
 for (const relativePath of requiredFiles) {
   const fullPath = path.join(root, relativePath);
 
@@ -94,6 +100,7 @@ for (const relativePath of requiredFiles) {
   }
 }
 
+// 2) README·학습 지도·루트 안내가 실제 프로젝트와 학습 단계를 설명하는지 검사한다.
 const readme = read("README.md");
 for (const term of requiredReadmeTerms) {
   if (!readme.includes(term)) {
@@ -112,6 +119,7 @@ const rootGitignore = fs.existsSync(path.join(workspaceRoot, ".gitignore"))
   ? fs.readFileSync(path.join(workspaceRoot, ".gitignore"), "utf8")
   : "";
 
+// 3) 비밀값·의존성·빌드 결과·로컬 데이터가 Git에 올라가지 않게 ignore 규칙을 확인한다.
 for (const pattern of [
   "node_modules/",
   "dist/",
@@ -152,6 +160,7 @@ try {
   // git을 사용할 수 없는 환경(ZIP 제출 등)에서는 건너뛴다.
 }
 
+// 4) 코드 문자열을 확인해 인증과 smoke test의 핵심 흐름이 실수로 빠지지 않게 한다.
 const authSource = read("server/auth.js");
 if (!authSource.includes("bcrypt") || !authSource.includes("jwt.verify")) {
   fail("server/auth.js에서 bcrypt 또는 JWT 검증 흐름을 찾지 못했습니다.");
@@ -170,6 +179,7 @@ for (const expectedFlow of [
   }
 }
 
+// 5) 제출자가 사용할 명령과 보안·검증 패키지가 package.json에 선언됐는지 확인한다.
 const packageJson = JSON.parse(read("package.json"));
 const requiredScripts = [
   "build",
@@ -212,6 +222,7 @@ for (const dep of requiredDevDeps) {
   }
 }
 
+// 6) 서버 보안·로깅·종료 처리와 프론트 오류 경계가 실제 진입 파일에 연결됐는지 확인한다.
 const indexSource = read("server/index.js");
 for (const term of ["helmet", "rateLimit", "limit:", "SIGTERM", "pinoHttp", "openapi.json"]) {
   if (!indexSource.includes(term)) {
@@ -240,6 +251,7 @@ for (const rootFile of [
   }
 }
 
+// 7) OpenAPI 파일은 단순 존재뿐 아니라 JSON 파싱과 필수 경로까지 검사한다.
 try {
   const openApi = JSON.parse(read("server/openapi.json"));
   if (!openApi.openapi || !openApi.openapi.startsWith("3.")) {
@@ -255,6 +267,7 @@ try {
   fail("server/openapi.json JSON 파싱 실패.");
 }
 
+// 8) Docker 멀티 스테이지 빌드와 루트 CI 워크플로가 제출물에 포함됐는지 확인한다.
 const dockerfileSource = read("Dockerfile");
 if (!dockerfileSource.includes("AS build") || !dockerfileSource.includes("AS runtime")) {
   fail("Dockerfile이 멀티 스테이지(build → runtime) 구조가 아닙니다.");
@@ -265,6 +278,7 @@ if (!fs.existsSync(ciPath)) {
   fail(".github/workflows/ci.yml CI 워크플로가 없습니다.");
 }
 
+// 하나라도 실패하면 종료 코드 1로 npm/CI에도 감사 실패를 알린다.
 if (hasError) {
   process.exit(1);
 }

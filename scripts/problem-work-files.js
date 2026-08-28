@@ -1,6 +1,9 @@
 // 웹 문제 화면에서 편집할 수 있는 단계별 실습 파일 계약
+// 이 목록에 있는 파일만 웹 편집기에서 저장할 수 있다(다른 파일은 서버가 거절한다).
 const path = require("node:path");
 
+// 폴더별로 "문제와 직접 연결된 실습 파일"을 나열한다.
+// files: 웹에서 수정·저장 가능한 파일. guideLinks: 대신 볼 안내 문서. marker: 코드 없는 서술형 단계 표시.
 const problemWorkTracks = {
   "01-html-css": {
     files: ["starter/index.html", "starter/styles.css"],
@@ -92,12 +95,14 @@ const problemWorkTracks = {
   },
 };
 
+// 위 목록을 "폴더/파일" 경로 집합으로 바꿔둔다. 저장 요청이 이 집합에 있는지 빠르게 확인한다.
 const editableProblemPaths = new Set(
   Object.entries(problemWorkTracks).flatMap(([folder, track]) =>
     track.files.map((file) => path.posix.join(folder, file)),
   ),
 );
 
+// 파일 경로가 어느 학습 단계 폴더에 속하는지 찾는다. Windows(\)와 Mac/Linux(/) 구분자 차이를 먼저 통일한다.
 function problemTrackForPath(relativePath) {
   const normalizedPath = relativePath.split(path.sep).join("/");
   const folder = normalizedPath.split("/")[0];

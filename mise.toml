@@ -9,7 +9,7 @@ node = "24.19.0"
 # 11-java-spring 단계
 java = "temurin-25"
 # 11-java-spring 빌드
-gradle = "9.7.0"
+gradle = "9.7.1"
 
 [env]
 # 학습 워크북 어디서나 npm을 사용할 수 있도록 corepack 활성화 힌트

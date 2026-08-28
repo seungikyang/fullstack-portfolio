@@ -23,10 +23,12 @@ import {
 // 빈 문자열이면 같은 주소로 요청한다. 개발 중에는 Vite 프록시가, 배포 후에는 Express가 /api를 처리한다.
 const API_BASE = import.meta.env.VITE_API_URL || "";
 export function shouldShowDemo(env = import.meta.env) {
+  // 환경 변수는 문자열이므로 정확히 "true"일 때만 데모 계정을 화면에 표시한다.
   return env.VITE_SHOW_DEMO === "true";
 }
 
 const SHOW_DEMO = shouldShowDemo();
+// select가 받을 수 있는 값과 새 폼의 초기 모양을 컴포넌트 밖에서 한 번만 만든다.
 const applicationStatuses = ["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"];
 const projectStatuses = ["계획", "개발중", "완료"];
 const priorities = ["낮음", "보통", "높음"];
@@ -64,6 +66,8 @@ const emptyWorkbook = {
   reflection: ""
 };
 
+// 워크북 입력과 실제 프로젝트·지원 기록을 네 단계 완료 여부로 바꾸는 순수 함수다.
+// 서버의 dashboardFor와 같은 조건을 써서 화면과 API의 준비도가 일치한다.
 export function getWorkbookSteps(workbook, dashboard = {}) {
   return [
     {
@@ -105,6 +109,7 @@ export function getWorkbookSteps(workbook, dashboard = {}) {
   ];
 }
 
+// 학습 1~7단계가 이 포트폴리오의 어느 코드로 연결됐는지 보여줄 정적 설명 데이터다.
 const stageConnections = [
   {
     stage: "1단계",
@@ -192,6 +197,7 @@ const stageConnections = [
   }
 ];
 
+// 모든 fetch 호출에서 주소·인증 헤더·JSON 처리·오류 변환을 공통으로 담당한다.
 async function request(path, { method = "GET", token, body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     method,
@@ -202,6 +208,7 @@ async function request(path, { method = "GET", token, body } = {}) {
     body: body ? JSON.stringify(body) : undefined
   });
 
+  // DELETE 성공(204)은 본문이 없으므로 response.json()을 호출하면 안 된다.
   if (response.status === 204) {
     return null;
   }
@@ -215,6 +222,7 @@ async function request(path, { method = "GET", token, body } = {}) {
   return data;
 }
 
+// 저장된 YYYY-MM-DD 값을 한국어 화면용 날짜로 바꾸고, 빈 값은 안내 문구로 표시한다.
 function formatDate(value) {
   if (!value) {
     return "일정 없음";
@@ -227,6 +235,7 @@ function formatDate(value) {
   });
 }
 
+// 로그인과 회원가입 폼을 한 화면에서 mode 상태로 전환해 재사용한다.
 function LoginScreen({ onAuth }) {
   const [mode, setMode] = useState("login");
   const [form, setForm] = useState({
@@ -238,6 +247,7 @@ function LoginScreen({ onAuth }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event) {
+    // 브라우저의 기본 폼 전송(페이지 새로고침)을 막고 fetch로 API를 호출한다.
     event.preventDefault();
     setError("");
     setIsSubmitting(true);
@@ -324,6 +334,7 @@ function LoginScreen({ onAuth }) {
   );
 }
 
+// 서버가 계산한 대시보드 값을 같은 모양의 요약 카드 다섯 개로 렌더링한다.
 function StatGrid({ dashboard }) {
   const stats = [
     {
@@ -370,6 +381,7 @@ function StatGrid({ dashboard }) {
 }
 
 export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavigate = () => {} }) {
+  // 부모가 준 저장값을 폼 전용 state로 복사해 저장 전 입력을 따로 관리한다.
   const [form, setForm] = useState(workbook);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -380,6 +392,7 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
     setMessage("");
   }
 
+  // 저장 성공 후 onChanged로 전체 데이터를 다시 읽어 준비도까지 최신 상태로 맞춘다.
   async function submitWorkbook(event) {
     event.preventDefault();
     setError("");
@@ -397,6 +410,7 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
     }
   }
 
+  // 아직 저장하지 않은 현재 입력도 즉시 단계 안내에 반영한다.
   const steps = getWorkbookSteps(form, dashboard);
   const completedSteps = steps.filter((step) => step.done).length;
   const currentStep = steps.find((step) => !step.done) || steps.at(-1);
@@ -599,11 +613,13 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
 }
 
 export function ApplicationSection({ token, applications, onChanged }) {
+  // editingId가 비어 있으면 생성 모드, 값이 있으면 해당 기록의 수정 모드다.
   const [form, setForm] = useState(emptyApplication);
   const [editingId, setEditingId] = useState("");
   const [deletingId, setDeletingId] = useState("");
   const [error, setError] = useState("");
 
+  // 같은 폼에서 생성은 POST, 수정은 PATCH를 선택한다.
   async function submitApplication(event) {
     event.preventDefault();
     setError("");
@@ -620,6 +636,7 @@ export function ApplicationSection({ token, applications, onChanged }) {
     }
   }
 
+  // 서버 배열 형태인 stack을 사용자가 편집하기 쉬운 쉼표 문자열로 바꿔 폼에 채운다.
   function startEdit(application) {
     setEditingId(application.id);
     setForm({
@@ -634,6 +651,7 @@ export function ApplicationSection({ token, applications, onChanged }) {
     });
   }
 
+  // 삭제는 복구가 어려우므로 confirm을 받고, 진행 중에는 같은 요청을 다시 보내지 않는다.
   async function removeApplication(application) {
     if (deletingId || !globalThis.confirm(`${application.company} 지원 기록을 삭제할까요?`)) {
       return;
@@ -810,11 +828,13 @@ export function ApplicationSection({ token, applications, onChanged }) {
 }
 
 export function ProjectSection({ token, projects, onChanged }) {
+  // 지원 기록과 같은 생성/수정/삭제 패턴을 프로젝트 데이터에 적용한다.
   const [form, setForm] = useState(emptyProject);
   const [editingId, setEditingId] = useState("");
   const [deletingId, setDeletingId] = useState("");
   const [error, setError] = useState("");
 
+  // editingId 유무에 따라 새 프로젝트와 기존 프로젝트의 API 경로를 고른다.
   async function submitProject(event) {
     event.preventDefault();
     setError("");
@@ -831,6 +851,7 @@ export function ProjectSection({ token, projects, onChanged }) {
     }
   }
 
+  // 카드의 기존 값을 폼으로 옮기면 사용자가 일부만 바꿔 PATCH할 수 있다.
   function startEdit(project) {
     setEditingId(project.id);
     setForm({
@@ -844,6 +865,7 @@ export function ProjectSection({ token, projects, onChanged }) {
     });
   }
 
+  // 삭제 뒤 부모 데이터를 다시 불러와 카드 수와 대시보드 지표를 함께 갱신한다.
   async function removeProject(project) {
     if (deletingId || !globalThis.confirm(`${project.name} 프로젝트를 삭제할까요?`)) {
       return;
@@ -1012,6 +1034,7 @@ export function ProjectSection({ token, projects, onChanged }) {
   );
 }
 
+// 정적 stageConnections를 카드로 바꿔 학습 내용과 완성 앱의 연결 근거를 보여준다.
 function LearningMapSection() {
   return (
     <section className="work-section" aria-labelledby="learning-title">
@@ -1055,6 +1078,7 @@ function LearningMapSection() {
 }
 
 export default function App() {
+  // 최상위 App이 인증·서버 데이터·현재 탭을 소유하고 필요한 자식에게 props로 전달한다.
   const [token, setToken] = useState(() => localStorage.getItem("careerHubToken") || "");
   const [user, setUser] = useState(null);
   const [dashboard, setDashboard] = useState(null);
@@ -1067,6 +1091,7 @@ export default function App() {
 
   const isAuthed = Boolean(token && user);
 
+  // 관련 데이터가 바뀔 때만 오늘의 다음 행동 문구를 다시 계산한다.
   const nextFocus = useMemo(() => {
     if (!workbook.targetRole || !workbook.targetDate) {
       return "워크북에서 목표 직무와 첫 지원일을 정해보세요.";
@@ -1087,6 +1112,7 @@ export default function App() {
     return "지원 기록과 프로젝트 README를 꾸준히 업데이트하세요.";
   }, [dashboard, workbook]);
 
+  // 로그인 뒤 필요한 다섯 API를 병렬 호출해 기다리는 시간을 줄인다.
   const loadAll = useCallback(async (nextToken) => {
     if (!nextToken) {
       return;
@@ -1108,6 +1134,7 @@ export default function App() {
       setApplications(applicationData);
       setProjects(projectData);
     } catch (loadError) {
+      // 만료·변조 토큰 등으로 로딩이 실패하면 로컬 토큰도 지워 로그인 화면으로 돌린다.
       setError(loadError.message);
       setToken("");
       setUser(null);
@@ -1117,12 +1144,14 @@ export default function App() {
     }
   }, []);
 
+  // 자식 컴포넌트가 저장·삭제한 뒤 전체 화면 데이터를 다시 맞출 때 넘겨주는 함수다.
   const reload = useCallback(() => {
     setIsLoading(true);
     setError("");
     return loadAll(token);
   }, [loadAll, token]);
 
+  // 새로고침 뒤에도 로그인 상태를 복원할 수 있도록 JWT를 localStorage에 보관한다.
   function handleAuth(data) {
     setIsLoading(true);
     setError("");
@@ -1131,6 +1160,7 @@ export default function App() {
     localStorage.setItem("careerHubToken", data.token);
   }
 
+  // 로그아웃은 메모리 state와 브라우저 저장소의 인증 정보를 모두 비운다.
   function logout() {
     setToken("");
     setUser(null);
@@ -1147,6 +1177,7 @@ export default function App() {
     loadAll(token);
   }, [loadAll, token]);
 
+  // token만 있거나 user만 있는 중간 상태는 인증 완료로 보지 않는다.
   if (!isAuthed) {
     return <LoginScreen onAuth={handleAuth} />;
   }
