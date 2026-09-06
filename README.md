@@ -215,6 +215,18 @@ npm run progress
 
 ### 옵션 D. 직접 설치 (가장 전통적)
 
+Node.js가 아직 없다면 아래 순서로 먼저 설치합니다.
+
+1. [nodejs.org](https://nodejs.org/ko)에 접속해 **LTS** 버튼으로 내려받은 설치 파일(24.x)을 실행합니다. Windows·macOS 모두 설치 프로그램의 기본 선택 그대로 다음만 눌러도 됩니다.
+2. 터미널(macOS는 Terminal, Windows는 PowerShell)을 열어 두 명령이 버전 숫자를 출력하는지 확인합니다. 숫자가 보이면 준비 완료입니다.
+
+   ```bash
+   node -v # v24.19.0처럼 보이면 성공
+   npm -v
+   ```
+
+설치 후 프로젝트 폴더에서 실습을 진행합니다.
+
 - Node.js 24.19 LTS 이상을 권장합니다. 8번 포트폴리오 프로젝트의 Vite 8 요구 사항도 충족합니다.
 - 9번 TypeScript 단계는 같은 Node 버전이면 됩니다.
 - 10번 SQL 단계는 Oracle Live SQL(브라우저 사용) 또는 Oracle XE/MySQL 로컬 설치 중 하나가 필요합니다.

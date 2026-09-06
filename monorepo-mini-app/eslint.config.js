@@ -7,11 +7,14 @@ import globals from "globals";
 
 export default [
   {
+    // 설치 패키지·빌드·테스트 결과는 직접 작성한 소스가 아니므로 검사하지 않는다.
     ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**", "packages/web/src/test/**"]
   },
+  // JavaScript와 TypeScript의 기본 권장 규칙을 먼저 적용한다.
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // API는 Node 전역(process, Buffer 등)과 콘솔 로그를 사용할 수 있다.
     files: ["packages/api/**/*.ts"],
     languageOptions: {
       ecmaVersion: "latest",
@@ -27,6 +30,7 @@ export default [
     }
   },
   {
+    // shared는 브라우저·Node 어느 한쪽의 전역에 기대지 않는 순수 타입/함수 패키지다.
     files: ["packages/shared/**/*.ts"],
     languageOptions: {
       ecmaVersion: "latest",
@@ -37,6 +41,7 @@ export default [
     }
   },
   {
+    // Web에는 브라우저 전역과 React Hooks 사용 규칙을 추가한다.
     files: ["packages/web/**/*.{ts,tsx}"],
     plugins: {
       "react-hooks": reactHooks

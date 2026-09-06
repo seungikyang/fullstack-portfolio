@@ -11,6 +11,8 @@
 ```bash
 cd 06-login-auth
 cp .env.example .env
+# Windows cmd:        copy .env.example .env
+# Windows PowerShell: Copy-Item .env.example .env
 npm install
 npm run dev
 ```

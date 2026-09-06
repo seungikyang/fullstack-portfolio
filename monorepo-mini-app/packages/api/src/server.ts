@@ -16,6 +16,7 @@ import { ApiRoutes, type ApiError } from "@note-hub/shared";
 import { InMemoryNotesStore, type NotesStore, validateCreate } from "./notes-store.js";
 import { PostgresNotesStore } from "./notes-store-pg.js";
 
+// ESM 파일 URL을 폴더 경로로 바꿔 개발 소스와 빌드 결과에서 파일을 찾는다.
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MIN_PRODUCTION_ACCESS_TOKEN_LENGTH = 32;
 
@@ -30,6 +31,7 @@ const openApiSpec: Record<string, unknown> = openApiPath
   ? JSON.parse(readFileSync(openApiPath, "utf8"))
   : { openapi: "3.0.3", info: { title: "Note Hub API", version: "0.0.0" }, paths: {} };
 
+// DATABASE_URL 존재 여부만으로 운영 DB와 학습용 메모리 저장소를 선택한다.
 function createStore(): NotesStore {
   const url = process.env.DATABASE_URL;
   if (url && url.length > 0) {
@@ -41,6 +43,7 @@ function createStore(): NotesStore {
 }
 
 export interface AppOptions {
+  // 테스트는 실제 환경 변수 대신 원하는 저장소와 설정을 직접 주입할 수 있다.
   store?: NotesStore;
   /** 빌드된 웹(dist) 경로. 지정하면 같은 서버에서 정적 파일도 함께 제공한다. */
   webDist?: string;
@@ -49,12 +52,14 @@ export interface AppOptions {
   nodeEnv?: string;
 }
 
+// 운영 배포는 짧거나 빈 접근 토큰으로 보호 API를 열지 못하게 시작 단계에서 막는다.
 export function assertAccessConfig(accessToken: string, nodeEnv = process.env.NODE_ENV): void {
   if (nodeEnv === "production" && accessToken.length < MIN_PRODUCTION_ACCESS_TOKEN_LENGTH) {
     throw new Error("production requires NOTE_HUB_ACCESS_TOKEN with at least 32 characters");
   }
 }
 
+// 일반 문자열 비교보다 일정한 시간에 비교해 토큰 추측에 이용될 시간 차이를 줄인다.
 function tokensMatch(expected: string, actual: string): boolean {
   const expectedBuffer = Buffer.from(expected);
   const actualBuffer = Buffer.from(actual);
@@ -63,6 +68,7 @@ function tokensMatch(expected: string, actual: string): boolean {
   );
 }
 
+// 노트 API 앞에 붙는 Express 미들웨어. 로컬 무토큰 모드에서는 그대로 통과한다.
 function requireNoteAccess(accessToken: string): RequestHandler {
   return (req, res, next) => {
     if (!accessToken) {
@@ -83,6 +89,7 @@ function requireNoteAccess(accessToken: string): RequestHandler {
   };
 }
 
+// unknown 오류에서 Express가 붙인 안전한 4xx/5xx 상태 코드만 꺼낸다.
 function errorStatus(error: unknown): number {
   if (typeof error !== "object" || error === null) return 500;
   const candidate = error as { status?: unknown; statusCode?: unknown };
@@ -90,11 +97,13 @@ function errorStatus(error: unknown): number {
   return status >= 400 && status < 600 ? status : 500;
 }
 
+// JSON 파싱·본문 크기 오류를 구분하기 위한 type 문자열을 안전하게 읽는다.
 function errorType(error: unknown): string {
   if (typeof error !== "object" || error === null) return "";
   return String((error as { type?: unknown }).type ?? "");
 }
 
+// 앱 생성과 포트 listen을 분리해 supertest가 실제 포트를 열지 않고도 호출하게 한다.
 export function createApp(options: AppOptions = {}): express.Express {
   const accessToken = (
     options.accessToken !== undefined
@@ -107,6 +116,7 @@ export function createApp(options: AppOptions = {}): express.Express {
   const store = options.store ?? createStore();
   const clientOrigin = options.clientOrigin ?? process.env.CLIENT_ORIGIN ?? "http://localhost:5174";
 
+  // 브라우저 요청은 지정한 Web 출처만 허용하고, curl처럼 Origin이 없는 요청은 허용한다.
   app.use(
     cors({
       origin(origin, callback) {
@@ -117,9 +127,11 @@ export function createApp(options: AppOptions = {}): express.Express {
       }
     })
   );
+  // JSON 본문을 파싱하되 100KB로 제한하고, notes 경로 전체에 접근 토큰 검사를 붙인다.
   app.use(express.json({ limit: "100kb" }));
   app.use(ApiRoutes.notes, requireNoteAccess(accessToken));
 
+  // 저장소 ping까지 성공해야 health가 200이며, DB 장애는 503으로 표시한다.
   app.get(ApiRoutes.health, async (_req: Request, res: Response) => {
     let dbOk: boolean;
     try {
@@ -135,10 +147,12 @@ export function createApp(options: AppOptions = {}): express.Express {
     res.json(openApiSpec);
   });
 
+  // 노트 REST API: 목록(GET), 생성(POST), 단건 삭제(DELETE).
   app.get(ApiRoutes.notes, async (_req, res, next) => {
     try {
       res.json(await store.list());
     } catch (err) {
+      // 비동기 저장소 오류는 Express 공통 오류 처리기로 넘긴다.
       next(err);
     }
   });
@@ -181,6 +195,7 @@ export function createApp(options: AppOptions = {}): express.Express {
     });
   }
 
+  // JSON 파싱/크기 오류는 구체적으로, 예상하지 못한 서버 오류는 내부 내용을 숨겨 응답한다.
   const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     const status = errorStatus(err);
     const type = errorType(err);
@@ -209,6 +224,7 @@ export function createApp(options: AppOptions = {}): express.Express {
   return app;
 }
 
+// import된 테스트에서는 실행하지 않고, tsx/Node로 직접 실행한 경우에만 포트를 연다.
 const port = Number(process.env.PORT ?? 5200);
 const isEntry = process.argv[1]?.endsWith("server.ts") || process.argv[1]?.endsWith("server.js");
 if (isEntry) {

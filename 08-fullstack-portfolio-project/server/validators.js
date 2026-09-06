@@ -1,4 +1,5 @@
 // API 요청 값을 검증하고 저장 가능한 형태로 정리하는 파일
+// Set은 허용 목록에 값이 있는지 빠르게 검사할 때 쓰기 좋다.
 const applicationStatuses = new Set(["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"]);
 
 const projectStatuses = new Set(["계획", "개발중", "완료"]);
@@ -16,6 +17,7 @@ const workbookBooleanFields = {
   selfIntroReady: "자기소개",
   mockInterviewReady: "모의 면접"
 };
+// 서버에서도 길이를 제한해야 API를 직접 호출한 과도한 입력까지 막을 수 있다.
 const textLimits = {
   name: 80,
   email: 254,
@@ -36,6 +38,7 @@ const textLimits = {
 };
 const stackLimit = 20;
 
+// 문자열과 숫자만 문자열로 정리하고, 객체처럼 예상하지 못한 값은 빈 문자열로 만든다.
 function text(value) {
   if (typeof value !== "string" && typeof value !== "number") {
     return "";
@@ -44,6 +47,7 @@ function text(value) {
   return String(value).trim();
 }
 
+// 기술 스택은 배열과 "React, Express" 문자열 입력을 모두 같은 배열 형태로 바꾼다.
 function stackList(value) {
   if (Array.isArray(value)) {
     return value.map(text).filter(Boolean);
@@ -55,12 +59,14 @@ function stackList(value) {
     .filter(Boolean);
 }
 
+// 발견한 오류를 즉시 throw하지 않고 배열에 모아 프론트가 한 번에 확인하게 한다.
 function validateLength(errors, label, value, maxLength) {
   if (value.length > maxLength) {
     errors.push(`${label}은 ${maxLength}자 이하여야 합니다.`);
   }
 }
 
+// 기술 스택의 전체 개수와 각 항목 길이를 별도로 제한한다.
 function validateStack(errors, value) {
   if (value.length > stackLimit) {
     errors.push(`기술 스택은 ${stackLimit}개 이하여야 합니다.`);
@@ -71,6 +77,7 @@ function validateStack(errors, value) {
   }
 }
 
+// 형식뿐 아니라 2026-02-30처럼 실제로 존재하지 않는 날짜도 왕복 변환으로 거른다.
 function isValidDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return false;
@@ -80,6 +87,7 @@ function isValidDate(value) {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
+// URL 클래스로 파싱한 뒤 사용자가 클릭할 수 있는 http(s) 주소만 허용한다.
 function isHttpUrl(value) {
   try {
     const url = new URL(value);
@@ -89,10 +97,13 @@ function isHttpUrl(value) {
   }
 }
 
+// 학습용 앱에 필요한 기본 이메일 형태(문자@문자.문자)를 확인한다.
 function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+// 지원 기록 입력을 검사하고, 저장소에 넘길 정리된 value를 함께 만든다.
+// partial=true인 PATCH 요청은 전달된 필드만 검사해 나머지 값을 보존한다.
 export function validateApplication(payload = {}, partial = false) {
   const errors = [];
   const value = {};
@@ -152,6 +163,7 @@ export function validateApplication(payload = {}, partial = false) {
   return { value, errors };
 }
 
+// 프로젝트 생성(전체 필드)과 수정(전달된 필드)을 같은 규칙으로 검증한다.
 export function validateProject(payload = {}, partial = false) {
   const errors = [];
   const value = {};
@@ -208,10 +220,12 @@ export function validateProject(payload = {}, partial = false) {
   return { value, errors };
 }
 
+// 워크북은 일부 항목만 자주 저장하므로, 요청에 들어온 필드만 골라 검증한다.
 export function validateWorkbook(payload = {}) {
   const errors = [];
   const value = {};
 
+  // 허용 목록에 있는 키만 value에 넣어 임의의 필드가 저장소로 넘어가지 않게 한다.
   for (const field of workbookTextFields) {
     if (payload[field] !== undefined) {
       value[field] = text(payload[field]);
@@ -242,6 +256,7 @@ export function validateWorkbook(payload = {}) {
   return { value, errors };
 }
 
+// 회원가입 값은 이메일을 소문자로 통일하고 비밀번호 길이를 확인한다.
 export function validateRegister(payload = {}) {
   const name = text(payload.name) || "학습자";
   const email = text(payload.email).toLowerCase();
@@ -269,6 +284,7 @@ export function validateRegister(payload = {}) {
   };
 }
 
+// 로그인도 회원가입과 같은 이메일 정규화 규칙을 사용해야 같은 계정을 찾을 수 있다.
 export function validateLogin(payload = {}) {
   const email = text(payload.email).toLowerCase();
   const password = typeof payload.password === "string" ? payload.password : "";

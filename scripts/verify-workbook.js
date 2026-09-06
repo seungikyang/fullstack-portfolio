@@ -1,4 +1,5 @@
 // 풀스택 학습 문제집의 필수 파일과 빈칸 실습 구성을 검증하는 스크립트
+// 실행 방법: `npm run verify`(= npm run verify:structure). 실패하면 종료 코드 1로 CI도 함께 멈춘다.
 const fs = require("node:fs");
 const path = require("node:path");
 const { markdownSlug } = require("./markdown-slug.js");
@@ -6,6 +7,7 @@ const { problemWorkTracks } = require("./problem-work-files.js");
 
 const root = path.resolve(__dirname, "..");
 
+// 이 저장소에 반드시 있어야 하는 파일 목록(문서·설정·실습 코드). 하나라도 없으면 검증 실패.
 const requiredPaths = [
   "README.md",
   "START-HERE.md",
@@ -343,6 +345,7 @@ const sourceFiles = [
   "scripts/check-progress.js",
 ];
 
+// 각 package.json에 반드시 있어야 하는 npm 스크립트 목록. 문서의 실행 안내가 실제로 동작하게 유지한다.
 const packageScripts = {
   "package.json": [
     "test",
@@ -383,6 +386,7 @@ const packageScripts = {
   ],
 };
 
+// 01~17단계 폴더 이름. 순서까지 그대로 검사한다(학습 지도와 폴더가 어긋나면 실패).
 const guideFolders = [
   "01-html-css",
   "02-javascript-basics",
@@ -403,6 +407,7 @@ const guideFolders = [
   "17-interview-prep",
 ];
 
+// problem-work-files.js의 파일 목록을 "problems.md에 있어야 할 링크" 형태로 바꿔둔다.
 const problemWorkExpectations = Object.fromEntries(
   Object.entries(problemWorkTracks).map(([folder, track]) => [
     folder,
@@ -416,6 +421,7 @@ const problemWorkExpectations = Object.fromEntries(
   ]),
 );
 
+// 링크 검사에서 제외할 폴더(라이브러리·결과물·작업 기록 등)
 const documentSkipDirectories = new Set([
   ".agents",
   ".claude",
@@ -428,6 +434,7 @@ const documentSkipDirectories = new Set([
   "node_modules",
 ]);
 
+// 검사 대상 문서(.md, .html)를 하위 폴더까지 모두 수집한다
 function walkDocuments(directory) {
   const files = [];
 
@@ -449,6 +456,8 @@ function walkDocuments(directory) {
   return files;
 }
 
+// 문서 안에 실제로 존재하는 앵커(id/name 속성, Markdown 제목) 목록을 모은다.
+// 다른 문서가 "#제목" 링크를 걸 때 그 제목이 정말 있는지 확인하기 위한 재료다.
 function documentAnchors(filePath) {
   const content = fs.readFileSync(filePath, "utf8");
   const anchors = new Set(
@@ -461,6 +470,7 @@ function documentAnchors(filePath) {
     return anchors;
   }
 
+  // Markdown 코드 블록(``` 사이)은 제목 앵커 후보에서 제외한다 — 예시 코드의 # 주석을 제목으로 오해하지 않게
   const slugCounts = new Map();
   let inFence = false;
 
@@ -490,6 +500,7 @@ function documentAnchors(filePath) {
   return anchors;
 }
 
+// 링크 대상 문자열에서 순수 경로만 뽑는다(제목 뒤 <주소> 형식, "주소" 형식 처리)
 function markdownTarget(rawTarget) {
   const target = rawTarget.trim();
   if (target.startsWith("<")) {
@@ -500,6 +511,8 @@ function markdownTarget(rawTarget) {
   return target.split(/\s+["']/)[0];
 }
 
+// 저장소의 모든 문서를 훑어 "깨진 상대 링크·없는 앵커"를 찾아낸다.
+// 외부 http 링크와 빈칸(____)이 들어간 예시 링크는 검사에서 건너뛴다.
 function findLocalLinkErrors(documentRoot) {
   const errors = [];
 
@@ -518,6 +531,7 @@ function findLocalLinkErrors(documentRoot) {
       ),
     ];
 
+    // 링크를 파일 경로(# 앞)와 앵커(# 뒤)로 나눠 각각 존재하는지 확인한다
     for (const reference of references) {
       const rawTarget = reference.target.trim();
       if (
@@ -574,6 +588,8 @@ function findLocalLinkErrors(documentRoot) {
   return errors;
 }
 
+// 단계 성격에 따라 반드시 있어야 하는 문서가 다르다.
+// 일반 단계는 문제·힌트·정답, 완성 프로젝트와 면접 단계는 전용 산출물을 검사한다.
 function expectedTrackFiles(folder) {
   if (folder === "08-fullstack-portfolio-project") {
     return ["README.md", "learning-map.md", "submission-checklist.md"];
@@ -586,8 +602,10 @@ function expectedTrackFiles(folder) {
   return ["README.md", "problems.md", "hints.md", "answers.md"];
 }
 
+// 01~17 폴더의 이름·순서·필수 문서가 학습 지도와 일치하는지 검사한다.
 function findTrackErrors(workbookRoot) {
   const errors = [];
+  // 이름이 "두 자리 숫자-..."인 실제 단계 폴더만 모은다.
   const stageDirectories = fs
     .readdirSync(workbookRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name))
@@ -595,6 +613,7 @@ function findTrackErrors(workbookRoot) {
     .sort();
   const stagesByNumber = new Map();
 
+  // 같은 번호를 쓴 폴더(예: 01-html, 01-css)가 둘 이상인지 찾는다.
   for (const directory of stageDirectories) {
     const stage = directory.slice(0, 2);
     const duplicates = stagesByNumber.get(stage) || [];
@@ -608,12 +627,14 @@ function findTrackErrors(workbookRoot) {
     }
   }
 
+  // 배열을 문자열로 비교하면 이름뿐 아니라 순서가 다른 경우도 한 번에 잡을 수 있다.
   if (stageDirectories.join("|") !== guideFolders.join("|")) {
     errors.push(
       "01~17단계 폴더 이름 또는 순서가 학습 지도와 일치하지 않습니다.",
     );
   }
 
+  // 각 단계가 그 성격에 맞는 필수 문서를 모두 가지고 있는지 확인한다.
   for (const folder of guideFolders) {
     for (const file of expectedTrackFiles(folder)) {
       if (!fs.existsSync(path.join(workbookRoot, folder, file))) {
@@ -622,6 +643,7 @@ function findTrackErrors(workbookRoot) {
     }
   }
 
+  // HTML 목차와 체크리스트에도 01~17이 빠짐없이 한 번씩 나와야 한다.
   const indexPath = path.join(workbookRoot, "index.html");
   if (fs.existsSync(indexPath)) {
     const indexStages = [
@@ -655,18 +677,22 @@ function findTrackErrors(workbookRoot) {
   return errors;
 }
 
+// 학습자가 "설명 → 문제 → 힌트 → 정답 → 다음 단계"로 이동할 수 있는지 검사한다.
 function findLearningPathErrors(workbookRoot) {
   const errors = [];
+  // 파일이 아직 없을 때 예외 대신 빈 문자열을 돌려 여러 오류를 한 번에 보고한다.
   const read = (relativePath) => {
     const filePath = path.join(workbookRoot, relativePath);
     return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "";
   };
+  // 문서에 특정 상대 링크가 들어 있는지 반복해서 검사하는 작은 헬퍼다.
   const expectLink = (relativePath, target) => {
     if (!read(relativePath).includes(`(${target})`)) {
       errors.push(`${relativePath}에 ${target} 학습 동선 링크가 없습니다.`);
     }
   };
 
+  // 첫 화면에서 시작 문서와 각 단계의 실행 안내로 이동할 수 있어야 한다.
   const index = read("index.html");
   if (!index.includes('class="button" href="./START-HERE.md"')) {
     errors.push("index.html의 첫 CTA가 START-HERE.md를 열지 않습니다.");
@@ -692,12 +718,14 @@ function findLearningPathErrors(workbookRoot) {
   expectLink("START-HERE.md", "./01-html-css/README.md");
   expectLink("START-HERE.md", "./08-fullstack-portfolio-project/README.md");
 
+  // 08과 17은 완성 프로젝트·면접 단계라 일반 문제/힌트/정답 규칙에서 제외한다.
   const standardFolders = guideFolders.filter(
     (folder) =>
       folder !== "08-fullstack-portfolio-project" &&
       folder !== "17-interview-prep",
   );
 
+  // 일반 단계 문서 네 종류가 서로 연결되고, 정답에서 다음 단계로 이어지는지 확인한다.
   for (const folder of standardFolders) {
     expectLink(`${folder}/README.md`, "./problems.md");
     expectLink(`${folder}/README.md`, "./hints.md");
@@ -714,6 +742,7 @@ function findLearningPathErrors(workbookRoot) {
     expectLink(`${folder}/hints.md`, "./answers.md");
     expectLink(`${folder}/hints.md`, "../student-checklist.md");
 
+    // 힌트는 정답을 바로 공개하지 않도록 세 단계로 나뉘어 있어야 한다.
     const hints = read(`${folder}/hints.md`);
     for (const level of ["1단계", "2단계", "3단계"]) {
       if (!hints.includes(level)) {
@@ -726,6 +755,7 @@ function findLearningPathErrors(workbookRoot) {
     expectLink(`${folder}/answers.md`, `../${nextFolder}/README.md`);
   }
 
+  // 실행에 별도 요청 파일이 필요한 API 단계는 README에서 그 파일을 안내해야 한다.
   for (const folder of [
     "04-node-board-api",
     "05-database-mongodb",
@@ -772,6 +802,7 @@ function findLearningPathErrors(workbookRoot) {
   return errors;
 }
 
+// problems.md의 "실습 파일 열기" 링크가 편집 허용 목록과 일치하는지 검사한다.
 function findProblemWorkLinkErrors(
   workbookRoot,
   expectations = problemWorkExpectations,
@@ -786,6 +817,7 @@ function findProblemWorkLinkErrors(
     }
 
     const content = fs.readFileSync(problemPath, "utf8");
+    // 링크 문자열이 문서에 있고, 링크가 가리키는 실제 파일도 존재해야 통과한다.
     for (const target of expectation.links) {
       if (!content.includes(`(${target})`)) {
         errors.push(
@@ -803,6 +835,7 @@ function findProblemWorkLinkErrors(
       }
     }
 
+    // 코드 파일이 없는 서술형 단계는 대신 진행 방식 문구(marker)를 확인한다.
     if (expectation.marker && !content.includes(expectation.marker)) {
       errors.push(
         `${folder}/problems.md에 ${expectation.marker} 진행 방식 설명이 없습니다.`,
@@ -813,6 +846,7 @@ function findProblemWorkLinkErrors(
   return errors;
 }
 
+// Note Hub의 배포 설정·문서·PostgreSQL 초기화 코드가 서로 맞는지 검사한다.
 function findDeploymentContractErrors(workbookRoot) {
   const errors = [];
   const read = (relativePath) => {
@@ -849,6 +883,7 @@ function findDeploymentContractErrors(workbookRoot) {
   return errors;
 }
 
+// Career Hub 접속 포트(웹 3000)가 설정·명령·문서 어디서나 같은지 검사한다.
 function findPortContractErrors(workbookRoot) {
   const errors = [];
   const portfolioRoot = path.join(
@@ -921,18 +956,22 @@ function findPortContractErrors(workbookRoot) {
   return errors;
 }
 
+// 모든 검사를 실행하는 진입점. 오류를 끝까지 모아 보여준 뒤 한 번에 성공/실패를 결정한다.
 function main() {
   let hasError = false;
 
+  // 오류를 발견해도 즉시 멈추지 않고 표시와 메시지를 함께 남긴다.
   function fail(message) {
     hasError = true;
     console.error(`검증 실패: ${message}`);
   }
 
+  // 아래 검사들이 같은 방식으로 루트 기준 파일을 읽도록 만든 헬퍼다.
   function readFile(relativePath) {
     return fs.readFileSync(path.join(root, relativePath), "utf8");
   }
 
+  // 1) 필수 파일이 존재하고 비어 있지 않은지 확인한다.
   for (const relativePath of requiredPaths) {
     if (!fs.existsSync(path.join(root, relativePath))) {
       fail(`${relativePath} 파일이 없습니다.`);
@@ -944,6 +983,7 @@ function main() {
     }
   }
 
+  // 2) 직접 풀어야 하는 파일에는 학습용 빈칸 표시가 남아 있어야 한다.
   for (const relativePath of placeholderFiles) {
     if (!fs.existsSync(path.join(root, relativePath))) {
       continue;
@@ -956,6 +996,7 @@ function main() {
     }
   }
 
+  // 3) 완성 프로그램 소스 첫 줄에는 초보자가 역할을 알 수 있는 한국어 주석이 있어야 한다.
   for (const relativePath of sourceFiles) {
     if (!fs.existsSync(path.join(root, relativePath))) {
       continue;
@@ -968,6 +1009,7 @@ function main() {
     }
   }
 
+  // 4) 문서에서 안내하는 npm 명령이 실제 package.json에도 정의돼 있는지 확인한다.
   for (const [relativePath, scripts] of Object.entries(packageScripts)) {
     if (!fs.existsSync(path.join(root, relativePath))) {
       continue;
@@ -986,6 +1028,7 @@ function main() {
     }
   }
 
+  // 5) 폴더 안내·체크리스트·HTML 목차에 17개 단계가 모두 연결됐는지 확인한다.
   if (fs.existsSync(path.join(root, "folder-to-practice-guide.md"))) {
     const folderGuide = readFile("folder-to-practice-guide.md");
     for (const folder of guideFolders) {
@@ -1052,6 +1095,7 @@ function main() {
     }
   }
 
+  // 6) 위의 기본 검사보다 복잡한 링크·학습 흐름·배포 계약 검사를 차례로 합친다.
   for (const error of findLocalLinkErrors(root)) {
     fail(error);
   }
@@ -1076,6 +1120,7 @@ function main() {
     fail(error);
   }
 
+  // 하나라도 실패했다면 종료 코드 1을 돌려 CI와 npm이 실패를 알아차리게 한다.
   if (hasError) {
     process.exit(1);
   }
@@ -1083,10 +1128,12 @@ function main() {
   console.log("워크북 구조 검증이 통과했습니다.");
 }
 
+// `node scripts/verify-workbook.js`로 직접 실행할 때만 전체 검사를 시작한다.
 if (require.main === module) {
   main();
 }
 
+// 테스트는 서버를 띄우지 않고 필요한 검사 함수만 가져다 쓴다.
 module.exports = {
   findDeploymentContractErrors,
   findLearningPathErrors,

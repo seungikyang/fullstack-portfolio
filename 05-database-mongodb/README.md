@@ -50,6 +50,8 @@ docker run --name fullstack-mongo -d -p 27017:27017 mongo:8.3
 ```bash
 cd 05-database-mongodb
 cp .env.example .env        # MONGODB_URI, PORT가 들어 있는 .env 생성
+# Windows cmd:        copy .env.example .env
+# Windows PowerShell: Copy-Item .env.example .env
 npm install
 npm run dev
 ```

@@ -20,15 +20,20 @@ import {
   validateWorkbook
 } from "./validators.js";
 
+// ESM에는 __dirname이 없어서 현재 파일 URL을 실제 폴더 경로로 변환한다.
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const defaultDataFile = join(__dirname, "../data/career-hub.json");
+// 서버 시작 때 한 번 읽어 두고 요청마다 같은 OpenAPI 문서를 반환한다.
 const openApiSpec = JSON.parse(readFileSync(join(__dirname, "openapi.json"), "utf8"));
 
+// 모든 입력 검증 실패를 같은 400 응답 모양으로 만드는 헬퍼다.
 function sendValidation(res, errors) {
   return res.status(400).json({ message: errors[0], errors });
 }
 
+// 저장된 원본 목록을 화면 상단의 요약 숫자와 취업 준비도로 계산한다.
 function dashboardFor(applications, projects, workbook) {
+  // reduce로 상태별 지원 건수를 { 면접: 2, 합격: 1 } 같은 객체에 누적한다.
   const statusCounts = applications.reduce((acc, item) => {
     acc[item.status] = (acc[item.status] || 0) + 1;
     return acc;
@@ -49,6 +54,7 @@ function dashboardFor(applications, projects, workbook) {
     (application) => application.status !== "준비중"
   ).length;
 
+  // 네 단계가 각각 true/false 한 칸이므로 완료 개수와 백분율을 쉽게 계산할 수 있다.
   const readinessItems = [
     Boolean(workbook.targetRole && workbook.targetDate),
     Boolean(workbook.weeklyGoal && workbook.nextAction),
@@ -72,6 +78,7 @@ function dashboardFor(applications, projects, workbook) {
   };
 }
 
+// SEED_DEMO=true이고 사용자가 한 명도 없을 때만 화면 확인용 예제 데이터를 만든다.
 async function seedDemoData(store) {
   if (process.env.SEED_DEMO !== "true" || store.listUsers().length > 0) {
     return;
@@ -128,12 +135,15 @@ async function seedDemoData(store) {
   });
 }
 
+// Express 앱을 만드는 함수. listen과 분리해 테스트가 임시 데이터 파일로 앱만 만들 수 있다.
 export async function createApp(options = {}) {
   assertAuthConfig();
   const app = express();
+  // 프록시 뒤의 실제 클라이언트 IP를 비율 제한기가 읽을 수 있게 한다.
   if (process.env.NODE_ENV === "production") {
     app.set("trust proxy", 1);
   }
+  // 테스트 옵션 → 환경 변수 → 기본 파일 순서로 저장 위치를 고른다.
   const store = new JsonStore(options.dataFile || process.env.DATA_FILE || defaultDataFile);
   const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:3000";
   // 개발 편의: localhost와 127.0.0.1을 모두 허용한다. Origin이 없는 요청(curl, smoke test)도 허용한다.
@@ -212,6 +222,7 @@ export async function createApp(options = {}) {
     legacyHeaders: false,
     message: { message: "잠시 후 다시 시도해 주세요." }
   });
+  // 나머지 API도 짧은 시간에 과도하게 호출되지 않도록 더 넓은 제한을 둔다.
   const apiLimiter = rateLimit({
     windowMs: 60 * 1000,
     limit: 120,
@@ -220,11 +231,13 @@ export async function createApp(options = {}) {
     message: { message: "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요." }
   });
 
+  // 자동 테스트는 많은 요청을 빠르게 보내므로 비율 제한을 끄고 기능 자체만 검증한다.
   if (process.env.NODE_ENV !== "test") {
     app.use("/api/auth", authLimiter);
     app.use("/api", apiLimiter);
   }
 
+  // ── 공개 API: 서버 상태·API 명세·회원가입·로그인 ──
   app.get("/api/health", (req, res) => {
     res.json({ ok: true, service: "career-hub" });
   });
@@ -287,6 +300,7 @@ export async function createApp(options = {}) {
     });
   });
 
+  // ── 보호 API: requireAuth가 JWT를 확인하고 req.user를 만든 뒤 실행된다. ──
   app.get("/api/me", requireAuth, (req, res) => {
     const user = store.findUserById(req.user.id);
     res.json({ user: toPublicUser(user) });
@@ -299,6 +313,7 @@ export async function createApp(options = {}) {
     res.json(dashboardFor(applications, projects, workbook));
   });
 
+  // 취업 워크북은 사용자마다 한 개이며 PATCH로 일부 필드만 갱신한다.
   app.get("/api/workbook", requireAuth, (req, res) => {
     res.json(store.getWorkbook(req.user.id));
   });
@@ -313,6 +328,7 @@ export async function createApp(options = {}) {
     return res.json(store.updateWorkbook(req.user.id, value));
   });
 
+  // 지원 기록 REST API: 목록(GET), 생성(POST), 수정(PATCH), 삭제(DELETE).
   app.get("/api/applications", requireAuth, (req, res) => {
     res.json(store.listApplications(req.user.id));
   });
@@ -353,6 +369,7 @@ export async function createApp(options = {}) {
     return res.status(204).send();
   });
 
+  // 프로젝트도 같은 REST 규칙을 사용해 프론트가 일관된 방식으로 호출할 수 있다.
   app.get("/api/projects", requireAuth, (req, res) => {
     res.json(store.listProjects(req.user.id));
   });
@@ -393,9 +410,11 @@ export async function createApp(options = {}) {
     return res.status(204).send();
   });
 
+  // npm run build가 만든 React 파일을 Express가 배포 환경에서 직접 제공한다.
   const distPath = resolve(__dirname, "../dist");
   const indexHtml = join(distPath, "index.html");
   app.use(express.static(distPath));
+  // /api가 아닌 주소는 React Router 같은 클라이언트 화면이 처리하도록 index.html을 보낸다.
   app.get(/^(?!\/api).*/, (req, res) => {
     if (!existsSync(indexHtml)) {
       return res
@@ -409,6 +428,7 @@ export async function createApp(options = {}) {
     return res.sendFile(indexHtml);
   });
 
+  // 위 라우터 어디에도 맞지 않은 API 요청은 마지막 404 처리로 도착한다.
   app.use((req, res) => {
     res.status(404).json({ message: "요청한 API를 찾을 수 없습니다." });
   });
@@ -437,9 +457,10 @@ export async function createApp(options = {}) {
     });
   });
 
-  return app;
+  return app; // 테스트는 반환된 앱을 supertest에 넘기고, 실제 실행은 아래에서 listen한다.
 }
 
+// import된 경우에는 서버를 띄우지 않고, `node server/index.js`로 실행했을 때만 포트를 연다.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const port = process.env.PORT || 5100;
   const app = await createApp();
