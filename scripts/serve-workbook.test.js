@@ -114,9 +114,11 @@ test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단�
   assert.match(problemDocument, /<body class="problem-document">/);
   assert.match(problemDocument, /<link rel="icon" href="data:," \/>/);
   assert.match(problemDocument, /class="problem-workspace"/);
-  assert.match(
-    problemDocument,
-    /href="\/fullstack\/02-javascript-basics\/starter\/app\.js\?view=source"/,
+  assert.equal(
+    problemDocument.includes(
+      `href="${WORKBOOK_PATH}02-javascript-basics/starter/app.js?view=source"`,
+    ),
+    true,
   );
   assert.match(problemDocument, /<summary>1~3단계 힌트 확인<\/summary>/);
   assert.match(problemDocument, /<summary>정답 비교 열기<\/summary>/);
