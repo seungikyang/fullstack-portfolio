@@ -14,6 +14,7 @@ describe("Career Hub API", () => {
   let dataFile;
   let app;
 
+  // 각 테스트는 별도 임시 JSON 파일을 사용해 앞 테스트의 사용자·카운터가 다음 결과에 섞이지 않게 한다.
   beforeEach(async () => {
     dir = mkdtempSync(join(tmpdir(), "career-hub-api-"));
     dataFile = join(dir, "data.json");
@@ -22,6 +23,7 @@ describe("Career Hub API", () => {
   });
 
   afterEach(() => {
+    // 테스트가 만든 영속 데이터까지 지워 실제 개발용 data 파일은 건드리지 않는다.
     rmSync(dir, { recursive: true, force: true });
   });
 

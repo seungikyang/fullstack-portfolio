@@ -53,23 +53,27 @@ const post = await Post.create({
 
 ### 1단계. 개념 환기
 
-- Mongoose 문서는 필드를 바꾼 뒤 `save`해야 변경이 DB에 반영됩니다.
-- 일부 입력이 없을 때 기존 문서 값을 보존해야 합니다.
+- `findByIdAndUpdate`는 id로 문서를 찾는 일과 수정하는 일을 한 번에 처리합니다.
+- 세 번째 옵션의 `new: true`는 수정된 결과를 반환하고, `runValidators: true`는 수정값에도 스키마 규칙을 적용합니다.
 
 ### 2단계. 접근 방향
 
-- 기존 조회 코드가 가져온 `post`의 세 필드를 하나씩 갱신하세요.
-- 각 필드에 요청값과 기존값의 우선순위를 적용하세요.
-- 마지막 저장과 응답 코드는 그대로 사용하세요.
+- 첫 번째 인수에는 URL의 게시글 id가 이미 들어 있습니다.
+- 두 번째 인수의 `title`, `content`, `author`를 각각 요청 body의 같은 이름 필드와 연결하세요.
+- 수정 옵션과 404·성공 응답 흐름은 그대로 유지하세요.
 
-### 3단계. 문서 갱신 수준
+### 3단계. Mongoose API 수준
 
 ```js
-post.title = req.body.title || /* 기존 title */;
-post.content = req.body.content || /* 기존 content */;
-post.author = req.body.author || /* 기존 author */;
-
-await post.save();
+const post = await Post.findByIdAndUpdate(
+  req.params.id,
+  {
+    title: req.body./* 제목 필드 */,
+    content: req.body./* 내용 필드 */,
+    author: req.body./* 작성자 필드 */ || /* 기본 작성자 */,
+  },
+  { new: true, runValidators: true },
+);
 ```
 
 ## 문제 4. 데이터 삭제하기

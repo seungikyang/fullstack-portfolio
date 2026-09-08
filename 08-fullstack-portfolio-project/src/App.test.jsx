@@ -21,6 +21,7 @@ const workbook = {
   reflection: ""
 };
 
+// fetch·confirm 같은 브라우저 전역 mock이 다른 테스트의 실제 동작처럼 남지 않게 매번 원상 복구한다.
 afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();

@@ -8,6 +8,7 @@ describe("JsonStore", () => {
   let dir;
   let store;
 
+  // 저장소 테스트마다 새 폴더를 만들면 파일 영속성은 검증하면서 테스트끼리는 완전히 격리할 수 있다.
   beforeEach(() => {
     dir = mkdtempSync(join(tmpdir(), "career-hub-store-"));
     store = new JsonStore(join(dir, "data.json"));

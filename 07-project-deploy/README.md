@@ -16,8 +16,6 @@ npm run dev
 
 브라우저에서 `http://localhost:4300`을 열어 확인하세요.
 
-막히면 `answers.md`를 보고 다시 직접 고칩니다.
-
 ## 프로젝트 구성
 
 - `src/server.js`는 API 서버와 정적 파일 제공을 담당합니다.
@@ -25,6 +23,16 @@ npm run dev
 - `public/app.js`는 API 호출과 화면 렌더링을 담당합니다.
 - `public/styles.css`는 최종 프로젝트 화면 스타일을 담당합니다.
 - [배포 점검표](./deploy-checklist.md)는 배포 전 확인 목록입니다.
+
+## 학습 순서
+
+1. `public/index.html`과 `public/styles.css`에서 화면 구조를 먼저 확인합니다.
+2. `public/app.js`의 문제 1~3에서 API 주소 → 목록 렌더링 → 게시글 작성 순서로 연결합니다.
+3. `src/server.js`의 문제 4에서 브라우저가 보낸 body를 서버 데이터로 바꿉니다.
+4. 앱을 실행해 브라우저 이벤트 → fetch → Express 라우트 → JSON 응답 → 화면 갱신 순서를 따라갑니다.
+5. 문제 5와 `deploy-checklist.md`에서 환경 변수, 실행 명령, 배포 전 확인 사항을 점검합니다.
+6. 막히면 `hints.md`의 1단계부터 3단계까지 필요한 만큼만 봅니다.
+7. 그래도 해결되지 않을 때만 `answers.md`와 비교하고 다시 직접 고칩니다.
 
 ## 완료 기준
 

@@ -155,7 +155,7 @@
 
 ## 자료를 보는 우선순위
 
-1. 지금 푸는 단계의 `README.md`, `problems.md`, `answers.md`를 먼저 봅니다.
+1. 지금 푸는 단계의 `README.md` → `problems.md` → `hints.md` → `answers.md` 순서로 봅니다.
 2. 코드가 이해되지 않으면 위 단계별 공식 문서를 봅니다.
 3. 취업 준비 방향이 흔들리면 `career-roadmap.md`와 NCS 공정채용 안내를 봅니다.
 4. 이력서와 GitHub 정리가 필요하면 `portfolio-template.md`를 봅니다.
@@ -187,6 +187,7 @@
 2. `problems.md`를 보고 코드의 `빈칸`을 직접 채운다. (정답을 먼저 보지 않는다)
 3. 실행해서 결과 또는 에러를 확인한다.
 4. 에러가 나면 위 "에러 읽는 법" 순서대로 고친다.
-5. 막히면 `answers.md`와 비교하고, 어디를 놓쳤는지 한 줄로 적는다.
-6. 코드를 덮고 같은 기능을 **자기 말로** 설명해본다. (면접 대비)
-7. [portfolio-template.md](./portfolio-template.md) 형식으로 GitHub README에 정리한다.
+5. 막히면 `hints.md`의 1단계부터 3단계까지 필요한 만큼만 확인한다.
+6. 그래도 해결되지 않을 때만 `answers.md`와 비교하고, 어디를 놓쳤는지 한 줄로 적는다.
+7. 코드를 덮고 같은 기능을 **자기 말로** 설명해본다. (면접 대비)
+8. [portfolio-template.md](./portfolio-template.md) 형식으로 GitHub README에 정리한다.

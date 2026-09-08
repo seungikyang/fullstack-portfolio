@@ -1,4 +1,4 @@
-<!-- 미니 블로그 프로젝트의 최종 화면 구조를 정의하는 HTML 문서 -->
+<!-- 읽기 순서 1: 서버 없이도 확인할 수 있는 미니 블로그의 정적 HTML 구조 -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>미니 블로그 프로젝트</title>
     <link rel="stylesheet" href="./styles.css" />
+    <!-- defer를 사용해 HTML 요소를 모두 만든 뒤 app.js가 요소를 찾고 이벤트를 연결하게 합니다. -->
     <script src="./app.js" defer></script>
   </head>
   <body>
@@ -32,9 +33,9 @@
           <h2 id="postsTitle">게시글 목록</h2>
           <button id="refreshButton" type="button">새로고침</button>
         </div>
+        <!-- app.js가 API에서 받은 게시글마다 article 요소를 만들어 이 안에 추가합니다. -->
         <div id="postList" class="post-list"></div>
       </section>
     </main>
   </body>
 </html>
-

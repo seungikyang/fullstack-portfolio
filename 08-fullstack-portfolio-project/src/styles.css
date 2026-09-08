@@ -1,4 +1,6 @@
 /* Career Hub 포트폴리오 앱의 화면 레이아웃과 컴포넌트 스타일을 정의하는 CSS 파일 */
+
+/* 디자인 토큰과 전역 기본값: 반복되는 색과 글꼴 규칙을 한곳에서 맞춘다. */
 :root {
   --bg: #f5f7f8;
   --surface: #ffffff;
@@ -46,6 +48,7 @@ a:hover {
   text-decoration: underline;
 }
 
+/* 로그인·회원가입 화면: 인증 전에는 폼 패널 하나를 화면 중앙에 배치한다. */
 .auth-layout {
   min-height: 100vh;
   display: grid;
@@ -102,6 +105,7 @@ h3 {
   font-size: 14px;
 }
 
+/* 공통 폼·버튼·메시지: 여러 화면에서 같은 입력 경험과 피드백 모양을 재사용한다. */
 .mode-switch {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -206,6 +210,7 @@ textarea {
   font-weight: 700;
 }
 
+/* 로그인 후 앱 뼈대: 왼쪽 탐색 영역과 오른쪽 작업 영역을 두 열로 나눈다. */
 .app-layout {
   min-height: 100vh;
   display: grid;
@@ -253,6 +258,7 @@ textarea {
   line-height: 1.6;
 }
 
+/* 본문 머리말과 준비도 요약: 현재 할 일과 전체 진행률을 먼저 보여준다. */
 .content-area {
   width: min(1180px, 100%);
   margin: 0 auto;
@@ -298,6 +304,7 @@ textarea {
   color: var(--muted);
 }
 
+/* 워크북 진행 흐름: 네 단계의 완료·현재 상태와 진행 막대를 시각적으로 연결한다. */
 .workbook-guide {
   display: flex;
   align-items: center;
@@ -408,6 +415,7 @@ textarea {
   transition: width 180ms ease;
 }
 
+/* 대시보드 통계와 공통 섹션: 요약 카드 아래에 선택한 작업 화면을 담는다. */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(140px, 1fr));
@@ -463,6 +471,7 @@ textarea {
   font-weight: 800;
 }
 
+/* 편집 폼과 기록 목록: 입력 영역 뒤에 저장된 지원·프로젝트 카드를 쌓는다. */
 .editor-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   padding-bottom: 22px;
@@ -626,6 +635,7 @@ textarea {
   font-size: 14px;
 }
 
+/* 상태 표시와 학습 연결: 짧은 태그로 진행 상태를 구분하고 학습 근거를 카드로 묶는다. */
 .tag-row {
   display: flex;
   flex-wrap: wrap;
@@ -731,6 +741,7 @@ textarea {
   line-height: 1.6;
 }
 
+/* 반응형 전환: 화면이 좁아지면 열 수를 줄이고 모바일에서는 한 열로 읽게 한다. */
 @media (max-width: 980px) {
   .app-layout {
     grid-template-columns: 1fr;

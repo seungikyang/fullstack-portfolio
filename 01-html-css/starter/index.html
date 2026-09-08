@@ -1,13 +1,15 @@
-<!-- 자기소개 페이지의 구조를 연습하는 HTML 문서 -->
+<!-- 읽기 순서 1: HTML을 위에서 아래로 읽으며 자기소개 페이지의 의미 구조를 먼저 익힙니다. -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
+    <!-- head에는 화면에 직접 보이지 않는 문서 정보와 연결할 파일을 적습니다. -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>____의 자기소개</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <!-- header는 페이지의 제목과 첫 소개처럼 가장 먼저 읽을 내용을 묶습니다. -->
     <header class="site-header">
       <p class="eyebrow">Fullstack Study</p>
       <h1>안녕하세요, 저는 ____입니다.</h1>
@@ -16,7 +18,9 @@
       </p>
     </header>
 
+    <!-- main에는 이 페이지에서만 다루는 핵심 내용을 넣습니다. -->
     <main>
+      <!-- class는 CSS가 모양을 찾을 때 사용합니다. aria-label은 스크린 리더처럼 화면을 읽어 주는 도구에 영역 이름을 알려줍니다. -->
       <section class="profile-card" aria-label="프로필">
         <!-- 힌트: 사진이 없으면 임시 이미지 주소를 써도 됩니다. 예) https://placehold.co/320x320?text=Profile -->
         <img src="____" alt="____의 프로필 이미지" class="profile-image" />
@@ -29,6 +33,7 @@
         </div>
       </section>
 
+      <!-- aria-labelledby는 이 영역의 이름을 아래 h2의 id와 연결합니다. -->
       <section class="skills-section" aria-labelledby="skills-title">
         <h2 id="skills-title">관심 기술</h2>
         <ul class="skill-grid">
@@ -46,4 +51,3 @@
     </main>
   </body>
 </html>
-

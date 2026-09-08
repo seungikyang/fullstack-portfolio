@@ -24,6 +24,7 @@ function appOperations(app) {
     .filter((layer) => typeof layer.route?.path === "string" && layer.route.path.startsWith("/api"))
     .flatMap((layer) =>
       Object.keys(layer.route.methods).map((method) => {
+        // Express의 :id와 OpenAPI의 {id}는 같은 경로 변수이므로 표기만 통일한 뒤 집합을 비교한다.
         const path = layer.route.path.replace(/:([A-Za-z0-9_]+)/g, "{$1}");
         return `${method.toUpperCase()} ${path}`;
       })

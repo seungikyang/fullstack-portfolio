@@ -38,6 +38,9 @@ const textLimits = {
 };
 const stackLimit = 20;
 
+// 모든 검증기는 { value, errors }를 반환한다. value에는 정리·허용된 필드만 담고,
+// errors에는 발견한 문제를 모은다. 라우터는 errors가 비었을 때만 value를 저장소에 전달한다.
+
 // 문자열과 숫자만 문자열로 정리하고, 객체처럼 예상하지 못한 값은 빈 문자열로 만든다.
 function text(value) {
   if (typeof value !== "string" && typeof value !== "number") {
@@ -103,7 +106,8 @@ function isValidEmail(value) {
 }
 
 // 지원 기록 입력을 검사하고, 저장소에 넘길 정리된 value를 함께 만든다.
-// partial=true인 PATCH 요청은 전달된 필드만 검사해 나머지 값을 보존한다.
+// POST는 기본값 partial=false로 전체 생성 규칙을 적용한다. PATCH는 partial=true를 넘겨
+// 요청에 실제로 포함된 필드만 value에 담으므로, 보내지 않은 기존 필드는 그대로 보존된다.
 export function validateApplication(payload = {}, partial = false) {
   const errors = [];
   const value = {};

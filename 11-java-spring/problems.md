@@ -8,7 +8,7 @@
 
 - [Spring 프로젝트 생성·파일 배치 안내](./starter/README.md)
 
-`starter/board-api/src/main/java/com/example/board/` 안에서 빈칸을 채웁니다. 막히면 `answers.md`와 비교하세요.
+`starter/board-api/src/main/java/com/example/board/` 안에서 빈칸을 채웁니다. 막히면 먼저 `hints.md`의 1~3단계를 순서대로 보고, 마지막에만 `answers.md`와 비교하세요.
 
 Spring Initializr로 받은 프로젝트 위에서 진행한다는 전제로 문제를 구성했습니다. 패키지 이름은 자유롭게 바꿔도 됩니다.
 

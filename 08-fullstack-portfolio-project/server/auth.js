@@ -42,6 +42,8 @@ export async function verifyPassword(password, passwordHash) {
 }
 
 // 로그인 성공 시 사용자 식별 정보를 담은 2시간짜리 JWT를 발급한다.
+// sub(subject)는 JWT 표준의 "이 토큰이 가리키는 대상"이며, 바뀔 수 있는 이메일 대신 사용자 id를 넣는다.
+// 보호 API는 서명이 확인된 sub를 req.user.id로 옮겨 현재 사용자의 데이터만 조회한다.
 export function signToken(user) {
   return jwt.sign(
     {

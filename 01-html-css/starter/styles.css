@@ -1,4 +1,5 @@
-/* 자기소개 페이지의 화면 스타일을 연습하는 CSS 파일 */
+/* 읽기 순서 2: HTML 구조를 확인한 뒤, 위에서 아래로 화면 모양과 배치를 익히는 CSS 파일 */
+/* CSS 변수는 반복해서 쓰는 색에 이름을 붙입니다. 이 값을 바꾸면 같은 이름을 쓴 곳에 모두 반영됩니다. */
 :root {
   --page-bg: #f7f7fb;
   --text: #1f2937;
@@ -8,6 +9,7 @@
   --line: #d9dde7;
 }
 
+/* 기본값을 먼저 정해 두고, 아래에서 필요한 요소만 구체적으로 꾸밉니다. */
 * {
   box-sizing: border-box;
 }
@@ -19,6 +21,7 @@ body {
   background: var(--page-bg);
 }
 
+/* HTML의 header 영역이 너무 넓어지지 않도록 폭과 안쪽 간격을 정합니다. */
 .site-header {
   max-width: 920px;
   margin: 0 auto;
@@ -53,6 +56,7 @@ main {
   margin: 0 auto 64px;
 }
 
+/* 먼저 flexbox로 프로필 이미지와 소개 글을 한 방향으로 나란히 배치합니다. */
 .profile-card {
   display: ____; /* 힌트: 이미지와 글을 가로로 나란히 두려면 flex */
   align-items: ____; /* 힌트: 세로 가운데 정렬은 center */
@@ -85,11 +89,13 @@ main {
   background: ____; /* 힌트: 마우스를 올렸을 때 더 진한 색. 예) #1d4ed8 */
 }
 
+/* 프로필 아래의 두 section이 서로 붙지 않도록 같은 위쪽 간격을 줍니다. */
 .skills-section,
 .goal-section {
   margin-top: 24px;
 }
 
+/* 다음으로 grid를 사용해 여러 기술 항목을 행과 열의 격자로 배치합니다. */
 .skill-grid {
   display: ____; /* 힌트: 카드를 격자로 배치하려면 grid */
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -106,6 +112,7 @@ main {
   font-weight: 700;
 }
 
+/* 마지막으로 미디어 쿼리를 사용해 화면이 좁을 때 모바일 배치로 바꿉니다. */
 @media (max-width: 640px) {
   h1 {
     font-size: 32px;
@@ -120,4 +127,3 @@ main {
     width: 100%;
   }
 }
-

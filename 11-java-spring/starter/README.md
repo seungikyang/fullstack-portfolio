@@ -38,7 +38,7 @@
 
 `src/main/resources/application.yml`도 함께 작성합니다.
 
-문제는 [`../problems.md`](../problems.md), 정답 예시는 [`../answers.md`](../answers.md)를 참고하세요.
+문제는 [`../problems.md`](../problems.md)에서 확인하고, 막히면 [`../hints.md`](../hints.md)의 1~3단계를 먼저 본 뒤 마지막에만 [`../answers.md`](../answers.md)와 비교하세요.
 
 ## 빌드 결과 검증
 

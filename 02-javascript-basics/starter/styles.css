@@ -1,4 +1,5 @@
-/* JavaScript 실습 화면을 보기 좋게 정리하는 CSS 파일 */
+/* 01-html-css에서 배운 CSS를 재사용해 JavaScript 실행 결과를 보기 좋게 정리하는 파일 */
+/* 모든 요소의 width에 padding과 border까지 포함해 크기 계산을 단순하게 만듭니다. */
 * {
   box-sizing: border-box;
 }
@@ -10,6 +11,7 @@ body {
   background: #eef2f7;
 }
 
+/* 세 실습을 같은 간격의 카드 목록처럼 배치하는 바깥 컨테이너입니다. */
 .app-shell {
   width: min(880px, calc(100% - 32px));
   margin: 40px auto;
@@ -24,6 +26,7 @@ body {
   background: #ffffff;
 }
 
+/* input·select·button이 같은 화면에서 자연스럽게 보이도록 공통 모양을 맞춥니다. */
 label {
   display: block;
   margin-bottom: 6px;
@@ -58,6 +61,7 @@ button:hover {
   background: #115e59;
 }
 
+/* 계산기와 할 일 입력은 넓은 화면에서 가로로, 좁은 화면에서 세로로 배치됩니다. */
 .calculator-grid,
 .todo-row {
   display: grid;
@@ -74,10 +78,10 @@ button:hover {
   line-height: 1.8;
 }
 
+/* 640px 이하의 화면에서는 한 열로 바꿔 입력 칸이 너무 좁아지지 않게 합니다. */
 @media (max-width: 640px) {
   .calculator-grid,
   .todo-row {
     grid-template-columns: 1fr;
   }
 }
-

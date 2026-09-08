@@ -18,7 +18,14 @@ npm run dev
 
 [API 요청 모음](./requests.http)을 VS Code REST Client로 위에서 아래 순서대로 실행하거나, 같은 요청을 Postman·curl로 보내 CRUD 상태 코드와 응답을 확인하세요.
 
-막히면 `answers.md`를 보고 다시 직접 고칩니다.
+## 학습 순서
+
+1. `src/server.js`의 import, Express 앱, 미들웨어, 메모리 배열을 먼저 읽습니다.
+2. `problems.md`의 목록 조회 → 한 건 조회 → 생성 → 수정 → 삭제 순서로 빈칸을 채웁니다.
+3. 서버를 실행하고 `/health`로 요청을 받을 준비가 됐는지 확인합니다.
+4. `requests.http`를 위에서 아래로 실행하며 요청과 상태 코드를 코드 위치에 연결합니다.
+5. 막히면 `hints.md`의 1단계부터 3단계까지 필요한 만큼만 봅니다.
+6. 그래도 해결되지 않을 때만 `answers.md`와 비교하고 다시 직접 고칩니다.
 
 ## 완료 기준
 

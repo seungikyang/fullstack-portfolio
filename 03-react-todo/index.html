@@ -1,4 +1,4 @@
-<!-- React Todo 앱을 브라우저에 연결하는 HTML 문서 -->
+<!-- 이 HTML은 React 화면이 들어갈 root만 준비합니다. 화면 학습은 main.jsx 다음 App.jsx로 이어집니다. -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -7,8 +7,9 @@
     <title>React Todo 실습</title>
   </head>
   <body>
+    <!-- React가 만든 화면이 들어갈 빈 자리입니다. 실제 구성은 App 컴포넌트가 담당합니다. -->
     <div id="root"></div>
+    <!-- module 스크립트가 main.jsx에서 시작해 App과 CSS를 차례로 불러옵니다. -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-

@@ -10,6 +10,7 @@ body {
   background: #f4f6f8;
 }
 
+/* 바깥 영역이 패널을 화면 가운데 배치하고, 패널은 최대 너비 안에서 반응형으로 줄어듭니다. */
 .todo-shell {
   min-height: 100vh;
   display: grid;
@@ -97,6 +98,7 @@ button:hover {
   text-decoration: line-through;
 }
 
+/* 좁은 화면에서는 입력 폼과 Todo 항목을 한 열로 바꿔 눌러야 할 공간을 확보합니다. */
 @media (max-width: 520px) {
   .todo-form {
     grid-template-columns: 1fr;
@@ -107,4 +109,3 @@ button:hover {
     flex-direction: column;
   }
 }
-

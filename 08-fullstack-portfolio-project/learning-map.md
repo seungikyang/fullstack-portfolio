@@ -4,15 +4,15 @@ Career Hub는 `01-html-css`부터 `07-project-deploy`까지의 개념을 한 앱
 
 ## 전체 연결 요약
 
-| 학습 단계 | 기존 폴더              | 현재 코드 근거                                                                                                                | 실행 후 사용할 수 있는 설명                                                                         |
-| --------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| 1단계     | `01-html-css`          | `src/App.jsx`의 `LoginScreen`, `WorkbookSection`과 `src/styles.css`                                                           | 시맨틱 요소와 grid/flex 배치를 실제 화면에서 확인했습니다.                                          |
-| 2단계     | `02-javascript-basics` | `src/App.jsx`의 `request`, `submitWorkbook`, `submitApplication`, `submitProject`                                             | 폼 이벤트를 API 요청과 목록 갱신으로 연결했습니다.                                                  |
-| 3단계     | `03-react-todo`        | `src/App.jsx`의 `getWorkbookSteps`, `WorkbookSection`, `ApplicationSection`, `ProjectSection`, `App`                          | state와 props로 네 화면의 데이터 흐름을 관리했습니다.                                               |
-| 4단계     | `04-node-board-api`    | `server/index.js`의 `createApp`과 `/api/workbook`, `/api/applications`, `/api/projects` 라우트                                | Express 라우트에서 GET·POST·PATCH·DELETE와 상태 코드를 확인했습니다.                                |
-| 5단계     | `05-database-mongodb`  | `server/data-store.js`의 `JsonStore`, `updateWorkbook`, application/project CRUD 메서드                                       | JSON 저장소의 CRUD와 원자적 임시 파일 교체를 확인했습니다. MongoDB 사용 경험으로 표현하지 않습니다. |
-| 6단계     | `06-login-auth`        | `server/auth.js`의 `hashPassword`, `verifyPassword`, `signToken`, `requireAuth`, `assertAuthConfig`                           | bcrypt work factor 10, HS256·2시간 JWT, 운영 시크릿 검증을 확인했습니다.                            |
-| 7단계     | `07-project-deploy`    | `package.json`의 build/verify, `Dockerfile`, `docker-compose.yml`, `render.yaml`, `fly.toml`, 루트 `.github/workflows/ci.yml` | 실제로 실행한 build·test·컨테이너·CI 항목만 배포 준비 근거로 설명합니다.                            |
+| 학습 단계 | 기존 폴더              | 현재 코드 근거                                                                                       | 실행 후 사용할 수 있는 설명                                                                         |
+| --------- | ---------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 1단계     | `01-html-css`          | `src/App.jsx`의 `LoginScreen`, `WorkbookSection`과 `src/styles.css`                                  | 시맨틱 요소와 grid/flex 배치를 실제 화면에서 확인했습니다.                                          |
+| 2단계     | `02-javascript-basics` | `src/App.jsx`의 이벤트 처리 함수와 배열 `map` 렌더링                                                 | 함수·조건문·배열과 폼 이벤트를 React 코드에서도 다시 확인했습니다.                                  |
+| 3단계     | `03-react-todo`        | `src/App.jsx`의 `getWorkbookSteps`, `WorkbookSection`, `ApplicationSection`, `ProjectSection`, `App` | state와 props로 네 화면의 데이터 흐름을 관리했습니다.                                               |
+| 4단계     | `04-node-board-api`    | `server/index.js`의 `createApp`과 `/api/workbook`, `/api/applications`, `/api/projects` 라우트       | Express 라우트에서 GET·POST·PATCH·DELETE와 상태 코드를 확인했습니다.                                |
+| 5단계     | `05-database-mongodb`  | `server/data-store.js`의 `JsonStore`, `updateWorkbook`, application/project CRUD 메서드              | JSON 저장소의 CRUD와 원자적 임시 파일 교체를 확인했습니다. MongoDB 사용 경험으로 표현하지 않습니다. |
+| 6단계     | `06-login-auth`        | `server/auth.js`의 `hashPassword`, `verifyPassword`, `signToken`, `requireAuth`, `assertAuthConfig`  | bcrypt work factor 10, HS256·2시간 JWT, 운영 시크릿 검증을 확인했습니다.                            |
+| 7단계     | `07-project-deploy`    | `src/App.jsx`의 `request`, `server/index.js`의 정적 파일 제공, 빌드·배포 설정                        | 프론트엔드 요청과 API 응답을 연결하고, 실제 확인한 배포 준비 항목만 설명합니다.                     |
 
 ## 파일별 연결 근거
 
@@ -26,7 +26,7 @@ Career Hub는 `01-html-css`부터 `07-project-deploy`까지의 개념을 한 앱
 
 - `createApp` 안에서 취업 워크북, 지원 현황, 프로젝트 라우트를 구성합니다.
 - `GET`, `POST`, `PATCH`, `DELETE`를 기능별로 분리했습니다.
-- API 오류 상황에 맞게 `400`, `401`, `404`, `409` 상태 코드를 반환합니다.
+- 4단계에서 다룬 CRUD·입력 오류에는 `400`, `404` 등을, 6단계 인증 오류에는 `401`, `409`를 반환합니다.
 
 ### `server/data-store.js`
 
@@ -42,7 +42,7 @@ Career Hub는 `01-html-css`부터 `07-project-deploy`까지의 개념을 한 앱
 
 ### `scripts/api-smoke-test.js`
 
-- 7단계 배포 준비에서 필요한 검증 습관을 자동화했습니다.
+- 7단계의 프론트엔드·API 통합 실행 확인을 자동화했으며, 테스트 작성 개념은 12단계로 이어집니다.
 - 회원가입, 로그인 실패·성공, 워크북 저장, 네 단계 준비도, 보호 API, 지원 기록 CRUD, 프로젝트 CRUD를 임시 데이터 파일에서 확인합니다.
 
 ## 면접 답변 예시

@@ -5,6 +5,7 @@ const path = require("node:path");
 const { markdownSlug } = require("./markdown-slug.js");
 const { problemWorkTracks } = require("./problem-work-files.js");
 
+// 실행한 터미널 위치가 달라도 항상 이 스크립트의 상위 폴더를 워크북 루트로 사용한다.
 const root = path.resolve(__dirname, "..");
 
 // 이 저장소에 반드시 있어야 하는 파일 목록(문서·설정·실습 코드). 하나라도 없으면 검증 실패.
@@ -445,6 +446,7 @@ function walkDocuments(directory) {
 
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) {
+      // 하위 폴더도 같은 함수로 다시 훑는 재귀 방식이며, 반환된 파일은 ...으로 현재 목록에 합친다.
       files.push(...walkDocuments(fullPath));
     } else if (
       [".md", ".html"].includes(path.extname(entry.name).toLowerCase())
@@ -518,6 +520,7 @@ function findLocalLinkErrors(documentRoot) {
 
   for (const filePath of walkDocuments(documentRoot)) {
     const content = fs.readFileSync(filePath, "utf8");
+    // Markdown 링크와 HTML href/src를 같은 { 위치, 대상 } 모양으로 바꾸면 이후 검사를 한 번만 작성할 수 있다.
     const references = [
       ...[...content.matchAll(/!?\[[^\]]*\]\(([^)\n]+)\)/g)].map((match) => ({
         index: match.index,
@@ -565,6 +568,7 @@ function findLocalLinkErrors(documentRoot) {
         ? path.resolve(path.dirname(filePath), decodedPath)
         : filePath;
       const relativeSource = path.relative(documentRoot, filePath);
+      // 정규식이 찾은 문자 위치 앞의 줄바꿈 수를 세어 오류 메시지에 사람이 찾기 쉬운 줄 번호를 붙인다.
       const line = content.slice(0, reference.index).split(/\r?\n/).length;
 
       if (!fs.existsSync(targetPath)) {

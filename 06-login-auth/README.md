@@ -21,7 +21,15 @@ npm run dev
 
 [인증 요청 모음](./requests.http)을 VS Code REST Client로 위에서 아래 순서대로 실행하거나, 같은 요청을 Postman·curl로 보내 회원가입·로그인·보호 API 응답을 확인하세요.
 
-막히면 `answers.md`를 보고 다시 직접 고칩니다.
+## 학습 순서
+
+1. `src/users.js`에서 가입한 사용자를 어디에 보관하고 찾는지 확인합니다.
+2. `src/server.js`의 문제 1에서 회원가입과 비밀번호 해시 흐름을 완성합니다.
+3. `src/auth.js`의 문제 2~3에서 JWT 발급과 Authorization 헤더 검증을 연결합니다.
+4. 다시 `src/server.js`로 돌아와 문제 4의 로그인 검증을 완성합니다.
+5. `requests.http`에서 회원가입 → 로그인 → 토큰을 넣은 보호 API 순서로 문제 5를 확인합니다.
+6. 막히면 `hints.md`의 1단계부터 3단계까지 필요한 만큼만 봅니다.
+7. 그래도 해결되지 않을 때만 `answers.md`와 비교하고 다시 직접 고칩니다.
 
 ## 완료 기준
 

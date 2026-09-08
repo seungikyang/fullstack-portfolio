@@ -43,6 +43,8 @@ function write(root, relativePath, content = "# 테스트 문서\n") {
   fs.writeFileSync(filePath, content);
 }
 
+// 여러 검사에서 공유할 "모든 기본 계약이 맞는 작은 워크북" fixture를 임시 폴더에 만든다.
+// 각 테스트는 먼저 오류가 0개임을 확인한 뒤 관심 계약만 깨뜨려 검출 결과를 비교한다.
 function createFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "workbook-verify-"));
 
@@ -124,10 +126,12 @@ test("웹 편집 허용 계약은 문제에 연결된 실습 파일 50개로 제
 
 test("Markdown과 HTML의 로컬 파일·앵커를 검사한다", (t) => {
   const root = createFixture();
+  // 테스트가 성공하든 실패하든 임시 fixture를 지워 다음 테스트에 영향을 주지 않게 한다.
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
 
   assert.deepEqual(findLocalLinkErrors(root), []);
 
+  // 정상 fixture에 없는 파일·앵커 링크만 추가해 두 종류의 계약 위반을 만든다.
   fs.appendFileSync(
     path.join(root, "README.md"),
     "[없는 파일](./missing.md)\n[없는 앵커](./guide.md#없는-앵커)\n",
@@ -150,6 +154,7 @@ test("01~17단계 순서·중복과 트랙별 필수 산출물을 검사한다",
 
   assert.deepEqual(findTrackErrors(root), []);
 
+  // 폴더 번호 중복, 목차 순서 변경, 필수 파일 삭제를 한 번에 만들어 각 오류가 수집되는지 본다.
   fs.mkdirSync(path.join(root, "01-duplicate"));
   fs.writeFileSync(
     path.join(root, "index.html"),
@@ -176,6 +181,7 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
   const root = createFixture();
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
 
+  // 공통 fixture 위에 시작 CTA, 단계별 앵커, 문서 사이 이동 링크를 더해 완전한 정상 학습 동선을 만든다.
   write(
     root,
     "index.html",
@@ -259,6 +265,7 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
 
   assert.deepEqual(findLearningPathErrors(root), []);
 
+  // 정상 동선에서 다음 단계 링크 하나를 제거해 계약 파괴가 정확히 보고되는지 확인한다.
   write(
     root,
     "01-html-css/answers.md",
@@ -270,6 +277,7 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
     true,
   );
 
+  // 이어서 실행 지도 링크도 제거해 HTML 목차 계약 역시 별도 오류로 잡히는지 확인한다.
   fs.writeFileSync(
     path.join(root, "index.html"),
     fs
@@ -286,6 +294,7 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
 });
 
 test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검사한다", (t) => {
+  // 이 검사는 전체 워크북이 필요 없으므로 코드형·서술형 단계 하나씩만 있는 최소 fixture를 쓴다.
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "problem-work-links-"));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
 
@@ -313,6 +322,7 @@ test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검
 
   assert.deepEqual(findProblemWorkLinkErrors(root, expectations), []);
 
+  // 링크 대상과 서술형 표식을 각각 없애 두 진행 방식의 오류를 모두 검출하게 한다.
   fs.writeFileSync(
     path.join(root, "01-html-css/problems.md"),
     "[HTML 코드](./starter/missing.html?view=source)\n",
@@ -339,6 +349,7 @@ test("Career Hub의 3000 고정과 3001 미사용 계약을 검사한다", (t) =
 
   assert.deepEqual(findPortContractErrors(root), []);
 
+  // 정상 설정의 3000을 3001로 바꿔 포트 계약 위반을 의도적으로 만든다.
   const configPath = path.join(
     root,
     "08-fullstack-portfolio-project/vite.config.js",
@@ -377,6 +388,7 @@ test("Note Hub의 Render 경로와 Postgres 스키마 준비 계약을 검사한
 
   assert.deepEqual(findDeploymentContractErrors(root), []);
 
+  // 정상 배포 경로와 스키마 준비 코드를 비워 두 계약 위반이 함께 수집되는지 확인한다.
   fs.writeFileSync(path.join(root, "monorepo-mini-app/render.yaml"), "");
   fs.writeFileSync(
     path.join(root, "monorepo-mini-app/packages/api/src/notes-store-pg.ts"),

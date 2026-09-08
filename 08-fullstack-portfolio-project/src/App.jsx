@@ -1,4 +1,6 @@
 // Career Hub의 로그인, 대시보드, CRUD 화면을 구성하는 React 컴포넌트
+// 파일 탐색 지도: 공통 데이터·요청 도우미 → 로그인 → 통계 → 워크북 → 지원 기록 →
+// 프로젝트 → 학습 연결 → 최상위 App 순서로 읽으면 데이터가 화면까지 흐르는 과정을 따라가기 쉽다.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
@@ -128,11 +130,11 @@ const stageConnections = [
     title: "JavaScript 기초",
     folder: "02-javascript-basics",
     icon: Code2,
-    usedIn: "폼 입력 처리, 배열 렌더링, 이벤트 핸들러",
+    usedIn: "함수, 조건문, 배열 처리, 이벤트 핸들러",
     evidence: [
-      "입력값을 state로 읽고 submit 이벤트에서 API 요청으로 변환",
+      "submit과 click 이벤트에서 JavaScript 함수 실행",
       "지원 기록과 프로젝트 배열을 map으로 카드 목록 렌더링",
-      "수정, 삭제, 새로고침 버튼 클릭 이벤트 처리"
+      "조건문으로 생성·수정 모드와 화면 표시 내용 선택"
     ]
   },
   {
@@ -155,8 +157,8 @@ const stageConnections = [
     usedIn: "Career Hub REST API 서버",
     evidence: [
       "GET, POST, PATCH, DELETE API로 지원 현황과 프로젝트 CRUD 구현",
-      "201, 204, 400, 401, 404, 409 상태 코드를 상황별로 반환",
-      "서버 health API와 정적 파일 제공을 함께 구성"
+      "201, 204, 400, 404 상태 코드를 CRUD와 입력 오류에 맞게 반환",
+      "Express 미들웨어에서 CORS와 JSON body를 처리한 뒤 라우트 실행"
     ]
   },
   {
@@ -167,7 +169,7 @@ const stageConnections = [
     usedIn: "JSON 파일 저장소와 저장소 계층 분리",
     evidence: [
       "사용자, 지원 기록, 프로젝트 데이터를 파일에 저장해 재시작 후에도 보존",
-      "JsonStore 클래스로 저장소 로직을 분리해 DB 교체가 쉽도록 설계",
+      "JsonStore 클래스로 JSON 읽기·쓰기를 라우트 파일 밖에 분리",
       "create, read, update, delete 흐름을 데이터 계층에서 관리"
     ]
   },
@@ -190,9 +192,9 @@ const stageConnections = [
     icon: Rocket,
     usedIn: "제출 가능한 fullstack 포트폴리오 형태",
     evidence: [
+      "프론트엔드 fetch 요청을 Express API 응답과 연결",
       "Vite build 결과물을 Express가 정적 파일로 제공",
-      "README, .env.example, npm scripts로 실행과 배포 준비를 문서화",
-      "api-smoke-test로 인증과 CRUD 핵심 흐름을 자동 검증"
+      "README, .env.example, npm scripts와 배포 설정으로 실행 방법을 문서화"
     ]
   }
 ];
@@ -1079,6 +1081,7 @@ function LearningMapSection() {
 
 export default function App() {
   // 최상위 App이 인증·서버 데이터·현재 탭을 소유하고 필요한 자식에게 props로 전달한다.
+  // activeTab은 메뉴의 선택 표시와 본문 선택이 서로 어긋나지 않게 만드는 하나의 기준값이다.
   const [token, setToken] = useState(() => localStorage.getItem("careerHubToken") || "");
   const [user, setUser] = useState(null);
   const [dashboard, setDashboard] = useState(null);
@@ -1182,6 +1185,9 @@ export default function App() {
     return <LoginScreen onAuth={handleAuth} />;
   }
 
+  // reload로 workbook이 바뀌면 JSON 문자열 key도 바뀌어 WorkbookSection이 다시 마운트된다.
+  // 이 컴포넌트는 props로 로컬 폼 state를 처음 만들기 때문에, 재마운트해야 서버의 최신 값으로 폼도 초기화된다.
+
   return (
     <main className="app-layout">
       <aside className="sidebar">
@@ -1249,6 +1255,7 @@ export default function App() {
         {isLoading && <p className="muted">데이터를 불러오는 중입니다.</p>}
         {dashboard && <StatGrid dashboard={dashboard} />}
 
+        {/* 메뉴가 바꾼 activeTab에 따라 네 본문 중 하나만 렌더링해 한 화면의 책임을 분명히 한다. */}
         {activeTab === "workbook" ? (
           <WorkbookSection
             key={JSON.stringify(workbook)}

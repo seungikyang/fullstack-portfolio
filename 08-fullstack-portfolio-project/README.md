@@ -33,12 +33,12 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 이 프로젝트는 기존 학습 폴더의 결과를 하나로 통합한 포트폴리오입니다.
 
 - `01-html-css`는 화면 구조, 반응형 레이아웃, 카드 UI에 쓰였습니다.
-- `02-javascript-basics`는 폼 이벤트, 버튼 클릭, 배열 렌더링, API 호출 흐름에 쓰였습니다.
+- `02-javascript-basics`는 함수, 조건문, 폼 이벤트, 버튼 클릭, 배열 렌더링에 쓰였습니다.
 - `03-react-todo`는 React state, props, 컴포넌트 분리에 쓰였습니다.
 - `04-node-board-api`는 Express REST API와 HTTP 상태 코드 처리에 쓰였습니다.
-- `05-database-mongodb`는 저장소 계층과 CRUD 데이터 흐름 설계에 쓰였습니다.
+- `05-database-mongodb`의 영속화·CRUD 개념을 JSON 파일 저장소에서 다시 확인했습니다. MongoDB를 직접 사용한 프로젝트는 아닙니다.
 - `06-login-auth`는 bcrypt 비밀번호 해시와 JWT 보호 API에 쓰였습니다.
-- `07-project-deploy`는 빌드, 실행 문서, 환경 변수, 검증 스크립트에 쓰였습니다.
+- `07-project-deploy`는 프론트엔드와 API 연결, 빌드, 실행 문서, 환경 변수, 배포 설정에 쓰였습니다.
 
 자세한 연결표는 [learning-map.md](./learning-map.md)에 정리했습니다.
 

@@ -13,7 +13,7 @@
 - [5번 타입 좁히기 코드 보기](./starter/05-narrowing.ts?view=source)
 - [6번 제네릭 함수 코드 보기](./starter/06-generic-fetch.ts?view=source)
 
-`starter/` 폴더의 `____`, `// TODO` 표시를 직접 채우세요. 막히면 `answers.md`와 비교합니다.
+`starter/` 폴더의 `____`, `// TODO` 표시를 직접 채우세요. 막히면 먼저 `hints.md`의 1~3단계를 순서대로 보고, 마지막에만 `answers.md`와 비교합니다.
 
 ## 1번. 기본 타입 붙이기
 

@@ -6,6 +6,7 @@ const testSecret = "test-secret-with-at-least-32-characters";
 let previousNodeEnv;
 let previousJwtSecret;
 
+// 인증 설정은 process.env라는 전역 상태를 사용하므로 테스트 전 값을 보관하고 테스트 후 반드시 복원한다.
 beforeEach(() => {
   previousNodeEnv = process.env.NODE_ENV;
   previousJwtSecret = process.env.JWT_SECRET;

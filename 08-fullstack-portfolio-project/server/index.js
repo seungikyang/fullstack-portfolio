@@ -155,6 +155,10 @@ export async function createApp(options = {}) {
 
   await seedDemoData(store);
 
+  // 요청 파이프라인은 아래 등록 순서대로 흐른다: 요청 ID·로그 → 보안 헤더 → CORS →
+  // JSON 파싱 → 요청 횟수 제한 → 공개/보호 API → 정적 React 파일 → 404 → 오류 처리.
+  // 뒤 단계가 req.log나 req.body 같은 앞 단계의 결과를 사용하므로 미들웨어 순서도 서버 동작의 일부다.
+
   // 요청마다 X-Request-Id를 부여하고 JSON 로그를 남긴다. 분산 환경에서 단일 요청을
   // 여러 로그 라인과 묶어 추적하기 위해서다. 클라이언트가 보낸 X-Request-Id가 있으면 그대로 사용한다.
   app.use(
@@ -433,6 +437,8 @@ export async function createApp(options = {}) {
     res.status(404).json({ message: "요청한 API를 찾을 수 없습니다." });
   });
 
+  // Express는 매개변수가 (error, req, res, next)인 4-인자 함수를 오류 미들웨어로 구별한다.
+  // next를 직접 쓰지 않아도 빼면 일반 미들웨어로 인식되므로 네 인자를 그대로 유지해야 한다.
   // pino-http가 req.log를 채워 두므로 요청 컨텍스트(requestId 포함)와 함께 로그를 남긴다.
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => {

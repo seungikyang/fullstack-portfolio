@@ -14,7 +14,7 @@ SQL 파일을 번호 순서대로 열어 빈칸을 채우고 Oracle에서 실행
 - [6번 트랜잭션 코드 보기](./starter/06-transaction.sql?view=source)
 - [7번 인덱스 코드 보기](./starter/07-index.sql?view=source)
 
-`starter/` 폴더의 빈칸을 채워가며 차례대로 실행하세요. 막히면 `answers.md`와 비교합니다.
+`starter/` 폴더의 빈칸을 채워가며 차례대로 실행하세요. 막히면 먼저 `hints.md`의 1~3단계를 순서대로 보고, 마지막에만 `answers.md`와 비교합니다.
 
 각 문제는 Oracle 문법 기준입니다. MySQL로 푸는 경우 README의 차이표를 참고해 변환하세요.
 

@@ -171,10 +171,12 @@ function renderWorkbookDocument(
     <link rel="icon" href="data:," />
     <title>${safeTitle} | 풀스택 취업 워크북</title>
     <style>
+      /* 디자인 토큰과 기본 규칙: 문서 화면 전체가 같은 색·크기 계산법·스크롤 방식을 쓴다. */
       :root { color-scheme: light; --navy: #16243d; --blue: #2563eb; --paper: #f7f6f2; --line: #dbe1ea; --muted: #64748b; }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
       body { margin: 0; color: #1f2937; background: var(--paper); font-family: Inter, Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; line-height: 1.7; }
+      /* 문서 뼈대: 상단 목차 링크와 읽기 영역의 폭·여백을 정한다. */
       .document-header { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(247, 246, 242, 0.96); backdrop-filter: blur(14px); }
       .header-inner, main { width: min(880px, calc(100% - 40px)); margin: 0 auto; }
       .header-inner { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
@@ -196,6 +198,7 @@ function renderWorkbookDocument(
       th { background: #eef2f7; color: var(--navy); }
       img { max-width: 100%; height: auto; }
       input[type="checkbox"] { margin-right: 0.45em; }
+      /* 접근성: 키보드 초점은 굵은 윤곽선으로 표시하고 비활성 버튼은 흐리게 보여준다. */
       button { min-height: 42px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 9px; background: white; color: var(--navy); font: inherit; font-weight: 800; cursor: pointer; }
       button:hover:not(:disabled), button:focus-visible { border-color: var(--blue); color: #1d4ed8; }
       button:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 3px; }
@@ -212,6 +215,7 @@ function renderWorkbookDocument(
       .problem-help summary { padding: 13px 14px; color: var(--navy); font-weight: 900; cursor: pointer; }
       .problem-help details[open] summary { border-bottom: 1px solid var(--line); }
       .problem-help .support-content { padding-top: 4px; }
+      /* 편집 화면: 저장 도구 모음, 코드 입력창, 힌트·정답 패널을 한 묶음으로 배치한다. */
       .source-document main { width: min(1180px, calc(100% - 40px)); }
       .source-path { color: var(--muted); overflow-wrap: anywhere; }
       .editor-toolbar { position: sticky; top: 74px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 20px 0 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, 0.96); }
@@ -232,6 +236,7 @@ function renderWorkbookDocument(
         .problem-workspace { grid-template-columns: 1fr; }
         .problem-help { position: static; max-height: none; }
       }
+      /* 반응형: 휴대폰에서는 여백을 줄이고 힌트와 정답을 한 열로 쌓는다. */
       @media (max-width: 560px) {
         .header-inner { min-height: 72px; align-items: flex-start; justify-content: center; padding: 12px 0; flex-direction: column; gap: 2px; }
         main { width: calc(100% - 24px); margin-top: 12px; padding: 22px 18px; border-radius: 12px; }
@@ -242,16 +247,19 @@ function renderWorkbookDocument(
         .source-editor { min-height: 460px; padding: 14px; }
         .source-help { grid-template-columns: 1fr; }
       }
+      /* 접근성: 운영체제에서 움직임 줄이기를 선택한 사용자는 부드러운 스크롤을 끈다. */
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     </style>
   </head>
   <body class="${safeBodyClass}">
+    <!-- 공통 헤더: 어느 문서를 열어도 워크북 목차로 돌아갈 수 있다. -->
     <header class="document-header">
       <div class="header-inner">
         <a class="brand" href="${workbookPath}">← 문제집 목차</a>
         <span class="document-name">${safeTitle}</span>
       </div>
     </header>
+    <!-- Markdown 또는 편집기에서 만든 안전한 콘텐츠가 들어가는 주 영역 -->
     <main>${safeContent}</main>
     ${safeScriptSrc ? `<script src="${safeScriptSrc}" defer></script>` : ""}
   </body>
@@ -350,6 +358,8 @@ async function renderSourceDocument(
   const safeRelativePath = escapeHtml(relativePath);
   const safeEditToken = escapeHtml(editToken);
   const safeVersion = escapeHtml(sourceVersion(source));
+  // data-* 속성은 서버가 만든 토큰·파일 버전을 화면에 보관했다가 편집기 JS에 전달하는 통로다.
+  // 사용자가 보는 문구가 아니라 동작에 필요한 값이므로 별도 전역 변수 대신 HTML 요소에 붙인다.
   const editorContent = `
       <h1>${escapeHtml(documentTitle)}</h1>
       <p class="source-path"><code>${safeRelativePath}</code></p>
@@ -434,6 +444,8 @@ function safeTokenEqual(actual, expected) {
 
 // 요청 본문(저장할 코드)을 JSON으로 읽어들인다. 크기·인코딩·형식을 순서대로 검사한다.
 async function readJsonBody(request) {
+  // HTTP 요청 본문은 한 번에 완성된 문자열이 아니라 조각(chunk)이 차례로 오는 stream이다.
+  // Buffer로 모아야 글자 수가 아닌 실제 바이트 수로 1MB 제한과 UTF-8 유효성을 검사할 수 있다.
   const chunks = [];
   let byteLength = 0;
 
@@ -743,6 +755,7 @@ async function handleRequest(request, response, context) {
     }
 
     response.writeHead(200, responseHeaders);
+    // HEAD는 GET과 같은 상태·헤더만 확인하고 본문은 받지 않는 요청이라 responseBody를 보내지 않는다.
     response.end(request.method === "HEAD" ? undefined : responseBody);
   } catch (error) {
     // 파일이 없으면(ENOENT) 404, 저장 관련 오류는 본문에 담긴 상태 코드로 알려준다
@@ -759,6 +772,7 @@ async function handleRequest(request, response, context) {
 }
 
 // 서버 객체를 만드는 함수. 테스트에서 다른 폴더·토큰을 넣어 재사용할 수 있게 옵션으로 받는다.
+// 이렇게 외부 값을 주입하는 방식을 의존성 주입이라 하며, 실제 저장소를 건드리지 않는 테스트를 가능하게 한다.
 function createWorkbookServer(options = {}) {
   const workbookRoot = path.resolve(options.workbookRoot || WORKBOOK_ROOT);
   const workbookSlug = options.workbookSlug || path.basename(workbookRoot);

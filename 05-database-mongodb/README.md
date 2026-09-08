@@ -67,7 +67,15 @@ npm run dev
 
 `MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017` 가 나오면 MongoDB가 실행되지 않은 것입니다. A는 `brew services list`, C는 `docker ps`로 실행 상태를 먼저 확인하세요. 이 에러를 읽는 연습이 곧 문제 5입니다.
 
-막히면 `answers.md`를 보고 다시 직접 고칩니다.
+## 학습 순서
+
+1. 위 준비 방법 중 하나로 MongoDB를 실행하고 `.env`의 연결 주소를 확인합니다.
+2. `src/db.js`에서 서버 시작 전에 DB 연결을 기다리는 이유를 읽습니다.
+3. `src/models/Post.js`의 문제 1에서 게시글 스키마와 모델을 완성합니다.
+4. `src/server.js`의 문제 2~4에서 생성 → 수정 → 삭제 흐름을 완성합니다.
+5. 서버와 `requests.http`를 실행하고, 문제 5에서는 실제 연결 오류의 첫 줄을 읽습니다.
+6. 막히면 `hints.md`의 1단계부터 3단계까지 필요한 만큼만 봅니다.
+7. 그래도 해결되지 않을 때만 `answers.md`와 비교하고 다시 직접 고칩니다.
 
 ## 완료 기준
 

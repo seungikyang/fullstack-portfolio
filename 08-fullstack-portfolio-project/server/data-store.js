@@ -2,6 +2,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
+// 저장 경계: 라우터는 HTTP 응답을, validators는 입력 정리를, 이 파일은 영속화·id·소유권을 맡는다.
+// 역할을 나누면 나중에 JSON 파일을 데이터베이스로 바꿔도 화면과 API 규칙을 함께 고칠 필요가 적다.
+
 // DB 대신 JSON 파일 하나에 저장할 전체 자료 구조와 자동 증가 번호의 초기값이다.
 const initialData = {
   counters: {
@@ -91,7 +94,10 @@ export class JsonStore {
     };
   }
 
-  // 임시 파일을 완성한 뒤 rename해 원본이 절반만 쓰인 상태로 남을 위험을 줄인다.
+  // 변경 메서드는 항상 현재 파일 읽기 → 메모리 객체 수정 → write 순서로 한 덩어리를 저장한다.
+  // write는 같은 폴더의 임시 파일을 완성한 뒤 rename으로 원본을 원자적으로 교체한다.
+  // 따라서 읽는 쪽은 이전 파일이나 새 파일 전체를 보며, 쓰다 만 JSON을 볼 위험이 줄어든다.
+  // 이 방식은 파일 손상을 줄이는 장치이며 데이터베이스 트랜잭션이나 다중 프로세스 잠금은 아니다.
   write(data) {
     const tempPath = `${this.filePath}.tmp`;
     fs.writeFileSync(tempPath, `${JSON.stringify(data, null, 2)}\n`);

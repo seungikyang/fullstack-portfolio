@@ -60,9 +60,10 @@
 2. `problems.md`를 보고 `starter` 또는 `src`의 `빈칸`, `TODO`, `____`를 직접 채웁니다.
 3. 실행해서 화면, API 응답, 에러 메시지 중 하나를 반드시 확인합니다.
 4. 실패하면 에러 첫 줄, 파일명, 줄 번호를 읽고 한 곳만 고친 뒤 다시 실행합니다.
-5. 막히면 `answers.md`와 비교하고, 틀린 이유를 한 문장으로 남깁니다.
-6. 완료 후 "이 기능은 실무에서 어디에 쓰이는가"를 자기 말로 설명합니다.
-7. 8번 Career Hub의 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)를 열어 같은 개념이 실제 앱에서 쓰인 위치를 찾습니다.
+5. 막히면 `hints.md`의 1단계부터 3단계까지 필요한 만큼만 확인합니다.
+6. 그래도 해결되지 않을 때만 `answers.md`와 비교하고, 틀린 이유를 한 문장으로 남깁니다.
+7. 완료 후 "이 기능은 실무에서 어디에 쓰이는가"를 자기 말로 설명합니다.
+8. 8번 Career Hub의 [learning-map.md](./08-fullstack-portfolio-project/learning-map.md)를 열어 같은 개념이 실제 앱에서 쓰인 위치를 찾습니다.
 
 단계마다 실행 명령, 관찰 결과, 해결한 오류, 직접 바꾼 코드 위치 네 가지를 남깁니다. 이 네 항목이 이력서 문장과 면접 답변의 근거가 됩니다.
 
@@ -139,7 +140,7 @@ Career Hub는 SI/SW 취업 준비자가 지원 현황과 포트폴리오 프로�
 
 ## 참고 자료를 보는 순서
 
-1. 지금 여는 폴더의 `README.md`, `problems.md`, `answers.md`를 먼저 봅니다.
+1. 지금 여는 폴더의 `README.md` → `problems.md` → `hints.md` → `answers.md` 순서로 봅니다.
 2. 개념이 부족하면 [references.md](./references.md)의 단계별 공식 문서를 봅니다.
 3. 취업 방향이 흔들리면 [career-roadmap.md](./career-roadmap.md)를 봅니다.
 4. GitHub 제출 문장이 필요하면 [portfolio-template.md](./portfolio-template.md)와 [resume-assets.md](./08-fullstack-portfolio-project/resume-assets.md)를 봅니다.
