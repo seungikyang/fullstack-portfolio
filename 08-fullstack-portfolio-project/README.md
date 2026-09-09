@@ -56,6 +56,25 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 - Container. 멀티 스테이지 Dockerfile + docker-compose.
 - CI. GitHub Actions (lint, test, build, docker smoke).
 
+### 기술을 쓰는 이유와 동작 흐름
+
+처음에는 화면을 만드는 기술과 요청을 처리하는 기술부터 읽으세요. [처음 읽는 기술 안내서](../technology-guide.md)에는 용어 설명과 지원 기록 저장 과정을 단계별로 정리했습니다.
+
+| 기술                         | 왜 사용하는가                                                        | 이 코드에서 어떻게 동작하는가                                                                                                                                                                      |
+| ---------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React / CSS                  | 입력값, 목록, 선택한 메뉴를 화면에 일관되게 반영합니다.              | [App.jsx](./src/App.jsx)의 state(화면 상태)가 바뀌면 컴포넌트가 화면을 다시 계산합니다. [styles.css](./src/styles.css)는 화면 너비에 맞춰 열과 간격을 조정합니다.                                  |
+| Vite                         | 개발 중 화면 코드를 제공하고 배포용 파일을 만듭니다.                 | [vite.config.js](./vite.config.js)는 기본 개발 환경에서 3000번의 `/api` 요청을 5100번 서버로 전달합니다. 빌드하면 `dist`에 브라우저용 파일을 만듭니다.                                             |
+| Node.js / Express            | 브라우저 밖에서 요청을 검사하고 데이터를 저장합니다.                 | Node.js가 [server/index.js](./server/index.js)를 실행합니다. Express는 메서드와 경로에 맞는 처리 함수로 요청을 연결합니다.                                                                         |
+| bcryptjs / JWT               | 비밀번호 원문을 저장하지 않고 로그인 이후의 사용자를 확인합니다.     | [auth.js](./server/auth.js)에서 비밀번호 해시를 생성·비교하고, 서명·만료를 확인할 토큰을 발급·검증합니다. JWT 내용 자체를 암호화하는 방식은 아닙니다.                                              |
+| 입력 검증 / JsonStore        | 잘못된 데이터를 막고 서버 재시작 뒤에도 기록을 읽습니다.             | [validators.js](./server/validators.js)가 입력을 검사한 뒤 [data-store.js](./server/data-store.js)가 사용자 id와 함께 JSON 파일에 저장합니다. 별도 DB 설치 없이 실행하기 위한 구성입니다.          |
+| helmet / CORS / rate-limit   | 브라우저 보안 정책, 다른 출처의 요청, 과도한 요청을 각각 처리합니다. | [서버 미들웨어](./server/index.js)가 보안 헤더를 붙이고 허용 출처를 검사하며 요청 횟수를 제한합니다. CORS는 로그인 확인을 대신하지 않습니다.                                                       |
+| pino / pino-http             | 오류가 어느 요청에서 생겼는지 찾습니다.                              | [서버](./server/index.js)가 요청 id와 처리 기록을 JSON 형태의 로그로 남깁니다.                                                                                                                     |
+| OpenAPI / Vitest / supertest | API 약속을 읽고 실제 응답이 기대와 맞는지 확인합니다.                | [openapi.json](./server/openapi.json)은 요청·응답 명세이고, [api.test.js](./server/api.test.js)는 요청을 보내 상태·응답을 검사합니다. 명세 파일을 작성하는 것만으로 서버 동작이 바뀌지는 않습니다. |
+
+**지원 기록 한 건의 처리 순서:** `ApplicationSection` 입력 → `request`의 `POST /api/applications` → `requireAuth`의 토큰 확인 → `validateApplication`의 입력 검사 → `JsonStore.createApplication`의 파일 저장 → `201` 응답 → `reload`와 `loadAll`의 최신 데이터 조회 → state 갱신입니다.
+
+**직접 확인하기:** 아래 실행 방법으로 앱을 켜고 본인 계정에 로그인한 뒤, 브라우저 개발자 도구의 Network 탭을 열어 지원 기록 한 건을 저장합니다. 생성 요청의 `201` 응답과 뒤따르는 목록 조회를 확인하고 새로고침해 보세요. 입력 칸의 state와 서버 저장 파일이 각각 어떤 역할을 했는지 설명하면 됩니다. [학습 연결표](./learning-map.md)에서 같은 개념을 배운 1~7단계로 돌아갈 수 있습니다.
+
 ## 필요 환경
 
 - **Node.js 24.19 LTS 이상**. Vite 8 요구 사항을 충족하는 저장소 표준 버전입니다.

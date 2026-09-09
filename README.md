@@ -8,6 +8,8 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 > 처음 왔다면 [HTML 학습 목차](./index.html)를 열어 남은 기간에 맞는 경로를 고르세요. 목표 직무와 첫 지원일은 [START-HERE.md](./START-HERE.md)에 적습니다.
 
+기술 이름이 낯설다면 [처음 읽는 기술 안내서](./technology-guide.md)에서 화면·서버·저장소의 차이와 기술을 쓰는 이유를 먼저 확인하세요. 각 단계 README에는 해당 기술의 동작 순서, 실제 코드 위치, 실행 후 관찰할 내용이 있습니다.
+
 ## 사용 방법
 
 1. [HTML 학습 목차](./index.html)에서 전체 흐름을 보고 [START-HERE.md](./START-HERE.md)에 목표를 적습니다.
@@ -59,6 +61,7 @@ SI/SW 업체(특히 Java/Spring 중심 대형 SI) 취업을 목표로 풀스택 
 
 - [index.html](./index.html)은 추천 경로, 17단계 학습 자료, 폴더별 실행·검증 지도, 취업 준비 문서를 클릭해서 이동하는 단일 HTML 목차입니다.
 - [START-HERE.md](./START-HERE.md)는 목표 직무와 지원 시기에 따라 첫 학습 경로를 정하는 단일 시작점입니다.
+- [technology-guide.md](./technology-guide.md)는 기술의 역할, 선택 이유, 저장 버튼의 처리 과정, 실행·검증 도구를 초보자 눈높이로 설명합니다.
 - [history.html](./history.html)은 취업 워크북 개선의 배경, 구현 내용, 검증 결과를 정리한 변경 이력입니다.
 - [folder-to-practice-guide.md](./folder-to-practice-guide.md)는 1~17번 폴더를 실행 근거, Career Hub, 이력서 제출까지 연결하는 핵심 안내서입니다.
 - [feature-implementation-workbook.md](./feature-implementation-workbook.md)는 모든 기능 구현을 개념 빈칸, 구현 TODO, 검증 명령, 면접 설명으로 다시 채우는 종합 워크북입니다.

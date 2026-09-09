@@ -4,6 +4,24 @@ DevContainer(가상환경)에서 동작하는 풀스택 TypeScript 모노레포 
 
 ## 무엇을 보여주는가
 
+### 기술을 쓰는 이유와 동작 흐름
+
+화면·API·저장소가 낯설면 [처음 읽는 기술 안내서](../technology-guide.md)를 먼저 읽으세요. 이 앱의 모노레포는 여러 패키지의 코드를 한 저장소에서 함께 관리한다는 뜻입니다.
+
+| 기술                    | 왜 들어가는가                                                            | 코드에서 어떻게 동작하는가                                                                                                                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| npm workspaces          | 화면·서버·공통 코드의 의존성과 실행 명령을 함께 관리합니다.              | [package.json](./package.json)이 세 패키지를 등록하고 개발 실행 전에 shared를 먼저 빌드합니다.                                                                                                                                       |
+| TypeScript / shared     | 노트의 데이터 모양과 API 경로를 여러 곳에서 중복 정의하는 일을 줄입니다. | [shared/src/index.ts](./packages/shared/src/index.ts)의 타입은 개발 중 검사에, `ApiRoutes`와 `normalizeTags`는 실행 중 공통 규칙에 쓰입니다. 외부 요청값은 서버의 `validateCreate`로 따로 검사합니다.                                |
+| React / Express         | 사용자의 입력과 서버의 처리를 나눕니다.                                  | [웹 App.tsx](./packages/web/src/App.tsx)가 노트 생성 요청을 보내고 [API server.ts](./packages/api/src/server.ts)가 검사·저장 후 응답합니다.                                                                                          |
+| NotesStore / PostgreSQL | DB 없이 빠르게 시작하고, 나중에 영속 저장을 비교해 봅니다.               | [notes-store.ts](./packages/api/src/notes-store.ts)는 저장소가 제공할 메서드를 정의합니다. 서버의 `createStore`가 `DATABASE_URL`이 있으면 [PostgresNotesStore](./packages/api/src/notes-store-pg.ts), 없으면 메모리 구현을 고릅니다. |
+| Docker / Dev Container  | DB나 개발 도구를 정해진 환경에서 실행합니다.                             | [개발 Compose 설정](./docker-compose.dev.yml)은 PostgreSQL을 실행합니다. Dev Container는 편집기가 컨테이너 안의 개발 환경에 연결되도록 돕습니다.                                                                                     |
+
+**노트 생성 흐름:** 화면 입력 → shared의 태그 정리 함수 → `POST /api/notes` → 설정된 접근 제어와 `validateCreate` 검사 → 선택한 저장소의 `create` → 응답 → 화면 목록 갱신입니다. shared 타입을 가져오는 것만으로 네트워크 데이터의 유효성이 확인되지는 않습니다.
+
+**직접 확인하기:** 아래 A 방식으로 본인의 연습 노트를 만든 뒤 API 서버를 껐다 켜고 목록을 다시 읽어보세요. 메모리 저장은 서버 프로세스가 끝나면 사라집니다. B 방식에서는 서버 로그의 저장소 이름과 재시작 뒤 목록을 비교해, 실행 중인 변수와 DB 저장의 차이를 확인합니다.
+
+### 이 앱에서 확인할 구성
+
 - **공유 타입**: `@note-hub/shared`의 `Note`, `CreateNoteInput`, `ApiRoutes`를 API와 Web이 그대로 import. 백엔드 응답 모양이 바뀌면 프론트엔드 컴파일이 즉시 실패합니다.
 - **npm workspaces**: 별도 도구(turbo, nx, pnpm) 없이 Node에 내장된 기능만으로 모노레포 구성.
 - **저장소 추상화**: `NotesStore` 인터페이스 한 개에 InMemory와 PostgreSQL 두 구현. `DATABASE_URL` 환경변수 유무로 자동 전환.

@@ -8,6 +8,23 @@ Java + Spring을 요구하는 SI/SW 공고가 많습니다. 4단계 Express 게�
 
 Spring 전문가가 되는 것이 목표가 아닙니다. "신입으로서 Spring Boot 프로젝트를 클론해 빌드하고, Controller와 Service의 역할을 설명할 수 있다"는 수준이 목표입니다.
 
+## 기술을 쓰는 이유와 동작 흐름
+
+처음 보는 용어는 [전체 기술 안내서](../technology-guide.md)와 함께 읽으세요. 아래 흐름은 실습을 이해하기 위한 안내이며, 빈칸과 완료 체크는 직접 진행합니다.
+
+이 단계의 `starter`에는 생성 안내만 있습니다. 아래 내용은 [프로젝트 생성 안내](./starter/README.md)와 [문제](./problems.md)를 따라 직접 만들 구조를 설명하며, 이미 완성된 서버의 실행 결과는 아닙니다.
+
+| 기술 | 무엇이고, 왜 필요한가요? | 이 실습에서는 어떻게 쓰나요? |
+| --- | --- | --- |
+| Java·JDK·Gradle | Java는 서버 코드를 작성하는 언어, JDK는 컴파일·실행 도구, Gradle은 의존성 설치와 빌드 작업을 묶는 도구입니다. 같은 절차로 앱을 만들고 실행하게 합니다. | 생성한 프로젝트의 Gradle wrapper(지정한 Gradle 버전을 실행하는 스크립트)로 빌드·실행합니다. |
+| Spring Boot·Spring Web | Spring Boot는 서버 설정과 시작을 돕고, Spring Web은 HTTP 요청 처리를 연결합니다. Controller(요청 접점)와 Service(업무 처리)의 역할을 분리하도록 사용합니다. | 문제에서 게시글 Controller와 Service를 직접 만들도록 안내합니다. |
+| Spring Data JPA·H2 | JPA는 Java 객체와 관계형 DB 저장을 연결하는 표준이고, Spring Data JPA는 반복적인 저장 코드를 줄입니다. H2는 실습에 사용할 DB입니다. | Repository(저장·조회 접점)와 게시글 객체를 만들고, 이 실습의 H2 메모리 DB에 연결합니다. |
+| Validation·의존성 주입 | Validation은 입력 규칙 검사 도구이고, 의존성 주입은 필요한 객체를 외부에서 받아 쓰는 방식입니다. 잘못된 입력과 객체 연결 책임을 정리합니다. | 요청 객체를 검사하고 Spring이 Controller·Service·Repository 사이의 객체를 연결하게 합니다. |
+
+**게시글 생성의 목표 흐름:** HTTP 요청 → 요청 데이터 변환·검증 → Controller → Service → Repository → DB 저장 → 응답 반환. 각 계층은 파일 수를 늘리기 위한 것이 아니라 요청 처리·업무 규칙·저장 책임을 나누기 위한 구분입니다.
+
+**직접 관찰하기:** 구현 후 API 응답과 H2 조회 결과를 함께 보고 저장을 담당한 코드 위치를 찾으세요. 메모리 H2는 앱 종료 시 데이터가 사라질 수 있습니다. 4단계 Express와 같은 기능이 어디에 대응하는지 비교하고, 12단계에서는 각 역할을 테스트로 확인합니다.
+
 ## 실행 방법
 
 ### 사전 준비
@@ -108,7 +125,7 @@ SI/SW 실무에서 Spring은 다음과 같이 쓰입니다.
 
 - Java/Spring을 사용하는 공고에서 자주 요구되는 백엔드 스택입니다.
 - 계층 분리(Controller / Service / Repository)와 의존성 주입은 Spring 면접에서 설명할 수 있어야 할 기본 개념입니다.
-- JPA(Hibernate)와 MyBatis 두 ORM 진영을 모두 알아두면 좋지만, 신입은 JPA를 먼저 익히는 편이 학습 효율이 높습니다.
+- JPA/Hibernate는 객체와 테이블의 연결을, MyBatis는 직접 작성한 SQL과 객체의 연결을 돕습니다. 이 단계는 JPA로 반복적인 저장·조회 흐름을 먼저 익힙니다.
 
 위 체크 항목과 실행 로그가 있을 때만 "Express 게시판 API를 Spring Boot로 다시 작성해 계층 분리와 JPA 영속성 흐름을 확인했다"고 설명합니다. 아직 `starter/board-api`가 없다면 Spring 구조를 학습 중이라고 구분합니다.
 
