@@ -26,23 +26,99 @@ Career Hub는 SI/SW 취업 준비자가 목표 직무와 주간 행동, 제출 �
 
 ## 면접 질문과 답변 포인트
 
-### Q. 이 프로젝트에서 1~7단계 학습이 어떻게 연결되나요?
+<!-- written-choice:start -->
 
-1단계 HTML/CSS는 반응형 화면과 카드 UI에, 2단계 JavaScript는 입력 처리와 이벤트에, 3단계 React는 state와 컴포넌트 구조에 쓰였습니다. 4단계 Express API는 CRUD 서버로 확장했고, 5단계 데이터 저장은 JSON 저장소 계층으로 구현했습니다. 6단계 로그인은 bcrypt와 JWT 인증으로 적용했고, 7단계 배포 준비는 README, 환경 변수, 빌드, smoke test로 연결했습니다.
+4지선다 문제입니다. 보기 하나를 고르고 접힌 정답·해설을 확인하세요.
 
-### Q. DB 대신 JSON 파일을 쓴 이유는 무엇인가요?
+### RA-01. Q. 이 프로젝트에서 1~7단계 학습이 어떻게 연결되나요?
 
-포트폴리오를 보는 사람이 별도 DB 없이 실행할 수 있도록 `server/data-store.js`의 `JsonStore`를 사용했습니다. 라우터가 구체 클래스를 사용하므로 MongoDB나 PostgreSQL로 옮길 때는 같은 CRUD 메서드 계약을 구현하고 생성 지점을 바꿔야 합니다.
+Q. 이 프로젝트에서 1~7단계 학습이 어떻게 연결되나요?
 
-파일 하나를 임시 파일로 쓴 뒤 rename하는 방식은 단일 프로세스의 손상 위험을 줄이지만 여러 서버의 전체 read-modify-write를 트랜잭션으로 만들지는 않습니다. 현재 배포는 단일 인스턴스를 전제로 설명하고, 확장 단계에서는 PostgreSQL 같은 DB의 트랜잭션과 제약으로 옮길 계획입니다.
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
 
-### Q. 보안 관점에서 신경 쓴 부분은 무엇인가요?
+1. React 상태·Express API·인증·저장·배포의 코드 위치를 학습 개념과 연결한다.
+2. 모든 학습 단계가 Career Hub에서 MongoDB로만 구현됐다.
+3. Career Hub의 모든 서버는 Java로 작성됐다.
+4. 실제 코드 없이 기술 이름만 나열하면 연결이 증명된다.
 
-`server/auth.js`에서 bcrypt work factor 10으로 비밀번호를 해시하고 HS256·2시간 JWT를 발급합니다. `requireAuth`는 `Authorization: Bearer` 토큰을 검증하고, `assertAuthConfig`는 운영에서 32자 이상의 비예제 `JWT_SECRET`을 요구합니다. `scripts/api-smoke-test.js`는 회원가입 응답에 `passwordHash`가 없는지도 확인합니다.
+<details>
+<summary>정답·해설 확인</summary>
 
-### Q. 검증은 어떻게 했나요?
+**정답: 1번**
 
-`npm run verify`는 lint → format:check → build → test:unit → test:api → audit:submit을 실행합니다. smoke test는 데모 시드 없이 임시 데이터 파일에서 회원가입, 로그인 실패·성공, 워크북 저장, 보호 API, 지원·프로젝트 CRUD, 네 단계 준비도를 HTTP 요청으로 확인합니다.
+learning-map과 실제 소스를 함께 확인합니다. Career Hub는 JSON 파일 저장소를 사용합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W253)
+
+### RA-02. Q. DB 대신 JSON 파일을 쓴 이유는 무엇인가요?
+
+Q. DB 대신 JSON 파일을 쓴 이유는 무엇인가요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 파일 rename 한 번으로 여러 서버의 모든 동시 수정도 직렬화된다.
+2. 별도 DB 없이 실행할 수 있는 JSON 저장소를 쓰고, 다중 서버 확장 시 DB 트랜잭션과 제약 도입을 검토한다.
+3. JSON 파일은 트랜잭션 DB와 모든 동시성 보장이 같다.
+4. 저장소 파일만 바꾸면 라우터와 생성 지점은 검토할 필요가 없다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 2번**
+
+server/data-store.js의 JsonStore와 server/index.js의 생성 지점을 함께 봅니다. 임시 파일 rename은 파일 교체를 돕지만 여러 서버의 read-modify-write 전체를 잠그지는 않습니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W254)
+
+### RA-03. Q. 보안 관점에서 신경 쓴 부분은 무엇인가요?
+
+Q. 보안 관점에서 신경 쓴 부분은 무엇인가요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 비밀번호 원문을 JWT payload에 넣어 보호한다.
+2. JWT 서명은 클라이언트에서만 검사하고 서버는 건너뛴다.
+3. bcrypt cost 10으로 해시하고 HS256·2시간 JWT를 발급하며 Bearer 토큰을 검증한다.
+4. 운영 JWT_SECRET은 예제 값이어도 항상 허용된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 3번**
+
+server/auth.js의 hashPassword, signToken, requireAuth를 연결하고, server/index.js의 requireUser가 서명이 맞는 토큰이라도 저장소에 같은 번호·이메일의 사용자가 있을 때만 통과시킵니다. assertAuthConfig는 운영에서 32자 이상의 비예제 JWT_SECRET을 요구합니다. 해시 비용과 정책은 실제 코드 기준입니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W255)
+
+### RA-04. Q. 검증은 어떻게 했나요?
+
+Q. 검증은 어떻게 했나요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. npm run dev만 실행하면 모든 회귀 테스트가 통과한 것이다.
+2. npm install은 외부 배포 성공까지 검사한다.
+3. npm run verify는 사용자 대신 모든 학습 빈칸을 채운다.
+4. npm run verify는 lint·포맷·빌드·테스트·제출 감사를 묶는다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 4번**
+
+package.json의 실행 명령과 실제 로그를 함께 근거로 사용합니다. 검증 성공은 자동화된 범위에 한정됩니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W256)
+
+<!-- written-choice:end -->
 
 ## 지원서에 적기 좋은 기술 키워드
 

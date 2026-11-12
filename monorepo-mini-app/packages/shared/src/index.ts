@@ -55,6 +55,7 @@ export function isNote(value: unknown): value is Note {
     typeof v.title === "string" &&
     typeof v.body === "string" &&
     Array.isArray(v.tags) &&
+    v.tags.every((tag) => typeof tag === "string") &&
     typeof v.createdAt === "string"
   );
 }

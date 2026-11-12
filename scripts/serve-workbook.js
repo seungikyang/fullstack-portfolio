@@ -1,11 +1,12 @@
 // 저장소를 폴더명 기반 고정 URI로 제공하는 로컬 문제집 서버
-// 실행 방법: `npm run serve:workbook` → http://127.0.0.1:4187/fullstack/
+// 실행 방법: `npm run serve:workbook` → http://127.0.0.1:4187/ (웹 문제집)
 const crypto = require("node:crypto");
 const fs = require("node:fs/promises");
 const http = require("node:http");
 const path = require("node:path");
 const sanitizeHtml = require("sanitize-html");
 const { markdownSlug } = require("./markdown-slug.js");
+const { prepareDocumentQuizzes } = require("./render-document-quizzes.js");
 const {
   editableProblemPaths,
   problemTrackForPath,
@@ -20,6 +21,8 @@ const PORT = 4187;
 const DEFAULT_EDIT_TOKEN = crypto.randomBytes(32).toString("hex");
 // 저장 요청 본문 최대 크기(1MB). 실습 파일 기준으로 넉넉한 값이면서 무한정 커지는 걸 막는다.
 const MAX_SOURCE_BYTES = 1024 * 1024;
+// 같은 실제 파일의 버전 검사와 저장은 한 번에 하나씩 처리한다.
+const sourceSaveQueues = new Map();
 let markedPromise;
 
 // 확장자별로 브라우저에 알려줄 파일 형식(Content-Type)
@@ -38,7 +41,9 @@ const contentTypes = {
 
 // 짧은 응답용 헬퍼. 상태 코드와 문자열을 그대로 보낸다
 function send(response, statusCode, body) {
-  response.writeHead(statusCode, { "Content-Type": "text/plain; charset=utf-8" });
+  response.writeHead(statusCode, {
+    "Content-Type": "text/plain; charset=utf-8",
+  });
   response.end(body);
 }
 
@@ -91,8 +96,9 @@ function resolveMarkdownHref(href, linkBase, slugPrefix) {
 // Markdown 원문을 읽기 쉬운 HTML로 바꾼다. 표·코드블록(GFM)과 제목 앵커(id)를 지원한다.
 async function renderMarkdownContent(
   markdown,
-  { linkBase = "", slugPrefix = "" } = {},
+  { linkBase = "", slugPrefix = "", quizPath = "" } = {},
 ) {
+  const quizzes = quizPath ? prepareDocumentQuizzes(markdown, quizPath) : null;
   const Marked = await getMarked();
   const renderer = new Marked({ gfm: true });
   // 같은 제목이 여러 번 나오면 "제목", "제목-1", "제목-2"처럼 번호를 붙여 id가 겹치지 않게 한다
@@ -109,15 +115,13 @@ async function renderMarkdownContent(
       },
       link(token) {
         const href = resolveMarkdownHref(token.href, linkBase, slugPrefix);
-        const title = token.title
-          ? ` title="${escapeHtml(token.title)}"`
-          : "";
+        const title = token.title ? ` title="${escapeHtml(token.title)}"` : "";
         return `<a href="${escapeHtml(href)}"${title}>${this.parser.parseInline(token.tokens)}</a>`;
       },
     },
   });
   const renderedMarkdown = renderer.parse(
-    markdown.replace(/^[\u200B-\u200F\uFEFF]/, ""), // 파일 맨 앞의 보이지 않는 문자(BOM 등)를 제거
+    (quizzes?.markdown ?? markdown).replace(/^[\u200B-\u200F\uFEFF]/, ""), // 파일 맨 앞의 보이지 않는 문자(BOM 등)를 제거
   );
   // 방금 만든 HTML에서 위험한 태그·속성을 걷어낸다(sanitize).
   // 학습 문서에 필요한 details/img/input 정도만 추가로 허용한다.
@@ -146,7 +150,7 @@ async function renderMarkdownContent(
     allowedSchemes: ["http", "https", "mailto"],
     allowProtocolRelative: false,
   });
-  return safeContent;
+  return quizzes ? quizzes.restore(safeContent) : safeContent;
 }
 
 // 문서 화면의 공통 뼈대(헤더·스타일·본문)를 붙여 완전한 HTML 페이지를 만든다.
@@ -162,6 +166,8 @@ function renderWorkbookDocument(
   });
   const safeBodyClass = escapeHtml(bodyClass);
   const safeScriptSrc = escapeHtml(scriptSrc);
+  const hasQuizzes = safeContent.includes("data-document-quiz ");
+  const quizAssetPath = escapeHtml(`${workbookPath}quiz/`);
 
   return `<!doctype html>
 <html lang="ko">
@@ -170,6 +176,7 @@ function renderWorkbookDocument(
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:," />
     <title>${safeTitle} | 풀스택 취업 워크북</title>
+    ${hasQuizzes ? `<link rel="stylesheet" href="${quizAssetPath}document-quiz.css" />` : ""}
     <style>
       /* 디자인 토큰과 기본 규칙: 문서 화면 전체가 같은 색·크기 계산법·스크롤 방식을 쓴다. */
       :root { color-scheme: light; --navy: #16243d; --blue: #2563eb; --paper: #f7f6f2; --line: #dbe1ea; --muted: #64748b; }
@@ -262,6 +269,7 @@ function renderWorkbookDocument(
     <!-- Markdown 또는 편집기에서 만든 안전한 콘텐츠가 들어가는 주 영역 -->
     <main>${safeContent}</main>
     ${safeScriptSrc ? `<script src="${safeScriptSrc}" defer></script>` : ""}
+    ${hasQuizzes ? `<script src="${quizAssetPath}core.js" defer></script><script src="${quizAssetPath}document-quiz.js" defer></script>` : ""}
   </body>
 </html>`;
 }
@@ -272,7 +280,9 @@ async function renderMarkdownDocument(
   documentTitle,
   { workbookPath = WORKBOOK_PATH } = {},
 ) {
-  const safeContent = await renderMarkdownContent(markdown);
+  const safeContent = await renderMarkdownContent(markdown, {
+    quizPath: workbookPath,
+  });
   return renderWorkbookDocument(safeContent, documentTitle, { workbookPath });
 }
 
@@ -289,7 +299,10 @@ async function renderProblemDocument(
   const trackFolder = problemTrackForPath(relativePath);
   const linkBase = `${workbookPath}${trackFolder}/`;
   const [problemContent, hintsContent, answersContent] = await Promise.all([
-    renderMarkdownContent(problemMarkdown, { linkBase }),
+    renderMarkdownContent(problemMarkdown, {
+      linkBase,
+      quizPath: workbookPath,
+    }),
     renderMarkdownContent(hintsMarkdown, {
       linkBase,
       slugPrefix: "problem-hint-",
@@ -342,7 +355,9 @@ async function renderSourceDocument(
   } = {},
 ) {
   const trackFolder = problemTrackForPath(relativePath);
-  const linkBase = trackFolder ? `${workbookPath}${trackFolder}/` : workbookPath;
+  const linkBase = trackFolder
+    ? `${workbookPath}${trackFolder}/`
+    : workbookPath;
   // 힌트와 정답 문서를 미리 HTML로 만들어 둔다. 접두사를 달리해 제목 앵커가 겹치지 않게 한다.
   const [hintsContent, answersContent] = await Promise.all([
     renderMarkdownContent(hintsMarkdown, {
@@ -422,6 +437,29 @@ function isOutsideWorkbook(filePath, workbookRoot) {
   );
 }
 
+// 저장소 안이라도 환경 비밀값·개인 기록은 학습 자료와 함께 공개하지 않는다.
+function isPrivateWorkbookFile(filePath, workbookRoot) {
+  const parts = path
+    .relative(workbookRoot, filePath)
+    .toLowerCase()
+    .split(path.sep);
+  return (
+    parts.some(
+      (part) =>
+        (part.startsWith(".") &&
+          ![
+            ".env.example",
+            ".github",
+            ".gitignore",
+            ".dockerignore",
+            ".nvmrc",
+          ].includes(part)) ||
+        ["node_modules", "_workspace", "_workspace_prev"].includes(part),
+    ) ||
+    (parts[0] === "08-fullstack-portfolio-project" && parts[1] === "data")
+  );
+}
+
 // JSON 응답용 헬퍼
 function sendJson(response, statusCode, body) {
   response.writeHead(statusCode, {
@@ -478,6 +516,25 @@ async function readJsonBody(request) {
   }
 }
 
+async function withSourceSaveLock(filePath, save) {
+  const previous = sourceSaveQueues.get(filePath) || Promise.resolve();
+  let release;
+  const current = new Promise((resolve) => {
+    release = resolve;
+  });
+  sourceSaveQueues.set(filePath, current);
+  await previous;
+  try {
+    return await save();
+  } finally {
+    // 저장 실패도 다음 요청을 막지 않으며, 마지막 요청이 큐를 정리한다.
+    release();
+    if (sourceSaveQueues.get(filePath) === current) {
+      sourceSaveQueues.delete(filePath);
+    }
+  }
+}
+
 // 웹 편집기의 저장 요청을 실제 파일에 반영하는 핵심 함수.
 // 검사 순서: 편집 허용 파일인지 → 요청 형식이 맞는지 → 저장소 안인지 → 버전(충돌) 확인 → 저장.
 async function saveProblemSource({
@@ -503,10 +560,9 @@ async function saveProblemSource({
 
   // symlink 등을 모두 따라간 "실제 경로"를 기준으로 다시 검사한다.
   // 표면적 경로는 저장소 안처럼 보여도 실제로는 밖일 수 있기 때문이다.
-  const [realWorkbookRoot, realFilePath, fileStats] = await Promise.all([
+  const [realWorkbookRoot, realFilePath] = await Promise.all([
     fs.realpath(workbookRoot),
     fs.realpath(filePath),
-    fs.stat(filePath),
   ]);
   if (isOutsideWorkbook(realFilePath, realWorkbookRoot)) {
     return {
@@ -515,39 +571,43 @@ async function saveProblemSource({
     };
   }
 
-  // 충돌 감지: 지금 디스크의 파일 버전이 편집기가 읽었던 버전과 다르면 저장을 거절한다.
-  // 다른 프로그램이 고친 내용을 모르고 덮어쓰는 사고를 막는다(409 Conflict).
-  const currentSource = await fs.readFile(realFilePath, "utf8");
-  if (sourceVersion(currentSource) !== expectedVersion) {
+  return withSourceSaveLock(realFilePath, async () => {
+    // 먼저 도착한 저장이 끝난 뒤 최신 버전과 권한을 다시 읽는다.
+    const [currentSource, fileStats] = await Promise.all([
+      fs.readFile(realFilePath, "utf8"),
+      fs.stat(realFilePath),
+    ]);
+    if (sourceVersion(currentSource) !== expectedVersion) {
+      return {
+        message:
+          "다른 편집기에서 파일이 변경되었습니다. 저장 내용을 다시 불러온 뒤 수정하세요.",
+        statusCode: 409,
+      };
+    }
+
+    // 임시 파일에 쓴 뒤 이름을 바꾸는(rename) 방식으로 저장한다.
+    // 쓰다가 실패해도 원본이 반쯤 덮여 쓰이는 일이 없다(원자적 저장).
+    const temporaryPath = path.join(
+      path.dirname(realFilePath),
+      `.${path.basename(realFilePath)}.workbook-${crypto.randomUUID()}.tmp`,
+    );
+    try {
+      await fs.writeFile(temporaryPath, content, {
+        encoding: "utf8",
+        flag: "wx", // 같은 이름 임시 파일이 이미 있으면 실패한다
+        mode: fileStats.mode, // 원본 파일의 권한을 그대로 유지한다
+      });
+      await fs.rename(temporaryPath, realFilePath);
+    } finally {
+      await fs.rm(temporaryPath, { force: true }); // 실패했으면 잔여물을 치운다
+    }
+
     return {
-      message:
-        "다른 편집기에서 파일이 변경되었습니다. 저장 내용을 다시 불러온 뒤 수정하세요.",
-      statusCode: 409,
+      message: "파일을 저장했습니다.",
+      statusCode: 200,
+      version: sourceVersion(content),
     };
-  }
-
-  // 임시 파일에 쓴 뒤 이름을 바꾸는(rename) 방식으로 저장한다.
-  // 쓰다가 실패해도 원본이 반쯤 덮여 쓰이는 일이 없다(원자적 저장).
-  const temporaryPath = path.join(
-    path.dirname(realFilePath),
-    `.${path.basename(realFilePath)}.workbook-${crypto.randomUUID()}.tmp`,
-  );
-  try {
-    await fs.writeFile(temporaryPath, content, {
-      encoding: "utf8",
-      flag: "wx", // 같은 이름 임시 파일이 이미 있으면 실패한다
-      mode: fileStats.mode, // 원본 파일의 권한을 그대로 유지한다
-    });
-    await fs.rename(temporaryPath, realFilePath);
-  } finally {
-    await fs.rm(temporaryPath, { force: true }); // 성공했으면 이미 rename되어 없고, 실패했으면 잔여물을 치운다
-  }
-
-  return {
-    message: "파일을 저장했습니다.",
-    statusCode: 200,
-    version: sourceVersion(content),
-  };
+  });
 }
 
 // 모든 HTTP 요청이 거치는 라우팅 함수. 순서: 메서드 검사 → 주소 리다이렉트 → 경로 검사 → PUT 저장 또는 GET 파일 제공.
@@ -559,15 +619,31 @@ async function handleRequest(request, response, context) {
     return;
   }
 
+  // 루프백에 연결하더라도 외부 도메인의 DNS 재바인딩 요청은 받지 않는다.
+  if (
+    !/^(127\.0\.0\.1|localhost|\[::1\])(?::\d+)?$/i.test(
+      request.headers.host || "",
+    )
+  ) {
+    send(response, 403, "Forbidden");
+    return;
+  }
+
   const requestOrigin = `http://${request.headers.host || `${HOST}:${PORT}`}`;
   const requestUrl = new URL(request.url, requestOrigin);
   const pathname = requestUrl.pathname;
   const isSourceView = requestUrl.searchParams.get("view") === "source"; // ?view=source면 편집 화면
   const workbookBasePath = context.workbookPath.slice(0, -1);
 
-  // 루트(/)나 /fullstack(슬래시 없음)으로 접속하면 항상 문제집 주소로 보낸다
-  if (pathname === "/" || pathname === workbookBasePath) {
-    response.writeHead(302, { Location: context.workbookPath });
+  // 첫 화면은 웹 문제집이며 기존 실습 목차는 index.html로 계속 제공한다.
+  if (
+    pathname === "/" ||
+    pathname === workbookBasePath ||
+    pathname === context.workbookPath
+  ) {
+    response.writeHead(302, {
+      Location: `${context.workbookPath}quiz/${requestUrl.search}`,
+    });
     response.end();
     return;
   }
@@ -594,7 +670,10 @@ async function handleRequest(request, response, context) {
     context.workbookRoot,
     relativePath || "index.html",
   );
-  if (isOutsideWorkbook(filePath, context.workbookRoot)) {
+  if (
+    isOutsideWorkbook(filePath, context.workbookRoot) ||
+    isPrivateWorkbookFile(filePath, context.workbookRoot)
+  ) {
     send(response, 403, "Forbidden");
     return;
   }
@@ -608,7 +687,10 @@ async function handleRequest(request, response, context) {
       fs.realpath(context.workbookRoot),
       fs.realpath(filePath),
     ]);
-    if (isOutsideWorkbook(realFilePath, realWorkbookRoot)) {
+    if (
+      isOutsideWorkbook(realFilePath, realWorkbookRoot) ||
+      isPrivateWorkbookFile(realFilePath, realWorkbookRoot)
+    ) {
       send(response, 403, "Forbidden");
       return;
     }
@@ -620,6 +702,20 @@ async function handleRequest(request, response, context) {
       !isEditableProblemPath(relativePath, context.editablePaths)
     ) {
       send(response, 403, "Source editing is not allowed");
+      return;
+    }
+
+    // 폴더 URL의 끝 /가 없으면 브라우저가 상대 자산을 상위 폴더에서 찾는다.
+    // 실제 경로와 편집 권한을 확인한 뒤 읽기 요청만 올바른 주소로 보낸다.
+    if (
+      fileStats.isDirectory() &&
+      !pathname.endsWith("/") &&
+      (request.method === "GET" || request.method === "HEAD")
+    ) {
+      response.writeHead(302, {
+        Location: `${pathname}/${requestUrl.search}`,
+      });
+      response.end();
       return;
     }
 
@@ -662,6 +758,16 @@ async function handleRequest(request, response, context) {
       }
 
       const requestBody = await readJsonBody(request);
+      if (
+        requestBody === null ||
+        typeof requestBody !== "object" ||
+        Array.isArray(requestBody)
+      ) {
+        sendJson(response, 400, {
+          message: "코드 내용과 파일 버전을 담은 JSON 객체가 필요합니다.",
+        });
+        return;
+      }
       const result = await saveProblemSource({
         content: requestBody.content,
         editablePaths: context.editablePaths,
@@ -750,8 +856,9 @@ async function handleRequest(request, response, context) {
     // HTML 문서에는 CSP(콘텐츠 보안 정책)를 붙여 외부 스크립트 실행 등을 차단한다.
     // 편집 화면은 자기 자신의 editor.js만 허용한다.
     if (isHtmlDocument) {
+      const hasQuizzes = responseBody.includes("data-document-quiz ");
       responseHeaders["Content-Security-Policy"] =
-        `default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; ${isSourceView ? "script-src 'self'; connect-src 'self'; " : ""}base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
+        `default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; ${isSourceView || hasQuizzes ? "script-src 'self'; connect-src 'self'; " : ""}base-uri 'none'; form-action 'none'; frame-ancestors 'none'`;
     }
 
     response.writeHead(200, responseHeaders);
@@ -798,7 +905,8 @@ function createWorkbookServer(options = {}) {
 // node scripts/serve-workbook.js 로 직접 실행했을 때만 서버를 띄운다
 if (require.main === module) {
   createWorkbookServer().listen(PORT, HOST, () => {
-    console.log(`문제집 주소: http://${HOST}:${PORT}${WORKBOOK_PATH}`);
+    console.log(`문제집 주소: http://${HOST}:${PORT}${WORKBOOK_PATH}quiz/`);
+    console.log(`실습 목차: http://${HOST}:${PORT}${WORKBOOK_PATH}index.html`);
   });
 }
 

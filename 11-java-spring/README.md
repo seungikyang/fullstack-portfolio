@@ -152,29 +152,142 @@ SI/SW 실무에서 Spring은 다음과 같이 쓰입니다.
 
 ## 면접 연습
 
-### `@Controller`와 `@RestController`의 차이를 설명해보세요.
+<!-- written-choice:start -->
+4지선다 문제입니다. 보기 하나를 고르고 접힌 정답·해설을 확인하세요.
 
-`@Controller`는 주로 뷰 이름을 반환해 서버 사이드 렌더링 화면과 연결할 때 사용합니다. JSON을 반환하려면 메서드마다 `@ResponseBody`가 필요합니다. `@RestController`는 `@Controller`와 `@ResponseBody`를 합친 형태라 REST API에서 객체를 바로 JSON 응답으로 보낼 때 사용합니다.
+### R11-01. `@Controller`와 `@RestController`의 차이를 설명해보세요.
 
-### 의존성 주입은 무엇이고 왜 필요한가요?
+`@Controller`와 `@RestController`의 차이를 설명해보세요.
 
-의존성 주입은 객체가 필요한 의존 객체를 직접 생성하지 않고 외부, 보통 Spring 컨테이너에서 받아 사용하는 방식입니다. 이렇게 하면 구현체 교체, 테스트용 mock 주입, 계층 간 결합도 감소가 쉬워집니다. 예를 들어 Controller가 Service 구현체를 직접 만들지 않고 생성자로 주입받으면 테스트와 유지보수가 편해집니다.
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
 
-### JpaRepository를 상속만 했는데 어떻게 메서드가 동작하나요?
+1. RestController는 DB 테이블 생성만 담당한다.
+2. RestController는 Controller와 ResponseBody의 역할을 결합해 응답 본문을 반환하게 한다.
+3. Controller에서는 ResponseBody를 사용할 수 없다.
+4. RestController는 무조건 HTML 템플릿 이름만 반환한다.
 
-Spring Data JPA가 애플리케이션 시작 시 Repository 인터페이스를 분석해 프록시 구현체를 자동으로 만들어 Bean으로 등록합니다. `save`, `findById`, `findAll`, `deleteById` 같은 기본 CRUD 메서드는 `JpaRepository`가 이미 정의하고 있습니다. 개발자는 인터페이스만 선언해도 Spring이 런타임에 실제 동작을 연결해줍니다.
+<details>
+<summary>정답·해설 확인</summary>
 
-### 트랜잭션을 Service에 거는 이유와 Repository에 거는 경우의 차이를 설명해보세요.
+**정답: 2번**
 
-Service는 여러 Repository 호출과 비즈니스 규칙을 하나의 업무 단위로 묶는 계층입니다. 따라서 주문 생성, 재고 차감, 결제 기록 저장처럼 여러 DB 작업이 함께 성공해야 하는 경우 Service에 트랜잭션을 거는 것이 자연스럽습니다. Repository에만 걸면 개별 DB 작업 단위로는 안전하지만, 여러 작업 전체의 원자성을 보장하기 어렵습니다.
+MVC의 뷰 반환과 메시지 변환을 통한 본문 반환을 구분합니다.
 
-### N+1 문제가 무엇이고 왜 발생하나요?
+</details>
 
-N+1 문제는 목록 1번 조회 후 각 행의 연관 데이터를 가져오려고 추가 쿼리가 N번 더 발생하는 문제입니다. JPA의 지연 로딩 관계에서 연관 엔티티를 반복문 안에서 접근할 때 자주 생깁니다. 해결 방법으로는 fetch join, EntityGraph, DTO 조회, batch size 설정 등이 있습니다.
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W214)
 
-### JPA와 MyBatis 중 무엇을 선택하나요? 각각 어떤 상황에서 유리한가요?
+### R11-02. 의존성 주입은 무엇이고 왜 필요한가요?
 
-JPA는 객체 중심으로 CRUD를 작성하고 엔티티 변경 감지, 연관관계 관리가 필요할 때 유리합니다. 반복적인 CRUD가 많고 도메인 모델을 유지하고 싶다면 JPA가 생산성이 좋습니다. MyBatis는 복잡한 SQL, 레거시 DB, 튜닝된 쿼리를 직접 제어해야 하는 SI 프로젝트에서 유리합니다.
+의존성 주입은 무엇이고 왜 필요한가요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 의존성 주입은 모든 객체를 전역 변수로만 만든다.
+2. 주입하면 모든 메서드가 자동으로 비동기가 된다.
+3. 객체의 의존성을 외부에서 전달해 결합을 줄이고 교체·테스트를 돕는다.
+4. 주입은 테스트 대역을 사용할 수 없게 한다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 3번**
+
+생성자 주입은 의존 관계를 명확하게 보여줍니다. 객체 생성과 사용 책임을 분리합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W215)
+
+### R11-03. JpaRepository를 상속만 했는데 어떻게 메서드가 동작하나요?
+
+JpaRepository를 상속만 했는데 어떻게 메서드가 동작하나요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. Java 컴파일러가 인터페이스의 모든 DB 쿼리를 임의로 발명한다.
+2. 브라우저가 Repository 메서드를 직접 구현한다.
+3. 메서드 이름이 없어도 모든 업무 규칙과 권한 검사가 자동 생성된다.
+4. Spring Data가 Repository 구현을 구성해 기본 CRUD 기능을 제공한다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 4번**
+
+제공되는 CRUD와 사용자 업무 규칙을 구분합니다. 데이터 접근 구현은 프레임워크가 구성합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W216)
+
+### R11-04. 트랜잭션을 Service에 거는 이유와 Repository에 거는 경우의 차이를 설명해보세요.
+
+트랜잭션을 Service에 거는 이유와 Repository에 거는 경우의 차이를 설명해보세요.
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 업무 단위의 여러 데이터 작업에 트랜잭션 경계를 설정한다.
+2. 어노테이션만 있으면 내부 호출을 포함해 모든 실행 경로가 무조건 새 트랜잭션이다.
+3. Transactional은 요청 body를 암호화하는 도구이다.
+4. Service에 사용하면 DB 없이 데이터가 영구 저장된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 1번**
+
+프록시 적용 경로와 전파·롤백 규칙을 확인해야 합니다. 업무 단위가 경계 선택의 기준입니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W217)
+
+### R11-05. N+1 문제가 무엇이고 왜 발생하나요?
+
+N+1 문제가 무엇이고 왜 발생하나요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 항상 한 쿼리로 모든 데이터를 읽는 현상이다.
+2. 목록 한 번 조회 후 연관 데이터를 항목별로 추가 조회하여 쿼리가 늘어나는 현상이다.
+3. HTTP 응답 코드가 1씩 증가하는 현상이다.
+4. DB 컬럼이 한 개 부족한 문법 오류이다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 2번**
+
+필요한 조회에 맞춰 fetch join, entity graph, batch fetch 등을 검토하고 SQL 수를 확인합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W218)
+
+### R11-06. JPA와 MyBatis 중 무엇을 선택하나요? 각각 어떤 상황에서 유리한가요?
+
+JPA와 MyBatis 중 무엇을 선택하나요? 각각 어떤 상황에서 유리한가요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. JPA는 JavaScript 브라우저 표준이다.
+2. MyBatis는 어떤 SQL도 작성할 수 없다.
+3. JPA는 ORM 명세이고 MyBatis는 SQL과 결과 매핑을 직접 제어하는 방식이다.
+4. 둘은 데이터베이스 연결 없이만 실행된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 3번**
+
+객체 영속 관리와 SQL 중심 매핑의 차이를 요구 사항에 맞춰 비교합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W219)
+
+<!-- written-choice:end -->
 
 ## 학습 경로 안내
 

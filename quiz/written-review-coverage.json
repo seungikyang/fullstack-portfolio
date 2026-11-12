@@ -1,0 +1,510 @@
+{
+  "blocks": [
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "01 HTML/CSS 자기소개 페이지",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S01-01",
+          "prompt": "이 페이지에서 `<div>`를 의미 태그로 바꿀 수 있는 자리가 어디인지 짚을 수 있는가?"
+        },
+        {
+          "sourceId": "S01-02",
+          "prompt": "브라우저 개발자도구로 모바일 너비를 만들어 깨지는 곳을 직접 봤는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "02 JavaScript 이벤트와 계산기",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S02-01",
+          "prompt": "버튼을 눌렀을 때 코드가 실행되는 순서를 말로 설명할 수 있는가? (클릭 → 함수 → 값 읽기 → 계산 → 화면)"
+        },
+        {
+          "sourceId": "S02-02",
+          "prompt": "`NaN`이 왜 나오는지, 어떻게 막는지 아는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "03 React Todo",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S03-01",
+          "prompt": "`setTodos`를 호출하면 그 다음에 무슨 일이 순서대로 일어나는지 설명할 수 있는가?"
+        },
+        {
+          "sourceId": "S03-02",
+          "prompt": "같은 화면을 02단계 바닐라 JS로 만든 것과 비교해 React가 뭘 대신 해주는지 말할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "04 Node 게시판 REST API",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S04-01",
+          "prompt": "6개 엔드포인트 각각의 메서드·경로·성공 상태 코드를 표로 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S04-02",
+          "prompt": "`requests.http`로 직접 6개를 다 호출해 응답 코드를 눈으로 확인했는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "05 MongoDB 게시판 API",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S05-01",
+          "prompt": "생성 → 서버 재시작 → 다시 조회했을 때 데이터가 남아있는 걸 직접 확인했는가?"
+        },
+        {
+          "sourceId": "S05-02",
+          "prompt": "04단계 코드와 비교해 \"어디가 바뀌었는지\"를 한 문장으로 말할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "06 로그인과 JWT 인증",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S06-01",
+          "prompt": "회원가입 → 로그인 → 토큰으로 `/me` 호출까지의 흐름을 그림으로 그릴 수 있는가?"
+        },
+        {
+          "sourceId": "S06-02",
+          "prompt": "토큰 없이, 잘못된 토큰으로 `/me`를 호출했을 때 각각 어떤 코드가 나오는지 확인했는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "07 프론트와 백 연결 및 배포 준비",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S07-01",
+          "prompt": "정적 페이지 → API 호출 → 응답 렌더의 전체 흐름을 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S07-02",
+          "prompt": "이 프로젝트를 처음 받은 사람이 README만 보고 실행할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "08 Career Hub Fullstack Portfolio",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S08-01",
+          "prompt": "회원가입부터 대시보드 지표 계산까지 데이터가 흐르는 경로를 화이트보드에 그릴 수 있는가?"
+        },
+        {
+          "sourceId": "S08-02",
+          "prompt": "`npm run verify`가 통과하는가? 실패하면 어느 단계에서 깨지는지 읽을 수 있는가?"
+        },
+        {
+          "sourceId": "S08-03",
+          "prompt": "라우터 → 검증 → 저장소 → 응답의 책임 분리를 한 문장씩 설명할 수 있는가?"
+        },
+        {
+          "sourceId": "S08-04",
+          "prompt": "대표로 설명할 기능 3개를 고르고 각각 \"문제·구현·검증·배운 점\"을 말할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "09 TypeScript",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S09-01",
+          "prompt": "같은 코드를 JS로 짰을 때 났을 버그를 TS가 컴파일 시점에 잡은 사례를 하나 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S09-02",
+          "prompt": "`never`로 exhaustiveness를 검사하면 새 분기가 생겼을 때 무슨 일이 일어나는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "10 SQL/Oracle",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S10-01",
+          "prompt": "같은 데이터로 INNER vs LEFT JOIN을 돌려 행 수 차이를 직접 봤는가?"
+        },
+        {
+          "sourceId": "S10-02",
+          "prompt": "COMMIT 전후, ROLLBACK 후 데이터 상태를 직접 확인했는가?"
+        },
+        {
+          "sourceId": "S10-03",
+          "prompt": "인덱스 생성 전후 실행 계획(비용/스캔 방식)이 어떻게 달라졌는지 말할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "11 Java/Spring",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S11-01",
+          "prompt": "08단계 Express 코드의 라우터/검증/저장소를 Spring의 Controller/Service/Repository에 1:1로 대응시켜 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S11-02",
+          "prompt": "\"객체를 내가 `new` 하지 않고 스프링이 만들어 준다\"는 말의 의미와 이점을 설명할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "12 Testing",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S12-01",
+          "prompt": "내가 추가한 \"회귀 방지\" 케이스가 실제로 어떤 버그를 막는지 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S12-02",
+          "prompt": "일부러 코드를 깨뜨렸을 때 테스트가 빨갛게 실패하는 걸 확인했는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "13 Git 협업",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S13-01",
+          "prompt": "일부러 충돌을 만들고 해결한 경험이 있는가? 그 과정을 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S13-02",
+          "prompt": "`git log --oneline`으로 본 내 히스토리가 남에게 읽히는 모양인가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "14 Docker와 CI",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S14-01",
+          "prompt": "빌드 → 실행 → compose까지 직접 명령으로 돌려봤는가?"
+        },
+        {
+          "sourceId": "S14-02",
+          "prompt": "CI가 빨갛게 실패한 걸 보고 로그를 읽어 고친 적이 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "15 CS Fundamentals",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S15-01",
+          "prompt": "각 CS 개념을 \"내 트랙 파일 ___에서 이렇게 쓰였다\"로 한 문장씩 댈 수 있는가?"
+        },
+        {
+          "sourceId": "S15-02",
+          "prompt": "가장 약한 주제 1개를 알고, 1분 답변을 녹음해 들어봤는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "16 Security",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S16-01",
+          "prompt": "각 공격을 *먼저 재현*해서 뚫리는 걸 눈으로 본 뒤 방어했는가?"
+        },
+        {
+          "sourceId": "S16-02",
+          "prompt": "방어 전후 응답/화면이 어떻게 달라졌는지 말할 수 있는가?"
+        },
+        {
+          "sourceId": "S16-03",
+          "prompt": "6단계 인증, 8단계 보안 미들웨어와 연결해 설명할 수 있는가?"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "17 Interview Prep",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "S17-01",
+          "prompt": "30초/1분/3분 자기소개를 스톱워치로 맞춰 말해봤는가?"
+        },
+        {
+          "sourceId": "S17-02",
+          "prompt": "대표 기능 3개에 대해 꼬리질문 2개씩을 스스로 던지고 답해봤는가?"
+        },
+        {
+          "sourceId": "S17-03",
+          "prompt": "모든 답이 *내가 만든 코드·검증 근거*에 닿아 있는가? (거짓·과장 0)"
+        }
+      ]
+    },
+    {
+      "file": "feature-implementation-workbook.md",
+      "parent": "monorepo-mini-app Note Hub",
+      "level": 3,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "SM-01",
+          "prompt": "백엔드 응답 타입을 일부러 바꿨을 때 프론트 타입 검사가 실패하는 걸 확인했는가?"
+        },
+        {
+          "sourceId": "SM-02",
+          "prompt": "`DATABASE_URL` 유무로 저장소가 바뀌는 걸 직접 실행해봤는가?"
+        }
+      ]
+    },
+    {
+      "file": "09-typescript/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS09-01",
+          "prompt": "`tsconfig.json`의 `strict`가 `true`인지 확인했나요?"
+        },
+        {
+          "sourceId": "PS09-02",
+          "prompt": "`any`를 쓴 곳이 없는지 확인했나요?"
+        },
+        {
+          "sourceId": "PS09-03",
+          "prompt": "IDE에서 자동완성이 동작하나요?"
+        }
+      ]
+    },
+    {
+      "file": "10-sql-oracle/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS10-01",
+          "prompt": "각 쿼리의 결과를 직접 눈으로 확인했나요?"
+        },
+        {
+          "sourceId": "PS10-02",
+          "prompt": "JOIN 행 수의 의미를 4지선다 L01로 확인했나요?"
+        },
+        {
+          "sourceId": "PS10-03",
+          "prompt": "COMMIT을 하지 않은 변경이 다른 세션에서 보이지 않는다는 것을 확인했나요?"
+        }
+      ]
+    },
+    {
+      "file": "11-java-spring/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS11-01",
+          "prompt": "`./gradlew bootRun`이 오류 없이 실행됐나요?"
+        },
+        {
+          "sourceId": "PS11-02",
+          "prompt": "`requests.http` 또는 Postman으로 4개 메서드를 모두 호출했나요?"
+        },
+        {
+          "sourceId": "PS11-03",
+          "prompt": "H2 콘솔에서 INSERT 결과를 직접 확인했나요?"
+        }
+      ]
+    },
+    {
+      "file": "12-testing/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS12-01",
+          "prompt": "각 테스트가 다른 테스트와 독립적으로 실행되나요?"
+        },
+        {
+          "sourceId": "PS12-02",
+          "prompt": "모킹한 부분과 실제로 호출한 부분의 경계가 명확한가요?"
+        },
+        {
+          "sourceId": "PS12-03",
+          "prompt": "테스트 이름만 봐도 \"무엇을 검증하는지\" 알 수 있나요?"
+        }
+      ]
+    },
+    {
+      "file": "13-git-collab/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS13-01",
+          "prompt": "PR 본문에 \"무엇을, 왜, 어떻게 검증했는지\"가 들어 있나요?"
+        },
+        {
+          "sourceId": "PS13-02",
+          "prompt": "충돌을 해결할 때 어느 줄을 누가 마지막에 썼는지 의식했나요?"
+        },
+        {
+          "sourceId": "PS13-03",
+          "prompt": "`.env`, `node_modules`, `dist`, `.DS_Store`가 `.gitignore`에 들어 있나요?"
+        }
+      ]
+    },
+    {
+      "file": "14-docker-deploy/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS14-01",
+          "prompt": "Dockerfile에 비밀번호나 토큰이 들어 있지 않나요?"
+        },
+        {
+          "sourceId": "PS14-02",
+          "prompt": "빌드가 같은 명령으로 매번 재현되나요? (의존성 버전 고정)"
+        },
+        {
+          "sourceId": "PS14-03",
+          "prompt": "compose가 어떤 순서로 컨테이너를 시작하는지 확인했나요?"
+        }
+      ]
+    },
+    {
+      "file": "16-security/problems.md",
+      "level": 2,
+      "heading": "자가 점검",
+      "items": [
+        {
+          "sourceId": "PS16-01",
+          "prompt": "모든 공격을 직접 실행한 뒤 방어를 적용했나요? (눈으로만 보지 마세요)"
+        },
+        {
+          "sourceId": "PS16-02",
+          "prompt": "4지선다 X01에서 출력 문맥에 맞는 방어를 골랐나요?"
+        },
+        {
+          "sourceId": "PS16-03",
+          "prompt": "4지선다 X02에서 CORS·CSRF·SameSite의 역할을 구분했나요?"
+        }
+      ]
+    },
+    {
+      "file": "16-security/answers.md",
+      "level": 2,
+      "heading": "면접에서 자주 묻는 답 패턴",
+      "items": [
+        {
+          "sourceId": "AS16-01",
+          "prompt": "\"이 코드는 안전한가요?\" → 입력 출처와 출력 위치를 분리해 답합니다."
+        },
+        {
+          "sourceId": "AS16-02",
+          "prompt": "\"내가 직접 막은 보안 이슈가 있나요?\" → 한 가지 예시(예. XSS escape, CORS 화이트리스트)를 3문장으로 준비합니다."
+        },
+        {
+          "sourceId": "AS16-03",
+          "prompt": "\"비밀번호가 평문으로 저장된 코드를 봤습니다. 어떻게 하나요?\" → 즉시 해시 도입, 마이그레이션 전략, 사용자 알림 흐름을 답합니다."
+        }
+      ]
+    },
+    {
+      "file": "technology-guide.md",
+      "level": 2,
+      "heading": "9. 읽은 뒤 확인할 세 가지",
+      "intro": "[4지선다 기본기 3000제](./quiz/)와 함께 기술의 역할·실행 흐름·설명 근거를 확인합니다.",
+      "outro": "막히면 해당 단계 README → `hints.md`의 1~3단계 → 마지막에 `answers.md` 순서로 확인합니다. 기술의 공식 설명은 [단계별 참고 자료](./references.md)에서 이어서 읽습니다.",
+      "items": [
+        {
+          "sourceId": "TG-01",
+          "prompt": "지금 보는 코드가 브라우저·서버·저장소·개발 도구 중 어디에 속하는지 말해 봅니다."
+        },
+        {
+          "sourceId": "TG-02",
+          "prompt": "버튼 하나를 골라 입력 → 함수 → 요청 → 저장 → 화면 순서에서 해당하는 부분을 찾아봅니다. 서버가 없는 단계라면 브라우저 안의 흐름만 설명합니다."
+        },
+        {
+          "sourceId": "TG-03",
+          "prompt": "“이 기술은 어떤 문제 때문에 필요했고, 이 파일에서 이렇게 동작하며, 실행 후 이 결과를 봤다”를 한 문장씩 적습니다."
+        }
+      ]
+    },
+    {
+      "file": "16-security/problems.md",
+      "level": 2,
+      "heading": "7번. 비밀번호 정책 점검",
+      "intro": "6단계 인증 코드의 비밀번호 정책을 네 가지 개념 문제로 확인합니다. 보안 기준은 [OWASP 비밀번호 저장 안내](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)와 [인증 안내](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)를 참고합니다.",
+      "outro": "선택한 답과 [6단계 인증 코드](../06-login-auth/src/server.js?view=source)를 대조하세요. 정책 구현과 실행 검증은 별도 실습으로 진행합니다.",
+      "items": [
+        {
+          "sourceId": "PW16-01",
+          "prompt": "bcrypt의 work factor(cost)가 12 이상인가?"
+        },
+        {
+          "sourceId": "PW16-02",
+          "prompt": "비밀번호 최소 길이 정책이 있는가?"
+        },
+        {
+          "sourceId": "PW16-03",
+          "prompt": "동일 비밀번호 여러 사용자에 대해 다른 해시가 나오는가? (salt 효과)"
+        },
+        {
+          "sourceId": "PW16-04",
+          "prompt": "로그인 실패 시 \"이메일이 없음\"과 \"비밀번호가 틀림\"을 구분해 응답하는가? (사용자 열거 공격)"
+        }
+      ]
+    }
+  ]
+}

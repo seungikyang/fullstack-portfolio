@@ -294,7 +294,7 @@ test("시작부터 다음 단계까지 학습 동선과 조건부 완료 기준�
 });
 
 test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검사한다", (t) => {
-  // 이 검사는 전체 워크북이 필요 없으므로 코드형·서술형 단계 하나씩만 있는 최소 fixture를 쓴다.
+  // 이 검사는 전체 워크북이 필요 없으므로 코드형·선택형 단계 하나씩만 있는 최소 fixture를 쓴다.
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "problem-work-links-"));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
 
@@ -307,7 +307,7 @@ test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검
   write(
     root,
     "15-cs-fundamentals/problems.md",
-    "이 단계는 별도 starter 코드가 없는 서술형 문제입니다.\n",
+    "이 단계는 별도 starter 코드가 없는 4지선다 문제입니다.\n",
   );
 
   const expectations = {
@@ -316,13 +316,13 @@ test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검
     },
     "15-cs-fundamentals": {
       links: [],
-      marker: "서술형 문제",
+      marker: "4지선다 문제",
     },
   };
 
   assert.deepEqual(findProblemWorkLinkErrors(root, expectations), []);
 
-  // 링크 대상과 서술형 표식을 각각 없애 두 진행 방식의 오류를 모두 검출하게 한다.
+  // 링크 대상과 선택형 표식을 각각 없애 두 진행 방식의 오류를 모두 검출하게 한다.
   fs.writeFileSync(
     path.join(root, "01-html-css/problems.md"),
     "[HTML 코드](./starter/missing.html?view=source)\n",
@@ -338,7 +338,7 @@ test("문제 문서에서 실제 실습 파일과 문서형 진행 방식을 검
     true,
   );
   assert.equal(
-    errors.some((error) => error.includes("서술형 문제 진행 방식")),
+    errors.some((error) => error.includes("4지선다 문제 진행 방식")),
     true,
   );
 });

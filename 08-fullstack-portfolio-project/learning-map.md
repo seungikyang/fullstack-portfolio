@@ -37,6 +37,7 @@ Career Hub는 `01-html-css`부터 `07-project-deploy`까지의 개념을 한 앱
 ### `server/auth.js`
 
 - `hashPassword`와 `verifyPassword`가 비밀번호를 처리하고, `signToken`과 `requireAuth`가 토큰 발급·검증을 담당합니다.
+- `server/index.js`의 `requireUser`는 `requireAuth`가 통과시킨 토큰의 번호·이메일이 저장소 사용자와 같은지 다시 확인합니다. 자료 파일을 초기화해 번호가 다시 붙어도 예전 토큰으로 다른 사람 기록에 접근하지 못하게 합니다.
 - `assertAuthConfig`는 운영 환경에서 32자 이상의 비예제 `JWT_SECRET`이 없으면 시작을 거부합니다.
 - 로그인하지 않은 사용자는 `/api/workbook`, `/api/applications`, `/api/projects`, `/api/dashboard`에 접근할 수 없습니다.
 

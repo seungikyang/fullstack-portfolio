@@ -11,9 +11,12 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 - 회원가입과 로그인.
 - JWT 기반 보호 API.
 - 목표 직무, 목표 지원일, 주간 목표, 다음 행동, 회고를 저장하는 취업 워크북.
+- 사용자별 워크북 저장 이력: 변경 시점의 전체 내용을 최신 100건까지 보관.
 - 목표 설정, 이번 주 실행, 제출 자료, 실제 지원·설명의 네 단계를 집계하는 취업 준비도.
 - 지원 현황 CRUD.
+- 회사·직무·기술 스택·메모·연락처 검색과 상태·우선순위 필터.
 - 포트폴리오 프로젝트 CRUD.
+- 저장한 프로젝트 정보로 README Markdown 미리보기와 파일 다운로드.
 - 1~7단계 학습 내용이 실제 프로젝트에 쓰인 위치를 보여주는 학습 연결 탭.
 - 대시보드 지표.
 - JSON 파일 저장소를 통한 데이터 보존.
@@ -27,6 +30,14 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 - ESLint와 Prettier로 코드 품질 자동 검사.
 - 멀티 스테이지 Dockerfile과 docker-compose.
 - GitHub Actions로 lint → test → build → 도커 빌드까지 자동화.
+
+## 기록 찾기와 저장 이력, README 생성
+
+- **지원 현황:** 회사·직무·기술 스택·메모·연락처에서 검색합니다. 앞뒤 공백과 영문 대소문자를 무시하며, 상태와 우선순위 필터를 함께 적용할 수 있습니다. 검색 결과 건수와 전체 건수를 구분하고, `검색·필터 초기화`로 전체 목록을 다시 표시합니다. 대시보드 지표는 전체 기록 기준입니다.
+- **취업 워크북:** 처음 저장하거나 입력값을 변경해 저장하면 저장 시점의 전체 워크북을 남깁니다. 화면 아래 `워크북 저장 이력`에서 날짜를 펼쳐 이전 목표·행동·회고·준비 상태를 확인합니다. 같은 값의 재저장은 이력을 추가하지 않으며, 사용자별 최신 100건을 보관합니다. 기존 JSON 파일도 사용할 수 있지만 이 기능 도입 전의 과거 이력은 복원하지 않습니다.
+- **프로젝트:** 카드의 `README 생성`을 누르면 저장한 프로젝트 이름·소개·상태·스택·강조할 경험·링크로 Markdown을 만듭니다. 미리보기에서 내용을 복사하거나 `README 파일 다운로드`로 저장합니다. 실행 명령이나 테스트 결과는 자동으로 작성하지 않으므로 제출 전에 직접 보완합니다.
+
+구현 위치: [App.jsx](./src/App.jsx)의 `ApplicationSection`, `WorkbookSection`, `ProjectSection`, [data-store.js](./server/data-store.js)의 `updateWorkbook`·`getWorkbookHistory`, [project-readme.js](./src/project-readme.js)의 `generateProjectReadme`입니다. 이력 조회는 인증된 계정의 기록만 반환합니다.
 
 ## 1~7단계와의 연결
 
@@ -71,7 +82,7 @@ React 화면, Express API, JWT 인증, CRUD, JSON 파일 저장소, 자동 검�
 | pino / pino-http             | 오류가 어느 요청에서 생겼는지 찾습니다.                              | [서버](./server/index.js)가 요청 id와 처리 기록을 JSON 형태의 로그로 남깁니다.                                                                                                                     |
 | OpenAPI / Vitest / supertest | API 약속을 읽고 실제 응답이 기대와 맞는지 확인합니다.                | [openapi.json](./server/openapi.json)은 요청·응답 명세이고, [api.test.js](./server/api.test.js)는 요청을 보내 상태·응답을 검사합니다. 명세 파일을 작성하는 것만으로 서버 동작이 바뀌지는 않습니다. |
 
-**지원 기록 한 건의 처리 순서:** `ApplicationSection` 입력 → `request`의 `POST /api/applications` → `requireAuth`의 토큰 확인 → `validateApplication`의 입력 검사 → `JsonStore.createApplication`의 파일 저장 → `201` 응답 → `reload`와 `loadAll`의 최신 데이터 조회 → state 갱신입니다.
+**지원 기록 한 건의 처리 순서:** `ApplicationSection` 입력 → `request`의 `POST /api/applications` → `requireUser`의 토큰·사용자 확인(`requireAuth` 서명 검사 + 저장소 사용자 대조) → `validateApplication`의 입력 검사 → `JsonStore.createApplication`의 파일 저장 → `201` 응답 → `reload`와 `loadAll`의 최신 데이터 조회 → state 갱신입니다.
 
 **직접 확인하기:** 아래 실행 방법으로 앱을 켜고 본인 계정에 로그인한 뒤, 브라우저 개발자 도구의 Network 탭을 열어 지원 기록 한 건을 저장합니다. 생성 요청의 `201` 응답과 뒤따르는 목록 조회를 확인하고 새로고침해 보세요. 입력 칸의 state와 서버 저장 파일이 각각 어떤 역할을 했는지 설명하면 됩니다. [학습 연결표](./learning-map.md)에서 같은 개념을 배운 1~7단계로 돌아갈 수 있습니다.
 
@@ -143,6 +154,7 @@ npm run clean:generated
 | `CLIENT_ORIGIN`  | API를 직접(프록시 없이) 호출할 때 허용할 프론트엔드 주소입니다. `npm run dev`의 Vite 프록시를 쓰면 보통 그대로 둬도 됩니다.                       |
 | `JWT_SECRET`     | JWT 서명 비밀값입니다. 로컬 개발은 기본값을 쓸 수 있지만, `NODE_ENV=production`에서는 예제값이 아닌 32자 이상 값이 없으면 서버 시작을 거부합니다. |
 | `DATA_FILE`      | JSON 저장소 파일 경로입니다.                                                                                                                      |
+| `APP_TIME_ZONE`  | 대시보드가 '오늘'과 7일 내 마감을 계산할 지역입니다. 기본값은 `Asia/Seoul`이며, 잘못된 이름이면 서버 시작 시 오류가 납니다.                       |
 | `SEED_DEMO`      | 기본값은 `false`입니다. `true`이고 저장소에 사용자가 없을 때만 데모 계정을 만듭니다.                                                              |
 | `VITE_SHOW_DEMO` | 로그인 화면에 데모 이메일·비밀번호 안내를 표시할 때만 `true`로 둡니다. 서버의 데모 사용자 생성 여부는 `SEED_DEMO`가 별도로 결정합니다.            |
 
@@ -246,58 +258,190 @@ GitHub에 올릴 때는 `.gitignore`가 아래 파일을 제외합니다. ZIP으
 
 ## API 요약
 
-| Method   | Path                    | 설명              |
-| -------- | ----------------------- | ----------------- |
-| `GET`    | `/api/health`           | 서버 상태 확인    |
-| `GET`    | `/api/openapi.json`     | OpenAPI 명세 조회 |
-| `POST`   | `/api/auth/register`    | 회원가입          |
-| `POST`   | `/api/auth/login`       | 로그인            |
-| `GET`    | `/api/me`               | 내 정보 조회      |
-| `GET`    | `/api/dashboard`        | 대시보드 지표     |
-| `GET`    | `/api/workbook`         | 취업 워크북 조회  |
-| `PATCH`  | `/api/workbook`         | 취업 워크북 저장  |
-| `GET`    | `/api/applications`     | 지원 현황 목록    |
-| `POST`   | `/api/applications`     | 지원 현황 추가    |
-| `PATCH`  | `/api/applications/:id` | 지원 현황 수정    |
-| `DELETE` | `/api/applications/:id` | 지원 현황 삭제    |
-| `GET`    | `/api/projects`         | 프로젝트 목록     |
-| `POST`   | `/api/projects`         | 프로젝트 추가     |
-| `PATCH`  | `/api/projects/:id`     | 프로젝트 수정     |
-| `DELETE` | `/api/projects/:id`     | 프로젝트 삭제     |
+| Method   | Path                    | 설명                |
+| -------- | ----------------------- | ------------------- |
+| `GET`    | `/api/health`           | 서버 상태 확인      |
+| `GET`    | `/api/openapi.json`     | OpenAPI 명세 조회   |
+| `POST`   | `/api/auth/register`    | 회원가입            |
+| `POST`   | `/api/auth/login`       | 로그인              |
+| `GET`    | `/api/me`               | 내 정보 조회        |
+| `GET`    | `/api/dashboard`        | 대시보드 지표       |
+| `GET`    | `/api/workbook`         | 취업 워크북 조회    |
+| `PATCH`  | `/api/workbook`         | 취업 워크북 저장    |
+| `GET`    | `/api/workbook/history` | 내 워크북 저장 이력 |
+| `GET`    | `/api/applications`     | 지원 현황 목록      |
+| `POST`   | `/api/applications`     | 지원 현황 추가      |
+| `PATCH`  | `/api/applications/:id` | 지원 현황 수정      |
+| `DELETE` | `/api/applications/:id` | 지원 현황 삭제      |
+| `GET`    | `/api/projects`         | 프로젝트 목록       |
+| `POST`   | `/api/projects`         | 프로젝트 추가       |
+| `PATCH`  | `/api/projects/:id`     | 프로젝트 수정       |
+| `DELETE` | `/api/projects/:id`     | 프로젝트 삭제       |
 
 ## 면접에서 설명할 포인트
 
-### 취업 준비도를 어떤 기준으로 계산했나요?
+<!-- written-choice:start -->
 
-`server/index.js`의 `dashboardFor`는 네 단계를 각각 한 항목으로 계산합니다. 1단계는 목표 직무+지원일, 2단계는 주간 목표+다음 행동, 3단계는 이력서+포트폴리오 체크와 완료 프로젝트, 4단계는 자기소개+모의 면접 체크와 `준비중`이 아닌 지원 기록입니다. `src/App.jsx`의 `getWorkbookSteps`도 같은 조건을 사용합니다.
+4지선다 문제입니다. 보기 하나를 고르고 접힌 정답·해설을 확인하세요.
 
-### React state로 로그인 상태, 지원 기록, 프로젝트 목록을 어떻게 관리했나요?
+### R08-01. 취업 준비도를 어떤 기준으로 계산했나요?
 
-`src/App.jsx`의 `App`은 로그인 사용자와 토큰, 워크북, 지원 기록, 프로젝트를 state로 관리합니다. `WorkbookSection`, `ApplicationSection`, `ProjectSection`은 props로 받은 데이터와 갱신 함수를 사용합니다. 직접 실행한 경우에만 "API 응답으로 state를 갱신했다"고 설명합니다.
+취업 준비도를 어떤 기준으로 계산했나요?
 
-### Express REST API와 HTTP 상태 코드를 어떻게 구분했나요?
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
 
-리소스 조회는 `GET`, 생성은 `POST`, 수정은 `PATCH`, 삭제는 `DELETE`로 나누었습니다. 성공 생성은 201, 인증 실패는 401, 입력 검증 실패나 존재하지 않는 리소스는 400 계열, 서버 예외는 500 계열로 구분했습니다. 상태 코드를 구분하면 프론트엔드가 실패 원인을 사용자에게 더 정확히 보여줄 수 있습니다.
+1. 로그인만 하면 준비도가 항상 100%다.
+2. 지원 기록 수가 곧 준비도 백분율이다.
+3. 프로젝트 한 개를 생성하면 네 단계가 모두 완료된다.
+4. 목표·행동·제출 준비·면접/지원 진행의 네 조건 묶음을 각각 한 단계로 집계한다.
 
-### bcrypt와 JWT 인증 흐름을 어떻게 설명하나요?
+<details>
+<summary>정답·해설 확인</summary>
 
-`server/auth.js`의 `hashPassword`는 bcrypt work factor 10으로 해시하고, `signToken`은 HS256·2시간 만료 JWT를 발급합니다. `requireAuth`는 `Authorization: Bearer` 토큰을 검증합니다. 같은 파일의 `assertAuthConfig`는 운영 환경에 32자 이상의 비예제 `JWT_SECRET`을 요구합니다.
+**정답: 4번**
 
-### 저장소 로직을 `server/data-store.js`로 분리한 이유는 무엇인가요?
+server/index.js의 dashboardFor와 src/App.jsx의 getWorkbookSteps는 목표 직무·지원일, 주간 목표·다음 행동, 제출 체크·완료 프로젝트, 면접 체크·진행 지원 기록을 확인합니다.
 
-`server/data-store.js`의 `JsonStore`가 사용자·워크북·지원·프로젝트 CRUD와 파일 쓰기를 담당하고, `server/index.js`의 라우터는 이 메서드를 호출합니다. 현재 라우터는 구체 클래스에 연결되어 있으므로 DB 교체 시 같은 메서드 계약을 구현하고 생성 지점을 바꾸는 작업이 필요합니다.
+</details>
 
-### `scripts/api-smoke-test.js`로 무엇을 검증했나요?
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W196)
 
-`scripts/api-smoke-test.js`는 별도 임시 데이터 파일과 `SEED_DEMO=false`로 서버를 띄워 가입, 로그인 실패·성공, 워크북 저장, 준비도 네 단계, 지원·프로젝트 CRUD를 HTTP 요청으로 확인합니다. 이 스크립트를 직접 통과시킨 로그가 있을 때만 핵심 흐름을 검증했다고 설명합니다.
+### R08-02. React state로 로그인 상태, 지원 기록, 프로젝트 목록을 어떻게 관리했나요?
 
-### 학습 연결 탭과 `learning-map.md`는 어떤 의미인가요?
+React state로 로그인 상태, 지원 기록, 프로젝트 목록을 어떻게 관리했나요?
 
-학습 단계가 단순 예제로 끝난 것이 아니라 실제 포트폴리오 앱의 기능으로 연결됐다는 근거입니다. 예를 들어 HTML/CSS는 UI 구조, JavaScript는 이벤트와 API 호출, Express는 REST API, 인증 단계는 JWT 로그인으로 연결됩니다. 이 자료를 통해 "무엇을 배웠고 어디에 적용했는지"를 면접관에게 빠르게 설명할 수 있습니다.
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. App이 사용자·토큰·워크북·목록을 state로 관리하고 자식에 데이터와 갱신 함수를 props로 전달한다.
+2. 자식 컴포넌트가 서버 JSON 파일을 브라우저에서 직접 연다.
+3. React state에 값을 넣으면 서버 저장도 자동 완료된다.
+4. props를 변경하면 부모의 state를 직접 수정해도 된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 1번**
+
+src/App.jsx에서 App과 각 Section의 역할을 나눕니다. API 응답을 받은 뒤 state를 갱신하는 흐름과 서버의 영속 저장은 별개입니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W197)
+
+### R08-03. Express REST API와 HTTP 상태 코드를 어떻게 구분했나요?
+
+Express REST API와 HTTP 상태 코드를 어떻게 구분했나요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 모든 API는 GET으로 데이터를 수정한다.
+2. GET 조회·POST 생성·PATCH 수정·DELETE 삭제로 나누고 생성 201, 인증 실패 401 등으로 응답한다.
+3. 입력 오류·인증 실패·서버 오류를 모두 200으로 응답한다.
+4. 없는 리소스는 언제나 생성 성공 201로 응답한다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 2번**
+
+server/index.js에서 리소스와 작업에 맞는 HTTP 메서드와 상태 코드를 사용합니다. 클라이언트는 성공 여부와 오류 원인을 구분합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W198)
+
+### R08-04. bcrypt와 JWT 인증 흐름을 어떻게 설명하나요?
+
+bcrypt와 JWT 인증 흐름을 어떻게 설명하나요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 비밀번호 원문을 JWT payload에 넣어 보호한다.
+2. JWT 서명은 클라이언트에서만 검사하고 서버는 건너뛴다.
+3. bcrypt cost 10으로 해시하고 HS256·2시간 JWT를 발급하며 Bearer 토큰을 검증한다.
+4. 운영 JWT_SECRET은 예제 값이어도 항상 허용된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 3번**
+
+server/auth.js의 hashPassword, signToken, requireAuth를 연결하고, server/index.js의 requireUser가 서명이 맞는 토큰이라도 저장소에 같은 번호·이메일의 사용자가 있을 때만 통과시킵니다. assertAuthConfig는 운영에서 32자 이상의 비예제 JWT_SECRET을 요구합니다. 해시 비용과 정책은 실제 코드 기준입니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W199)
+
+### R08-05. 저장소 로직을 `server/data-store.js`로 분리한 이유는 무엇인가요?
+
+저장소 로직을 `server/data-store.js`로 분리한 이유는 무엇인가요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. JSON 파일을 쓰면 어떤 동시성·운영 문제도 없어진다.
+2. 저장소를 바꾸려면 CSS만 수정하면 된다.
+3. JsonStore는 이미 PostgreSQL을 운영한다는 증거이다.
+4. JsonStore로 저장 책임을 나누고 실제 DB 요구와 계약에 맞춰 구현을 교체할 수 있다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 4번**
+
+현재 구현과 교체 계획을 구분합니다. 저장소 인터페이스와 API 계약·회귀 테스트를 함께 확인합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W200)
+
+### R08-06. `scripts/api-smoke-test.js`로 무엇을 검증했나요?
+
+`scripts/api-smoke-test.js`로 무엇을 검증했나요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 데모 시드 없는 임시 저장소에서 가입·로그인·워크북·준비도·지원/프로젝트 CRUD를 HTTP로 확인한다.
+2. 화면 색상만 검사하고 HTTP 요청은 보내지 않는다.
+3. 실제 운영 계정과 저장 파일을 반드시 초기화한다.
+4. 스크립트가 있다는 사실만으로 실행 통과를 증명한다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 1번**
+
+scripts/api-smoke-test.js는 임시 데이터 파일과 SEED_DEMO=false를 사용합니다. 검증 경험은 실제 통과 로그가 있을 때 설명합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W201)
+
+### R08-07. 학습 연결 탭과 `learning-map.md`는 어떤 의미인가요?
+
+학습 연결 탭과 `learning-map.md`는 어떤 의미인가요?
+
+보기 중 알맞은 설명 또는 답변 방식 하나를 고르세요.
+
+1. 모든 학습 단계가 Career Hub에서 MongoDB로만 구현됐다.
+2. React 상태·Express API·인증·저장·배포의 코드 위치를 학습 개념과 연결한다.
+3. Career Hub의 모든 서버는 Java로 작성됐다.
+4. 실제 코드 없이 기술 이름만 나열하면 연결이 증명된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 2번**
+
+learning-map과 실제 소스를 함께 확인합니다. Career Hub는 JSON 파일 저장소를 사용합니다.
+
+</details>
+
+[웹에서 이 문제 채점하기](../quiz/index.html?bank=written&question=W202)
+
+<!-- written-choice:end -->
 
 ## 다음 개선 아이디어
 
 - JSON 저장소를 MongoDB 또는 PostgreSQL로 교체.
-- 워크북 주간 기록 이력과 지원 기록 검색·필터 추가.
-- 프로젝트별 README 생성 기능 추가.
+- 워크북 저장 이력의 기간별 조회와 지원 기록 마감일 정렬.
 - 배포 후 스크린샷과 배포 URL 추가.

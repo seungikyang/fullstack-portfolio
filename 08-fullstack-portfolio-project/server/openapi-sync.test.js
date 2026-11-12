@@ -114,6 +114,37 @@ describe("OpenAPI 계약 동기화", () => {
     }
   });
 
+  it("워크북 이력 스냅샷의 키와 타입 및 인증 계약이 실제 저장값과 일치한다", () => {
+    const store = new JsonStore(dataFile);
+    store.updateWorkbook("1", { targetRole: "Java 백엔드", resumeReady: true });
+    const entry = store.getWorkbookHistory("1")[0];
+    const schema = spec.components.schemas.WorkbookHistoryEntry;
+    expect(Object.keys(entry).sort()).toEqual(Object.keys(schema.properties).sort());
+    expect([...schema.required].sort()).toEqual(Object.keys(entry).sort());
+    expect(Object.keys(entry.workbook).sort()).toEqual(
+      Object.keys(spec.components.schemas.Workbook.properties).sort()
+    );
+    for (const field of ["id", "userId", "savedAt"]) {
+      expect(typeof entry[field]).toBe(schema.properties[field].type);
+    }
+    expect(new Date(entry.savedAt).toISOString()).toBe(entry.savedAt);
+    expect(schema.properties.workbook.$ref).toBe("#/components/schemas/Workbook");
+    const operation = spec.paths["/api/workbook/history"].get;
+    expect(operation.security).toEqual([{ bearerAuth: [] }]);
+    expect(operation.responses).toEqual(
+      expect.objectContaining({
+        200: expect.any(Object),
+        401: expect.any(Object),
+        429: expect.any(Object)
+      })
+    );
+    expect(operation.responses["200"].content["application/json"].schema).toEqual({
+      type: "array",
+      maxItems: 100,
+      items: { $ref: "#/components/schemas/WorkbookHistoryEntry" }
+    });
+  });
+
   it("생성 필수 필드와 프로젝트 API의 400·401 응답을 명시한다", () => {
     const applicationCreate =
       spec.paths["/api/applications"].post.requestBody.content["application/json"].schema;
@@ -155,9 +186,11 @@ describe("OpenAPI 계약 동기화", () => {
 
     expect(register.properties.name.maxLength).toBe(80);
     expect(register.properties.email.maxLength).toBe(254);
-    expect(register.properties.password.maxLength).toBe(128);
+    expect(register.properties.password.maxLength).toBe(72);
+    expect(register.properties.password.description).toContain("UTF-8 기준 72바이트");
     expect(login.properties.email.maxLength).toBe(254);
-    expect(login.properties.password.maxLength).toBe(128);
+    expect(login.properties.password.maxLength).toBe(72);
+    expect(login.properties.password.description).toContain("UTF-8 기준 72바이트");
     expect(projectInput.repoUrl.pattern).toContain("https?");
     expect(projectInput.deployUrl.pattern).toContain("https?");
     expect(meSchema.required).toContain("user");

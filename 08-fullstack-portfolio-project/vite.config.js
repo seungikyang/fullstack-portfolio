@@ -1,18 +1,17 @@
-// React 포트폴리오 앱을 Vite로 실행하기 위한 설정 파일
+// Vite는 개발 중 화면을 보여주고, 배포할 화면 파일을 만들어주는 도구다. 여기서 실행 방법을 정한다.
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// 개발 중에는 프론트엔드(3000)에서 보낸 /api 요청을 백엔드(5100)로 프록시한다.
-// 이렇게 하면 브라우저 입장에서는 같은 주소라서 CORS 문제가 생기지 않는다.
+// 화면은 문 번호(포트) 3000, 서버는 5100을 쓴다. /api 요청은 Vite가 서버로 대신 전달한다.
+// 이런 전달을 프록시라고 한다. 브라우저는 같은 화면 주소로 요청하고 Vite가 뒤에서 연결한다.
 const API_TARGET = process.env.VITE_API_URL || "http://localhost:5100";
 
 export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    strictPort: true,
-    // host: true는 0.0.0.0 바인딩. 로컬에서는 localhost로도 접속되고
-    // Docker/DevContainer 안에서도 호스트 머신에서 접속할 수 있게 한다.
+    strictPort: true, // 3000번이 비어 있지 않으면 다른 번호로 바꾸지 않고 오류를 알린다.
+    // host:true는 localhost만이 아니라 이 컴퓨터의 다른 네트워크 주소로도 접속할 수 있게 한다.
     host: true,
     proxy: {
       "/api": {
@@ -21,6 +20,7 @@ export default defineConfig({
       }
     }
   },
+  // preview는 개발용 화면이 아니라 build로 만든 배포용 화면을 미리 보는 실행 방법이다.
   preview: {
     host: true,
     port: 3000,

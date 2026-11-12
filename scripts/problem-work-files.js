@@ -3,7 +3,7 @@
 const path = require("node:path");
 
 // 폴더별로 "문제와 직접 연결된 실습 파일"을 나열한다.
-// files: 웹에서 수정·저장 가능한 파일. guideLinks: 대신 볼 안내 문서. marker: 코드 없는 서술형 단계 표시.
+// files: 웹에서 수정·저장 가능한 파일. guideLinks: 대신 볼 안내 문서. marker: 코드 없는 단계의 진행 방식 표시.
 const problemWorkTracks = {
   "01-html-css": {
     files: ["starter/index.html", "starter/styles.css"],
@@ -80,7 +80,7 @@ const problemWorkTracks = {
   },
   "15-cs-fundamentals": {
     files: [],
-    marker: "서술형 문제",
+    marker: "4지선다 문제",
   },
   "16-security": {
     files: [

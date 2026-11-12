@@ -13,7 +13,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-notehub}
       POSTGRES_DB: notehub
     volumes:
-      - note-hub-pg18-data:/var/lib/postgresql/data
+      # PostgreSQL 18 이미지는 데이터를 /var/lib/postgresql/18/docker에 둔다.
+      # 예전 경로(/var/lib/postgresql/data)에 볼륨을 연결하면 컨테이너가 시작을 거부한다.
+      - note-hub-pg18-data:/var/lib/postgresql
       - ./packages/api/db:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U notehub -d notehub"]
@@ -36,7 +38,10 @@ services:
       PORT: 5200
       NOTE_HUB_ACCESS_TOKEN: ${NOTE_HUB_ACCESS_TOKEN:?NOTE_HUB_ACCESS_TOKEN must be set}
       CLIENT_ORIGIN: http://localhost:5200
-      DATABASE_URL: postgres://notehub:${POSTGRES_PASSWORD:-notehub}@postgres:5432/notehub
+      # 비밀번호를 URL에 넣으면 #, @ 같은 문자에서 주소 해석이 깨진다.
+      # URL에서 빼고 PGPASSWORD로 따로 전달하면 node-postgres가 그대로 읽는다.
+      DATABASE_URL: postgres://notehub@postgres:5432/notehub
+      PGPASSWORD: ${POSTGRES_PASSWORD:-notehub}
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:5200/api/health"]
       interval: 30s

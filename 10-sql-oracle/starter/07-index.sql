@@ -22,4 +22,5 @@ EXPLAIN PLAN FOR
 SELECT * FROM employees WHERE emp_name = 'name_99999';
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 
--- 관찰 메모. TABLE FULL SCAN과 INDEX RANGE SCAN이 어떻게 바뀌었나요?
+-- 관찰 확인. ../problems.md의 4지선다 L02에서 실행 계획 비교의 알맞은 설명을 고르세요.
+-- 웹 채점: ../../quiz/index.html?bank=written&question=W147

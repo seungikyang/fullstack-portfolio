@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "node --test scripts/check-progress.test.js scripts/serve-workbook.test.js scripts/verify-workbook.test.js",
+    "test": "node --test scripts/check-progress.test.js scripts/serve-workbook.test.js scripts/verify-workbook.test.js scripts/quiz.test.js scripts/written-quiz.test.js",
+    "build:quiz": "node scripts/build-quiz.js",
     "progress": "node scripts/check-progress.js",
     "serve:workbook": "node scripts/serve-workbook.js",
     "verify": "npm run verify:structure",
     "verify:structure": "npm test && node scripts/verify-workbook.js",
     "verify:programs": "node scripts/verify-programs.js",
-    "verify:learning": "node scripts/check-progress.js --verify"
+    "verify:learning": "node scripts/check-progress.js --verify",
+    "build:written": "node scripts/build-written-quiz.js"
   },
   "dependencies": {
     "marked": "^18.0.11",

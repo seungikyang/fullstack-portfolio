@@ -89,6 +89,11 @@ describe("Note Hub API", () => {
       .get("/api/notes")
       .set("Authorization", `Bearer ${ACCESS_TOKEN}`)
       .expect(200);
+    // 인증 방식 이름은 대소문자를 구분하지 않는다(RFC 9110).
+    await request(protectedApp)
+      .get("/api/notes")
+      .set("Authorization", `bearer ${ACCESS_TOKEN}`)
+      .expect(200);
   });
 
   it("CORS는 설정한 client origin만 응답 헤더로 허용한다", async () => {

@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="HTML·CSS부터 풀스택 포트폴리오와 면접까지 순서대로 따라가는 취업 워크북"
+      content="보기를 선택하고 정오답·해설을 확인하는 풀스택 웹 문제집. 과목별 학습, 오답 복습, 진도 저장과 17단계 실습을 연결합니다."
     />
     <title>풀스택 취업 워크북 | 처음부터 취업까지</title>
+    <link rel="icon" href="data:," />
     <style>
       /* 디자인 토큰: 자주 쓰는 색과 그림자를 변수로 모아 페이지 전체의 기준을 한곳에서 관리한다. */
       :root {
@@ -712,6 +713,7 @@
           풀스택 취업 워크북
         </a>
         <nav aria-label="페이지 목차">
+          <a href="./quiz/">웹 문제집</a>
           <a href="#start">시작 방법</a>
           <a href="#path">추천 경로</a>
           <a href="#curriculum">전체 목차</a>
@@ -725,14 +727,19 @@
     <!-- 히어로 구역: 워크북의 목적과 처음 선택할 세 가지 이동 경로를 보여준다. -->
     <div id="top" class="hero">
       <div class="shell">
-        <p class="eyebrow">처음부터 취업까지 · 17단계 실습 과정</p>
-        <h1>읽기만 하지 않고, 직접 만들며 취업 근거를 완성합니다.</h1>
+        <p class="eyebrow">풀스택 웹 문제집 · 17단계 실습 연결</p>
+        <h1>문제를 풀고, 해설로 이해하고, 오답을 내 실력으로.</h1>
         <p class="hero-copy">
-          HTML·CSS 기초부터 React, API, 데이터베이스, Spring, 테스트, 배포,
-          포트폴리오와 면접까지 순서대로 따라가세요. 무엇을 먼저 해야 할지
-          고민하지 않아도 되도록 모든 자료를 한 목차로 연결했습니다.
+          기본기 3,000문항과 기존 워크북 455문항을 보기 선택으로 풀어보세요.
+          과목별 학습 → 정오답·해설 확인 → 오답 복습을 연결하고, 풀이 기록과
+          풀던 위치는 이 브라우저에 자동 저장합니다. 원문 학습 자료와 코드
+          실습도 그대로 이어집니다.
         </p>
         <div class="button-row">
+          <a class="button" href="./quiz/">웹 문제집 시작하기 →</a>
+          <a class="button secondary" href="./quiz/index.html?bank=written"
+            >기존 워크북 455문항 풀기</a
+          >
           <a class="button" href="./START-HERE.md">시작 워크시트 열기</a>
           <a
             class="button secondary"
@@ -792,7 +799,8 @@
           <strong>기술 이름이 처음이라면.</strong>
           <a href="./technology-guide.md">처음 읽는 기술 안내서</a>에서
           HTML·React·서버가 왜 필요한지와 저장 버튼을 누른 뒤 일어나는 일을
-          확인하세요. 각 단계의 공부하기에도 기술 설명과 코드 관찰 순서가 있습니다.
+          확인하세요. 각 단계의 공부하기에도 기술 설명과 코드 관찰 순서가
+          있습니다.
         </div>
       </section>
 
@@ -892,6 +900,9 @@
                   <a class="lesson-link" href="./01-html-css/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="./quiz/index.html?category=html"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-01">실행·검증</a>
                 </div>
               </div>
@@ -921,6 +932,11 @@
                     href="./02-javascript-basics/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=javascript"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-02">실행·검증</a>
                 </div>
               </div>
@@ -946,6 +962,9 @@
                   <a class="lesson-link" href="./03-react-todo/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="./quiz/index.html?category=react"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-03">실행·검증</a>
                 </div>
               </div>
@@ -970,6 +989,9 @@
                   >
                   <a class="lesson-link" href="./04-node-board-api/answers.md"
                     >막혔을 때 정답 비교</a
+                  >
+                  <a class="lesson-link" href="./quiz/index.html?category=node"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-04">실행·검증</a>
                 </div>
@@ -998,6 +1020,11 @@
                   <a class="lesson-link" href="./05-database-mongodb/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=database"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-05">실행·검증</a>
                 </div>
               </div>
@@ -1023,6 +1050,9 @@
                   <a class="lesson-link" href="./06-login-auth/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="./quiz/index.html?category=auth"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-06">실행·검증</a>
                 </div>
               </div>
@@ -1047,6 +1077,11 @@
                   >
                   <a class="lesson-link" href="./07-project-deploy/answers.md"
                     >막혔을 때 정답 비교</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=deploy"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-07">실행·검증</a>
                 </div>
@@ -1075,6 +1110,11 @@
                     class="lesson-link"
                     href="./08-fullstack-portfolio-project/submission-checklist.md"
                     >제출 점검</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=career-hub"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-08">실행·검증</a>
                 </div>
@@ -1113,6 +1153,11 @@
                   <a class="lesson-link" href="./09-typescript/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=typescript"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-09">실행·검증</a>
                 </div>
               </div>
@@ -1137,6 +1182,9 @@
                   >
                   <a class="lesson-link" href="./10-sql-oracle/answers.md"
                     >막혔을 때 정답 비교</a
+                  >
+                  <a class="lesson-link" href="./quiz/index.html?category=sql"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-10">실행·검증</a>
                 </div>
@@ -1163,6 +1211,11 @@
                   <a class="lesson-link" href="./11-java-spring/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=spring"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-11">실행·검증</a>
                 </div>
               </div>
@@ -1187,6 +1240,11 @@
                   >
                   <a class="lesson-link" href="./12-testing/answers.md"
                     >막혔을 때 정답 비교</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=testing"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-12">실행·검증</a>
                 </div>
@@ -1213,6 +1271,9 @@
                   <a class="lesson-link" href="./13-git-collab/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a class="lesson-link" href="./quiz/index.html?category=git"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-13">실행·검증</a>
                 </div>
               </div>
@@ -1238,6 +1299,11 @@
                   <a class="lesson-link" href="./14-docker-deploy/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=docker"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-14">실행·검증</a>
                 </div>
               </div>
@@ -1258,10 +1324,10 @@
               <span class="lesson-number">15</span>
               <div class="lesson-title">
                 <h3>CS 기초</h3>
-                <p>네트워크, OS, DB와 자료구조 답안을 만듭니다.</p>
+                <p>네트워크, OS, DB와 자료구조를 4지선다로 확인합니다.</p>
               </div>
               <div class="lesson-detail">
-                <strong>완료 결과 · 자기 코드와 연결한 CS 답안 21개</strong>
+                <strong>완료 결과 · CS 21문제 채점·오답 복습</strong>
                 <div class="card-links">
                   <a class="lesson-link" href="./15-cs-fundamentals/README.md"
                     >공부하기</a
@@ -1274,6 +1340,9 @@
                   >
                   <a class="lesson-link" href="./15-cs-fundamentals/answers.md"
                     >막혔을 때 정답 비교</a
+                  >
+                  <a class="lesson-link" href="./quiz/index.html?category=cs"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-15">실행·검증</a>
                 </div>
@@ -1300,6 +1369,11 @@
                   <a class="lesson-link" href="./16-security/answers.md"
                     >막혔을 때 정답 비교</a
                   >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?category=security"
+                    >웹으로 풀기 →</a
+                  >
                   <a class="lesson-link" href="#run-16">실행·검증</a>
                 </div>
               </div>
@@ -1311,7 +1385,7 @@
                 <p>자기소개, 기술 설명과 STAR 답변을 연습합니다.</p>
               </div>
               <div class="lesson-detail">
-                <strong>완료 결과 · 바로 연습할 수 있는 면접 답안 카드</strong>
+                <strong>완료 결과 · 기술·인성·자기소개·프로젝트 4지선다</strong>
                 <div class="card-links">
                   <a class="lesson-link" href="./17-interview-prep/README.md"
                     >공부하기</a
@@ -1325,6 +1399,11 @@
                     class="lesson-link"
                     href="./17-interview-prep/project-pitch-template.md"
                     >프로젝트 설명</a
+                  >
+                  <a
+                    class="lesson-link"
+                    href="./quiz/index.html?bank=written&amp;category=technical"
+                    >웹으로 풀기 →</a
                   >
                   <a class="lesson-link" href="#run-17">실행·검증</a>
                 </div>
@@ -1678,22 +1757,24 @@
           <article class="run-card" id="run-15" data-stage="15">
             <span class="run-number">15</span>
             <div>
-              <h3>CS 답안 워크북</h3>
+              <h3>CS 4지선다 21문제</h3>
               <strong>준비·실행</strong>
-              <p>
-                별도 설치 없이 problems.md의 21문제에 자기 답안을 먼저 씁니다.
-              </p>
+              <p>보기 네 개 중 하나를 고르고 정답·해설을 확인합니다.</p>
               <code class="run-command"
-                >답안 작성 → 소리 내어 설명 → 모범 답안 비교</code
+                >보기 선택 → 채점 → 해설 확인 → 오답 복습</code
               >
             </div>
             <div>
               <strong>확인·취업 증거</strong>
               <p>
-                고친 오개념과 연결되는 01~14단계 코드 위치를 답안에 붙입니다.
+                채점 결과와 고친 오개념, 연결되는 01~14단계 코드 위치를
+                확인합니다.
               </p>
               <div class="run-links">
-                <a href="./15-cs-fundamentals/problems.md">21문제 시작</a>
+                <a href="./quiz/index.html?bank=written&amp;category=cs"
+                  >21문제 웹 채점</a
+                >
+                <a href="./15-cs-fundamentals/problems.md">문서로 풀기</a>
                 <a href="./15-cs-fundamentals/README.md">연습 방법</a>
               </div>
             </div>
@@ -1725,18 +1806,24 @@
           <article class="run-card" id="run-17" data-stage="17">
             <span class="run-number">17</span>
             <div>
-              <h3>면접 답변 워크북</h3>
+              <h3>면접 4지선다 워크북</h3>
               <strong>준비·실행</strong>
-              <p>기술 카드와 자기소개·STAR 템플릿에 실제 경험을 직접 씁니다.</p>
+              <p>기술·인성·자기소개·프로젝트 설명을 4지선다로 풉니다.</p>
               <code class="run-command"
-                >30초 → 1분 → 3분 녹음 → 피드백 반영</code
+                >보기 선택 → 정답·해설 → 틀린 문제 다시 풀기</code
               >
             </div>
             <div>
               <strong>확인·취업 증거</strong>
-              <p>자기 코드와 실행 로그를 인용한 답변만 최종 카드로 남깁니다.</p>
+              <p>
+                해설의 원칙을 자기 코드·실행 로그와 대조하고 경험 범위를
+                구분합니다.
+              </p>
               <div class="run-links">
-                <a href="./17-interview-prep/interview-cards.md">기술 카드</a>
+                <a href="./quiz/index.html?bank=written&amp;category=technical"
+                  >기술 카드 웹 채점</a
+                >
+                <a href="./17-interview-prep/interview-cards.md">문서로 풀기</a>
                 <a href="./17-interview-prep/README.md">면접 실행 순서</a>
               </div>
             </div>

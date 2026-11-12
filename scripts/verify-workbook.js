@@ -433,6 +433,7 @@ const documentSkipDirectories = new Set([
   "data",
   "dist",
   "node_modules",
+  "outputs",
 ]);
 
 // 검사 대상 문서(.md, .html)를 하위 폴더까지 모두 수집한다
@@ -839,7 +840,7 @@ function findProblemWorkLinkErrors(
       }
     }
 
-    // 코드 파일이 없는 서술형 단계는 대신 진행 방식 문구(marker)를 확인한다.
+    // 코드 파일이 없는 문서형 단계는 대신 진행 방식 문구(marker)를 확인한다.
     if (expectation.marker && !content.includes(expectation.marker)) {
       errors.push(
         `${folder}/problems.md에 ${expectation.marker} 진행 방식 설명이 없습니다.`,
@@ -1093,7 +1094,7 @@ function main() {
       ...workbookIndex.matchAll(/href="(\.\/[^"#]+)(?:#[^"]*)?"/g),
     ];
     for (const [, href] of relativeLinks) {
-      if (!fs.existsSync(path.join(root, href))) {
+      if (!fs.existsSync(path.join(root, href.split(/[?#]/)[0]))) {
         fail(`index.html의 ${href} 링크 대상이 없습니다.`);
       }
     }

@@ -33,7 +33,7 @@
 - [ ] 1~7단계가 Career Hub에 어떻게 연결되는지 설명할 수 있습니다.
 - [ ] 취업 준비도의 네 단계 계산 근거를 `server/index.js`의 `dashboardFor`와 `src/App.jsx`의 `getWorkbookSteps`에서 가리킬 수 있습니다.
 - [ ] 인증, CRUD, 저장소 계층, 검증 스크립트를 설명할 수 있습니다.
-- [ ] `server/auth.js`의 `hashPassword`, `signToken`, `requireAuth`, `assertAuthConfig` 역할을 설명할 수 있습니다.
+- [ ] `server/auth.js`의 `hashPassword`, `signToken`, `requireAuth`, `assertAuthConfig` 역할과, `server/index.js`의 `requireUser`가 토큰 검증 뒤 저장소 사용자를 다시 확인하는 이유를 설명할 수 있습니다.
 - [ ] `server/data-store.js`의 `JsonStore`를 선택한 이유와 DB 교체 시 필요한 작업을 설명할 수 있습니다.
 - [ ] `npm run verify`가 어떤 검증을 하는지 설명할 수 있습니다.
 

@@ -1,0 +1,6002 @@
+[
+  {
+    "id": "C001",
+    "category": "html",
+    "type": "concept",
+    "question": "HTML의 주된 역할은?",
+    "choices": [
+      "문서의 내용과 구조 표현",
+      "서버 요청 횟수 제한",
+      "데이터베이스 연결",
+      "비밀번호 변환"
+    ],
+    "answer": 0,
+    "explanation": "HTML은 제목·문단·목록 등 내용의 역할을 표현합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C002",
+    "category": "html",
+    "type": "concept",
+    "question": "페이지의 대표 제목에 알맞은 요소는?",
+    "choices": [
+      "title",
+      "h1",
+      "head",
+      "p"
+    ],
+    "answer": 1,
+    "explanation": "h1은 본문에 보이는 최상위 제목입니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C003",
+    "category": "html",
+    "type": "concept",
+    "question": "브라우저 탭의 문서 이름은 어디에 적나요?",
+    "choices": [
+      "main",
+      "footer",
+      "title",
+      "nav"
+    ],
+    "answer": 2,
+    "explanation": "head 안의 title이 탭 제목을 제공합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C004",
+    "category": "html",
+    "type": "concept",
+    "question": "head에 두는 정보는?",
+    "choices": [
+      "게시글 카드 목록",
+      "본문의 제출 버튼",
+      "화면의 연락처 영역",
+      "문자 인코딩과 문서 설정"
+    ],
+    "answer": 3,
+    "explanation": "head는 본문이 아닌 문서 설정을 담습니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C005",
+    "category": "html",
+    "type": "concept",
+    "question": "main 요소로 묶을 내용은?",
+    "choices": [
+      "페이지의 핵심 내용",
+      "글꼴 파일 목록",
+      "모든 외부 링크",
+      "서버 환경 변수"
+    ],
+    "answer": 0,
+    "explanation": "main은 해당 페이지의 중심 내용을 나타냅니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C006",
+    "category": "html",
+    "type": "concept",
+    "question": "header를 사용하는 이유는?",
+    "choices": [
+      "글자를 자동 정렬하기 위해",
+      "도입부의 의미를 드러내기 위해",
+      "서버 인증을 처리하기 위해",
+      "화면 폭을 고정하기 위해"
+    ],
+    "answer": 1,
+    "explanation": "의미 있는 요소는 문서의 역할을 전달합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C007",
+    "category": "html",
+    "type": "concept",
+    "question": "서로 관련된 내용을 제목과 묶으려면?",
+    "choices": [
+      "br",
+      "meta",
+      "section",
+      "link"
+    ],
+    "answer": 2,
+    "explanation": "section은 주제별 영역을 나타냅니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C008",
+    "category": "html",
+    "type": "concept",
+    "question": "의미 없는 범용 묶음이 필요할 때 쓰는 요소는?",
+    "choices": [
+      "article",
+      "nav",
+      "h2",
+      "div"
+    ],
+    "answer": 3,
+    "explanation": "div 자체에는 특정 내용의 의미가 없습니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C009",
+    "category": "html",
+    "type": "concept",
+    "question": "이동할 주소를 a 요소에 지정하는 속성은?",
+    "choices": [
+      "href",
+      "src",
+      "alt",
+      "action"
+    ],
+    "answer": 0,
+    "explanation": "링크의 목적지는 href로 지정합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C010",
+    "category": "html",
+    "type": "concept",
+    "question": "이미지 파일 주소를 지정하는 속성은?",
+    "choices": [
+      "href",
+      "src",
+      "title",
+      "lang"
+    ],
+    "answer": 1,
+    "explanation": "img의 src가 불러올 이미지 위치를 가리킵니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C011",
+    "category": "html",
+    "type": "concept",
+    "question": "이미지를 볼 수 없는 사용자에게 내용은 어떻게 전달하나요?",
+    "choices": [
+      "파일명에 색상 추가",
+      "너비를 크게 지정",
+      "목적에 맞는 alt 설명",
+      "같은 이미지 반복"
+    ],
+    "answer": 2,
+    "explanation": "alt는 이미지의 대체 설명을 제공합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C012",
+    "category": "html",
+    "type": "concept",
+    "question": "순서가 중요하지 않은 항목 모음은?",
+    "choices": [
+      "ol",
+      "form",
+      "table",
+      "ul"
+    ],
+    "answer": 3,
+    "explanation": "ul은 순서 없는 목록을 표현합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C013",
+    "category": "html",
+    "type": "concept",
+    "question": "목록 안의 개별 항목을 나타내는 요소는?",
+    "choices": [
+      "li",
+      "ul",
+      "section",
+      "label"
+    ],
+    "answer": 0,
+    "explanation": "li는 ul이나 ol 안에서 항목을 표현합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C014",
+    "category": "html",
+    "type": "concept",
+    "question": "입력 필드와 설명을 연결할 요소는?",
+    "choices": [
+      "title",
+      "label",
+      "article",
+      "strong"
+    ],
+    "answer": 1,
+    "explanation": "label을 연결하면 입력의 목적을 알기 쉽습니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C015",
+    "category": "html",
+    "type": "concept",
+    "question": "폼의 제출 목적을 명확히 한 버튼 유형은?",
+    "choices": [
+      "reset",
+      "text",
+      "submit",
+      "checkbox"
+    ],
+    "answer": 2,
+    "explanation": "submit 유형은 폼 제출을 요청합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C016",
+    "category": "html",
+    "type": "concept",
+    "question": "폼 안에서 기본 제출·초기화 없이 JavaScript 클릭 처리만 할 버튼 유형은?",
+    "choices": [
+      "submit",
+      "reset",
+      "hidden",
+      "button"
+    ],
+    "answer": 3,
+    "explanation": "type=\"button\"은 기본 제출이나 초기화를 하지 않습니다. JavaScript 이벤트로 필요한 동작을 연결합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C017",
+    "category": "html",
+    "type": "concept",
+    "question": "문서의 주 언어를 알려 주는 속성은?",
+    "choices": [
+      "lang",
+      "charset",
+      "role",
+      "name"
+    ],
+    "answer": 0,
+    "explanation": "lang은 읽기 도구 등에 콘텐츠 언어를 전달합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C018",
+    "category": "html",
+    "type": "concept",
+    "question": "CSS 파일을 HTML에 연결할 요소는?",
+    "choices": [
+      "a",
+      "link",
+      "script",
+      "style만 사용 가능"
+    ],
+    "answer": 1,
+    "explanation": "link의 stylesheet 관계로 외부 CSS를 연결합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C019",
+    "category": "html",
+    "type": "concept",
+    "question": "동일 페이지 요소 하나를 고유하게 가리킬 값은?",
+    "choices": [
+      "class",
+      "tag",
+      "id",
+      "type"
+    ],
+    "answer": 2,
+    "explanation": "id는 문서 안에서 고유한 식별자로 사용합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C020",
+    "category": "html",
+    "type": "concept",
+    "question": "화면 폭에 맞춘 모바일 표시 준비에 필요한 설정은?",
+    "choices": [
+      "문서 제목의 길이",
+      "이미지 파일 이름",
+      "목록 항목 번호",
+      "viewport 메타 정보"
+    ],
+    "answer": 3,
+    "explanation": "viewport는 모바일 화면의 표시 영역 기준을 설정합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C021",
+    "category": "css",
+    "type": "concept",
+    "question": "CSS를 HTML과 나누는 주된 이유는?",
+    "choices": [
+      "내용과 모양의 책임 분리",
+      "서버 계정 자동 생성",
+      "데이터 저장 보장",
+      "HTTP 요청 제거"
+    ],
+    "answer": 0,
+    "explanation": "CSS는 HTML 내용의 색·간격·배치를 담당합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C022",
+    "category": "css",
+    "type": "concept",
+    "question": "class가 card인 요소를 고르는 선택자는?",
+    "choices": [
+      "#card",
+      ".card",
+      "card",
+      "@card"
+    ],
+    "answer": 1,
+    "explanation": "점으로 시작한 선택자는 class를 찾습니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C023",
+    "category": "css",
+    "type": "concept",
+    "question": "id가 profile인 요소의 선택자는?",
+    "choices": [
+      ".profile",
+      "profile",
+      "#profile",
+      ":profile"
+    ],
+    "answer": 2,
+    "explanation": "샵 기호는 id 선택자를 나타냅니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C024",
+    "category": "css",
+    "type": "concept",
+    "question": "요소 바깥쪽 간격을 조정하는 속성은?",
+    "choices": [
+      "padding",
+      "border",
+      "line-height",
+      "margin"
+    ],
+    "answer": 3,
+    "explanation": "margin은 요소 외부의 여백입니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C025",
+    "category": "css",
+    "type": "concept",
+    "question": "테두리와 내용 사이 간격은?",
+    "choices": [
+      "padding",
+      "margin",
+      "outline",
+      "gap만 사용 가능"
+    ],
+    "answer": 0,
+    "explanation": "padding은 테두리 안쪽 여백입니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C026",
+    "category": "css",
+    "type": "concept",
+    "question": "border-box를 쓰는 이유는?",
+    "choices": [
+      "모든 요소를 정사각형으로 변경",
+      "지정 너비에 테두리와 안쪽 여백 포함",
+      "바깥 여백을 없앰",
+      "화면 너비를 고정"
+    ],
+    "answer": 1,
+    "explanation": "너비 계산에 padding과 border가 포함됩니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C027",
+    "category": "css",
+    "type": "concept",
+    "question": "이미지와 설명을 한 방향으로 배치하기 좋은 기능은?",
+    "choices": [
+      "미디어 쿼리만 사용",
+      "텍스트 그림자",
+      "Flexbox",
+      "문자 인코딩"
+    ],
+    "answer": 2,
+    "explanation": "Flexbox는 한 축을 중심으로 배치합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C028",
+    "category": "css",
+    "type": "concept",
+    "question": "카드를 행과 열로 배치하기 좋은 기능은?",
+    "choices": [
+      "font-family",
+      "text-transform",
+      "outline",
+      "Grid"
+    ],
+    "answer": 3,
+    "explanation": "Grid는 두 방향의 격자 배치를 돕습니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C029",
+    "category": "css",
+    "type": "concept",
+    "question": "Flexbox 자식 사이 간격을 줄 때 읽기 쉬운 속성은?",
+    "choices": [
+      "gap",
+      "font-size",
+      "opacity",
+      "z-index"
+    ],
+    "answer": 0,
+    "explanation": "gap은 배치 항목 사이의 간격을 지정합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C030",
+    "category": "css",
+    "type": "concept",
+    "question": "Flexbox의 주축 방향을 정하는 속성은?",
+    "choices": [
+      "align-items",
+      "flex-direction",
+      "font-weight",
+      "border-radius"
+    ],
+    "answer": 1,
+    "explanation": "flex-direction은 가로·세로 등 주축을 정합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C031",
+    "category": "css",
+    "type": "concept",
+    "question": "Flexbox의 교차축 정렬을 제어하는 속성은?",
+    "choices": [
+      "justify-content",
+      "line-height",
+      "align-items",
+      "text-indent"
+    ],
+    "answer": 2,
+    "explanation": "align-items는 주축과 교차하는 방향의 정렬입니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C032",
+    "category": "css",
+    "type": "concept",
+    "question": "Flexbox 주축의 남는 공간 배분은 무엇으로 조절하나요?",
+    "choices": [
+      "align-items",
+      "object-fit",
+      "box-sizing",
+      "justify-content"
+    ],
+    "answer": 3,
+    "explanation": "justify-content는 주축을 따라 항목을 배치합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C033",
+    "category": "css",
+    "type": "concept",
+    "question": "화면이 좁을 때만 배치를 바꾸려면?",
+    "choices": [
+      "미디어 쿼리",
+      "문서 제목 수정",
+      "HTML 인코딩 변경",
+      "서버 재시작"
+    ],
+    "answer": 0,
+    "explanation": "미디어 쿼리는 화면 조건별 스타일을 적용합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C034",
+    "category": "css",
+    "type": "concept",
+    "question": "같은 색을 여러 곳에서 관리하기 좋은 방법은?",
+    "choices": [
+      "요소마다 이미지로 대체",
+      "CSS 사용자 정의 속성",
+      "모든 규칙 복제",
+      "HTML id를 색 이름으로 변경"
+    ],
+    "answer": 1,
+    "explanation": "변수처럼 이름 붙인 색을 재사용할 수 있습니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C035",
+    "category": "css",
+    "type": "concept",
+    "question": "마우스를 올린 상태의 스타일은?",
+    "choices": [
+      ":focus",
+      ":disabled",
+      ":hover",
+      ":checked"
+    ],
+    "answer": 2,
+    "explanation": "hover는 포인터가 요소 위에 있는 상태입니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C036",
+    "category": "css",
+    "type": "concept",
+    "question": "키보드 사용자가 현재 위치를 확인할 표시로 알맞은 것은?",
+    "choices": [
+      "숨겨진 제목",
+      "임의 배경 애니메이션",
+      "고정 문서 너비",
+      "포커스 테두리"
+    ],
+    "answer": 3,
+    "explanation": "포커스 표시는 키보드 조작 대상을 알려 줍니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C037",
+    "category": "css",
+    "type": "concept",
+    "question": "이미지를 상자 비율에 맞춰 잘라 채우는 속성 조합은?",
+    "choices": [
+      "object-fit: cover",
+      "display: block",
+      "text-align: center",
+      "overflow: visible"
+    ],
+    "answer": 0,
+    "explanation": "cover는 비율을 유지하며 상자를 채우고 일부를 자릅니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C038",
+    "category": "css",
+    "type": "concept",
+    "question": "본문 글줄 사이 간격을 조절하는 속성은?",
+    "choices": [
+      "letter-spacing",
+      "line-height",
+      "font-weight",
+      "word-break"
+    ],
+    "answer": 1,
+    "explanation": "line-height는 각 줄이 차지하는 높이를 정합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C039",
+    "category": "css",
+    "type": "concept",
+    "question": "최대 너비를 두는 목적은?",
+    "choices": [
+      "화면 축소 방지",
+      "서버 응답 압축",
+      "넓은 화면에서 내용 폭 제한",
+      "이미지 파일 변환"
+    ],
+    "answer": 2,
+    "explanation": "max-width는 과도하게 넓어진 배치를 제한합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C040",
+    "category": "css",
+    "type": "concept",
+    "question": "CSS 변경이 적용되지 않을 때 먼저 볼 것은?",
+    "choices": [
+      "DB 테이블 이름",
+      "JWT 서명",
+      "Git 원격 주소",
+      "선택자와 개발자 도구의 적용 규칙"
+    ],
+    "answer": 3,
+    "explanation": "요소에 규칙이 매칭되는지와 덮어쓴 규칙을 확인합니다.",
+    "reference": "01-html-css/README.md"
+  },
+  {
+    "id": "C041",
+    "category": "javascript",
+    "type": "concept",
+    "question": "선언한 뒤 같은 변수에 재대입하지 못하게 하는 선언은?",
+    "choices": [
+      "const",
+      "let",
+      "return",
+      "if"
+    ],
+    "answer": 0,
+    "explanation": "const는 같은 변수에 다시 대입하는 것을 막습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C042",
+    "category": "javascript",
+    "type": "concept",
+    "question": "반복 중 값이 재대입되는 변수에 맞는 선언은?",
+    "choices": [
+      "const",
+      "let",
+      "import",
+      "throw"
+    ],
+    "answer": 1,
+    "explanation": "let으로 선언한 변수는 값을 재대입할 수 있습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C043",
+    "category": "javascript",
+    "type": "concept",
+    "question": "const로 선언한 배열에 대한 설명은?",
+    "choices": [
+      "항목도 모두 읽기 전용이다",
+      "빈 배열만 가능하다",
+      "배열 내부 항목은 바꿀 수 있다",
+      "반복문에서 읽을 수 없다"
+    ],
+    "answer": 2,
+    "explanation": "재대입 제한과 객체 내부 변경 제한은 다릅니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C044",
+    "category": "javascript",
+    "type": "concept",
+    "question": "입력창의 값을 계산 전에 변환하는 이유는?",
+    "choices": [
+      "입력값이 함수이기 때문",
+      "입력값이 DB 행이기 때문",
+      "입력값이 날짜이기 때문",
+      "입력값이 문자열이기 때문"
+    ],
+    "answer": 3,
+    "explanation": "숫자처럼 보여도 입력 value는 문자열입니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C045",
+    "category": "javascript",
+    "type": "concept",
+    "question": "값과 자료형을 함께 비교하는 연산자는?",
+    "choices": [
+      "===",
+      "=",
+      "==",
+      "+="
+    ],
+    "answer": 0,
+    "explanation": "엄격한 비교는 자료형 변환 없이 비교합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C046",
+    "category": "javascript",
+    "type": "concept",
+    "question": "함수의 반환값을 정하는 문법은?",
+    "choices": [
+      "break",
+      "return",
+      "continue",
+      "import"
+    ],
+    "answer": 1,
+    "explanation": "return은 함수 실행을 끝내고 값을 돌려줍니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C047",
+    "category": "javascript",
+    "type": "concept",
+    "question": "함수로 작업을 분리하는 장점은?",
+    "choices": [
+      "데이터가 자동 저장된다",
+      "모든 오류가 사라진다",
+      "같은 규칙을 재사용하기 쉽다",
+      "변수가 전역으로 바뀐다"
+    ],
+    "answer": 2,
+    "explanation": "이름 붙인 함수로 반복 작업을 묶을 수 있습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C048",
+    "category": "javascript",
+    "type": "concept",
+    "question": "조건이 맞는 경우만 처리하려면?",
+    "choices": [
+      "export",
+      "await",
+      "const",
+      "if"
+    ],
+    "answer": 3,
+    "explanation": "if는 조건에 따라 실행을 나눕니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C049",
+    "category": "javascript",
+    "type": "concept",
+    "question": "문자열 양끝의 불필요한 공백을 없애는 메서드는?",
+    "choices": [
+      "trim",
+      "split",
+      "slice",
+      "includes"
+    ],
+    "answer": 0,
+    "explanation": "trim은 양끝 공백을 제거한 문자열을 반환합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C050",
+    "category": "javascript",
+    "type": "concept",
+    "question": "여러 할 일을 순서대로 보관할 자료형은?",
+    "choices": [
+      "불리언",
+      "배열",
+      "단일 숫자",
+      "함수 반환문"
+    ],
+    "answer": 1,
+    "explanation": "배열은 여러 값을 순서대로 담습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C051",
+    "category": "javascript",
+    "type": "concept",
+    "question": "각 항목을 변환한 새 배열이 필요하면?",
+    "choices": [
+      "find",
+      "some",
+      "map",
+      "push"
+    ],
+    "answer": 2,
+    "explanation": "map은 각 항목의 변환 결과를 모읍니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C052",
+    "category": "javascript",
+    "type": "concept",
+    "question": "조건에 맞는 항목만 남기는 메서드는?",
+    "choices": [
+      "map",
+      "join",
+      "pop",
+      "filter"
+    ],
+    "answer": 3,
+    "explanation": "filter는 조건을 만족하는 항목으로 새 배열을 만듭니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C053",
+    "category": "javascript",
+    "type": "concept",
+    "question": "조건에 맞는 첫 항목을 찾는 메서드는?",
+    "choices": [
+      "find",
+      "filter",
+      "sort",
+      "forEach"
+    ],
+    "answer": 0,
+    "explanation": "find는 첫 일치 항목이나 undefined를 반환합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C054",
+    "category": "javascript",
+    "type": "concept",
+    "question": "배열 끝에 항목을 추가하는 메서드는?",
+    "choices": [
+      "pop",
+      "push",
+      "shift",
+      "join"
+    ],
+    "answer": 1,
+    "explanation": "push는 기존 배열의 끝에 값을 추가합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C055",
+    "category": "javascript",
+    "type": "concept",
+    "question": "문자열 안에 변수 값을 넣는 템플릿 문법의 목적은?",
+    "choices": [
+      "변수 자료형 고정",
+      "DB 조건 생성",
+      "값과 문장을 결합",
+      "네트워크 연결 유지"
+    ],
+    "answer": 2,
+    "explanation": "템플릿 문자열은 표현식의 값을 문장에 넣습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C056",
+    "category": "javascript",
+    "type": "concept",
+    "question": "JSON.stringify의 역할은?",
+    "choices": [
+      "응답 상태 검사",
+      "문자열을 DOM으로 변환",
+      "객체를 DB에 저장",
+      "값을 JSON 문자열로 변환"
+    ],
+    "answer": 3,
+    "explanation": "네트워크 본문 등에 사용할 JSON 텍스트를 만듭니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C057",
+    "category": "javascript",
+    "type": "concept",
+    "question": "JSON.parse가 필요한 때는?",
+    "choices": [
+      "JSON 텍스트를 값으로 읽을 때",
+      "숫자를 반올림할 때",
+      "목록을 정렬할 때",
+      "HTTP 요청을 보낼 때"
+    ],
+    "answer": 0,
+    "explanation": "parse는 JSON 문자열을 JavaScript 값으로 읽습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C058",
+    "category": "javascript",
+    "type": "concept",
+    "question": "try/catch로 다루는 것은?",
+    "choices": [
+      "CSS 선택자 충돌",
+      "실행 중 발생한 예외",
+      "Git 병합 이력",
+      "HTML 문서 제목"
+    ],
+    "answer": 1,
+    "explanation": "catch는 try 실행 중 던져진 예외를 받습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C059",
+    "category": "javascript",
+    "type": "concept",
+    "question": "Promise는 주로 무엇을 나타내나요?",
+    "choices": [
+      "현재 DOM 요소의 크기",
+      "변경 불가능한 상수",
+      "나중에 완료될 작업의 결과",
+      "DB 테이블 구조"
+    ],
+    "answer": 2,
+    "explanation": "Promise는 비동기 작업의 성공·실패 결과를 나타냅니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C060",
+    "category": "javascript",
+    "type": "concept",
+    "question": "async 함수 안의 await가 하는 일은?",
+    "choices": [
+      "모든 서버 요청을 동시에 중단",
+      "값을 자동 저장",
+      "오류를 자동 삭제",
+      "그 함수의 다음 처리를 결과 뒤로 미룸"
+    ],
+    "answer": 3,
+    "explanation": "await는 기다리는 함수의 실행 순서를 표현합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C061",
+    "category": "dom",
+    "type": "concept",
+    "question": "DOM은 무엇인가요?",
+    "choices": [
+      "HTML을 코드로 다루는 문서 구조",
+      "서버 저장 파일 형식",
+      "비밀번호 검사 도구",
+      "CSS 배포 명령"
+    ],
+    "answer": 0,
+    "explanation": "브라우저는 HTML을 DOM 구조로 표현합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C062",
+    "category": "dom",
+    "type": "concept",
+    "question": "querySelector는 무엇을 받나요?",
+    "choices": [
+      "SQL 조회문",
+      "CSS 선택자 문자열",
+      "Git 커밋 번호",
+      "HTTP 상태 코드"
+    ],
+    "answer": 1,
+    "explanation": "CSS 선택자로 일치하는 첫 요소를 찾습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C063",
+    "category": "dom",
+    "type": "concept",
+    "question": "querySelector의 대상이 없으면?",
+    "choices": [
+      "빈 div를 만든다",
+      "서버를 다시 시작한다",
+      "null을 반환한다",
+      "첫 버튼을 반환한다"
+    ],
+    "answer": 2,
+    "explanation": "선택 결과가 없을 가능성을 고려해야 합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C064",
+    "category": "dom",
+    "type": "concept",
+    "question": "버튼에 click 함수를 등록하는 목적은?",
+    "choices": [
+      "버튼의 색을 고정",
+      "폼 내용을 자동 저장",
+      "문서를 다시 다운로드",
+      "클릭 시 실행할 동작 연결"
+    ],
+    "answer": 3,
+    "explanation": "이벤트 리스너가 사용자 행동과 코드를 연결합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C065",
+    "category": "dom",
+    "type": "concept",
+    "question": "이벤트 객체는 무엇을 제공하나요?",
+    "choices": [
+      "발생한 이벤트의 정보",
+      "모든 DB 사용자",
+      "Git 브랜치 목록",
+      "빌드 파일 크기"
+    ],
+    "answer": 0,
+    "explanation": "이벤트 종류와 대상 등 처리에 필요한 정보를 담습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C066",
+    "category": "dom",
+    "type": "concept",
+    "question": "입력 이벤트에서 target이 가리키는 것은?",
+    "choices": [
+      "API 서버의 IP",
+      "이벤트가 발생한 대상 요소",
+      "현재 파일의 폴더",
+      "다음 화면의 제목"
+    ],
+    "answer": 1,
+    "explanation": "target을 통해 실제 입력 대상에 접근할 수 있습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C067",
+    "category": "dom",
+    "type": "concept",
+    "question": "일반 입력창의 현재 값을 읽는 속성은?",
+    "choices": [
+      "textContent",
+      "className",
+      "value",
+      "href"
+    ],
+    "answer": 2,
+    "explanation": "input의 사용자 입력은 value로 읽습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C068",
+    "category": "dom",
+    "type": "concept",
+    "question": "글자를 HTML로 해석하지 않고 표시하려면?",
+    "choices": [
+      "innerHTML",
+      "outerHTML",
+      "document.write",
+      "textContent"
+    ],
+    "answer": 3,
+    "explanation": "textContent는 입력을 텍스트로 다룹니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C069",
+    "category": "dom",
+    "type": "concept",
+    "question": "innerHTML을 쓸 때 주의할 이유는?",
+    "choices": [
+      "문자열이 HTML로 해석됨",
+      "모든 숫자가 삭제됨",
+      "서버 요청이 중단됨",
+      "CSS 파일이 사라짐"
+    ],
+    "answer": 0,
+    "explanation": "검증되지 않은 HTML 삽입은 스크립트 실행 위험이 있습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C070",
+    "category": "dom",
+    "type": "concept",
+    "question": "새 화면 요소를 만드는 메서드는?",
+    "choices": [
+      "querySelector",
+      "createElement",
+      "addEventListener",
+      "preventDefault"
+    ],
+    "answer": 1,
+    "explanation": "createElement는 지정한 태그의 요소를 만듭니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C071",
+    "category": "dom",
+    "type": "concept",
+    "question": "생성한 요소를 목록에 붙이는 작업은?",
+    "choices": [
+      "trim",
+      "parse",
+      "append",
+      "filter"
+    ],
+    "answer": 2,
+    "explanation": "append는 부모 요소 안에 노드를 추가합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C072",
+    "category": "dom",
+    "type": "concept",
+    "question": "form 제출 이벤트에서 preventDefault를 쓰는 이유는?",
+    "choices": [
+      "서버 오류를 숨기기 위해",
+      "입력 문자를 삭제하기 위해",
+      "이벤트를 다시 발생시키기 위해",
+      "기본 제출 동작을 막기 위해"
+    ],
+    "answer": 3,
+    "explanation": "기본 페이지 이동 대신 JavaScript로 처리할 수 있습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C073",
+    "category": "dom",
+    "type": "concept",
+    "question": "배열에 값을 넣었는데 목록이 그대로라면?",
+    "choices": [
+      "변경된 데이터를 DOM에 반영했는지 확인",
+      "서버 포트 변경",
+      "HTML 언어 변경",
+      "배열 이름을 대문자로 변경"
+    ],
+    "answer": 0,
+    "explanation": "일반 JavaScript 배열 변경은 DOM을 자동 갱신하지 않습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C074",
+    "category": "dom",
+    "type": "concept",
+    "question": "렌더링 함수가 목록을 먼저 비우는 목적은?",
+    "choices": [
+      "서버 데이터 삭제",
+      "이전 항목의 중복 표시 방지",
+      "이벤트 객체 초기화",
+      "CSS 연결 해제"
+    ],
+    "answer": 1,
+    "explanation": "현재 데이터로 다시 그릴 때 기존 화면을 정리합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C075",
+    "category": "dom",
+    "type": "concept",
+    "question": "버튼 클릭 없이 리스너 등록 중 함수가 실행됐다면?",
+    "choices": [
+      "CSS 여백 확인",
+      "DB 저장 용량 확인",
+      "함수 전달 대신 호출했는지 확인",
+      "문서 인코딩 확인"
+    ],
+    "answer": 2,
+    "explanation": "함수 참조 전달과 즉시 호출은 다릅니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C076",
+    "category": "dom",
+    "type": "concept",
+    "question": "script가 대상 요소보다 먼저 실행되면 생길 수 있는 문제는?",
+    "choices": [
+      "DOM 전체가 암호화됨",
+      "포트가 변경됨",
+      "숫자 계산이 문자열로 고정됨",
+      "아직 없는 요소를 찾을 수 있음"
+    ],
+    "answer": 3,
+    "explanation": "문서가 만들어지기 전이면 요소 조회가 실패할 수 있습니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C077",
+    "category": "dom",
+    "type": "concept",
+    "question": "DOM 문제를 조사할 개발자 도구 탭은?",
+    "choices": [
+      "Elements",
+      "Application의 쿠키만",
+      "Performance의 CPU만",
+      "Network의 인증 헤더만"
+    ],
+    "answer": 0,
+    "explanation": "Elements는 문서 요소와 적용 스타일을 보여 줍니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C078",
+    "category": "dom",
+    "type": "concept",
+    "question": "JavaScript 오류의 첫 확인 장소는?",
+    "choices": [
+      "인쇄 미리보기",
+      "Console",
+      "북마크 관리자",
+      "확장 프로그램 목록"
+    ],
+    "answer": 1,
+    "explanation": "Console에서 오류 메시지와 코드 위치를 확인합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C079",
+    "category": "dom",
+    "type": "concept",
+    "question": "같은 이벤트가 두 번 처리될 때 살필 것은?",
+    "choices": [
+      "이미지 대체 문구",
+      "DB 인덱스 이름",
+      "중복 리스너 등록 여부",
+      "문서 제목 길이"
+    ],
+    "answer": 2,
+    "explanation": "동일 동작에 여러 리스너가 연결됐는지 확인합니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C080",
+    "category": "dom",
+    "type": "concept",
+    "question": "폼 reset의 기본 목적은?",
+    "choices": [
+      "서버 기록 삭제",
+      "전체 DOM 제거",
+      "로그인 토큰 갱신",
+      "입력 요소를 초기값으로 돌림"
+    ],
+    "answer": 3,
+    "explanation": "reset은 폼 입력 상태를 초기값으로 되돌립니다.",
+    "reference": "02-javascript-basics/README.md"
+  },
+  {
+    "id": "C081",
+    "category": "react",
+    "type": "concept",
+    "question": "React 컴포넌트는 무엇을 표현하나요?",
+    "choices": [
+      "화면의 한 부분",
+      "DB 연결 문자열",
+      "Git 변경 이력",
+      "HTTP 암호화 키"
+    ],
+    "answer": 0,
+    "explanation": "컴포넌트는 화면을 작은 단위로 나누는 수단입니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C082",
+    "category": "react",
+    "type": "concept",
+    "question": "state를 사용하는 주된 이유는?",
+    "choices": [
+      "비밀번호를 안전하게 보관",
+      "바뀌는 값과 화면을 연결",
+      "서버 파일 자동 생성",
+      "CSS 문법 검증"
+    ],
+    "answer": 1,
+    "explanation": "state가 바뀌면 React가 새 화면을 계산합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C083",
+    "category": "react",
+    "type": "concept",
+    "question": "props의 전달 방향은?",
+    "choices": [
+      "DB에서 CSS로",
+      "자식에서 파일로",
+      "부모에서 자식으로",
+      "브라우저에서 Git으로"
+    ],
+    "answer": 2,
+    "explanation": "부모가 자식 컴포넌트에 값과 함수를 전달합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C084",
+    "category": "react",
+    "type": "concept",
+    "question": "자식이 부모 목록 변경을 요청하려면?",
+    "choices": [
+      "부모 소스 파일 수정",
+      "DOM에서 목록만 삭제",
+      "props 객체를 직접 변경",
+      "전달받은 콜백 실행"
+    ],
+    "answer": 3,
+    "explanation": "부모가 전달한 함수로 상태 변경을 요청합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C085",
+    "category": "react",
+    "type": "concept",
+    "question": "state 배열을 직접 수정하는 대신 새 배열을 만드는 이유는?",
+    "choices": [
+      "상태 변경을 명확히 전달",
+      "항목 id를 암호화",
+      "서버 요청 생략",
+      "CSS 선택자 생성"
+    ],
+    "answer": 0,
+    "explanation": "새 참조를 전달하면 상태 변경을 인식하기 쉽습니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C086",
+    "category": "react",
+    "type": "concept",
+    "question": "목록 렌더링에 key가 필요한 이유는?",
+    "choices": [
+      "토큰 암호화",
+      "항목의 동일성 구분",
+      "배열 길이 제한",
+      "부모 함수 호출"
+    ],
+    "answer": 1,
+    "explanation": "key는 렌더링 사이에서 항목을 구분합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C087",
+    "category": "react",
+    "type": "concept",
+    "question": "순서가 바뀌는 목록의 key로 적절한 값은?",
+    "choices": [
+      "현재 배열 위치",
+      "렌더링 때 만든 난수",
+      "안정적인 항목 id",
+      "화면의 현재 시각"
+    ],
+    "answer": 2,
+    "explanation": "항목 자체의 안정적인 식별자를 사용합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C088",
+    "category": "react",
+    "type": "concept",
+    "question": "제어 입력의 값은 무엇과 연결되나요?",
+    "choices": [
+      "Git 저장소",
+      "CSS 변수만",
+      "서버 포트",
+      "React state"
+    ],
+    "answer": 3,
+    "explanation": "value와 변경 이벤트를 state에 연결합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C089",
+    "category": "react",
+    "type": "concept",
+    "question": "JSX는 무엇인가요?",
+    "choices": [
+      "JavaScript 안의 화면 표현 문법",
+      "DB 쿼리 언어",
+      "인증 토큰 종류",
+      "배포 서버 운영체제"
+    ],
+    "answer": 0,
+    "explanation": "JSX로 컴포넌트의 화면 구조를 표현합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C090",
+    "category": "react",
+    "type": "concept",
+    "question": "남은 할 일 수를 목록에서 계산하는 이유는?",
+    "choices": [
+      "API 주소 자동 선택",
+      "중복 상태의 불일치 감소",
+      "CSS 용량 축소",
+      "컴포넌트 이름 숨김"
+    ],
+    "answer": 1,
+    "explanation": "이미 있는 데이터에서 구할 값을 따로 저장하면 어긋날 수 있습니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C091",
+    "category": "react",
+    "type": "concept",
+    "question": "완료 버튼을 눌렀는데 표시가 그대로라면?",
+    "choices": [
+      "HTML 인코딩 변경",
+      "DB 서버 설치",
+      "클릭과 상태 갱신 연결 확인",
+      "Vite 포트 확대"
+    ],
+    "answer": 2,
+    "explanation": "이벤트가 상태 갱신으로 이어지는지 따라갑니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C092",
+    "category": "react",
+    "type": "concept",
+    "question": "React가 다시 렌더링한다는 뜻은?",
+    "choices": [
+      "전체 서버를 재시작",
+      "모든 DOM을 반드시 삭제",
+      "소스 파일을 다시 저장",
+      "새 상태에 맞는 화면을 계산"
+    ],
+    "answer": 3,
+    "explanation": "렌더링 결과에 따라 필요한 DOM 변경을 반영합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C093",
+    "category": "react",
+    "type": "concept",
+    "question": "useState 초기값의 역할은?",
+    "choices": [
+      "처음 사용할 상태 제공",
+      "모든 클릭 뒤 상태 초기화",
+      "서버 데이터 자동 조회",
+      "CSS 기본 규칙 생성"
+    ],
+    "answer": 0,
+    "explanation": "초기 상태는 컴포넌트의 첫 화면 기준입니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C094",
+    "category": "react",
+    "type": "concept",
+    "question": "이전 상태에 의존한 여러 갱신에 적합한 방법은?",
+    "choices": [
+      "기존 배열 직접 변경",
+      "함수 형태의 상태 갱신",
+      "DOM에 값만 대입",
+      "전역 변수 재선언"
+    ],
+    "answer": 1,
+    "explanation": "이전 상태를 받는 갱신 함수로 다음 값을 계산합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C095",
+    "category": "react",
+    "type": "concept",
+    "question": "부모가 가진 state를 여러 자식이 공유하는 목적은?",
+    "choices": [
+      "각 자식의 DB 생성",
+      "HTML 파일 분리",
+      "같은 데이터 기준 유지",
+      "네트워크 오류 무시"
+    ],
+    "answer": 2,
+    "explanation": "공통 부모에서 관리하면 자식 화면이 같은 상태를 봅니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C096",
+    "category": "react",
+    "type": "concept",
+    "question": "TodoItem을 분리한 주된 이유는?",
+    "choices": [
+      "비밀번호 해시 속도 개선",
+      "API 라우트 추가",
+      "데이터 영속화",
+      "항목 표시 책임을 나눔"
+    ],
+    "answer": 3,
+    "explanation": "목록 전체와 한 항목의 역할을 분리합니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C097",
+    "category": "react",
+    "type": "concept",
+    "question": "React 화면이 바뀌었지만 새로고침하면 사라지는 이유는?",
+    "choices": [
+      "state만 바꾸고 저장하지 않았음",
+      "props가 암호화됐음",
+      "CSS가 캐시됐음",
+      "key가 문자열임"
+    ],
+    "answer": 0,
+    "explanation": "메모리 상태와 서버 저장은 별도입니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C098",
+    "category": "react",
+    "type": "concept",
+    "question": "Vite가 JSX 프로젝트에서 하는 일은?",
+    "choices": [
+      "계정 권한 판정",
+      "개발 제공과 배포 파일 생성",
+      "DB 행 병합",
+      "JWT 발급"
+    ],
+    "answer": 1,
+    "explanation": "Vite는 프론트엔드 실행·빌드 도구입니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C099",
+    "category": "react",
+    "type": "concept",
+    "question": "Todo 완료 상태를 토글한다는 뜻은?",
+    "choices": [
+      "항목을 목록 끝으로 이동",
+      "제목을 대문자로 변경",
+      "완료와 미완료를 서로 전환",
+      "새 id를 부여"
+    ],
+    "answer": 2,
+    "explanation": "토글은 현재 완료 값을 반대로 바꾸는 동작입니다. 완료였다면 미완료로, 미완료였다면 완료로 바뀝니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C100",
+    "category": "react",
+    "type": "concept",
+    "question": "폼 제출 시 페이지가 새로 열려 state가 사라지면?",
+    "choices": [
+      "컴포넌트 이름 변경",
+      "DB 인덱스 추가",
+      "스타일 파일 삭제",
+      "기본 제출을 제어했는지 확인"
+    ],
+    "answer": 3,
+    "explanation": "JavaScript 처리라면 기본 폼 제출 동작을 살핍니다.",
+    "reference": "03-react-todo/README.md"
+  },
+  {
+    "id": "C101",
+    "category": "http",
+    "type": "concept",
+    "question": "HTTP 요청에서 GET의 대표 목적은?",
+    "choices": [
+      "자원 조회",
+      "새 계정 생성",
+      "파일 강제 삭제",
+      "서버 종료"
+    ],
+    "answer": 0,
+    "explanation": "GET은 조회를 표현하는 메서드입니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C102",
+    "category": "http",
+    "type": "concept",
+    "question": "HTTP 요청에서 POST의 대표 목적은?",
+    "choices": [
+      "브라우저 스타일 설정",
+      "새 자원 생성 요청",
+      "DNS 조회",
+      "응답 캐시 삭제"
+    ],
+    "answer": 1,
+    "explanation": "게시판에서는 POST로 새 글 생성을 요청합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C103",
+    "category": "http",
+    "type": "concept",
+    "question": "경로 /posts/:id에서 id가 표현하는 것은?",
+    "choices": [
+      "서버 포트 번호",
+      "글의 전체 본문",
+      "대상 게시글 식별자",
+      "인증 만료 시간"
+    ],
+    "answer": 2,
+    "explanation": "경로 매개변수로 자원 한 개를 지정합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C104",
+    "category": "http",
+    "type": "concept",
+    "question": "검색어처럼 조회 조건을 URL에 넣는 위치는?",
+    "choices": [
+      "응답 상태",
+      "서버 파일명",
+      "쿠키 이름만",
+      "쿼리 문자열"
+    ],
+    "answer": 3,
+    "explanation": "쿼리 문자열은 목록 필터 등 조건을 전달합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C105",
+    "category": "http",
+    "type": "concept",
+    "question": "요청 body의 역할은?",
+    "choices": [
+      "전송할 데이터 본문",
+      "서버 실행 로그",
+      "화면 제목",
+      "브라우저 버전"
+    ],
+    "answer": 0,
+    "explanation": "생성·수정에 필요한 값을 본문에 담을 수 있습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C106",
+    "category": "http",
+    "type": "concept",
+    "question": "Content-Type 요청 헤더의 목적은?",
+    "choices": [
+      "사용자 권한 보장",
+      "본문 데이터 형식 알림",
+      "서버 IP 변경",
+      "응답 시간 제한"
+    ],
+    "answer": 1,
+    "explanation": "서버가 본문을 해석할 형식을 알려 줍니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C107",
+    "category": "http",
+    "type": "concept",
+    "question": "상태 코드 201의 의미는?",
+    "choices": [
+      "인증 필요",
+      "대상 없음",
+      "새 자원 생성 성공",
+      "서버 내부 실패"
+    ],
+    "answer": 2,
+    "explanation": "생성 API는 201로 성공을 표현할 수 있습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C108",
+    "category": "http",
+    "type": "concept",
+    "question": "204 응답을 받은 클라이언트가 주의할 점은?",
+    "choices": [
+      "항상 JSON으로 파싱",
+      "새 비밀번호 입력",
+      "같은 POST 즉시 반복",
+      "본문이 없음을 고려"
+    ],
+    "answer": 3,
+    "explanation": "204는 본문 없는 성공 응답입니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C109",
+    "category": "http",
+    "type": "concept",
+    "question": "400이 표현하는 대표 상황은?",
+    "choices": [
+      "요청 데이터가 잘못됨",
+      "대상 자원 생성됨",
+      "서버 정상 종료",
+      "로그인 토큰 갱신"
+    ],
+    "answer": 0,
+    "explanation": "잘못된 입력이나 요청 형식에 사용합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C110",
+    "category": "http",
+    "type": "concept",
+    "question": "401을 받으면 먼저 확인할 것은?",
+    "choices": [
+      "이미지 비율",
+      "인증 정보의 유효성",
+      "DB 인덱스 개수",
+      "CSS 우선순위"
+    ],
+    "answer": 1,
+    "explanation": "인증 누락·만료·실패 가능성을 확인합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C111",
+    "category": "http",
+    "type": "concept",
+    "question": "403의 의미에 가까운 것은?",
+    "choices": [
+      "새 자원 생성됨",
+      "본문이 비어 있음",
+      "요청이 허용되지 않음",
+      "DNS 변환 성공"
+    ],
+    "answer": 2,
+    "explanation": "권한이나 정책 때문에 요청을 거부한 상태입니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C112",
+    "category": "http",
+    "type": "concept",
+    "question": "없는 게시글 조회의 일반적인 상태는?",
+    "choices": [
+      "201",
+      "204",
+      "429",
+      "404"
+    ],
+    "answer": 3,
+    "explanation": "찾을 수 없는 자원을 404로 표현합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C113",
+    "category": "http",
+    "type": "concept",
+    "question": "짧은 시간 너무 많은 요청을 보낸 경우의 상태는?",
+    "choices": [
+      "429",
+      "201",
+      "301",
+      "404"
+    ],
+    "answer": 0,
+    "explanation": "429는 요청 횟수 제한을 표현합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C114",
+    "category": "http",
+    "type": "concept",
+    "question": "500 응답을 해석하는 적절한 태도는?",
+    "choices": [
+      "요청이 반드시 성공했다고 판단",
+      "서버 로그에서 원인 확인",
+      "비밀번호가 틀렸다고 확정",
+      "네트워크가 끊겼다고 확정"
+    ],
+    "answer": 1,
+    "explanation": "500은 서버 오류이며 구체적 원인은 로그로 확인합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C115",
+    "category": "http",
+    "type": "concept",
+    "question": "fetch가 HTTP 404 응답을 받으면?",
+    "choices": [
+      "항상 연결 예외로 종료",
+      "자동으로 정상 데이터 반환",
+      "응답 상태를 별도로 검사해야 함",
+      "서버를 다시 시작"
+    ],
+    "answer": 2,
+    "explanation": "HTTP 실패 상태도 응답 객체로 받을 수 있습니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C116",
+    "category": "http",
+    "type": "concept",
+    "question": "Network 탭에서 저장 실패를 조사할 항목은?",
+    "choices": [
+      "폰트 두께만",
+      "Git 사용자명만",
+      "컴포넌트 파일 크기만",
+      "요청 주소·본문·응답 상태"
+    ],
+    "answer": 3,
+    "explanation": "실제로 보낸 요청과 받은 응답을 비교합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C117",
+    "category": "http",
+    "type": "concept",
+    "question": "같은 출처를 결정하는 조합은?",
+    "choices": [
+      "프로토콜·호스트·포트",
+      "경로·쿼리·본문",
+      "HTML·CSS·JS",
+      "이름·이메일·암호"
+    ],
+    "answer": 0,
+    "explanation": "셋 중 하나라도 다르면 출처가 달라집니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C118",
+    "category": "http",
+    "type": "concept",
+    "question": "CORS 헤더를 주로 해석하는 주체는?",
+    "choices": [
+      "Git 서버",
+      "브라우저",
+      "DB 인덱스",
+      "파일 압축기"
+    ],
+    "answer": 1,
+    "explanation": "브라우저가 다른 출처 응답의 접근을 판단합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C119",
+    "category": "http",
+    "type": "concept",
+    "question": "Authorization 헤더를 쓰는 목적은?",
+    "choices": [
+      "CSS 규칙 전달",
+      "파일 인코딩 변경",
+      "인증 정보를 요청에 전달",
+      "DB 백업 수행"
+    ],
+    "answer": 2,
+    "explanation": "보호 API에 인증 토큰 등을 전달합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C120",
+    "category": "http",
+    "type": "concept",
+    "question": "API와 화면 문서를 구분할 기준은?",
+    "choices": [
+      "파일명의 길이",
+      "서버의 색상",
+      "키보드 종류",
+      "반환하는 데이터와 역할"
+    ],
+    "answer": 3,
+    "explanation": "같은 서버도 HTML 파일과 JSON API를 다르게 제공합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C121",
+    "category": "node",
+    "type": "concept",
+    "question": "Node.js는 어떤 실행 환경인가요?",
+    "choices": [
+      "브라우저 밖 JavaScript 실행",
+      "CSS 전용 편집",
+      "SQL 시각화",
+      "이미지 압축 전용"
+    ],
+    "answer": 0,
+    "explanation": "서버 등에서 JavaScript 코드를 실행합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C122",
+    "category": "node",
+    "type": "concept",
+    "question": "Express의 주된 역할은?",
+    "choices": [
+      "HTML 색상 선택",
+      "HTTP 요청과 처리 함수 연결",
+      "DB 백업 암호화",
+      "Git 브랜치 병합"
+    ],
+    "answer": 1,
+    "explanation": "Express는 라우팅과 요청 처리를 돕습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C123",
+    "category": "node",
+    "type": "concept",
+    "question": "app.listen이 하는 일은?",
+    "choices": [
+      "모든 데이터를 DB에 저장",
+      "클라이언트 DOM 생성",
+      "포트에서 요청 받기 시작",
+      "JWT 서명 변경"
+    ],
+    "answer": 2,
+    "explanation": "서버가 지정한 통신 창구에서 대기합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C124",
+    "category": "node",
+    "type": "concept",
+    "question": "Express의 req는 무엇인가요?",
+    "choices": [
+      "보낼 응답 객체",
+      "서버 종료 코드",
+      "정적 파일 목록",
+      "들어온 요청 정보"
+    ],
+    "answer": 3,
+    "explanation": "본문·경로·헤더 등 요청 정보를 담습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C125",
+    "category": "node",
+    "type": "concept",
+    "question": "Express의 res는 무엇인가요?",
+    "choices": [
+      "응답을 보내는 객체",
+      "요청의 원문 파일",
+      "DB 모델 클래스",
+      "사용자 배열"
+    ],
+    "answer": 0,
+    "explanation": "상태 코드와 응답 본문을 전송합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C126",
+    "category": "node",
+    "type": "concept",
+    "question": "라우트는 무엇을 연결하나요?",
+    "choices": [
+      "글꼴·색상과 화면",
+      "메서드·경로와 처리 함수",
+      "사용자·암호와 해시만",
+      "브랜치·커밋과 태그"
+    ],
+    "answer": 1,
+    "explanation": "같은 경로라도 메서드에 따라 처리가 달라질 수 있습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C127",
+    "category": "node",
+    "type": "concept",
+    "question": "express.json을 먼저 등록하는 이유는?",
+    "choices": [
+      "응답 파일을 압축하기 위해",
+      "토큰을 자동 발급하기 위해",
+      "JSON 요청 본문을 읽기 위해",
+      "화면을 렌더링하기 위해"
+    ],
+    "answer": 2,
+    "explanation": "뒤의 라우트가 해석된 req.body를 사용합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C128",
+    "category": "node",
+    "type": "concept",
+    "question": "미들웨어의 의미는?",
+    "choices": [
+      "DB의 중간 테이블",
+      "프론트 폰트 목록",
+      "Git 충돌 표시",
+      "요청 흐름의 공통 처리 함수"
+    ],
+    "answer": 3,
+    "explanation": "인증·본문 해석 같은 공통 처리를 연결합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C129",
+    "category": "node",
+    "type": "concept",
+    "question": "next를 호출하는 일반적인 목적은?",
+    "choices": [
+      "다음 처리 단계로 넘김",
+      "응답을 두 번 전송",
+      "서버 프로세스 종료",
+      "DB 행 번호 증가"
+    ],
+    "answer": 0,
+    "explanation": "미들웨어 체인에서 다음 단계로 이동합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C130",
+    "category": "node",
+    "type": "concept",
+    "question": "next(error)는 무엇을 요청하나요?",
+    "choices": [
+      "정상 응답 캐시",
+      "오류 처리 흐름으로 전달",
+      "클라이언트 재로그인",
+      "새 서버 포트 생성"
+    ],
+    "answer": 1,
+    "explanation": "오류를 공통 오류 미들웨어로 넘깁니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C131",
+    "category": "node",
+    "type": "concept",
+    "question": "에러 응답 후 return하는 이유는?",
+    "choices": [
+      "로그 파일 삭제",
+      "비밀번호 초기화",
+      "이후 성공 처리 실행 방지",
+      "JSON 형식 고정"
+    ],
+    "answer": 2,
+    "explanation": "한 요청에 응답을 중복 전송하는 일을 줄입니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C132",
+    "category": "node",
+    "type": "concept",
+    "question": "req.params에서 읽는 값은?",
+    "choices": [
+      "서버 환경 변수",
+      "응답의 헤더",
+      "HTML 입력 목록",
+      "경로에 포함된 매개변수"
+    ],
+    "answer": 3,
+    "explanation": "/posts/:id의 id 등을 읽습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C133",
+    "category": "node",
+    "type": "concept",
+    "question": "req.query에서 읽는 값은?",
+    "choices": [
+      "URL 조회 조건",
+      "JSON 요청 본문 전체",
+      "CSS 선택자",
+      "파일 권한"
+    ],
+    "answer": 0,
+    "explanation": "물음표 뒤의 쿼리 매개변수를 읽습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C134",
+    "category": "node",
+    "type": "concept",
+    "question": "메모리 배열에 저장한 글이 재시작 후 사라지는 이유는?",
+    "choices": [
+      "브라우저가 글을 숨김",
+      "프로세스 메모리가 초기화됨",
+      "HTTP가 JSON을 삭제함",
+      "CSS가 다시 적용됨"
+    ],
+    "answer": 1,
+    "explanation": "메모리는 실행 중인 프로세스의 임시 저장 공간입니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C135",
+    "category": "node",
+    "type": "concept",
+    "question": "환경 변수 PORT를 쓰는 이유는?",
+    "choices": [
+      "DB 내용을 자동 조회",
+      "이미지 크기 변환",
+      "실행 환경에 맞춰 포트 지정",
+      "로그를 삭제"
+    ],
+    "answer": 2,
+    "explanation": "환경에 따라 서버 설정을 바꿀 수 있습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C136",
+    "category": "node",
+    "type": "concept",
+    "question": "dotenv의 역할은?",
+    "choices": [
+      "DB 스키마 생성",
+      "JWT 비밀번호 복구",
+      "React 화면 빌드",
+      "파일의 환경 설정을 읽음"
+    ],
+    "answer": 3,
+    "explanation": ".env 값을 실행 환경에서 사용하도록 돕습니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C137",
+    "category": "node",
+    "type": "concept",
+    "question": "정적 파일 제공의 의미는?",
+    "choices": [
+      "파일 내용을 클라이언트에 전달",
+      "서버 코드를 브라우저에서 수정",
+      "DB 데이터를 삭제",
+      "토큰을 파일에 기록"
+    ],
+    "answer": 0,
+    "explanation": "HTML·CSS·JS 같은 파일을 응답으로 보냅니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C138",
+    "category": "node",
+    "type": "concept",
+    "question": "DB 연결 완료 후 서버를 여는 이유는?",
+    "choices": [
+      "화면 색상 안정화",
+      "요청 처리에 필요한 저장소 준비",
+      "Git 충돌 예방",
+      "토큰 크기 감소"
+    ],
+    "answer": 1,
+    "explanation": "준비되지 않은 DB로 요청이 들어오는 상황을 줄입니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C139",
+    "category": "node",
+    "type": "concept",
+    "question": "포트 사용 중 오류가 나면 살필 것은?",
+    "choices": [
+      "JSON의 키 순서",
+      "배열의 항목 순서",
+      "같은 포트를 쓰는 다른 프로세스",
+      "글 제목 길이"
+    ],
+    "answer": 2,
+    "explanation": "다른 프로그램이 이미 통신 창구를 사용 중일 수 있습니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C140",
+    "category": "node",
+    "type": "concept",
+    "question": "package.json의 scripts가 하는 일은?",
+    "choices": [
+      "모든 의존성 소스 보관",
+      "브라우저 상태 저장",
+      "HTTP 헤더 생성",
+      "실행 명령에 이름 부여"
+    ],
+    "answer": 3,
+    "explanation": "npm run으로 자주 쓰는 명령을 실행합니다.",
+    "reference": "04-node-board-api/README.md"
+  },
+  {
+    "id": "C141",
+    "category": "database",
+    "type": "concept",
+    "question": "데이터베이스를 도입하는 대표 이유는?",
+    "choices": [
+      "재시작 뒤에도 데이터 보존",
+      "CSS 자동 생성",
+      "HTTP 요청 제거",
+      "컴포넌트 분리"
+    ],
+    "answer": 0,
+    "explanation": "임시 메모리와 달리 데이터를 지속 관리합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C142",
+    "category": "database",
+    "type": "concept",
+    "question": "MongoDB에서 문서가 나타내는 것은?",
+    "choices": [
+      "웹페이지 CSS 전체",
+      "필드로 구성된 데이터 한 건",
+      "서버 실행 명령",
+      "Git 커밋 메시지"
+    ],
+    "answer": 1,
+    "explanation": "게시글 하나를 필드들의 묶음으로 저장합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C143",
+    "category": "database",
+    "type": "concept",
+    "question": "MongoDB의 컬렉션은 무엇인가요?",
+    "choices": [
+      "인증 헤더 한 줄",
+      "CSS 선택자 목록",
+      "관련 문서들의 모음",
+      "하나의 함수 매개변수"
+    ],
+    "answer": 2,
+    "explanation": "같은 종류의 데이터를 문서 모음으로 관리합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C144",
+    "category": "database",
+    "type": "concept",
+    "question": "Mongoose를 사용하는 이유는?",
+    "choices": [
+      "브라우저 애니메이션 생성",
+      "네트워크 포트 변경",
+      "운영체제 설치",
+      "문서 규칙과 DB 작업 연결"
+    ],
+    "answer": 3,
+    "explanation": "스키마·모델로 JavaScript와 MongoDB를 연결합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C145",
+    "category": "database",
+    "type": "concept",
+    "question": "스키마에 정의하는 것은?",
+    "choices": [
+      "필드와 자료형 등 데이터 규칙",
+      "배포 서버 색상",
+      "화면의 모든 클릭",
+      "Git 브랜치 보호"
+    ],
+    "answer": 0,
+    "explanation": "스키마로 필요한 데이터 형태를 표현합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C146",
+    "category": "database",
+    "type": "concept",
+    "question": "Mongoose 모델은 무엇을 제공하나요?",
+    "choices": [
+      "브라우저 기본 스타일",
+      "스키마에 따른 저장·조회 도구",
+      "환경 변수 비밀 보장",
+      "파일 다운로드 버튼"
+    ],
+    "answer": 1,
+    "explanation": "모델을 통해 실제 문서에 CRUD를 수행합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C147",
+    "category": "database",
+    "type": "concept",
+    "question": "required 규칙의 목적은?",
+    "choices": [
+      "모든 문자열 암호화",
+      "데이터 자동 정렬",
+      "필수 필드 누락 검사",
+      "컬렉션 삭제 방지"
+    ],
+    "answer": 2,
+    "explanation": "필요한 값 없이 저장되는 것을 줄입니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C148",
+    "category": "database",
+    "type": "concept",
+    "question": "timestamps 옵션이 돕는 것은?",
+    "choices": [
+      "서버 시계 암호화",
+      "응답 시간을 일정하게 유지",
+      "로그인 만료 제거",
+      "생성·수정 시각 기록"
+    ],
+    "answer": 3,
+    "explanation": "createdAt·updatedAt 관리의 반복을 줄입니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C149",
+    "category": "database",
+    "type": "concept",
+    "question": "DB 주소를 소스와 분리하는 이유는?",
+    "choices": [
+      "환경마다 다른 연결 설정 사용",
+      "SQL 문법 단순화",
+      "화면 너비 조절",
+      "문서 제목 자동 변경"
+    ],
+    "answer": 0,
+    "explanation": "로컬·테스트·운영에서 다른 주소를 사용할 수 있습니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C150",
+    "category": "database",
+    "type": "concept",
+    "question": "DB 연결 거부 오류를 보면 먼저 살필 것은?",
+    "choices": [
+      "CSS 선택자 우선순위",
+      "DB 실행 여부와 주소",
+      "브라우저 확대 비율",
+      "Git 커밋 메시지"
+    ],
+    "answer": 1,
+    "explanation": "연결 대상이 실행되고 접근 가능한지 확인합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C151",
+    "category": "database",
+    "type": "concept",
+    "question": "DB 작업에 await를 쓰는 이유는?",
+    "choices": [
+      "저장 데이터를 강제 삭제",
+      "쿼리 문법 자동 수정",
+      "결과를 받은 뒤 응답 처리",
+      "연결 비밀번호 해제"
+    ],
+    "answer": 2,
+    "explanation": "완료 전 성공 응답을 보내지 않도록 순서를 맞춥니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C152",
+    "category": "database",
+    "type": "concept",
+    "question": "CRUD의 네 작업은?",
+    "choices": [
+      "압축·암호화·빌드·배포",
+      "로그인·로그아웃·재시작·종료",
+      "설치·복사·실행·서명",
+      "생성·조회·수정·삭제"
+    ],
+    "answer": 3,
+    "explanation": "데이터 관리의 기본 작업을 묶은 용어입니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C153",
+    "category": "database",
+    "type": "concept",
+    "question": "id로 단건을 찾는 이유는?",
+    "choices": [
+      "수정 대상을 정확히 구분",
+      "문서 크기 자동 감소",
+      "DB 설치 생략",
+      "모든 필드를 문자열화"
+    ],
+    "answer": 0,
+    "explanation": "식별자는 같은 제목의 게시글도 구분합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C154",
+    "category": "database",
+    "type": "concept",
+    "question": "목록을 최신순으로 정렬할 기준은?",
+    "choices": [
+      "비밀번호 해시",
+      "생성 시각",
+      "서버 포트",
+      "JSON 키 개수"
+    ],
+    "answer": 1,
+    "explanation": "작성 시각을 기준으로 순서를 정할 수 있습니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C155",
+    "category": "database",
+    "type": "concept",
+    "question": "데이터가 없다는 결과와 DB 연결 실패의 차이는?",
+    "choices": [
+      "둘 다 같은 데이터 삭제",
+      "둘 다 로그인 성공",
+      "정상 조회 결과와 작업 실패의 차이",
+      "둘 다 CSS 오류"
+    ],
+    "answer": 2,
+    "explanation": "대상이 없는 것과 저장소에 접근하지 못한 것은 다릅니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C156",
+    "category": "database",
+    "type": "concept",
+    "question": "update에도 검증을 적용하는 이유는?",
+    "choices": [
+      "생성 시각을 제거",
+      "응답을 항상 HTML로 변경",
+      "조회 작업을 중지",
+      "수정값이 데이터 규칙을 지키게 함"
+    ],
+    "answer": 3,
+    "explanation": "생성뿐 아니라 변경에서도 규칙이 필요합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C157",
+    "category": "database",
+    "type": "concept",
+    "question": "메모리 저장과 파일 저장의 차이는?",
+    "choices": [
+      "프로세스 종료 뒤 보존 가능성",
+      "HTTP 사용 가능 여부",
+      "React 지원 여부",
+      "변수 이름 길이"
+    ],
+    "answer": 0,
+    "explanation": "파일은 디스크에 남지만 별도 오류·동시성 관리가 필요합니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C158",
+    "category": "database",
+    "type": "concept",
+    "question": "서로 다른 DB 주소를 쓰면 생길 수 있는 현상은?",
+    "choices": [
+      "HTML 태그 이름 변경",
+      "같은 앱에서 다른 데이터가 보임",
+      "모든 토큰이 연장됨",
+      "Git 브랜치가 병합됨"
+    ],
+    "answer": 1,
+    "explanation": "주소가 다르면 읽는 저장소가 다를 수 있습니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C159",
+    "category": "database",
+    "type": "concept",
+    "question": "영속화가 뜻하는 것은?",
+    "choices": [
+      "화면에 임시로 표시",
+      "배열에서 항목 정렬",
+      "실행 종료 뒤에도 남도록 저장",
+      "HTTP 헤더에 인증 첨부"
+    ],
+    "answer": 2,
+    "explanation": "지속적으로 보관하는 저장 방식입니다.",
+    "reference": "05-database-mongodb/README.md"
+  },
+  {
+    "id": "C160",
+    "category": "database",
+    "type": "concept",
+    "question": "저장소를 함수나 클래스로 분리하는 목적은?",
+    "choices": [
+      "모든 테스트 생략",
+      "비밀번호 원문 보관",
+      "CSS 파일 통합",
+      "저장 구현 변경 영향을 줄임"
+    ],
+    "answer": 3,
+    "explanation": "라우트와 실제 저장 방식의 결합을 줄입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C161",
+    "category": "auth",
+    "type": "concept",
+    "question": "인증이 답하는 질문은?",
+    "choices": [
+      "누구의 요청인가",
+      "이 화면의 색은 무엇인가",
+      "DB 저장 공간은 얼마인가",
+      "어느 브랜치에서 작성했는가"
+    ],
+    "answer": 0,
+    "explanation": "인증은 요청자의 신원을 확인하는 과정입니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C162",
+    "category": "auth",
+    "type": "concept",
+    "question": "인가가 답하는 질문은?",
+    "choices": [
+      "비밀번호 길이는 얼마인가",
+      "이 작업을 허용해도 되는가",
+      "사용자 이름을 어떻게 표시하는가",
+      "로그인 화면은 어디인가"
+    ],
+    "answer": 1,
+    "explanation": "인가는 확인한 사용자에게 작업 권한이 있는지 판단합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C163",
+    "category": "auth",
+    "type": "concept",
+    "question": "가입 시 원문 대신 해시를 저장하는 이유는?",
+    "choices": [
+      "로그인을 생략함",
+      "아이디를 자동 변경함",
+      "유출 시 원문 노출을 줄임",
+      "계정을 브라우저에 저장함"
+    ],
+    "answer": 2,
+    "explanation": "비밀번호를 복구 가능한 원문으로 보관하지 않습니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C164",
+    "category": "auth",
+    "type": "concept",
+    "question": "bcrypt 해시 비교는 무엇을 확인하나요?",
+    "choices": [
+      "두 사용자의 이름이 같은지",
+      "토큰 만료가 없는지",
+      "이메일 서버가 동작하는지",
+      "입력 비밀번호가 저장 해시에 대응하는지"
+    ],
+    "answer": 3,
+    "explanation": "로그인 입력을 저장된 비교용 값과 확인합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C165",
+    "category": "auth",
+    "type": "concept",
+    "question": "비밀번호 해시를 암호화와 구분할 점은?",
+    "choices": [
+      "원문 복구를 위한 키를 사용하지 않음",
+      "입력값을 그대로 반환함",
+      "네트워크 통신만 보호함",
+      "화면에만 적용됨"
+    ],
+    "answer": 0,
+    "explanation": "해시는 복호화로 원문을 돌려받는 방식이 아닙니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C166",
+    "category": "auth",
+    "type": "concept",
+    "question": "salt를 사용하는 목적은?",
+    "choices": [
+      "사용자에게 원문을 전달",
+      "같은 비밀번호의 해시 반복을 줄임",
+      "비밀번호 길이를 고정",
+      "토큰 만료를 연장"
+    ],
+    "answer": 1,
+    "explanation": "사용자별 임의값으로 동일한 입력의 해시를 다르게 만듭니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C167",
+    "category": "auth",
+    "type": "concept",
+    "question": "bcrypt 계산 비용을 높이면 일반적으로?",
+    "choices": [
+      "토큰 내용 암호화",
+      "이메일 중복 자동 제거",
+      "비밀번호 추측 한 번의 비용 증가",
+      "해시 저장이 불필요해짐"
+    ],
+    "answer": 2,
+    "explanation": "느린 계산은 대량 추측의 부담을 높입니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C168",
+    "category": "auth",
+    "type": "concept",
+    "question": "JWT의 서명이 확인하는 것은?",
+    "choices": [
+      "본문을 읽을 수 없는지",
+      "사용자의 현재 화면",
+      "모든 요청의 업무 권한",
+      "토큰 내용의 변조 여부"
+    ],
+    "answer": 3,
+    "explanation": "서명 검증과 내용 암호화는 다릅니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C169",
+    "category": "auth",
+    "type": "concept",
+    "question": "JWT 내용에 비밀번호를 넣지 않는 이유는?",
+    "choices": [
+      "내용을 읽을 수 있기 때문",
+      "JWT가 숫자만 받기 때문",
+      "모든 토큰이 즉시 삭제되기 때문",
+      "로그인 후 암호가 바뀌기 때문"
+    ],
+    "answer": 0,
+    "explanation": "일반적인 서명 JWT는 본문을 암호화하지 않습니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C170",
+    "category": "auth",
+    "type": "concept",
+    "question": "JWT의 만료 시간을 두는 이유는?",
+    "choices": [
+      "사용자 이름 갱신",
+      "토큰을 쓸 수 있는 기간 제한",
+      "가입 데이터 삭제",
+      "비밀번호 해시 복구"
+    ],
+    "answer": 1,
+    "explanation": "만료된 토큰은 다시 인증하도록 제한합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C171",
+    "category": "auth",
+    "type": "concept",
+    "question": "로그인 요청을 처리할 때 인증 토큰을 발급해야 할 적절한 시점은?",
+    "choices": [
+      "로그인 화면이 열린 직후",
+      "이메일 입력 도중",
+      "로그인 검증 성공 후",
+      "사용자 조회 이전"
+    ],
+    "answer": 2,
+    "explanation": "사용자를 확인한 뒤 인증 토큰을 발급합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C172",
+    "category": "auth",
+    "type": "concept",
+    "question": "보호 API에서 토큰이 없으면?",
+    "choices": [
+      "빈 사용자로 계속 저장",
+      "새 계정을 생성",
+      "기존 비밀번호를 반환",
+      "인증 실패로 처리"
+    ],
+    "answer": 3,
+    "explanation": "요청자가 확인되지 않으면 보호 기능을 실행하지 않습니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C173",
+    "category": "auth",
+    "type": "concept",
+    "question": "Bearer 인증에서 헤더에 담는 값은?",
+    "choices": [
+      "발급받은 접근 토큰",
+      "원문 비밀번호와 이름",
+      "DB 접속 주소",
+      "화면의 전체 HTML"
+    ],
+    "answer": 0,
+    "explanation": "이후 요청에 토큰을 인증 정보로 전달합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C174",
+    "category": "auth",
+    "type": "concept",
+    "question": "서명 키를 환경 변수로 두는 이유는?",
+    "choices": [
+      "모든 사용자에게 공개",
+      "환경별 비밀 설정을 분리",
+      "토큰 검증 생략",
+      "응답 본문 크기 감소"
+    ],
+    "answer": 1,
+    "explanation": "비밀값을 소스에 고정하지 않도록 합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C175",
+    "category": "auth",
+    "type": "concept",
+    "question": "가입 응답에서 제외할 값은?",
+    "choices": [
+      "공개 사용자 이름",
+      "사용자 식별자",
+      "비밀번호 해시",
+      "가입 이메일"
+    ],
+    "answer": 2,
+    "explanation": "해시도 인증에 관련된 민감한 저장값입니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C176",
+    "category": "auth",
+    "type": "concept",
+    "question": "이미 가입된 이메일의 재가입은 어떤 문제인가요?",
+    "choices": [
+      "서버 포트 충돌",
+      "토큰 만료",
+      "페이지 렌더링 실패",
+      "현재 데이터와 충돌"
+    ],
+    "answer": 3,
+    "explanation": "중복 계정 요청을 409 등으로 구분합니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C177",
+    "category": "auth",
+    "type": "concept",
+    "question": "로그아웃 때 브라우저 토큰만 지웠다면?",
+    "choices": [
+      "이미 발급된 토큰의 서버 유효성은 별도",
+      "모든 복사본도 즉시 무효화",
+      "서명 키도 삭제됨",
+      "모든 계정이 탈퇴됨"
+    ],
+    "answer": 0,
+    "explanation": "클라이언트 삭제와 서버 토큰 무효화는 다릅니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C178",
+    "category": "auth",
+    "type": "concept",
+    "question": "JWT를 단순히 해석하는 것만으로 부족한 이유는?",
+    "choices": [
+      "JSON을 사용할 수 없음",
+      "서명과 만료 검증이 남아 있음",
+      "사용자 id를 읽을 수 없음",
+      "토큰은 파일로만 저장됨"
+    ],
+    "answer": 1,
+    "explanation": "내용 읽기와 신뢰 여부 확인은 별개입니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C179",
+    "category": "auth",
+    "type": "concept",
+    "question": "6단계 가입자가 서버 재시작 후 없어지는 이유는?",
+    "choices": [
+      "JWT가 이름을 지움",
+      "브라우저 캐시가 계정을 삭제",
+      "사용자를 메모리 배열에 저장",
+      "해시 비교가 계정을 초기화"
+    ],
+    "answer": 2,
+    "explanation": "인증 실습의 사용자 저장소는 임시 메모리입니다.",
+    "reference": "06-login-auth/README.md"
+  },
+  {
+    "id": "C180",
+    "category": "auth",
+    "type": "concept",
+    "question": "다른 사용자의 기록 수정도 막으려면?",
+    "choices": [
+      "토큰 내용만 읽기",
+      "비밀번호 해시만 재생성",
+      "화면 버튼만 숨기기",
+      "인증 뒤 소유권을 검사"
+    ],
+    "answer": 3,
+    "explanation": "로그인 여부와 해당 기록의 수정 권한은 구분합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C181",
+    "category": "deploy",
+    "type": "concept",
+    "question": "배포가 뜻하는 것은?",
+    "choices": [
+      "사용할 환경에 앱을 준비해 실행",
+      "소스를 편집기에 열기",
+      "로컬 커밋만 만들기",
+      "테스트 기대값 작성"
+    ],
+    "answer": 0,
+    "explanation": "사용자가 접근할 실행 환경에 앱을 올리는 과정입니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C182",
+    "category": "deploy",
+    "type": "concept",
+    "question": "개발 서버와 배포용 빌드의 차이는?",
+    "choices": [
+      "브라우저 종류만 다름",
+      "개발 편의 실행과 배포 파일 생성",
+      "소스 언어가 바뀜",
+      "DB 사용자 수만 다름"
+    ],
+    "answer": 1,
+    "explanation": "빌드는 배포할 정적 산출물 등을 만듭니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C183",
+    "category": "deploy",
+    "type": "concept",
+    "question": "PORT를 외부 설정으로 받는 이유는?",
+    "choices": [
+      "브라우저 화면 배율 설정",
+      "DB 행 번호 관리",
+      "배포 환경의 통신 설정에 맞춤",
+      "토큰 서명 고정"
+    ],
+    "answer": 2,
+    "explanation": "환경이 지정한 포트에서 요청을 받아야 합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C184",
+    "category": "deploy",
+    "type": "concept",
+    "question": "같은 서버에서 화면과 API를 제공하면?",
+    "choices": [
+      "인증이 필요 없어짐",
+      "DB 저장이 자동 완성됨",
+      "오류 처리가 제거됨",
+      "상대 경로 API 호출이 쉬워짐"
+    ],
+    "answer": 3,
+    "explanation": "브라우저의 현재 출처를 기준으로 요청할 수 있습니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C185",
+    "category": "deploy",
+    "type": "concept",
+    "question": "프론트가 /api/posts로 요청하는 의미는?",
+    "choices": [
+      "현재 출처 아래 경로 요청",
+      "항상 별도 서버 주소 사용",
+      "로컬 파일만 읽기",
+      "DB에 직접 접속"
+    ],
+    "answer": 0,
+    "explanation": "상대 경로는 현재 페이지 출처를 기준으로 해석됩니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C186",
+    "category": "deploy",
+    "type": "concept",
+    "question": "개발 프록시의 역할은?",
+    "choices": [
+      "데이터를 DB에 보관",
+      "특정 요청을 백엔드로 전달",
+      "JWT를 자동 발급",
+      "CSS를 해시로 변환"
+    ],
+    "answer": 1,
+    "explanation": "화면 서버가 API 요청을 실제 API 서버로 넘깁니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C187",
+    "category": "deploy",
+    "type": "concept",
+    "question": "서버 주소를 환경마다 분리하는 이유는?",
+    "choices": [
+      "HTML 제목을 고정",
+      "커밋 수를 줄임",
+      "같은 소스로 다른 실행 환경 지원",
+      "사용자 입력을 삭제"
+    ],
+    "answer": 2,
+    "explanation": "개발·운영의 설정 차이를 코드와 분리합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C188",
+    "category": "deploy",
+    "type": "concept",
+    "question": ".env.example에 알맞은 내용은?",
+    "choices": [
+      "운영 비밀번호 원문",
+      "개인 접근 토큰",
+      "실제 고객 데이터",
+      "설정 이름과 안전한 예시"
+    ],
+    "answer": 3,
+    "explanation": "필요한 설정을 안내하되 실제 비밀값은 제외합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C189",
+    "category": "deploy",
+    "type": "concept",
+    "question": "Vite의 프런트엔드 빌드가 성공했다는 사실만으로 확인되지 않는 것은?",
+    "choices": [
+      "실제 배포 환경의 접근 가능성",
+      "변환 과정의 완료",
+      "산출물 생성 여부",
+      "빌드 명령의 성공 종료 여부"
+    ],
+    "answer": 0,
+    "explanation": "실제 서버 실행·네트워크 연결은 별도 확인합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C190",
+    "category": "deploy",
+    "type": "concept",
+    "question": "헬스 체크의 목적은?",
+    "choices": [
+      "모든 기능 테스트 대체",
+      "서비스 준비 상태 확인",
+      "DB 백업 복원",
+      "로그인 비밀번호 초기화"
+    ],
+    "answer": 1,
+    "explanation": "상태 확인용 요청으로 기본 동작을 관찰합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C191",
+    "category": "deploy",
+    "type": "concept",
+    "question": "배포 후 화면은 보이는데 API가 실패하면 먼저?",
+    "choices": [
+      "HTML 제목만 변경",
+      "이미지 파일 재압축",
+      "API 주소와 서버 응답 확인",
+      "Git 사용자명 수정"
+    ],
+    "answer": 2,
+    "explanation": "정적 화면 성공과 API 연결 성공은 별개입니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C192",
+    "category": "deploy",
+    "type": "concept",
+    "question": "프로세스가 종료될 때 요청을 정리하는 이유는?",
+    "choices": [
+      "모든 로그 삭제",
+      "정적 파일 재빌드",
+      "사용자 암호 변경",
+      "진행 중 작업의 갑작스러운 중단 감소"
+    ],
+    "answer": 3,
+    "explanation": "종료 신호를 받아 자원을 정리하는 흐름입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C193",
+    "category": "deploy",
+    "type": "concept",
+    "question": "로그를 남기는 주된 목적은?",
+    "choices": [
+      "실패 시점과 처리 원인 추적",
+      "화면 색상 동기화",
+      "문법 검사 생략",
+      "데이터 저장 대체"
+    ],
+    "answer": 0,
+    "explanation": "요청과 오류 기록을 진단 근거로 사용합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C194",
+    "category": "deploy",
+    "type": "concept",
+    "question": "배포 후 서버 재시작에도 남겨야 할 데이터는?",
+    "choices": [
+      "현재 함수의 지역 변수",
+      "사용자가 저장한 기록",
+      "임시 클릭 이벤트",
+      "빌드 진행률"
+    ],
+    "answer": 1,
+    "explanation": "영속 저장소에 보관할 데이터와 임시 상태를 구분합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C195",
+    "category": "deploy",
+    "type": "concept",
+    "question": "API 저장 응답 후 목록을 다시 조회하는 이유는?",
+    "choices": [
+      "토큰을 복구",
+      "서버 프로세스를 종료",
+      "서버 기준 최신 데이터를 표시",
+      "CSS 파일을 변경"
+    ],
+    "answer": 2,
+    "explanation": "화면과 서버 데이터를 맞추기 위한 과정입니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C196",
+    "category": "deploy",
+    "type": "concept",
+    "question": "브라우저 캐시로 예전 파일이 보일 때 살필 것은?",
+    "choices": [
+      "사용자 비밀번호 해시",
+      "DB 외래 키",
+      "Git 커밋 작성자",
+      "실제로 받은 파일과 버전"
+    ],
+    "answer": 3,
+    "explanation": "배포 파일과 브라우저가 읽은 파일을 비교합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C197",
+    "category": "deploy",
+    "type": "concept",
+    "question": "운영 비밀을 프론트 빌드 변수에 넣으면 안 되는 이유는?",
+    "choices": [
+      "브라우저 산출물에 노출될 수 있음",
+      "숫자로만 바뀌기 때문",
+      "파일 이름이 고정됨",
+      "서버 포트가 사라짐"
+    ],
+    "answer": 0,
+    "explanation": "사용자에게 전달되는 코드에 비밀을 포함하면 안 됩니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C198",
+    "category": "deploy",
+    "type": "concept",
+    "question": "CORS 오류와 인증 오류를 구분해야 하는 이유는?",
+    "choices": [
+      "둘 다 같은 브라우저 캐시",
+      "응답 접근 정책과 신원 검사는 별개",
+      "둘 다 DB 연결 오류",
+      "둘 다 빌드 실패"
+    ],
+    "answer": 1,
+    "explanation": "오류가 난 처리 단계를 구분해야 원인을 찾습니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C199",
+    "category": "deploy",
+    "type": "concept",
+    "question": "배포 전 체크리스트가 필요한 이유는?",
+    "choices": [
+      "코드 실행을 생략",
+      "원격 장애를 자동 해결",
+      "설정·실행·검증 누락 감소",
+      "비밀번호를 공통값으로 변경"
+    ],
+    "answer": 2,
+    "explanation": "반복 확인할 항목을 명시해 실수를 줄입니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C200",
+    "category": "deploy",
+    "type": "concept",
+    "question": "배포 경험을 설명할 근거로 적절한 것은?",
+    "choices": [
+      "실행하지 않은 설정 파일만",
+      "타인의 서비스 주소만",
+      "빌드 도구 이름만",
+      "접속 결과와 실행 로그"
+    ],
+    "answer": 3,
+    "explanation": "직접 실행·접속을 확인한 범위를 설명합니다.",
+    "reference": "07-project-deploy/README.md"
+  },
+  {
+    "id": "C201",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "Career Hub의 기본 저장 방식은?",
+    "choices": [
+      "JSON 파일",
+      "MongoDB",
+      "Oracle",
+      "브라우저 배열만"
+    ],
+    "answer": 0,
+    "explanation": "현재 프로젝트는 JSON 파일 저장소를 사용합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C202",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "Career Hub가 관리하는 대표 기록은?",
+    "choices": [
+      "상품 재고와 배송",
+      "지원 현황과 포트폴리오 프로젝트",
+      "실시간 게임 점수",
+      "은행 계좌 이체"
+    ],
+    "answer": 1,
+    "explanation": "취업 준비 기록 관리가 주요 사용자 기능입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C203",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "Career Hub의 화면 상태를 관리하는 도구는?",
+    "choices": [
+      "Mongoose",
+      "Gradle",
+      "React",
+      "MyBatis"
+    ],
+    "answer": 2,
+    "explanation": "React state로 입력·목록·선택 상태를 반영합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C204",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "Career Hub의 API 요청 처리 도구는?",
+    "choices": [
+      "Vite만 사용",
+      "JUnit",
+      "CSS Grid",
+      "Express"
+    ],
+    "answer": 3,
+    "explanation": "Node에서 Express API 서버가 실행됩니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C205",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "지원 기록 생성 요청의 경로는?",
+    "choices": [
+      "/api/applications",
+      "/api/notes",
+      "/api/products",
+      "/api/posts"
+    ],
+    "answer": 0,
+    "explanation": "지원 현황은 applications API로 관리합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C206",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "지원 기록 처리에서 인증 뒤 필요한 검사는?",
+    "choices": [
+      "화면 폰트 설치",
+      "입력값 유효성",
+      "Git 브랜치 생성",
+      "이미지 파일 변환"
+    ],
+    "answer": 1,
+    "explanation": "잘못된 요청값을 저장 전 서버에서 검사합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C207",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "JsonStore를 분리한 이유는?",
+    "choices": [
+      "모든 API를 공개",
+      "React 이벤트 제거",
+      "파일 저장 책임을 한곳에 모음",
+      "CSS를 JSON으로 저장"
+    ],
+    "answer": 2,
+    "explanation": "라우트와 저장 구현의 역할을 나눕니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C208",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "지원 기록에 사용자 id를 연결하는 이유는?",
+    "choices": [
+      "정렬 속도를 무조건 높임",
+      "토큰을 화면에서 숨김",
+      "빌드 크기 계산",
+      "각 사용자 데이터 구분"
+    ],
+    "answer": 3,
+    "explanation": "소유자를 기준으로 접근 범위를 검사할 수 있습니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C209",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "Career Hub의 개발 프록시가 전달하는 요청은?",
+    "choices": [
+      "/api 요청",
+      "모든 키보드 입력",
+      "Git push 요청",
+      "DB 백업 파일"
+    ],
+    "answer": 0,
+    "explanation": "Vite가 API 요청을 백엔드로 전달합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C210",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "입력 검증을 프론트와 서버에 나누는 이유는?",
+    "choices": [
+      "같은 화면을 두 번 표시",
+      "사용 편의와 실제 저장 기준을 함께 다룸",
+      "인증 토큰을 두 개 발급",
+      "모든 오류를 500으로 변경"
+    ],
+    "answer": 1,
+    "explanation": "프론트 검사는 도움을 주고 서버가 최종 기준을 지킵니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C211",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "OpenAPI 파일이 제공하는 것은?",
+    "choices": [
+      "자동 로그인 상태",
+      "실제 DB 백업",
+      "API 요청·응답 계약",
+      "운영 서버 실행 로그"
+    ],
+    "answer": 2,
+    "explanation": "명세는 API 약속이며 실행 검증과 별개입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C212",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "supertest 기반 API 테스트의 목적은?",
+    "choices": [
+      "화면 색상 선택",
+      "DB 종류 자동 변경",
+      "인증 절차 제거",
+      "상태 코드와 응답 검증"
+    ],
+    "answer": 3,
+    "explanation": "실제 요청 처리 흐름을 테스트에서 확인합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C213",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "API smoke test는 무엇을 확인하나요?",
+    "choices": [
+      "핵심 기능의 기본 연결",
+      "모든 장애 상황 완전 증명",
+      "모든 화면의 시각 디자인",
+      "채용 결과 예측"
+    ],
+    "answer": 0,
+    "explanation": "주요 인증·CRUD 흐름이 연결되는지 빠르게 확인합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C214",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "ErrorBoundary를 둔 이유는?",
+    "choices": [
+      "모든 요청 자동 성공",
+      "렌더링 오류 시 대체 화면 제공",
+      "로그인 없는 데이터 공개",
+      "서버 종료 방지"
+    ],
+    "answer": 1,
+    "explanation": "렌더링 오류로 화면 전체가 비는 문제를 줄입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C215",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "pino 로그와 요청 id를 함께 쓰는 이유는?",
+    "choices": [
+      "비밀번호 복호화",
+      "정적 파일 자동 배포",
+      "같은 요청의 기록 연결",
+      "상태를 DB 없이 보존"
+    ],
+    "answer": 2,
+    "explanation": "요청별 로그를 묶어 원인을 추적합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C216",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "helmet의 역할은?",
+    "choices": [
+      "사용자 역할 판정",
+      "지원 데이터 저장",
+      "테스트 결과 생성",
+      "보안 관련 응답 헤더 설정"
+    ],
+    "answer": 3,
+    "explanation": "보안 헤더는 여러 방어 수단 중 하나입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C217",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "rate-limit이 막으려는 상황은?",
+    "choices": [
+      "짧은 시간 과도한 요청",
+      "기록 제목 중복",
+      "화면의 긴 문단",
+      "Git 병합 충돌"
+    ],
+    "answer": 0,
+    "explanation": "요청 빈도를 제한해 과도한 사용을 줄입니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C218",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "지원 생성 성공 뒤 재조회하는 목적은?",
+    "choices": [
+      "새 사용자 가입",
+      "저장된 최신 상태를 화면에 반영",
+      "서명 키 교체",
+      "서버 파일 재설치"
+    ],
+    "answer": 1,
+    "explanation": "서버의 실제 저장 결과를 기준으로 화면을 갱신합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C219",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "Career Hub를 MongoDB 경험으로 설명하면 부정확한 이유는?",
+    "choices": [
+      "React가 DB를 지원하지 않음",
+      "API에 POST가 없음",
+      "기본 구현이 JSON 파일 저장소",
+      "토큰이 파일에 없음"
+    ],
+    "answer": 2,
+    "explanation": "학습한 DB 개념과 실제 사용한 저장 기술은 구분합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C220",
+    "category": "career-hub",
+    "type": "concept",
+    "question": "verify 통과 결과를 설명하는 적절한 범위는?",
+    "choices": [
+      "모든 브라우저 오류 없음",
+      "실제 운영 배포 완료",
+      "모든 보안 위험 제거",
+      "구성된 자동 검사 통과"
+    ],
+    "answer": 3,
+    "explanation": "자동 검증 범위와 추가 현장 확인을 구분합니다.",
+    "reference": "08-fullstack-portfolio-project/README.md"
+  },
+  {
+    "id": "C221",
+    "category": "typescript",
+    "type": "concept",
+    "question": "TypeScript를 쓰는 주요 목적은?",
+    "choices": [
+      "실행 전 자료형 오류 발견",
+      "DB 연결 자동 생성",
+      "브라우저 메모리 영속화",
+      "인증 토큰 자동 검증"
+    ],
+    "answer": 0,
+    "explanation": "값의 형태를 검사해 실수를 일찍 찾습니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C222",
+    "category": "typescript",
+    "type": "concept",
+    "question": "타입을 붙였다고 실제 요청값이 검증되나요?",
+    "choices": [
+      "컴파일만 하면 모두 검증됨",
+      "별도 실행 중 검증이 필요",
+      "문자열만 자동 검증됨",
+      "브라우저에서만 검증됨"
+    ],
+    "answer": 1,
+    "explanation": "타입은 실행 중 외부 데이터를 검사하는 코드가 아닙니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C223",
+    "category": "typescript",
+    "type": "concept",
+    "question": "interface가 주로 표현하는 것은?",
+    "choices": [
+      "네트워크 연결 상태",
+      "DB 저장 성공",
+      "객체의 자료형 약속",
+      "CSS 적용 우선순위"
+    ],
+    "answer": 2,
+    "explanation": "필드와 타입을 묶어 객체 모양을 표현합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C224",
+    "category": "typescript",
+    "type": "concept",
+    "question": "유니온 타입의 의미는?",
+    "choices": [
+      "모든 타입의 값 결합",
+      "같은 값의 복제",
+      "배열 길이 고정",
+      "여러 타입 중 하나"
+    ],
+    "answer": 3,
+    "explanation": "가능한 타입을 여러 후보로 표현합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C225",
+    "category": "typescript",
+    "type": "concept",
+    "question": "unknown 값은 사용 전에 무엇이 필요한가요?",
+    "choices": [
+      "자료형 확인과 좁히기",
+      "항상 문자열로 저장",
+      "검사 없이 메서드 호출",
+      "DB 연결 해제"
+    ],
+    "answer": 0,
+    "explanation": "불확실한 값의 타입을 확인한 뒤 사용합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C226",
+    "category": "typescript",
+    "type": "concept",
+    "question": "any를 남용할 때 문제는?",
+    "choices": [
+      "파일이 모두 삭제됨",
+      "자료형 검사가 약해짐",
+      "브라우저 요청이 차단됨",
+      "변수 이름이 바뀜"
+    ],
+    "answer": 1,
+    "explanation": "any는 타입 검사 보호를 우회하기 쉽습니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C227",
+    "category": "typescript",
+    "type": "concept",
+    "question": "제네릭을 쓰는 이유는?",
+    "choices": [
+      "모든 타입을 any로 고정",
+      "실행 시 DB 선택",
+      "자료형 관계를 유지하며 재사용",
+      "객체를 자동 암호화"
+    ],
+    "answer": 2,
+    "explanation": "호출에 맞는 타입으로 공통 규칙을 재사용합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C228",
+    "category": "typescript",
+    "type": "concept",
+    "question": "Promise의 타입 인수가 표현하는 것은?",
+    "choices": [
+      "응답에 걸릴 시간",
+      "실패 횟수",
+      "서버 포트",
+      "성공 시 받을 값의 자료형"
+    ],
+    "answer": 3,
+    "explanation": "비동기 결과 값의 형태를 명시합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C229",
+    "category": "typescript",
+    "type": "concept",
+    "question": "타입 좁히기의 예는?",
+    "choices": [
+      "typeof 검사 뒤 문자열 기능 사용",
+      "unknown을 바로 호출",
+      "모든 값을 any로 변경",
+      "검사 오류 출력 숨김"
+    ],
+    "answer": 0,
+    "explanation": "조건으로 가능한 타입 범위를 줄입니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C230",
+    "category": "typescript",
+    "type": "concept",
+    "question": "선택적 속성에서 고려할 것은?",
+    "choices": [
+      "무조건 숫자임",
+      "값이 없을 가능성",
+      "항상 빈 문자열임",
+      "값이 함수임"
+    ],
+    "answer": 1,
+    "explanation": "존재하지 않는 경우를 함께 처리해야 합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C231",
+    "category": "typescript",
+    "type": "concept",
+    "question": "strict 검사를 켜는 목적은?",
+    "choices": [
+      "실제 API를 자동 테스트",
+      "코드 포맷 변경",
+      "불확실한 자료형 사용을 더 엄격히 확인",
+      "이미지 압축"
+    ],
+    "answer": 2,
+    "explanation": "엄격한 검사 설정으로 실수를 더 빨리 찾습니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C232",
+    "category": "typescript",
+    "type": "concept",
+    "question": "noEmit 설정의 의미는?",
+    "choices": [
+      "타입 오류를 무시함",
+      "모든 파일을 삭제함",
+      "API 응답을 막음",
+      "출력 JavaScript 파일을 만들지 않음"
+    ],
+    "answer": 3,
+    "explanation": "타입 검사만 수행할 때 사용합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C233",
+    "category": "typescript",
+    "type": "concept",
+    "question": "9단계 npm run dev의 동작은?",
+    "choices": [
+      "파일 변경을 보며 타입 검사",
+      "브라우저 서버 시작",
+      "MongoDB 실행",
+      "Docker 이미지 생성"
+    ],
+    "answer": 0,
+    "explanation": "이 트랙의 dev는 tsc watch입니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C234",
+    "category": "typescript",
+    "type": "concept",
+    "question": "9단계 npm run build가 뜻하는 것은?",
+    "choices": [
+      "운영 웹 배포",
+      "typecheck 별칭",
+      "DB 마이그레이션",
+      "React 서버 실행"
+    ],
+    "answer": 1,
+    "explanation": "해당 트랙은 배포 산출물을 만들지 않습니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C235",
+    "category": "typescript",
+    "type": "concept",
+    "question": "as 타입 단언을 해도 남는 문제는?",
+    "choices": [
+      "변수 이름이 중복됨",
+      "JSON 형식 사용 불가",
+      "실제 값이 그 타입인지 보장하지 않음",
+      "네트워크 속도 감소"
+    ],
+    "answer": 2,
+    "explanation": "단언은 컴파일러에 알려 주는 정보입니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C236",
+    "category": "typescript",
+    "type": "concept",
+    "question": "Express 경로 id에 주의할 자료형은?",
+    "choices": [
+      "자동으로 Date인 값",
+      "항상 boolean인 값",
+      "컴포넌트 함수인 값",
+      "문자열로 들어오는 값"
+    ],
+    "answer": 3,
+    "explanation": "숫자 id와 비교할 때 변환을 고려합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C237",
+    "category": "typescript",
+    "type": "concept",
+    "question": "React props에 타입을 두면 좋은 점은?",
+    "choices": [
+      "잘못된 전달값을 검사",
+      "서버 저장 자동 완료",
+      "CSS 화면 자동 완성",
+      "state 영구 보존"
+    ],
+    "answer": 0,
+    "explanation": "컴포넌트 사이의 입력 약속을 검사합니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C238",
+    "category": "typescript",
+    "type": "concept",
+    "question": "컴파일 오류와 실행 오류의 차이는?",
+    "choices": [
+      "프론트 오류와 DB 오류만",
+      "실행 전 검사와 실행 중 발생",
+      "문법 오류와 네트워크 오류만",
+      "개발 오류와 운영 오류만"
+    ],
+    "answer": 1,
+    "explanation": "발견되는 시점과 검사 범위가 다릅니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C239",
+    "category": "typescript",
+    "type": "concept",
+    "question": "공유 타입을 수정했을 때 기대되는 효과는?",
+    "choices": [
+      "실제 데이터 자동 변환",
+      "운영 DB 자동 백업",
+      "영향받는 사용 위치 확인",
+      "이전 API 자동 복구"
+    ],
+    "answer": 2,
+    "explanation": "일치하지 않는 코드 위치를 검사로 찾습니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C240",
+    "category": "typescript",
+    "type": "concept",
+    "question": "타입 오류에서 먼저 읽을 정보는?",
+    "choices": [
+      "배포 비용·사용자 수",
+      "Git 작성일만",
+      "CSS 색상 값",
+      "기대 타입·실제 타입·파일 위치"
+    ],
+    "answer": 3,
+    "explanation": "무엇이 어떤 약속과 다른지 읽는 것이 출발점입니다.",
+    "reference": "09-typescript/README.md"
+  },
+  {
+    "id": "C241",
+    "category": "sql",
+    "type": "concept",
+    "question": "관계형 DB에서 테이블은 무엇인가요?",
+    "choices": [
+      "행과 열로 구성된 데이터 모음",
+      "인증 토큰 목록만",
+      "브라우저의 DOM 구조",
+      "서버 실행 로그 형식"
+    ],
+    "answer": 0,
+    "explanation": "관련 데이터를 공통 열 구조로 관리합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C242",
+    "category": "sql",
+    "type": "concept",
+    "question": "테이블의 한 행은 보통 무엇을 나타내나요?",
+    "choices": [
+      "모든 필드의 자료형",
+      "데이터 한 건",
+      "전체 데이터베이스",
+      "조회 언어의 문법"
+    ],
+    "answer": 1,
+    "explanation": "직원 테이블의 한 행은 직원 한 명을 나타냅니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C243",
+    "category": "sql",
+    "type": "concept",
+    "question": "기본 키의 목적은?",
+    "choices": [
+      "모든 열을 암호화",
+      "테이블 자동 정렬",
+      "행을 고유하게 식별",
+      "다른 DB 서버 연결"
+    ],
+    "answer": 2,
+    "explanation": "기본 키는 중복·NULL 없이 행을 구분합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C244",
+    "category": "sql",
+    "type": "concept",
+    "question": "외래 키는 무엇을 표현하나요?",
+    "choices": [
+      "파일 저장 경로",
+      "브라우저 인증 정보",
+      "쿼리 실행 시간",
+      "테이블의 키 사이 참조 관계"
+    ],
+    "answer": 3,
+    "explanation": "외래 키는 참조할 행의 관계를 DB 규칙으로 관리합니다. 다른 테이블뿐 아니라 같은 테이블의 키를 참조할 수도 있습니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C245",
+    "category": "sql",
+    "type": "concept",
+    "question": "NOT NULL 제약이 막는 것은?",
+    "choices": [
+      "해당 열의 NULL 저장",
+      "같은 문자열 중복",
+      "음수 입력",
+      "테이블 이름 중복"
+    ],
+    "answer": 0,
+    "explanation": "NULL 허용 여부와 다른 검증 조건은 구분합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C246",
+    "category": "sql",
+    "type": "concept",
+    "question": "UNIQUE 제약의 주된 목적은?",
+    "choices": [
+      "모든 값의 숫자 변환",
+      "지정 값의 중복 제한",
+      "행 개수 고정",
+      "조회 순서 보장"
+    ],
+    "answer": 1,
+    "explanation": "같은 값이 반복 저장되는 것을 제한합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C247",
+    "category": "sql",
+    "type": "concept",
+    "question": "SELECT의 역할은?",
+    "choices": [
+      "테이블 정의 삭제",
+      "변경 확정",
+      "데이터 조회",
+      "권한 부여"
+    ],
+    "answer": 2,
+    "explanation": "조회할 열과 조건을 SQL로 표현합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C248",
+    "category": "sql",
+    "type": "concept",
+    "question": "WHERE 조건의 대상은?",
+    "choices": [
+      "집계된 그룹만",
+      "테이블의 이름",
+      "DB 서버의 포트",
+      "개별 행"
+    ],
+    "answer": 3,
+    "explanation": "WHERE로 처리할 행을 먼저 제한합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C249",
+    "category": "sql",
+    "type": "concept",
+    "question": "ORDER BY를 사용하는 이유는?",
+    "choices": [
+      "조회 결과 순서 지정",
+      "중복 행 자동 삭제",
+      "DB 연결 생성",
+      "트랜잭션 종료"
+    ],
+    "answer": 0,
+    "explanation": "명시한 기준으로 결과를 정렬합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C250",
+    "category": "sql",
+    "type": "concept",
+    "question": "GROUP BY의 목적은?",
+    "choices": [
+      "테이블 이름 변경",
+      "같은 기준의 행을 묶어 집계",
+      "모든 열을 문자열화",
+      "누락된 행 복원"
+    ],
+    "answer": 1,
+    "explanation": "부서별 직원 수처럼 묶음 단위 계산을 합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C251",
+    "category": "sql",
+    "type": "concept",
+    "question": "HAVING은 어디에 조건을 적용하나요?",
+    "choices": [
+      "테이블 생성 문장",
+      "원격 접속 주소",
+      "그룹 집계 결과",
+      "개별 파일의 이름"
+    ],
+    "answer": 2,
+    "explanation": "그룹화 결과를 조건으로 거릅니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C252",
+    "category": "sql",
+    "type": "concept",
+    "question": "INNER JOIN의 결과는?",
+    "choices": [
+      "왼쪽 행을 모두 보존",
+      "오른쪽 행을 모두 보존",
+      "조건 없는 전체 행 복제",
+      "양쪽 조건이 맞는 행의 결합"
+    ],
+    "answer": 3,
+    "explanation": "연결 조건을 만족하는 조합만 반환합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C253",
+    "category": "sql",
+    "type": "concept",
+    "question": "LEFT JOIN을 고르는 이유는?",
+    "choices": [
+      "왼쪽 기준 행을 빠뜨리지 않기 위해",
+      "조인 조건을 없애기 위해",
+      "모든 NULL을 삭제하기 위해",
+      "기본 키를 바꾸기 위해"
+    ],
+    "answer": 0,
+    "explanation": "오른쪽 대응이 없어도 왼쪽 행을 유지합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C254",
+    "category": "sql",
+    "type": "concept",
+    "question": "NULL 비교에 적절한 조건은?",
+    "choices": [
+      "= NULL",
+      "IS NULL",
+      "NULL = NULL만",
+      "LIKE NULL"
+    ],
+    "answer": 1,
+    "explanation": "SQL의 NULL 확인에는 IS NULL을 사용합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C255",
+    "category": "sql",
+    "type": "concept",
+    "question": "서브쿼리란?",
+    "choices": [
+      "DB 밖의 백업 파일",
+      "테이블의 색상 정보",
+      "다른 SQL 안에 들어간 조회",
+      "네트워크 연결 수"
+    ],
+    "answer": 2,
+    "explanation": "조회 결과를 다른 쿼리의 일부로 사용할 수 있습니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C256",
+    "category": "sql",
+    "type": "concept",
+    "question": "COMMIT의 의미는?",
+    "choices": [
+      "마지막 SELECT 삭제",
+      "모든 테이블 잠금 해제만",
+      "서버 설정 초기화",
+      "트랜잭션 변경 확정"
+    ],
+    "answer": 3,
+    "explanation": "변경을 확정하는 트랜잭션 명령입니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C257",
+    "category": "sql",
+    "type": "concept",
+    "question": "ROLLBACK의 의미는?",
+    "choices": [
+      "미확정 변경 취소",
+      "모든 과거 커밋 삭제",
+      "테이블 이름 변경",
+      "DB 서버 종료"
+    ],
+    "answer": 0,
+    "explanation": "현재 트랜잭션의 변경을 되돌립니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C258",
+    "category": "sql",
+    "type": "concept",
+    "question": "두 계좌 변경을 트랜잭션으로 묶는 이유는?",
+    "choices": [
+      "계좌 번호 자동 생성",
+      "일부만 적용된 상태 방지",
+      "조회 권한 생략",
+      "모든 작업 속도 증가"
+    ],
+    "answer": 1,
+    "explanation": "함께 성공하거나 함께 취소되어야 할 작업을 묶습니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C259",
+    "category": "sql",
+    "type": "concept",
+    "question": "인덱스를 많이 만들 때 고려할 비용은?",
+    "choices": [
+      "SQL 문법 사용 불가",
+      "행 식별 불가",
+      "쓰기 작업과 저장 공간 증가",
+      "조회 조건 삭제"
+    ],
+    "answer": 2,
+    "explanation": "데이터 변경 시 인덱스도 갱신해야 합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C260",
+    "category": "sql",
+    "type": "concept",
+    "question": "인덱스 효과를 확인할 근거는?",
+    "choices": [
+      "인덱스 이름 길이",
+      "테이블의 생성 날짜만",
+      "소스 파일 줄 수",
+      "실행 계획과 측정 결과"
+    ],
+    "answer": 3,
+    "explanation": "실제로 어떤 경로로 조회했는지 확인합니다.",
+    "reference": "10-sql-oracle/README.md"
+  },
+  {
+    "id": "C261",
+    "category": "spring",
+    "type": "concept",
+    "question": "Spring Boot를 사용하는 이유는?",
+    "choices": [
+      "서버 시작과 설정 부담 감소",
+      "SQL 학습 완전 대체",
+      "HTML 화면만 제작",
+      "Git 이력 저장"
+    ],
+    "answer": 0,
+    "explanation": "웹 앱에 필요한 설정과 실행을 돕습니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C262",
+    "category": "spring",
+    "type": "concept",
+    "question": "Java 코드를 컴파일·실행할 도구 묶음은?",
+    "choices": [
+      "JPA",
+      "JDK",
+      "JSX",
+      "JWT"
+    ],
+    "answer": 1,
+    "explanation": "JDK는 Java 개발·실행 도구를 제공합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C263",
+    "category": "spring",
+    "type": "concept",
+    "question": "Gradle의 역할은?",
+    "choices": [
+      "사용자 로그인 인증",
+      "HTTP 응답 데이터 저장",
+      "의존성·빌드·테스트 작업 관리",
+      "브라우저 레이아웃 계산"
+    ],
+    "answer": 2,
+    "explanation": "프로젝트 실행 절차를 명령으로 관리합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C264",
+    "category": "spring",
+    "type": "concept",
+    "question": "Gradle wrapper를 쓰는 이점은?",
+    "choices": [
+      "DB 없이 영속 저장",
+      "코드 자동 정답 작성",
+      "모든 테스트 성공 보장",
+      "프로젝트가 정한 도구 버전 실행"
+    ],
+    "answer": 3,
+    "explanation": "같은 빌드 도구 버전으로 실행하기 쉽습니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C265",
+    "category": "spring",
+    "type": "concept",
+    "question": "11단계 starter에 기본 제공된 것은?",
+    "choices": [
+      "프로젝트 생성 안내",
+      "완성된 Spring 서버",
+      "운영 PostgreSQL 데이터",
+      "빌드된 실행 JAR"
+    ],
+    "answer": 0,
+    "explanation": "직접 프로젝트를 만들어야 실행 경험이 됩니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C266",
+    "category": "spring",
+    "type": "concept",
+    "question": "Controller의 대표 책임은?",
+    "choices": [
+      "파일 저장소 백업만",
+      "HTTP 요청과 응답 연결",
+      "CSS 애니메이션 실행",
+      "모든 업무 규칙을 DB에 복제"
+    ],
+    "answer": 1,
+    "explanation": "외부 요청을 앱의 처리 흐름에 연결합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C267",
+    "category": "spring",
+    "type": "concept",
+    "question": "Service의 대표 책임은?",
+    "choices": [
+      "브라우저 탭 제목",
+      "DB 제품 설치",
+      "업무 규칙과 처리 흐름",
+      "Git 브랜치 보호"
+    ],
+    "answer": 2,
+    "explanation": "여러 작업을 업무 목적에 맞게 묶습니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C268",
+    "category": "spring",
+    "type": "concept",
+    "question": "Repository의 대표 책임은?",
+    "choices": [
+      "HTML 메뉴 구성",
+      "비밀번호 정책 문서만",
+      "HTTP 포트 배정",
+      "데이터 저장·조회 접점"
+    ],
+    "answer": 3,
+    "explanation": "저장 기술에 대한 접근을 분리합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C269",
+    "category": "spring",
+    "type": "concept",
+    "question": "세 계층을 나누는 목적은?",
+    "choices": [
+      "각 변경 책임을 명확히 구분",
+      "파일 수만 늘림",
+      "모든 객체를 전역으로 전환",
+      "SQL 사용 금지"
+    ],
+    "answer": 0,
+    "explanation": "요청·업무·저장의 역할을 분리합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C270",
+    "category": "spring",
+    "type": "concept",
+    "question": "의존성 주입의 의미는?",
+    "choices": [
+      "각 함수가 DB를 새로 설치",
+      "필요한 객체를 외부에서 받음",
+      "변수에 숫자를 강제 입력",
+      "사용자가 모든 클래스를 선택"
+    ],
+    "answer": 1,
+    "explanation": "객체 연결을 외부에 맡겨 교체와 테스트를 돕습니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C271",
+    "category": "spring",
+    "type": "concept",
+    "question": "Spring Bean이란?",
+    "choices": [
+      "DB의 열 이름",
+      "브라우저 쿠키 종류",
+      "Spring이 관리하는 객체",
+      "Git의 병합 전략"
+    ],
+    "answer": 2,
+    "explanation": "컨테이너가 생성·연결 등을 관리하는 객체입니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C272",
+    "category": "spring",
+    "type": "concept",
+    "question": "RestController의 대표 반환 방식은?",
+    "choices": [
+      "서버 소스 파일 다운로드",
+      "브라우저 DOM 직접 수정",
+      "DB 스키마만 반환",
+      "객체를 응답 본문으로 전달"
+    ],
+    "answer": 3,
+    "explanation": "객체가 JSON 등으로 변환되어 응답될 수 있습니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C273",
+    "category": "spring",
+    "type": "concept",
+    "question": "RequestBody는 무엇과 연결되나요?",
+    "choices": [
+      "HTTP 요청 본문",
+      "서버 로그 파일",
+      "빌드 설정 전체",
+      "정적 CSS 문서"
+    ],
+    "answer": 0,
+    "explanation": "요청 데이터를 객체로 받는 데 사용합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C274",
+    "category": "spring",
+    "type": "concept",
+    "question": "PathVariable은 무엇을 읽나요?",
+    "choices": [
+      "운영체제 전체 환경",
+      "URL 경로의 변수",
+      "폼의 모든 입력",
+      "DB의 모든 행"
+    ],
+    "answer": 1,
+    "explanation": "경로에 포함된 id 같은 값을 읽습니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C275",
+    "category": "spring",
+    "type": "concept",
+    "question": "Validation을 적용하는 목적은?",
+    "choices": [
+      "테이블 자동 백업",
+      "서버 포트 암호화",
+      "요청값의 규칙 검사",
+      "커밋 이력 검사"
+    ],
+    "answer": 2,
+    "explanation": "빈 제목·길이 등 입력 조건을 확인합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C276",
+    "category": "spring",
+    "type": "concept",
+    "question": "JPA가 연결하는 대상은?",
+    "choices": [
+      "React 컴포넌트와 CSS",
+      "Git 브랜치와 토큰",
+      "서버 포트와 DNS",
+      "Java 객체와 관계형 DB"
+    ],
+    "answer": 3,
+    "explanation": "객체 중심 코드와 테이블 저장을 연결하는 표준입니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C277",
+    "category": "spring",
+    "type": "concept",
+    "question": "Spring Data JPA의 이점은?",
+    "choices": [
+      "반복 저장·조회 코드 감소",
+      "DB의 필요성 제거",
+      "모든 쿼리 성능 보장",
+      "입력 검증 자동 완성"
+    ],
+    "answer": 0,
+    "explanation": "Repository의 기본 작업 구현을 도와줍니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C278",
+    "category": "spring",
+    "type": "concept",
+    "question": "11단계의 H2 메모리 DB에서 주의할 점은?",
+    "choices": [
+      "MongoDB 문서만 저장",
+      "종료 시 데이터가 사라질 수 있음",
+      "SQL 실행 불가",
+      "로그인이 자동 완성됨"
+    ],
+    "answer": 1,
+    "explanation": "메모리 실행 모드는 영구 보존과 구분합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C279",
+    "category": "spring",
+    "type": "concept",
+    "question": "Service에 트랜잭션을 두는 이유는?",
+    "choices": [
+      "모든 Controller를 제거",
+      "응답을 파일로 변경",
+      "여러 저장 작업을 업무 단위로 묶음",
+      "비밀번호 해시를 복구"
+    ],
+    "answer": 2,
+    "explanation": "여러 Repository 작업의 성공·실패를 함께 관리합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C280",
+    "category": "spring",
+    "type": "concept",
+    "question": "Spring 구현 경험을 말할 적절한 근거는?",
+    "choices": [
+      "프로젝트 생성 안내만 읽음",
+      "의존성 이름만 암기",
+      "아직 없는 경로만 작성",
+      "직접 만든 소스와 실행 결과"
+    ],
+    "answer": 3,
+    "explanation": "코드 존재와 API·테스트 실행 결과를 확인합니다.",
+    "reference": "11-java-spring/README.md"
+  },
+  {
+    "id": "C281",
+    "category": "testing",
+    "type": "concept",
+    "question": "자동화 테스트를 작성하는 이유는?",
+    "choices": [
+      "변경 뒤 같은 동작을 반복 검증",
+      "수동 관찰을 영구 금지",
+      "모든 장애를 사전 제거",
+      "DB 설치 생략"
+    ],
+    "answer": 0,
+    "explanation": "반복 가능한 검사로 회귀 문제를 찾습니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C282",
+    "category": "testing",
+    "type": "concept",
+    "question": "단위 테스트의 대상에 가까운 것은?",
+    "choices": [
+      "전체 배포 서비스",
+      "독립적인 계산 함수",
+      "실제 사용자 면접",
+      "모든 외부 DB 동시 연결"
+    ],
+    "answer": 1,
+    "explanation": "작은 기능 단위를 분리해 확인합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C283",
+    "category": "testing",
+    "type": "concept",
+    "question": "통합 테스트가 확인하는 것은?",
+    "choices": [
+      "함수 이름 길이",
+      "주석의 맞춤법만",
+      "여러 부분의 연결 동작",
+      "화면 배경색 선택"
+    ],
+    "answer": 2,
+    "explanation": "라우트·검증·저장 등 연결을 검사합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C284",
+    "category": "testing",
+    "type": "concept",
+    "question": "E2E 테스트의 관점은?",
+    "choices": [
+      "함수 한 줄의 반환값만",
+      "타입 별칭의 이름",
+      "개별 CSS 변수",
+      "사용자의 전체 기능 흐름"
+    ],
+    "answer": 3,
+    "explanation": "입력부터 결과까지 사용자 관점으로 확인합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C285",
+    "category": "testing",
+    "type": "concept",
+    "question": "AAA의 첫 Arrange는 무엇인가요?",
+    "choices": [
+      "테스트 조건 준비",
+      "대상 기능 실행",
+      "결과 단언",
+      "보고서 배포"
+    ],
+    "answer": 0,
+    "explanation": "준비·실행·검증의 순서로 테스트를 구성합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C286",
+    "category": "testing",
+    "type": "concept",
+    "question": "단언이 하는 일은?",
+    "choices": [
+      "DB 실행",
+      "실제 결과와 기대 비교",
+      "앱 설치",
+      "테스트 이름 생성"
+    ],
+    "answer": 1,
+    "explanation": "expect 같은 표현으로 결과가 맞는지 검사합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C287",
+    "category": "testing",
+    "type": "concept",
+    "question": "행복 경로만 테스트할 때 놓치기 쉬운 것은?",
+    "choices": [
+      "정상 요청의 응답",
+      "대표 성공 함수",
+      "빈 입력·실패 상황",
+      "성공 메시지"
+    ],
+    "answer": 2,
+    "explanation": "경계값과 실패 경로도 기능의 일부입니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C288",
+    "category": "testing",
+    "type": "concept",
+    "question": "경계값 테스트의 예는?",
+    "choices": [
+      "같은 정상 입력 반복만",
+      "서버 색상 변경",
+      "함수 이름 교체",
+      "허용 길이 바로 전·후 입력"
+    ],
+    "answer": 3,
+    "explanation": "제한이 바뀌는 경계에서 오류가 나기 쉽습니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C289",
+    "category": "testing",
+    "type": "concept",
+    "question": "beforeEach를 사용하는 이유는?",
+    "choices": [
+      "테스트마다 초기 조건 준비",
+      "전체 테스트 한 번만 실행",
+      "실패 결과 삭제",
+      "모든 요청 캐시"
+    ],
+    "answer": 0,
+    "explanation": "테스트 간 상태 영향을 줄입니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C290",
+    "category": "testing",
+    "type": "concept",
+    "question": "테스트 격리가 필요한 이유는?",
+    "choices": [
+      "검사 항목 수 감소",
+      "실행 순서에 따른 결과 차이 방지",
+      "응답 내용을 숨김",
+      "모든 모듈을 하나로 합침"
+    ],
+    "answer": 1,
+    "explanation": "이전 테스트가 남긴 상태에 의존하지 않게 합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C291",
+    "category": "testing",
+    "type": "concept",
+    "question": "모킹이란?",
+    "choices": [
+      "기대값을 실제값으로 복사",
+      "모든 오류를 통과 처리",
+      "의존 기능을 제어 가능한 대역으로 대체",
+      "프로덕션 DB 초기화"
+    ],
+    "answer": 2,
+    "explanation": "외부 조건을 통제해 특정 동작을 검사합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C292",
+    "category": "testing",
+    "type": "concept",
+    "question": "모든 의존성을 모킹했을 때 한계는?",
+    "choices": [
+      "테스트 작성이 불가능",
+      "단언 사용이 불가능",
+      "타입 검사가 삭제됨",
+      "실제 연결 오류를 놓칠 수 있음"
+    ],
+    "answer": 3,
+    "explanation": "대역과 실제 서비스의 차이는 별도 검증해야 합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C293",
+    "category": "testing",
+    "type": "concept",
+    "question": "스파이로 확인하기 좋은 것은?",
+    "choices": [
+      "함수 호출 인자와 횟수",
+      "서버 전력 소비",
+      "CSS 파일 인코딩",
+      "Git 저장소 크기"
+    ],
+    "answer": 0,
+    "explanation": "의존 함수가 어떻게 호출됐는지 관찰합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C294",
+    "category": "testing",
+    "type": "concept",
+    "question": "supertest로 API를 검사할 때 핵심 값은?",
+    "choices": [
+      "페이지 글꼴만",
+      "상태 코드와 응답 본문",
+      "컴퓨터 이름",
+      "개발자 계정 사진"
+    ],
+    "answer": 1,
+    "explanation": "HTTP 계약대로 응답하는지 확인합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C295",
+    "category": "testing",
+    "type": "concept",
+    "question": "비동기 테스트에 await가 빠지면?",
+    "choices": [
+      "DB가 자동 복구됨",
+      "오류가 문법 오류로 바뀜",
+      "검사가 완료 전에 끝날 수 있음",
+      "응답 본문이 암호화됨"
+    ],
+    "answer": 2,
+    "explanation": "비동기 작업이 끝날 때까지 테스트가 기다려야 합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C296",
+    "category": "testing",
+    "type": "concept",
+    "question": "커버리지가 알려 주는 것은?",
+    "choices": [
+      "버그가 없는 비율",
+      "실제 사용자 만족도",
+      "배포 성공 확률",
+      "테스트 중 실행된 코드 범위"
+    ],
+    "answer": 3,
+    "explanation": "실행 여부와 올바른 결과 검사는 다릅니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C297",
+    "category": "testing",
+    "type": "concept",
+    "question": "커버리지 100%여도 남을 수 있는 문제는?",
+    "choices": [
+      "잘못된 기대값이나 누락 조건",
+      "실행된 코드가 전혀 없음",
+      "테스트 파일이 없음",
+      "언어 문법 검사 미실행만"
+    ],
+    "answer": 0,
+    "explanation": "모든 줄 실행이 모든 의미 검증을 뜻하지 않습니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C298",
+    "category": "testing",
+    "type": "concept",
+    "question": "가끔만 실패하는 테스트에서 살필 것은?",
+    "choices": [
+      "문서 제목 길이",
+      "시간·순서·공유 상태 의존",
+      "Git 이메일 대소문자",
+      "CSS 주석 위치"
+    ],
+    "answer": 1,
+    "explanation": "불안정한 조건이 결과에 섞였는지 확인합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C299",
+    "category": "testing",
+    "type": "concept",
+    "question": "테스트 실패 후 바로 기대값을 바꾸면 안 되는 이유는?",
+    "choices": [
+      "테스트 수가 늘기 때문",
+      "파일 크기가 줄기 때문",
+      "잘못된 구현을 정답으로 만들 수 있음",
+      "실행 속도가 빨라지기 때문"
+    ],
+    "answer": 2,
+    "explanation": "기능이 지켜야 할 규칙부터 확인합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C300",
+    "category": "testing",
+    "type": "concept",
+    "question": "회귀 테스트의 목적은?",
+    "choices": [
+      "새 언어를 자동 선택",
+      "DB 엔진을 변경",
+      "코드 줄 수를 줄임",
+      "수정으로 기존 기능이 깨졌는지 확인"
+    ],
+    "answer": 3,
+    "explanation": "변경 이전에 되던 기능의 유지 여부를 검사합니다.",
+    "reference": "12-testing/README.md"
+  },
+  {
+    "id": "C301",
+    "category": "git",
+    "type": "concept",
+    "question": "Git이 관리하는 주된 대상은?",
+    "choices": [
+      "파일 변경 이력",
+      "실행 중인 DB 연결",
+      "브라우저의 열린 탭",
+      "서버의 메모리 용량"
+    ],
+    "answer": 0,
+    "explanation": "언제 어떤 변경을 했는지 기록합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C302",
+    "category": "git",
+    "type": "concept",
+    "question": "작업 트리란?",
+    "choices": [
+      "원격 서버 백업만",
+      "현재 편집하는 파일 상태",
+      "마지막 커밋 메시지",
+      "프로덕션 실행 파일만"
+    ],
+    "answer": 1,
+    "explanation": "실제로 작업 중인 파일들의 상태입니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C303",
+    "category": "git",
+    "type": "concept",
+    "question": "스테이징 영역의 목적은?",
+    "choices": [
+      "원격 서버에 즉시 배포",
+      "DB 트랜잭션 확정",
+      "다음 커밋에 넣을 변경 선택",
+      "브라우저 캐시 삭제"
+    ],
+    "answer": 2,
+    "explanation": "커밋할 내용을 작업 변경에서 골라 담습니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C304",
+    "category": "git",
+    "type": "concept",
+    "question": "git status로 확인하는 것은?",
+    "choices": [
+      "API 응답 속도",
+      "DB 로그인 여부",
+      "브라우저 레이아웃",
+      "파일 변경과 스테이징 상태"
+    ],
+    "answer": 3,
+    "explanation": "현재 저장소 작업 상태를 보여 줍니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C305",
+    "category": "git",
+    "type": "concept",
+    "question": "git diff의 주된 역할은?",
+    "choices": [
+      "상태 사이의 내용 차이 확인",
+      "의존성 설치",
+      "파일 실행",
+      "원격 권한 부여"
+    ],
+    "answer": 0,
+    "explanation": "어떤 줄이 바뀌었는지 비교합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C306",
+    "category": "git",
+    "type": "concept",
+    "question": "commit을 만들면 바로 원격에 올라가나요?",
+    "choices": [
+      "같은 순간 자동 전송",
+      "push는 별도 작업",
+      "첫 커밋만 자동 전송",
+      "README만 자동 전송"
+    ],
+    "answer": 1,
+    "explanation": "커밋은 우선 로컬 저장소에 기록됩니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C307",
+    "category": "git",
+    "type": "concept",
+    "question": "push의 목적은?",
+    "choices": [
+      "작업 파일을 자동 수정",
+      "DB에 글 생성",
+      "로컬 커밋을 원격에 전달",
+      "모든 브랜치 삭제"
+    ],
+    "answer": 2,
+    "explanation": "원격 브랜치에 로컬 이력을 반영합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C308",
+    "category": "git",
+    "type": "concept",
+    "question": "fetch의 역할은?",
+    "choices": [
+      "현재 작업에 즉시 병합",
+      "모든 로컬 변경 삭제",
+      "테스트 실행",
+      "원격 이력을 가져와 갱신"
+    ],
+    "answer": 3,
+    "explanation": "가져오기와 현재 브랜치 통합은 구분됩니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C309",
+    "category": "git",
+    "type": "concept",
+    "question": "브랜치를 만드는 이유는?",
+    "choices": [
+      "독립적인 작업 흐름 구성",
+      "모든 파일을 영구 복제",
+      "사용자 권한 검증",
+      "DB 컬렉션 생성"
+    ],
+    "answer": 0,
+    "explanation": "기능별 변경을 분리해 진행할 수 있습니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C310",
+    "category": "git",
+    "type": "concept",
+    "question": "PR의 목적은?",
+    "choices": [
+      "서버 포트를 개방",
+      "변경을 합치기 전에 검토",
+      "패키지 버전 자동 선택",
+      "사용자 암호 저장"
+    ],
+    "answer": 1,
+    "explanation": "다른 사람이 변경 의도와 검증 결과를 확인합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C311",
+    "category": "git",
+    "type": "concept",
+    "question": "merge가 하는 일은?",
+    "choices": [
+      "작업 파일 모두 삭제",
+      "서버를 빌드",
+      "브랜치의 변경을 합침",
+      "로그인 토큰 발급"
+    ],
+    "answer": 2,
+    "explanation": "두 작업 흐름을 통합합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C312",
+    "category": "git",
+    "type": "concept",
+    "question": "충돌이 생기는 대표 상황은?",
+    "choices": [
+      "파일명이 길어짐",
+      "커밋이 하루 늦어짐",
+      "다른 파일을 읽기만 함",
+      "같은 영역의 상충하는 변경"
+    ],
+    "answer": 3,
+    "explanation": "Git이 자동으로 결과를 정하기 어려운 변경입니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C313",
+    "category": "git",
+    "type": "concept",
+    "question": "충돌 해결에서 중요한 것은?",
+    "choices": [
+      "양쪽 의도를 이해하고 검증",
+      "한쪽 표시를 기계적으로 삭제",
+      "더 긴 코드만 선택",
+      "최근 작성자만 신뢰"
+    ],
+    "answer": 0,
+    "explanation": "원하는 최종 동작을 확인하며 내용을 합칩니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C314",
+    "category": "git",
+    "type": "concept",
+    "question": "rebase의 특징은?",
+    "choices": [
+      "DB 데이터를 복제",
+      "커밋을 다른 시작점 위에 재배치",
+      "이력을 그대로 묶는 커밋만 생성",
+      "모든 변경을 취소"
+    ],
+    "answer": 1,
+    "explanation": "커밋이 다시 만들어질 수 있어 공유 이력에 주의합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C315",
+    "category": "git",
+    "type": "concept",
+    "question": "이미 공유된 변경을 취소할 때 revert의 장점은?",
+    "choices": [
+      "원격 기록을 완전히 숨김",
+      "작업 파일만 삭제",
+      "취소하는 새 커밋을 남김",
+      "이전 커밋 id 유지하며 덮어씀"
+    ],
+    "answer": 2,
+    "explanation": "이력을 보존하면서 변경을 되돌립니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C316",
+    "category": "git",
+    "type": "concept",
+    "question": ".gitignore에 추가했는데 추적이 계속되는 이유는?",
+    "choices": [
+      "파일이 너무 작음",
+      "브랜치 이름이 main임",
+      "커밋 메시지가 한국어임",
+      "이미 추적 중인 파일일 수 있음"
+    ],
+    "answer": 3,
+    "explanation": "ignore 규칙은 기존 추적을 자동 해제하지 않습니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C317",
+    "category": "git",
+    "type": "concept",
+    "question": "하나의 커밋에 한 의도를 담는 이점은?",
+    "choices": [
+      "검토와 되돌리기가 쉬움",
+      "모든 테스트 생략 가능",
+      "API 응답 속도 증가",
+      "DB 용량 축소"
+    ],
+    "answer": 0,
+    "explanation": "변경의 이유와 영향 범위를 파악하기 쉽습니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C318",
+    "category": "git",
+    "type": "concept",
+    "question": "force push에서 위험한 것은?",
+    "choices": [
+      "소스 언어 자동 변환",
+      "다른 사람의 원격 이력을 덮을 수 있음",
+      "DB 암호 자동 노출",
+      "로컬 폴더명 변경"
+    ],
+    "answer": 1,
+    "explanation": "원격 이력 변경을 강제하므로 협업에 영향을 줍니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C319",
+    "category": "git",
+    "type": "concept",
+    "question": "force-with-lease가 확인하는 것은?",
+    "choices": [
+      "코드의 모든 버그",
+      "배포 환경의 건강",
+      "예상한 원격 상태와의 일치",
+      "커밋 작성자의 경력"
+    ],
+    "answer": 2,
+    "explanation": "내가 모르는 원격 변경을 덮는 위험을 줄입니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C320",
+    "category": "git",
+    "type": "concept",
+    "question": "비밀값을 커밋했다면 우선할 일은?",
+    "choices": [
+      "파일명만 변경",
+      "새 브랜치 만들기",
+      "커밋 메시지만 수정",
+      "노출 값 폐기·교체"
+    ],
+    "answer": 3,
+    "explanation": "기록을 숨기는 것보다 이미 노출된 비밀을 무효화합니다.",
+    "reference": "13-git-collab/README.md"
+  },
+  {
+    "id": "C321",
+    "category": "docker",
+    "type": "concept",
+    "question": "Docker 이미지란?",
+    "choices": [
+      "앱과 실행 환경을 담은 틀",
+      "현재 실행 중인 프로세스만",
+      "DB 접속 사용자",
+      "Git의 원격 브랜치"
+    ],
+    "answer": 0,
+    "explanation": "이미지로 실행 가능한 환경을 배포합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C322",
+    "category": "docker",
+    "type": "concept",
+    "question": "컨테이너란?",
+    "choices": [
+      "Dockerfile의 주석",
+      "이미지로 실행한 격리 환경",
+      "DB의 테이블 하나",
+      "단순 압축 파일"
+    ],
+    "answer": 1,
+    "explanation": "이미지는 틀이고 컨테이너는 그 틀의 실행입니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C323",
+    "category": "docker",
+    "type": "concept",
+    "question": "Dockerfile의 역할은?",
+    "choices": [
+      "운영 계정 비밀번호 목록",
+      "API 응답 명세",
+      "이미지를 만드는 절차 정의",
+      "브라우저 페이지 구조"
+    ],
+    "answer": 2,
+    "explanation": "설치·복사·실행 설정을 단계로 작성합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C324",
+    "category": "docker",
+    "type": "concept",
+    "question": "FROM으로 지정하는 것은?",
+    "choices": [
+      "복사할 소스의 제목",
+      "요청 받을 도메인",
+      "DB 테이블 이름",
+      "빌드의 기반 이미지"
+    ],
+    "answer": 3,
+    "explanation": "기본 실행 환경을 선택합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C325",
+    "category": "docker",
+    "type": "concept",
+    "question": "WORKDIR의 역할은?",
+    "choices": [
+      "컨테이너 안 작업 경로 지정",
+      "호스트 폴더 전체 삭제",
+      "포트 공개",
+      "기본 인증 토큰 발급"
+    ],
+    "answer": 0,
+    "explanation": "뒤 명령의 기준 작업 디렉터리를 정합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C326",
+    "category": "docker",
+    "type": "concept",
+    "question": "COPY 명령의 목적은?",
+    "choices": [
+      "원격 API 호출",
+      "빌드 자료를 이미지에 복사",
+      "컨테이너 재시작",
+      "DB 연결 검사"
+    ],
+    "answer": 1,
+    "explanation": "빌드 컨텍스트의 파일을 이미지에 넣습니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C327",
+    "category": "docker",
+    "type": "concept",
+    "question": "RUN과 CMD의 차이는?",
+    "choices": [
+      "둘 다 실행 시에만 동작",
+      "둘 다 파일 복사만 수행",
+      "빌드 중 실행과 시작 시 기본 명령",
+      "네트워크와 DB 명령의 구분"
+    ],
+    "answer": 2,
+    "explanation": "RUN은 이미지 생성 과정, CMD는 컨테이너 기본 실행입니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C328",
+    "category": "docker",
+    "type": "concept",
+    "question": "포트 매핑을 사용하는 이유는?",
+    "choices": [
+      "DB 데이터를 압축",
+      "이미지 이름 변경",
+      "빌드 로그 저장",
+      "호스트에서 컨테이너 서비스에 접근"
+    ],
+    "answer": 3,
+    "explanation": "호스트 포트와 컨테이너 포트를 연결합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C329",
+    "category": "docker",
+    "type": "concept",
+    "question": "EXPOSE만으로 호스트 접속이 보장되지 않는 이유는?",
+    "choices": [
+      "포트 공개 설정은 별도로 필요",
+      "이미지에 앱이 들어갈 수 없음",
+      "EXPOSE는 DB 전용",
+      "컨테이너가 브라우저를 실행"
+    ],
+    "answer": 0,
+    "explanation": "EXPOSE는 사용 포트를 알리는 정보입니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C330",
+    "category": "docker",
+    "type": "concept",
+    "question": ".dockerignore의 목적은?",
+    "choices": [
+      "컨테이너 로그 삭제",
+      "불필요한 빌드 자료 제외",
+      "API 인증 생략",
+      "DB 암호 복구"
+    ],
+    "answer": 1,
+    "explanation": "설치 폴더·비밀 파일 등이 빌드에 섞이는 것을 줄입니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C331",
+    "category": "docker",
+    "type": "concept",
+    "question": "의존성 명세를 소스보다 먼저 복사하는 이유는?",
+    "choices": [
+      "소스가 없어도 기능 완성",
+      "버전 검사를 제거",
+      "의존성 설치 캐시 재사용",
+      "컨테이너 포트 축소"
+    ],
+    "answer": 2,
+    "explanation": "명세가 그대로면 설치 단계를 재사용하기 쉽습니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C332",
+    "category": "docker",
+    "type": "concept",
+    "question": "멀티 스테이지 빌드의 목적은?",
+    "choices": [
+      "모든 앱을 별도 DB로 변경",
+      "테스트 결과를 숨김",
+      "소스를 여러 언어로 번역",
+      "빌드 도구와 실행 산출물 분리"
+    ],
+    "answer": 3,
+    "explanation": "최종 이미지에 필요한 실행 파일만 넣습니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C333",
+    "category": "docker",
+    "type": "concept",
+    "question": "볼륨을 사용하는 대표 이유는?",
+    "choices": [
+      "컨테이너와 별도로 데이터 보관",
+      "화면의 음량 조정",
+      "이미지 태그 생성",
+      "JWT 만료 연장"
+    ],
+    "answer": 0,
+    "explanation": "컨테이너 교체와 데이터 수명을 분리합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C334",
+    "category": "docker",
+    "type": "concept",
+    "question": "docker compose가 돕는 것은?",
+    "choices": [
+      "React 컴포넌트 합치기",
+      "여러 서비스 실행 설정 관리",
+      "SQL 쿼리 자동 작성",
+      "Git 충돌 자동 해결"
+    ],
+    "answer": 1,
+    "explanation": "앱·DB 등 여러 컨테이너 구성을 선언합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C335",
+    "category": "docker",
+    "type": "concept",
+    "question": "Compose의 DB 서비스 이름을 쓰는 이유는?",
+    "choices": [
+      "호스트 파일명을 바꿈",
+      "브라우저 쿠키를 공유",
+      "컨테이너 네트워크에서 DB를 찾음",
+      "Git 주소를 대체"
+    ],
+    "answer": 2,
+    "explanation": "같은 네트워크의 서비스를 이름으로 찾을 수 있습니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C336",
+    "category": "docker",
+    "type": "concept",
+    "question": "Compose의 기본 분리 네트워크에서 컨테이너 내부 localhost가 가리키는 것은?",
+    "choices": [
+      "호스트의 모든 서비스",
+      "옆 DB 컨테이너",
+      "인터넷 기본 서버",
+      "해당 컨테이너 자신"
+    ],
+    "answer": 3,
+    "explanation": "다른 컨테이너는 별도 주소나 서비스 이름으로 접근합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C337",
+    "category": "docker",
+    "type": "concept",
+    "question": "healthcheck가 확인하는 것은?",
+    "choices": [
+      "서비스 준비 상태",
+      "모든 단위 테스트",
+      "코드 포맷 전체",
+      "운영 비용"
+    ],
+    "answer": 0,
+    "explanation": "프로세스 실행과 실제 서비스 준비를 구분합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C338",
+    "category": "docker",
+    "type": "concept",
+    "question": "Compose의 DATABASE_URL만 설정하면 4단계 앱이 DB에 저장하나요?",
+    "choices": [
+      "모든 배열이 자동 이전",
+      "연결·저장 코드가 별도로 필요",
+      "API 라우트가 자동 생성",
+      "기존 파일이 SQL로 변환"
+    ],
+    "answer": 1,
+    "explanation": "환경 설정만으로 메모리 구현이 DB 구현으로 바뀌지 않습니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C339",
+    "category": "docker",
+    "type": "concept",
+    "question": "실행 시 비밀값을 주입하는 이유는?",
+    "choices": [
+      "실행 파일을 숨기기 위해",
+      "DB 준비를 생략하기 위해",
+      "이미지에 비밀을 고정하지 않기 위해",
+      "로그를 모두 삭제하기 위해"
+    ],
+    "answer": 2,
+    "explanation": "이미지와 환경별 비밀 설정을 분리합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C340",
+    "category": "docker",
+    "type": "concept",
+    "question": "CI 워크플로우 예제가 폴더에만 있으면?",
+    "choices": [
+      "원격에서 즉시 모두 실행",
+      "로컬 DB가 자동 생성",
+      "푸시 권한이 자동 부여",
+      "실제 실행 위치와 설정이 필요"
+    ],
+    "answer": 3,
+    "explanation": "예제 존재와 실제 자동 실행 결과를 구분합니다.",
+    "reference": "14-docker-deploy/README.md"
+  },
+  {
+    "id": "C341",
+    "category": "cs",
+    "type": "concept",
+    "question": "프로세스는 무엇인가요?",
+    "choices": [
+      "실행 중인 프로그램 단위",
+      "소스 파일의 확장자",
+      "DB의 열 이름",
+      "브라우저의 스타일 규칙"
+    ],
+    "answer": 0,
+    "explanation": "프로세스는 실행에 필요한 메모리와 자원을 가집니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C342",
+    "category": "cs",
+    "type": "concept",
+    "question": "스레드의 특징은?",
+    "choices": [
+      "각자 다른 운영체제가 필수",
+      "프로세스 안에서 메모리를 공유할 수 있음",
+      "실행 파일 그 자체",
+      "DB 데이터만 저장"
+    ],
+    "answer": 1,
+    "explanation": "같은 프로세스의 실행 흐름들이 자원을 공유합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C343",
+    "category": "cs",
+    "type": "concept",
+    "question": "공유 값을 동시에 수정할 때 생길 수 있는 문제는?",
+    "choices": [
+      "문자 인코딩 변경",
+      "DNS 자동 생성",
+      "경쟁 상태",
+      "HTML 태그 충돌"
+    ],
+    "answer": 2,
+    "explanation": "실행 순서에 따라 결과가 달라질 수 있습니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C344",
+    "category": "cs",
+    "type": "concept",
+    "question": "교착 상태에 가까운 상황은?",
+    "choices": [
+      "프로그램이 정상 종료",
+      "배열을 순서대로 읽음",
+      "요청이 성공 응답을 받음",
+      "서로 가진 자원을 기다려 진행 못함"
+    ],
+    "answer": 3,
+    "explanation": "서로의 해제를 기다리며 멈추는 상태입니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C345",
+    "category": "cs",
+    "type": "concept",
+    "question": "메모리와 디스크 저장의 차이는?",
+    "choices": [
+      "임시 실행 공간과 지속 저장 공간",
+      "둘 다 동일한 수명",
+      "디스크는 계산만 수행",
+      "메모리는 파일만 관리"
+    ],
+    "answer": 0,
+    "explanation": "실행 상태와 보존할 데이터의 역할이 다릅니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C346",
+    "category": "cs",
+    "type": "concept",
+    "question": "스택 자료구조의 꺼내기 순서는?",
+    "choices": [
+      "먼저 넣은 것을 먼저",
+      "나중에 넣은 것을 먼저",
+      "작은 값을 먼저",
+      "임의 값을 먼저"
+    ],
+    "answer": 1,
+    "explanation": "스택은 후입선출 방식입니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C347",
+    "category": "cs",
+    "type": "concept",
+    "question": "큐 자료구조의 꺼내기 순서는?",
+    "choices": [
+      "나중에 넣은 것을 먼저",
+      "큰 값을 먼저",
+      "먼저 넣은 것을 먼저",
+      "항목 이름 순서"
+    ],
+    "answer": 2,
+    "explanation": "큐는 먼저 들어온 항목을 먼저 꺼내는 선입선출(FIFO) 방식입니다. A 다음 B를 넣었다면 A를 먼저 꺼냅니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C348",
+    "category": "cs",
+    "type": "concept",
+    "question": "정렬되지 않은 배열에서 값을 찾는 기본 방식은?",
+    "choices": [
+      "항상 한 번만 접근",
+      "중간 항목만 비교",
+      "해시 없이 즉시 주소 계산",
+      "항목을 차례로 비교"
+    ],
+    "answer": 3,
+    "explanation": "선형 검색은 일치 항목을 찾을 때까지 확인합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C349",
+    "category": "cs",
+    "type": "concept",
+    "question": "이진 탐색의 기본 전제는?",
+    "choices": [
+      "탐색 기준으로 정렬되어 있음",
+      "모든 값이 문자열임",
+      "중복이 반드시 있음",
+      "항목 수가 짝수임"
+    ],
+    "answer": 0,
+    "explanation": "정렬된 범위를 절반씩 줄여 탐색합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C350",
+    "category": "cs",
+    "type": "concept",
+    "question": "해시 테이블의 목적은?",
+    "choices": [
+      "모든 데이터를 암호화",
+      "키를 이용한 빠른 값 접근",
+      "요청 순서를 강제 고정",
+      "DB 연결을 자동 종료"
+    ],
+    "answer": 1,
+    "explanation": "키를 저장 위치에 연결하는 구조입니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C351",
+    "category": "cs",
+    "type": "concept",
+    "question": "해시 충돌의 의미는?",
+    "choices": [
+      "두 문자열이 완전히 같음",
+      "DB 서버가 종료됨",
+      "서로 다른 키가 같은 위치에 대응",
+      "네트워크 포트가 같음"
+    ],
+    "answer": 2,
+    "explanation": "같은 위치에 모인 키를 구분하는 처리가 필요합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C352",
+    "category": "cs",
+    "type": "concept",
+    "question": "시간 복잡도가 설명하는 것은?",
+    "choices": [
+      "특정 컴퓨터의 정확한 초",
+      "개발자가 쓴 총 시간",
+      "코드 파일 생성 시각",
+      "입력 증가에 따른 작업량 변화"
+    ],
+    "answer": 3,
+    "explanation": "입력 크기에 따른 비용의 증가 양상을 봅니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C353",
+    "category": "cs",
+    "type": "concept",
+    "question": "O(1)이라고 해서 뜻하는 것은?",
+    "choices": [
+      "입력 크기와 무관하게 작업량의 상한이 일정함",
+      "실행 시간이 1초임",
+      "버그가 한 개임",
+      "메모리가 1바이트임"
+    ],
+    "answer": 0,
+    "explanation": "상수 시간은 성장률을 표현하는 말입니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C354",
+    "category": "cs",
+    "type": "concept",
+    "question": "네트워크에서 IP 주소의 대표 역할은?",
+    "choices": [
+      "사용자 비밀번호 증명",
+      "통신 대상을 식별",
+      "HTML 제목 제공",
+      "DB 쿼리 정렬"
+    ],
+    "answer": 1,
+    "explanation": "네트워크상의 호스트를 찾는 주소입니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C355",
+    "category": "cs",
+    "type": "concept",
+    "question": "포트가 필요한 이유는?",
+    "choices": [
+      "모든 서버의 이름 통합",
+      "파일 확장자 변경",
+      "한 호스트의 통신 창구 구분",
+      "암호화 키 저장"
+    ],
+    "answer": 2,
+    "explanation": "같은 컴퓨터에서도 서비스별 접점을 구분합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C356",
+    "category": "cs",
+    "type": "concept",
+    "question": "DNS의 대표 역할은?",
+    "choices": [
+      "HTML을 CSS로 변환",
+      "SQL을 JSON으로 변경",
+      "비밀번호를 해시로 저장",
+      "도메인 이름을 주소로 조회"
+    ],
+    "answer": 3,
+    "explanation": "사람이 읽는 이름으로 접속 주소를 찾습니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C357",
+    "category": "cs",
+    "type": "concept",
+    "question": "TCP가 제공하는 대표 특징은?",
+    "choices": [
+      "전송 순서와 재전송 관리",
+      "메시지 손실을 그대로 무시",
+      "데이터를 DB에 영구 저장",
+      "브라우저 화면 자동 렌더링"
+    ],
+    "answer": 0,
+    "explanation": "연결을 바탕으로 신뢰성 있는 전달을 돕습니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C358",
+    "category": "cs",
+    "type": "concept",
+    "question": "UDP의 특징에 가까운 것은?",
+    "choices": [
+      "수신 확인 뒤에만 다음 전송",
+      "전송 보장 기능이 단순한 데이터그램 통신",
+      "모든 패킷 영구 보존",
+      "웹페이지에만 사용"
+    ],
+    "answer": 1,
+    "explanation": "전송 지연과 손실 요구에 따라 선택을 고려합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C359",
+    "category": "cs",
+    "type": "concept",
+    "question": "HTTPS가 보호하는 주요 구간은?",
+    "choices": [
+      "DB에 저장된 모든 원문",
+      "서버 안의 모든 코드 오류",
+      "클라이언트와 서버 사이의 통신",
+      "사용자의 화면 캡처"
+    ],
+    "answer": 2,
+    "explanation": "TLS를 이용해 전송 중 데이터를 보호합니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C360",
+    "category": "cs",
+    "type": "concept",
+    "question": "캐시를 사용할 때 고려할 것은?",
+    "choices": [
+      "변수 이름의 길이",
+      "HTML 들여쓰기",
+      "커밋 작성 언어",
+      "저장한 복사본의 최신성"
+    ],
+    "answer": 3,
+    "explanation": "재사용으로 비용을 줄이지만 오래된 값일 수 있습니다.",
+    "reference": "15-cs-fundamentals/README.md"
+  },
+  {
+    "id": "C361",
+    "category": "security",
+    "type": "concept",
+    "question": "XSS 공격이 실행되는 대표 위치는?",
+    "choices": [
+      "피해 사용자의 브라우저",
+      "Git 커밋 메시지 처리기만",
+      "DB 인덱스 내부만",
+      "Docker 이미지 이름만"
+    ],
+    "answer": 0,
+    "explanation": "입력한 스크립트가 브라우저에서 실행되는 문제입니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C362",
+    "category": "security",
+    "type": "concept",
+    "question": "저장형 XSS의 특징은?",
+    "choices": [
+      "요청 없이 파일이 삭제",
+      "저장된 내용이 나중에 실행",
+      "비밀번호가 자동 변경",
+      "DNS 주소가 암호화"
+    ],
+    "answer": 1,
+    "explanation": "저장한 악성 내용이 다른 조회에서 전달될 수 있습니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C363",
+    "category": "security",
+    "type": "concept",
+    "question": "반사형 XSS의 특징은?",
+    "choices": [
+      "DB에 장기간 저장이 필수",
+      "Git 병합 시 실행",
+      "요청 입력이 응답에 바로 포함",
+      "컨테이너 빌드에서만 발생"
+    ],
+    "answer": 2,
+    "explanation": "입력이 응답으로 되돌아오는 지점에서 발생합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C364",
+    "category": "security",
+    "type": "concept",
+    "question": "출력 인코딩의 목적은?",
+    "choices": [
+      "입력 내용을 다른 계정에 저장",
+      "비밀번호를 암호화해 반환",
+      "서버 포트를 숨김",
+      "문자를 출력 위치의 데이터로 다룸"
+    ],
+    "answer": 3,
+    "explanation": "HTML 특수 문자가 코드로 해석되는 것을 줄입니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C365",
+    "category": "security",
+    "type": "concept",
+    "question": "HTML 이스케이프를 모든 문맥에 그대로 써도 되나요?",
+    "choices": [
+      "출력 위치에 맞는 처리가 필요",
+      "SQL에도 같은 규칙이면 충분",
+      "CSS에도 같은 규칙이면 충분",
+      "URL에도 같은 규칙이면 충분"
+    ],
+    "answer": 0,
+    "explanation": "HTML·URL·스크립트 문맥의 규칙은 다릅니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C366",
+    "category": "security",
+    "type": "concept",
+    "question": "SQL Injection의 원인이 되는 대표 방식은?",
+    "choices": [
+      "쿼리 결과를 배열로 받음",
+      "입력을 SQL 문자열에 직접 결합",
+      "연결 주소를 환경 변수로 지정",
+      "SELECT에 WHERE 사용"
+    ],
+    "answer": 1,
+    "explanation": "입력이 명령 구조를 바꿀 수 있는 결합이 문제입니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C367",
+    "category": "security",
+    "type": "concept",
+    "question": "파라미터화 쿼리의 핵심은?",
+    "choices": [
+      "모든 입력을 숫자로 변경",
+      "쿼리를 브라우저에서 실행",
+      "SQL 구조와 입력값 분리",
+      "조건을 모두 제거"
+    ],
+    "answer": 2,
+    "explanation": "입력값을 SQL 코드가 아닌 값으로 전달합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C368",
+    "category": "security",
+    "type": "concept",
+    "question": "CSRF는 무엇을 악용하나요?",
+    "choices": [
+      "SQL 인덱스 정렬",
+      "Git 브랜치 개수",
+      "서버 디스크 크기",
+      "브라우저가 인증 정보를 붙이는 성질"
+    ],
+    "answer": 3,
+    "explanation": "사용자의 인증 상태로 의도하지 않은 요청을 보냅니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C369",
+    "category": "security",
+    "type": "concept",
+    "question": "CSRF 토큰을 검사하는 이유는?",
+    "choices": [
+      "요청의 별도 확인값을 검증",
+      "비밀번호 해시 복구",
+      "CORS 설정 자동 삭제",
+      "DB 테이블 생성"
+    ],
+    "answer": 0,
+    "explanation": "자동 첨부되는 쿠키 외의 증거를 확인합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C370",
+    "category": "security",
+    "type": "concept",
+    "question": "SameSite 쿠키 설정의 목적은?",
+    "choices": [
+      "쿠키 내용을 전부 암호화",
+      "다른 사이트 맥락의 쿠키 전송 제한",
+      "DB 소유자 검증",
+      "모든 XSS 차단"
+    ],
+    "answer": 1,
+    "explanation": "사이트 간 요청에서 쿠키가 붙는 조건을 제한합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C371",
+    "category": "security",
+    "type": "concept",
+    "question": "HttpOnly 쿠키 속성의 효과는?",
+    "choices": [
+      "모든 요청 위조 차단",
+      "HTTPS 연결 자동 생성",
+      "JavaScript의 쿠키 읽기 제한",
+      "쿠키 만료 제거"
+    ],
+    "answer": 2,
+    "explanation": "스크립트로 쿠키 값을 읽는 경로를 줄입니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C372",
+    "category": "security",
+    "type": "concept",
+    "question": "Secure 쿠키 속성의 목적은?",
+    "choices": [
+      "비밀번호 강도를 자동 검사",
+      "쿠키를 DB에 백업",
+      "모든 사이트에 쿠키 공유",
+      "보안 연결에서 쿠키 전송"
+    ],
+    "answer": 3,
+    "explanation": "쿠키 전송에 보안 연결 조건을 둡니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C373",
+    "category": "security",
+    "type": "concept",
+    "question": "CORS를 인증 대신 쓰면 안 되는 이유는?",
+    "choices": [
+      "브라우저 외 요청의 신원을 검증하지 않음",
+      "JSON 요청을 지원하지 않음",
+      "쿠키를 저장할 수 없음",
+      "포트를 지정할 수 없음"
+    ],
+    "answer": 0,
+    "explanation": "응답 접근 정책과 사용자 확인은 다릅니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C374",
+    "category": "security",
+    "type": "concept",
+    "question": "서버에서 입력을 다시 검사하는 이유는?",
+    "choices": [
+      "브라우저가 모든 값을 암호화",
+      "프론트 검사를 우회할 수 있음",
+      "HTML에는 숫자가 없음",
+      "DB가 입력을 받지 않음"
+    ],
+    "answer": 1,
+    "explanation": "직접 만든 요청도 서버에 도착할 수 있습니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C375",
+    "category": "security",
+    "type": "concept",
+    "question": "권한 없는 버튼을 숨기는 것만으로 부족한 이유는?",
+    "choices": [
+      "CSS가 서버를 종료",
+      "HTML이 토큰을 삭제",
+      "API를 직접 호출할 수 있음",
+      "입력값이 자동 저장"
+    ],
+    "answer": 2,
+    "explanation": "실제 접근 제어는 서버에서 검사해야 합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C376",
+    "category": "security",
+    "type": "concept",
+    "question": "본문 크기 제한을 두는 목적은?",
+    "choices": [
+      "모든 SQL 공격 차단",
+      "계정 이름 중복 방지",
+      "응답 속도 완전 보장",
+      "과도한 입력의 자원 사용 제한"
+    ],
+    "answer": 3,
+    "explanation": "큰 요청이 메모리 등을 과도하게 쓰지 않게 합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C377",
+    "category": "security",
+    "type": "concept",
+    "question": "로그에서 제거하거나 가릴 값은?",
+    "choices": [
+      "비밀번호와 접근 토큰",
+      "요청 경로",
+      "응답 상태 코드",
+      "요청 처리 시간"
+    ],
+    "answer": 0,
+    "explanation": "민감한 인증값이 로그로 새지 않게 합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C378",
+    "category": "security",
+    "type": "concept",
+    "question": "의존성 보안 검사의 한계는?",
+    "choices": [
+      "패키지 정보는 읽을 수 없음",
+      "앱의 모든 보안 문제를 보증하지 않음",
+      "로컬에서 실행 불가",
+      "코드 없는 프로젝트만 지원"
+    ],
+    "answer": 1,
+    "explanation": "알려진 의존성 문제와 앱 로직 문제는 다릅니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C379",
+    "category": "security",
+    "type": "concept",
+    "question": "16단계 check 통과만으로 확인되는 범위는?",
+    "choices": [
+      "모든 공격 방어 성공",
+      "실제 운영 배포 보안",
+      "대상 JavaScript 문법 검사",
+      "사용자 권한 전체 검증"
+    ],
+    "answer": 2,
+    "explanation": "방어 전후 요청 결과는 따로 확인해야 합니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C380",
+    "category": "security",
+    "type": "concept",
+    "question": "보안 방어 실습의 좋은 기록은?",
+    "choices": [
+      "라이브러리 이름만 나열",
+      "보안 용어 암기 개수",
+      "실행하지 않은 코드 캡처",
+      "같은 요청의 방어 전후 결과"
+    ],
+    "answer": 3,
+    "explanation": "재현 조건과 결과가 있어야 효과를 설명할 수 있습니다.",
+    "reference": "16-security/README.md"
+  },
+  {
+    "id": "C381",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub에서 모노레포의 의미는?",
+    "choices": [
+      "여러 패키지를 한 저장소에서 관리",
+      "여러 DB를 하나로 합침",
+      "모든 서버를 한 함수로 작성",
+      "같은 파일을 여러 번 복사"
+    ],
+    "answer": 0,
+    "explanation": "API·Web·shared 패키지를 함께 관리합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C382",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub의 shared 패키지는 무엇을 공유하나요?",
+    "choices": [
+      "운영 DB 비밀번호",
+      "타입·API 경로·공통 함수",
+      "모든 사용자 토큰",
+      "브라우저 개인 설정"
+    ],
+    "answer": 1,
+    "explanation": "서로 같은 데이터와 동작 규칙을 쓰게 합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C383",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "npm workspaces의 역할은?",
+    "choices": [
+      "DB 쿼리 자동 완성",
+      "화면 입력 자동 검증",
+      "패키지 의존성과 명령 관리",
+      "운영 토큰 발급"
+    ],
+    "answer": 2,
+    "explanation": "여러 패키지 작업을 한 프로젝트에서 관리합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C384",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "shared를 API 테스트 전에 빌드하는 이유는?",
+    "choices": [
+      "테스트 데이터를 영구 보관",
+      "DB 인증 생략",
+      "응답 상태 변경",
+      "실행 시 가져오는 공통 값 준비"
+    ],
+    "answer": 3,
+    "explanation": "ApiRoutes 같은 실행 코드도 가져오기 때문입니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C385",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub의 저장소 선택 기준은?",
+    "choices": [
+      "DATABASE_URL 설정 여부",
+      "브라우저 화면 너비",
+      "현재 Git 브랜치 이름",
+      "노트의 제목 길이"
+    ],
+    "answer": 0,
+    "explanation": "주소가 있으면 PostgreSQL 구현을 사용합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C386",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "DB 주소 없이 실행한 Note Hub의 저장소는?",
+    "choices": [
+      "JsonStore",
+      "InMemoryNotesStore",
+      "MongoDB",
+      "Oracle"
+    ],
+    "answer": 1,
+    "explanation": "로컬 실습에는 메모리 구현을 사용할 수 있습니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C387",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "메모리 모드에서 서버를 다시 시작하면?",
+    "choices": [
+      "모든 노트가 PostgreSQL로 이동",
+      "토큰이 노트로 변환",
+      "저장한 노트가 사라짐",
+      "태그만 자동 보존"
+    ],
+    "answer": 2,
+    "explanation": "메모리 데이터는 프로세스 수명을 따릅니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C388",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "NotesStore 인터페이스를 둔 목적은?",
+    "choices": [
+      "DB 데이터를 화면에 직접 전송",
+      "모든 함수의 타입 검사 해제",
+      "API 경로를 사용자마다 변경",
+      "저장 구현의 공통 계약 정의"
+    ],
+    "answer": 3,
+    "explanation": "라우트가 저장 방식에 덜 의존하도록 합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C389",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note의 id와 createdAt은 누가 만드나요?",
+    "choices": [
+      "서버 저장 처리",
+      "사용자가 필수 입력",
+      "CSS 렌더러",
+      "Git 커밋 훅"
+    ],
+    "answer": 0,
+    "explanation": "서버가 식별자와 생성 시각을 책임집니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C390",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "CreateNoteInput과 Note의 차이는?",
+    "choices": [
+      "입력은 HTML만 가능",
+      "입력에는 서버 생성 정보가 없음",
+      "Note에는 본문이 없음",
+      "입력에는 태그만 있음"
+    ],
+    "answer": 1,
+    "explanation": "생성 요청과 저장된 결과의 형태를 구분합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C391",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub 태그 정리 함수의 동작은?",
+    "choices": [
+      "중복을 모두 제거",
+      "태그를 길이순 정렬",
+      "양끝 공백과 빈 항목 제거",
+      "태그를 모두 숫자로 변경"
+    ],
+    "answer": 2,
+    "explanation": "normalizeTags는 trim 후 빈 값을 거릅니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C392",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "태그 정리 함수가 새 배열을 반환하는 이유는?",
+    "choices": [
+      "태그를 DB 키로 변경",
+      "모든 타입 검사 생략",
+      "토큰 저장 공간 확보",
+      "원본 배열 변경 방지"
+    ],
+    "answer": 3,
+    "explanation": "호출한 쪽의 원본 데이터를 직접 바꾸지 않습니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C393",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub에서 태그 입력의 허용 형태는?",
+    "choices": [
+      "문자열 배열",
+      "숫자 하나",
+      "중첩 객체",
+      "불리언 배열"
+    ],
+    "answer": 0,
+    "explanation": "전달된 tags는 문자열 배열인지 검사합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C394",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "공유 타입만으로 요청이 안전해지지 않는 이유는?",
+    "choices": [
+      "타입이 DB에만 적용",
+      "네트워크 값은 실행 중 검사가 필요",
+      "JSON에서 문자열 사용 불가",
+      "API 경로가 매번 바뀜"
+    ],
+    "answer": 1,
+    "explanation": "validateCreate가 실제 입력을 별도로 검사합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C395",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "NoteLimits를 공유하는 목적은?",
+    "choices": [
+      "모든 노트를 같은 내용으로 변경",
+      "DB를 자동 생성",
+      "화면과 서버 제한 기준 일치",
+      "사용자별 비밀번호 발급"
+    ],
+    "answer": 2,
+    "explanation": "제목·본문·태그 제한의 중복 정의를 줄입니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C396",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub의 운영 접근 제어 방식은?",
+    "choices": [
+      "Career Hub 사용자 JWT 자동 공유",
+      "회원가입 없이 모든 요청 공개",
+      "브라우저 배경색 검사",
+      "설정한 Bearer 접근 토큰 검사"
+    ],
+    "answer": 3,
+    "explanation": "Note Hub는 별도로 설정한 접근 토큰을 확인합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C397",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "운영 토큰이 없거나 너무 짧을 때는?",
+    "choices": [
+      "서버 시작을 거부",
+      "무인증으로 계속 운영",
+      "임의 공개 토큰 발급",
+      "메모리 DB로만 전환"
+    ],
+    "answer": 0,
+    "explanation": "운영 모드의 최소 접근 설정을 시작 전에 검사합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C398",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub 화면은 연결 토큰을 어디에 보관하나요?",
+    "choices": [
+      "공개 README",
+      "현재 탭의 sessionStorage",
+      "API 경로 문자열",
+      "DB 노트 제목"
+    ],
+    "answer": 1,
+    "explanation": "브라우저 탭의 저장 공간에 연결값을 보관합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C399",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub health가 DB 상태도 확인하는 이유는?",
+    "choices": [
+      "모든 노트 내용을 공개",
+      "토큰을 자동 교체",
+      "프로세스 생존과 저장소 준비는 다름",
+      "브라우저 빌드를 다시 실행"
+    ],
+    "answer": 2,
+    "explanation": "DB 준비 실패도 서비스 상태에 반영합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  },
+  {
+    "id": "C400",
+    "category": "note-hub",
+    "type": "concept",
+    "question": "Note Hub와 Career Hub 관계에 대한 설명은?",
+    "choices": [
+      "같은 사용자 DB를 자동 공유",
+      "모든 API 경로가 동일",
+      "둘 다 MongoDB만 사용",
+      "별도로 실행하는 독립 프로그램"
+    ],
+    "answer": 3,
+    "explanation": "두 앱의 데이터·인증·실행 구성을 구분합니다.",
+    "reference": "monorepo-mini-app/README.md"
+  }
+]

@@ -35,6 +35,12 @@ describe("isNote", () => {
     );
   });
 
+  it.each([42, null, {}, false, ["nested"]])("tags에 문자열이 아닌 %j가 있으면 false", (tag) => {
+    expect(isNote({ id: "x", title: "t", body: "b", tags: ["valid", tag], createdAt: "now" })).toBe(
+      false
+    );
+  });
+
   it("null/undefined/원시값은 false", () => {
     expect(isNote(null)).toBe(false);
     expect(isNote(undefined)).toBe(false);

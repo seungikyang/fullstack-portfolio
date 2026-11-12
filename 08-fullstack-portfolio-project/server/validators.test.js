@@ -47,7 +47,7 @@ describe("validateRegister", () => {
 
     expect(errors).toContain("이름은 80자 이하여야 합니다.");
     expect(errors).toContain("이메일은 254자 이하여야 합니다.");
-    expect(errors).toContain("비밀번호는 128자 이하여야 합니다.");
+    expect(errors).toContain("비밀번호는 UTF-8 기준 72바이트 이하여야 합니다.");
   });
 
   it("이름이 없으면 기본값 '학습자'를 사용한다", () => {
@@ -77,6 +77,19 @@ describe("validateLogin", () => {
     expect(errors).toEqual([]);
     expect(value.email).toBe("user@example.com");
   });
+});
+
+describe("인증 비밀번호 바이트 제한", () => {
+  it.each([validateRegister, validateLogin])(
+    "한글도 UTF-8 72바이트 경계를 검사한다",
+    (validate) => {
+      const payload = { email: "user@example.com", password: "가".repeat(24) };
+      expect(validate(payload).errors).toEqual([]);
+      expect(validate({ ...payload, password: `${payload.password}x` }).errors).toContain(
+        "비밀번호는 UTF-8 기준 72바이트 이하여야 합니다."
+      );
+    }
+  );
 });
 
 describe("validateApplication", () => {
@@ -123,6 +136,31 @@ describe("validateApplication", () => {
     expect(value.stack).toEqual(["React", "Express"]);
   });
 
+  it("배열이나 null 본문은 객체가 아니므로 거절한다", () => {
+    for (const payload of [[], null]) {
+      expect(validateApplication(payload, true).errors).toEqual([
+        "요청 본문은 JSON 객체여야 합니다."
+      ]);
+      expect(validateProject(payload, true).errors).toEqual(["요청 본문은 JSON 객체여야 합니다."]);
+      expect(validateWorkbook(payload).errors).toEqual(["요청 본문은 JSON 객체여야 합니다."]);
+    }
+  });
+
+  it("같은 기술 스택을 여러 번 적으면 한 번만 남긴다", () => {
+    const { value } = validateApplication({ ...validPayload, stack: "React, Express, React" });
+
+    expect(value.stack).toEqual(["React", "Express"]);
+  });
+
+  it("수정할 때 빈 상태·우선순위를 보내면 기본값으로 덮어쓰지 않고 거절한다", () => {
+    const { errors } = validateApplication({ status: "", priority: "" }, true);
+
+    expect(errors).toEqual(["지원 상태가 올바르지 않습니다.", "우선순위가 올바르지 않습니다."]);
+    expect(validateProject({ status: "" }, true).errors).toEqual([
+      "프로젝트 상태가 올바르지 않습니다."
+    ]);
+  });
+
   it("실제로 존재하지 않는 지원 마감일을 거절한다", () => {
     const { errors } = validateApplication({ ...validPayload, dueDate: "2026-02-29" });
 
@@ -137,6 +175,27 @@ describe("validateApplication", () => {
 
     expect(errors).toContain("기술 스택은 20개 이하여야 합니다.");
     expect(errors).toContain("기술 스택 항목은 50자 이하여야 합니다.");
+  });
+
+  it("길이 초과 안내는 항목 이름의 받침에 맞는 조사(은/는)를 붙인다", () => {
+    const application = validateApplication({
+      ...validPayload,
+      company: "가".repeat(121),
+      role: "가".repeat(121),
+      contact: "가".repeat(501),
+      memo: "가".repeat(2001)
+    });
+    const project = validateProject({ repoUrl: `https://example.com/${"a".repeat(500)}` }, true);
+    const workbook = validateWorkbook({ targetRole: "가".repeat(121) });
+
+    expect(application.errors).toEqual([
+      "회사명은 120자 이하여야 합니다.",
+      "지원 직무는 120자 이하여야 합니다.",
+      "연락처 또는 링크는 500자 이하여야 합니다.",
+      "지원 메모는 2000자 이하여야 합니다."
+    ]);
+    expect(project.errors).toEqual(["GitHub URL은 500자 이하여야 합니다."]);
+    expect(workbook.errors).toEqual(["목표 직무는 120자 이하여야 합니다."]);
   });
 });
 

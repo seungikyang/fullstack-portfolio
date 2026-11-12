@@ -1,7 +1,9 @@
-// Career Hub의 로그인, 대시보드, CRUD 화면을 구성하는 React 컴포넌트
-// 파일 탐색 지도: 공통 데이터·요청 도우미 → 로그인 → 통계 → 워크북 → 지원 기록 →
-// 프로젝트 → 학습 연결 → 최상위 App 순서로 읽으면 데이터가 화면까지 흐르는 과정을 따라가기 쉽다.
-import { useCallback, useEffect, useMemo, useState } from "react";
+// Career Hub의 화면과 버튼 동작을 모아둔 파일이다.
+// 컴포넌트는 로그인 창, 기록 목록처럼 화면을 나눈 작은 조각이다.
+// 읽는 순서: 공통 도구 → 로그인 → 요약 숫자 → 워크북 → 지원 기록 → 프로젝트 → 전체 화면(App).
+// 저장 버튼의 흐름: 입력값 모으기 → request로 서버에 보내기 → 서버의 답 받기 → 목록 다시 읽기.
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { generateProjectReadme, getProjectReadmeFilename } from "./project-readme.js";
 import {
   BookOpen,
   BriefcaseBusiness,
@@ -22,15 +24,16 @@ import {
   Trash2
 } from "lucide-react";
 
-// 빈 문자열이면 같은 주소로 요청한다. 개발 중에는 Vite 프록시가, 배포 후에는 Express가 /api를 처리한다.
+// API는 화면이 서버에게 자료를 요청하는 창구다. API_BASE는 그 창구가 있는 서버 주소다.
+// 빈 문자열이면 현재 페이지의 주소를 사용한다. 개발 중에는 Vite가 /api 요청을 서버로 전달한다.
 const API_BASE = import.meta.env.VITE_API_URL || "";
 export function shouldShowDemo(env = import.meta.env) {
-  // 환경 변수는 문자열이므로 정확히 "true"일 때만 데모 계정을 화면에 표시한다.
+  // 환경 변수는 실행할 때 정하는 설정값이다. 글자 "true"로 설정했을 때만 예제 계정을 보여준다.
   return env.VITE_SHOW_DEMO === "true";
 }
 
 const SHOW_DEMO = shouldShowDemo();
-// select가 받을 수 있는 값과 새 폼의 초기 모양을 컴포넌트 밖에서 한 번만 만든다.
+// select는 선택 메뉴다. 아래 목록은 선택 가능한 값이고, empty로 시작하는 객체는 새 입력 칸의 기본값이다.
 const applicationStatuses = ["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"];
 const projectStatuses = ["계획", "개발중", "완료"];
 const priorities = ["낮음", "보통", "높음"];
@@ -68,8 +71,9 @@ const emptyWorkbook = {
   reflection: ""
 };
 
-// 워크북 입력과 실제 프로젝트·지원 기록을 네 단계 완료 여부로 바꾸는 순수 함수다.
-// 서버의 dashboardFor와 같은 조건을 써서 화면과 API의 준비도가 일치한다.
+// 각 준비 단계를 완료했는지 true(맞음)/false(아님)로 계산한다.
+// Boolean은 값을 true 또는 false로 바꾸며, &&는 조건이 모두 맞아야 통과한다는 뜻이다.
+// 서버의 dashboardFor도 같은 조건을 사용하므로 화면과 서버의 준비도 숫자가 같다.
 export function getWorkbookSteps(workbook, dashboard = {}) {
   return [
     {
@@ -199,7 +203,10 @@ const stageConnections = [
   }
 ];
 
-// 모든 fetch 호출에서 주소·인증 헤더·JSON 처리·오류 변환을 공통으로 담당한다.
+// fetch는 서버에 요청을 보내는 함수다. 반복되는 요청 방법을 request 한 곳에 모았다.
+// path는 요청할 창구 주소, method는 할 일(GET=조회, POST=추가, PATCH=수정, DELETE=삭제)이다.
+// token은 로그인 확인표, body는 보낼 입력값이다. headers는 자료 형식과 확인표를 담는 부가 정보다.
+// async/await는 서버가 답을 줄 때까지 기다렸다가 다음 줄을 실행하도록 해준다.
 async function request(path, { method = "GET", token, body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     method,
@@ -210,35 +217,48 @@ async function request(path, { method = "GET", token, body } = {}) {
     body: body ? JSON.stringify(body) : undefined
   });
 
-  // DELETE 성공(204)은 본문이 없으므로 response.json()을 호출하면 안 된다.
+  // 서버는 숫자 상태 코드로 결과를 알린다. 204는 '성공했지만 돌려줄 내용은 없음'이다.
+  // 내용이 없을 때 JSON으로 읽으려 하면 오류가 나므로 여기서 끝낸다.
   if (response.status === 204) {
     return null;
   }
 
-  const data = await response.json();
+  // JSON은 이름과 값을 짝지어 주고받는 자료 형식이다. 서버의 답을 JavaScript 값으로 읽는다.
+  // 프록시의 502 HTML 페이지처럼 JSON이 아닌 답이 오면 읽기 오류 대신 null로 두고 아래에서 안내한다.
+  const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(data.message || "요청 처리에 실패했습니다.");
+    const error = new Error(data?.message || `요청 처리에 실패했습니다. (HTTP ${response.status})`);
+    error.status = response.status;
+    throw error;
+  }
+
+  if (data === null) {
+    throw new Error("서버 응답을 읽지 못했습니다. 잠시 후 다시 시도해 주세요.");
   }
 
   return data;
 }
 
-// 저장된 YYYY-MM-DD 값을 한국어 화면용 날짜로 바꾸고, 빈 값은 안내 문구로 표시한다.
+// '2026-10-03' 같은 저장용 날짜를 사람이 읽기 쉬운 한국어 날짜로 바꾼다.
 function formatDate(value) {
   if (!value) {
     return "일정 없음";
   }
 
+  // '2026-10-03'은 UTC 자정으로 읽히므로 UTC 기준으로 보여줘야 어느 지역에서도 날짜가 하루 밀리지 않는다.
   return new Date(value).toLocaleDateString("ko-KR", {
+    timeZone: "UTC",
     year: "numeric",
     month: "short",
     day: "numeric"
   });
 }
 
-// 로그인과 회원가입 폼을 한 화면에서 mode 상태로 전환해 재사용한다.
-function LoginScreen({ onAuth }) {
+// mode에는 지금 로그인 화면인지 회원가입 화면인지 기억한다.
+// useState는 화면의 기억 칸이다. [mode, setMode]에서 mode는 현재 값, setMode는 값을 바꾸는 함수다.
+// 입력 칸의 value는 기억한 값을 표시하고, onChange는 사용자가 글자를 바꿀 때 그 값을 기억한다.
+function LoginScreen({ onAuth, authError = "" }) {
   const [mode, setMode] = useState("login");
   const [form, setForm] = useState({
     name: "",
@@ -249,12 +269,14 @@ function LoginScreen({ onAuth }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event) {
-    // 브라우저의 기본 폼 전송(페이지 새로고침)을 막고 fetch로 API를 호출한다.
+    // 기본 제출은 페이지를 새로 여므로 막아두고, 우리 함수가 입력값을 서버에 보낸다.
     event.preventDefault();
     setError("");
     setIsSubmitting(true);
 
+    // try 안에서 요청을 시도한다. 실패하면 catch에서 안내하고, finally는 성공·실패 모두 실행된다.
     try {
+      // 조건 ? A : B는 조건이 맞으면 A, 아니면 B를 고르는 짧은 if문이다.
       const path = mode === "login" ? "/api/auth/login" : "/api/auth/register";
       const payload = mode === "login" ? { email: form.email, password: form.password } : form;
       const data = await request(path, { method: "POST", body: payload });
@@ -316,12 +338,14 @@ function LoginScreen({ onAuth }) {
             비밀번호
             <input
               type="password"
+              aria-describedby="password-help"
               value={form.password}
               onChange={(event) => setForm({ ...form, password: event.target.value })}
               placeholder="8자 이상"
             />
+            <span id="password-help">UTF-8 기준 72바이트 이하로 입력하세요.</span>
           </label>
-          {error && <p className="form-error">{error}</p>}
+          {(error || authError) && <p className="form-error">{error || authError}</p>}
           <button className="primary-button" type="submit" disabled={isSubmitting}>
             <CheckCircle2 size={18} />
             {isSubmitting ? "처리 중" : mode === "login" ? "로그인" : "가입하기"}
@@ -336,7 +360,7 @@ function LoginScreen({ onAuth }) {
   );
 }
 
-// 서버가 계산한 대시보드 값을 같은 모양의 요약 카드 다섯 개로 렌더링한다.
+// 서버가 계산한 지원 건수와 준비도를 다섯 개의 요약 카드로 보여준다.
 function StatGrid({ dashboard }) {
   const stats = [
     {
@@ -382,19 +406,39 @@ function StatGrid({ dashboard }) {
   );
 }
 
-export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavigate = () => {} }) {
-  // 부모가 준 저장값을 폼 전용 state로 복사해 저장 전 입력을 따로 관리한다.
+// 워크북 입력과 이전 저장 기록을 보여주는 화면 조각이다.
+// 괄호 안의 값은 바깥 App이 전달한 자료와 함수다. 이렇게 전달받는 것을 props라고 부른다.
+// history는 저장 당시 내용을 따로 복사한 목록이므로 현재 입력을 바꿔도 과거 기록은 그대로다.
+export function WorkbookSection({
+  token,
+  workbook,
+  history = [],
+  dashboard,
+  onChanged,
+  onNavigate = () => {},
+  onSessionExpired = () => {}
+}) {
+  // 서버에서 읽은 값으로 입력 칸을 시작한다. 입력 중인 form은 저장 버튼을 눌러야 서버에 반영된다.
   const [form, setForm] = useState(workbook);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  // 서버 값이 바뀌면(첫 조회, 저장 후 재조회) 입력 칸만 그 값으로 다시 맞춘다.
+  // key로 화면 전체를 새로 만들면 저장 완료 안내까지 함께 사라지므로 form 값만 교체한다.
+  const workbookSignature = JSON.stringify(workbook);
+  const [syncedSignature, setSyncedSignature] = useState(workbookSignature);
+  if (syncedSignature !== workbookSignature) {
+    setSyncedSignature(workbookSignature);
+    setForm(workbook);
+  }
   const [isSaving, setIsSaving] = useState(false);
 
   function updateField(field, value) {
+    // ...current는 다른 칸의 값을 복사하고, [field]는 선택한 칸 하나만 새 값으로 바꾼다.
     setForm((current) => ({ ...current, [field]: value }));
     setMessage("");
   }
 
-  // 저장 성공 후 onChanged로 전체 데이터를 다시 읽어 준비도까지 최신 상태로 맞춘다.
+  // 워크북을 저장한 뒤 onChanged를 호출해 요약 숫자와 저장 이력도 다시 읽는다.
   async function submitWorkbook(event) {
     event.preventDefault();
     setError("");
@@ -407,15 +451,20 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
       setMessage("워크북을 저장했습니다.");
     } catch (submitError) {
       setError(submitError.message);
+      // 401은 로그인 확인표가 만료됐다는 뜻이다. 다시 눌러도 계속 실패하므로 로그인 화면으로 보낸다.
+      if (submitError.status === 401) {
+        onSessionExpired(submitError.message);
+      }
     } finally {
       setIsSaving(false);
     }
   }
 
-  // 아직 저장하지 않은 현재 입력도 즉시 단계 안내에 반영한다.
+  // 지금 입력한 내용으로 안내를 계산한다. filter는 맞는 항목만 모으고, find는 첫 항목을 찾는다.
   const steps = getWorkbookSteps(form, dashboard);
   const completedSteps = steps.filter((step) => step.done).length;
-  const currentStep = steps.find((step) => !step.done) || steps.at(-1);
+  // 네 단계를 모두 끝내면 currentStep은 undefined다. 끝난 단계를 다시 하라고 안내하지 않는다.
+  const currentStep = steps.find((step) => !step.done);
 
   return (
     <section className="work-section" aria-labelledby="workbook-title">
@@ -453,7 +502,11 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
       <div className="workbook-guide" aria-live="polite">
         <div>
           <span>지금 할 일</span>
-          <strong>{currentStep.next}</strong>
+          <strong>
+            {currentStep
+              ? currentStep.next
+              : "네 단계를 모두 완료했습니다. 지원 기록과 주간 회고를 계속 업데이트하세요."}
+          </strong>
         </div>
         <b>{completedSteps}/4단계 완료</b>
       </div>
@@ -610,21 +663,106 @@ export function WorkbookSection({ token, workbook, dashboard, onChanged, onNavig
           </button>
         </div>
       </form>
+      <section className="workbook-history" aria-labelledby="workbook-history-title">
+        <h3 id="workbook-history-title">워크북 저장 이력</h3>
+        <p className="muted">
+          변경한 저장값을 최신순으로 최대 100개 보관합니다. 이력 기능 도입 전 저장값은 기록되지
+          않았으며, 같은 내용의 재저장은 이력을 추가하지 않습니다.
+        </p>
+        {history.length === 0 && (
+          <p className="empty-state">
+            아직 저장 이력이 없습니다. 워크북을 변경하고 저장하면 기록됩니다.
+          </p>
+        )}
+        <div className="history-list">
+          {history.map((entry) => (
+            <details className="history-entry" key={entry.id}>
+              <summary>
+                <time dateTime={entry.savedAt}>
+                  {new Date(entry.savedAt).toLocaleString("ko-KR")}
+                </time>
+                <span>{entry.workbook.targetRole || "목표 직무 미입력"}</span>
+              </summary>
+              <dl className="history-values">
+                {[
+                  ["목표 직무", entry.workbook.targetRole],
+                  ["목표 지원일", entry.workbook.targetDate],
+                  ["이번 주 목표", entry.workbook.weeklyGoal],
+                  ["다음 행동", entry.workbook.nextAction],
+                  ["회고", entry.workbook.reflection]
+                ].map(([label, value]) => (
+                  <div key={label}>
+                    <dt>{label}</dt>
+                    <dd>{value || "미입력"}</dd>
+                  </div>
+                ))}
+                {[
+                  ["이력서", entry.workbook.resumeReady],
+                  ["포트폴리오", entry.workbook.portfolioReady],
+                  ["자기소개", entry.workbook.selfIntroReady],
+                  ["모의 면접", entry.workbook.mockInterviewReady]
+                ].map(([label, ready]) => (
+                  <div key={label}>
+                    <dt>{label}</dt>
+                    <dd>{ready ? "준비 완료" : "준비 중"}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+          ))}
+        </div>
+      </section>
     </section>
   );
 }
 
-export function ApplicationSection({ token, applications, onChanged }) {
-  // editingId가 비어 있으면 생성 모드, 값이 있으면 해당 기록의 수정 모드다.
+export function ApplicationSection({
+  token,
+  applications,
+  onChanged,
+  onSessionExpired = () => {}
+}) {
+  // id는 기록을 구분하는 번호다. editingId가 비어 있으면 추가, 번호가 있으면 그 기록의 수정이다.
   const [form, setForm] = useState(emptyApplication);
   const [editingId, setEditingId] = useState("");
   const [deletingId, setDeletingId] = useState("");
+  // 저장 요청이 끝나기 전에 버튼을 다시 누르면 같은 기록이 두 번 만들어지므로 처리 중에는 막는다.
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("");
+  // ' SPRING '과 'spring'을 같은 검색어로 보도록 앞뒤 공백을 지우고 영문을 소문자로 바꾼다.
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredApplications = applications.filter((application) => {
+    // 회사·직무·스택·메모·연락처를 한 문장으로 연결해서 한 번에 검색한다.
+    const searchText = [
+      application.company,
+      application.role,
+      ...application.stack,
+      application.memo,
+      application.contact
+    ]
+      .join(" ")
+      .toLowerCase();
+    // 검색어가 들어 있고, 선택한 상태와 우선순위도 맞아야 목록에 남는다.
+    // !statusFilter는 '상태 필터를 고르지 않았다'는 뜻이다. 그때는 어떤 상태든 통과한다.
+    return (
+      searchText.includes(normalizedQuery) &&
+      (!statusFilter || application.status === statusFilter) &&
+      (!priorityFilter || application.priority === priorityFilter)
+    );
+  });
 
-  // 같은 폼에서 생성은 POST, 수정은 PATCH를 선택한다.
+  // 같은 입력 칸을 사용하되, 추가는 POST로 보내고 기존 번호의 수정은 PATCH로 보낸다.
   async function submitApplication(event) {
     event.preventDefault();
+    if (isSubmitting) {
+      return;
+    }
+
     setError("");
+    setIsSubmitting(true);
 
     try {
       const path = editingId ? `/api/applications/${editingId}` : "/api/applications";
@@ -635,10 +773,15 @@ export function ApplicationSection({ token, applications, onChanged }) {
       await onChanged();
     } catch (submitError) {
       setError(submitError.message);
+      if (submitError.status === 401) {
+        onSessionExpired(submitError.message);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
-  // 서버 배열 형태인 stack을 사용자가 편집하기 쉬운 쉼표 문자열로 바꿔 폼에 채운다.
+  // 선택한 카드의 값을 입력 칸에 넣는다. ['React', 'Java']는 'React, Java'로 바꿔 보여준다.
   function startEdit(application) {
     setEditingId(application.id);
     setForm({
@@ -653,7 +796,7 @@ export function ApplicationSection({ token, applications, onChanged }) {
     });
   }
 
-  // 삭제는 복구가 어려우므로 confirm을 받고, 진행 중에는 같은 요청을 다시 보내지 않는다.
+  // confirm은 '정말 삭제할까요?'라는 확인 창이다. 취소했거나 이미 삭제 중이면 요청하지 않는다.
   async function removeApplication(application) {
     if (deletingId || !globalThis.confirm(`${application.company} 지원 기록을 삭제할까요?`)) {
       return;
@@ -664,9 +807,17 @@ export function ApplicationSection({ token, applications, onChanged }) {
 
     try {
       await request(`/api/applications/${application.id}`, { method: "DELETE", token });
+      // 수정 중이던 기록을 지웠다면 폼을 비운다. 그대로 두면 없는 기록을 PATCH해 404가 난다.
+      if (editingId === application.id) {
+        setEditingId("");
+        setForm(emptyApplication);
+      }
       await onChanged();
     } catch (deleteError) {
       setError(`지원 기록을 삭제하지 못했습니다. ${deleteError.message}`);
+      if (deleteError.status === 401) {
+        onSessionExpired(deleteError.message);
+      }
     } finally {
       setDeletingId("");
     }
@@ -679,7 +830,7 @@ export function ApplicationSection({ token, applications, onChanged }) {
           <p className="eyebrow">Applications</p>
           <h2 id="applications-title">지원 현황</h2>
         </div>
-        <span className="count-badge">{applications.length}건</span>
+        <span className="count-badge">전체 {applications.length}건</span>
       </div>
 
       <form className="editor-grid" onSubmit={submitApplication}>
@@ -760,7 +911,7 @@ export function ApplicationSection({ token, applications, onChanged }) {
         </label>
         {error && <p className="form-error wide-field">{error}</p>}
         <div className="form-actions wide-field">
-          <button className="primary-button" type="submit">
+          <button className="primary-button" type="submit" disabled={isSubmitting}>
             <Plus size={18} />
             {editingId ? "수정 저장" : "지원 기록 추가"}
           </button>
@@ -779,13 +930,68 @@ export function ApplicationSection({ token, applications, onChanged }) {
         </div>
       </form>
 
+      <div className="application-filters" role="search" aria-label="지원 기록 검색과 필터">
+        <label>
+          지원 기록 검색
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="회사, 직무, 기술 스택, 메모, 연락처"
+          />
+        </label>
+        <label>
+          상태 필터
+          <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+            <option value="">전체 상태</option>
+            {applicationStatuses.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          우선순위 필터
+          <select
+            value={priorityFilter}
+            onChange={(event) => setPriorityFilter(event.target.value)}
+          >
+            <option value="">전체 우선순위</option>
+            {priorities.map((priority) => (
+              <option key={priority} value={priority}>
+                {priority}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          className="ghost-button"
+          type="button"
+          onClick={() => {
+            setQuery("");
+            setStatusFilter("");
+            setPriorityFilter("");
+          }}
+        >
+          검색·필터 초기화
+        </button>
+        <p className="filter-count" aria-live="polite">
+          검색 결과 {filteredApplications.length}건 / 전체 {applications.length}건
+        </p>
+      </div>
       <div className="record-list">
         {applications.length === 0 && (
           <p className="empty-state">
             아직 지원 기록이 없습니다. 워크북에서 목표 직무를 정한 뒤 첫 공고를 기록해보세요.
           </p>
         )}
-        {applications.map((application) => (
+        {applications.length > 0 && filteredApplications.length === 0 && (
+          <p className="empty-state">
+            검색 조건에 맞는 지원 기록이 없습니다. 검색어나 필터를 바꿔보세요.
+          </p>
+        )}
+        {filteredApplications.map((application) => (
           <article className="record-card" key={application.id}>
             <div className="record-main">
               <div>
@@ -829,17 +1035,59 @@ export function ApplicationSection({ token, applications, onChanged }) {
   );
 }
 
-export function ProjectSection({ token, projects, onChanged }) {
-  // 지원 기록과 같은 생성/수정/삭제 패턴을 프로젝트 데이터에 적용한다.
+export function ProjectSection({ token, projects, onChanged, onSessionExpired = () => {} }) {
+  // 지원 기록처럼 프로젝트를 추가·수정·삭제하고, 저장한 프로젝트로 README 문서를 만든다.
   const [form, setForm] = useState(emptyProject);
   const [editingId, setEditingId] = useState("");
   const [deletingId, setDeletingId] = useState("");
+  // 저장 요청이 끝나기 전에 버튼을 다시 누르면 같은 기록이 두 번 만들어지므로 처리 중에는 막는다.
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [readmeProjectId, setReadmeProjectId] = useState("");
+  const [downloadError, setDownloadError] = useState("");
+  // useRef는 화면의 특정 입력 칸을 가리키는 표식을 기억한다. 미리보기 칸으로 이동할 때 쓴다.
+  const readmePreviewRef = useRef(null);
+  const readmeProject = projects.find((project) => project.id === readmeProjectId);
+  const readme = readmeProject ? generateProjectReadme(readmeProject) : "";
 
-  // editingId 유무에 따라 새 프로젝트와 기존 프로젝트의 API 경로를 고른다.
+  useEffect(() => {
+    // useEffect는 선택한 프로젝트 번호가 바뀐 뒤 실행된다. 열린 미리보기 칸에 초점을 맞춘다.
+    if (readmeProjectId) {
+      readmePreviewRef.current?.focus();
+    }
+  }, [readmeProjectId]);
+
+  // 문서 내용을 다운로드한다. 서버에 새로 저장하는 대신 브라우저 안에서 파일을 만든다.
+  function downloadReadme() {
+    let url;
+    try {
+      // Blob은 글자를 담은 파일 꾸러미다. createObjectURL은 그 꾸러미를 가리키는 임시 주소를 만든다.
+      url = URL.createObjectURL(new Blob([readme], { type: "text/markdown;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = getProjectReadmeFilename(readmeProject);
+      // a는 링크다. 저장할 이름을 정한 링크를 눌러 다운로드를 시작한다.
+      link.click();
+      setDownloadError("");
+    } catch {
+      setDownloadError("파일을 다운로드하지 못했습니다. 미리보기 내용을 복사해 저장하세요.");
+    } finally {
+      // 다운로드를 시작한 다음 임시 주소를 반납해서 사용한 메모리를 정리한다.
+      if (url) {
+        setTimeout(() => URL.revokeObjectURL(url), 0);
+      }
+    }
+  }
+
+  // 수정할 번호가 있으면 그 프로젝트 주소로 보내고, 없으면 새 프로젝트를 추가한다.
   async function submitProject(event) {
     event.preventDefault();
+    if (isSubmitting) {
+      return;
+    }
+
     setError("");
+    setIsSubmitting(true);
 
     try {
       const path = editingId ? `/api/projects/${editingId}` : "/api/projects";
@@ -850,10 +1098,15 @@ export function ProjectSection({ token, projects, onChanged }) {
       await onChanged();
     } catch (submitError) {
       setError(submitError.message);
+      if (submitError.status === 401) {
+        onSessionExpired(submitError.message);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
-  // 카드의 기존 값을 폼으로 옮기면 사용자가 일부만 바꿔 PATCH할 수 있다.
+  // 카드의 값을 입력 칸으로 옮겨서 사용자가 고친 뒤 저장할 수 있게 한다.
   function startEdit(project) {
     setEditingId(project.id);
     setForm({
@@ -867,7 +1120,7 @@ export function ProjectSection({ token, projects, onChanged }) {
     });
   }
 
-  // 삭제 뒤 부모 데이터를 다시 불러와 카드 수와 대시보드 지표를 함께 갱신한다.
+  // 삭제한 뒤 App에 자료를 다시 읽어달라고 알려 카드 목록과 요약 숫자를 함께 바꾼다.
   async function removeProject(project) {
     if (deletingId || !globalThis.confirm(`${project.name} 프로젝트를 삭제할까요?`)) {
       return;
@@ -878,9 +1131,17 @@ export function ProjectSection({ token, projects, onChanged }) {
 
     try {
       await request(`/api/projects/${project.id}`, { method: "DELETE", token });
+      // 수정 중이던 프로젝트를 지웠다면 폼을 비운다. 그대로 두면 없는 프로젝트를 PATCH해 404가 난다.
+      if (editingId === project.id) {
+        setEditingId("");
+        setForm(emptyProject);
+      }
       await onChanged();
     } catch (deleteError) {
       setError(`프로젝트를 삭제하지 못했습니다. ${deleteError.message}`);
+      if (deleteError.status === 401) {
+        onSessionExpired(deleteError.message);
+      }
     } finally {
       setDeletingId("");
     }
@@ -961,7 +1222,7 @@ export function ProjectSection({ token, projects, onChanged }) {
         </label>
         {error && <p className="form-error wide-field">{error}</p>}
         <div className="form-actions wide-field">
-          <button className="primary-button" type="submit">
+          <button className="primary-button" type="submit" disabled={isSubmitting}>
             <Plus size={18} />
             {editingId ? "수정 저장" : "프로젝트 추가"}
           </button>
@@ -979,6 +1240,39 @@ export function ProjectSection({ token, projects, onChanged }) {
           )}
         </div>
       </form>
+
+      {readmeProject && (
+        <section className="readme-preview" aria-labelledby="readme-preview-title">
+          <h3 id="readme-preview-title">{readmeProject.name} README 미리보기</h3>
+          <p className="muted">
+            저장한 프로젝트 정보로 만든 Markdown입니다. 제출 전 실행 방법과 검증 근거를 직접
+            보완하세요.
+          </p>
+          <label>
+            README Markdown
+            <textarea
+              ref={readmePreviewRef}
+              className="readme-content"
+              value={readme}
+              readOnly
+              rows="16"
+            />
+          </label>
+          {downloadError && (
+            <p className="form-error" role="alert">
+              {downloadError}
+            </p>
+          )}
+          <div className="form-actions">
+            <button className="primary-button" type="button" onClick={downloadReadme}>
+              README 파일 다운로드
+            </button>
+            <button className="ghost-button" type="button" onClick={() => setReadmeProjectId("")}>
+              미리보기 닫기
+            </button>
+          </div>
+        </section>
+      )}
 
       <div className="record-list">
         {projects.length === 0 && (
@@ -1018,6 +1312,17 @@ export function ProjectSection({ token, projects, onChanged }) {
             )}
             {project.highlight && <p className="record-note">{project.highlight}</p>}
             <div className="link-row">
+              <button
+                className="ghost-button"
+                type="button"
+                aria-label={`${project.name} README 생성`}
+                onClick={() => {
+                  setReadmeProjectId(project.id);
+                  setDownloadError("");
+                }}
+              >
+                README 생성
+              </button>
               {project.repoUrl && (
                 <a href={project.repoUrl} rel="noreferrer" target="_blank">
                   GitHub
@@ -1036,7 +1341,7 @@ export function ProjectSection({ token, projects, onChanged }) {
   );
 }
 
-// 정적 stageConnections를 카드로 바꿔 학습 내용과 완성 앱의 연결 근거를 보여준다.
+// 위쪽 stageConnections에 적은 학습 설명을 카드로 보여준다. 서버에 저장하는 화면은 아니다.
 function LearningMapSection() {
   return (
     <section className="work-section" aria-labelledby="learning-title">
@@ -1080,21 +1385,23 @@ function LearningMapSection() {
 }
 
 export default function App() {
-  // 최상위 App이 인증·서버 데이터·현재 탭을 소유하고 필요한 자식에게 props로 전달한다.
-  // activeTab은 메뉴의 선택 표시와 본문 선택이 서로 어긋나지 않게 만드는 하나의 기준값이다.
+  // App은 전체 화면의 자료를 관리한다. 로그인 정보와 목록을 기억하고 필요한 화면 조각에 전달한다.
+  // activeTab은 현재 메뉴 이름이다. 이 값 하나로 선택 표시와 본문을 함께 결정한다.
   const [token, setToken] = useState(() => localStorage.getItem("careerHubToken") || "");
   const [user, setUser] = useState(null);
   const [dashboard, setDashboard] = useState(null);
   const [workbook, setWorkbook] = useState(emptyWorkbook);
+  const [workbookHistory, setWorkbookHistory] = useState([]);
   const [applications, setApplications] = useState([]);
   const [projects, setProjects] = useState([]);
   const [activeTab, setActiveTab] = useState("workbook");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(Boolean(token));
+  const loadVersion = useRef(0);
 
   const isAuthed = Boolean(token && user);
 
-  // 관련 데이터가 바뀔 때만 오늘의 다음 행동 문구를 다시 계산한다.
+  // useMemo는 계산 결과를 기억한다. workbook이나 dashboard가 바뀔 때 안내 문구를 다시 계산한다.
   const nextFocus = useMemo(() => {
     if (!workbook.targetRole || !workbook.targetDate) {
       return "워크북에서 목표 직무와 첫 지원일을 정해보세요.";
@@ -1115,78 +1422,129 @@ export default function App() {
     return "지원 기록과 프로젝트 README를 꾸준히 업데이트하세요.";
   }, [dashboard, workbook]);
 
-  // 로그인 뒤 필요한 다섯 API를 병렬 호출해 기다리는 시간을 줄인다.
-  const loadAll = useCallback(async (nextToken) => {
-    if (!nextToken) {
-      return;
-    }
-
-    try {
-      const [meData, dashboardData, workbookData, applicationData, projectData] = await Promise.all(
-        [
-          request("/api/me", { token: nextToken }),
-          request("/api/dashboard", { token: nextToken }),
-          request("/api/workbook", { token: nextToken }),
-          request("/api/applications", { token: nextToken }),
-          request("/api/projects", { token: nextToken })
-        ]
-      );
-      setUser(meData.user);
-      setDashboard(dashboardData);
-      setWorkbook(workbookData);
-      setApplications(applicationData);
-      setProjects(projectData);
-    } catch (loadError) {
-      // 만료·변조 토큰 등으로 로딩이 실패하면 로컬 토큰도 지워 로그인 화면으로 돌린다.
-      setError(loadError.message);
-      setToken("");
-      setUser(null);
-      localStorage.removeItem("careerHubToken");
-    } finally {
-      setIsLoading(false);
-    }
+  // 로그인 정보와 그 사용자의 자료를 화면의 기억 칸과 브라우저 보관함에서 모두 지운다.
+  // 자료를 남겨두면 같은 브라우저에서 다음에 로그인한 사람에게 이전 사람의 기록이 보인다.
+  const clearSession = useCallback(() => {
+    setToken("");
+    setUser(null);
+    setDashboard(null);
+    setWorkbook(emptyWorkbook);
+    setWorkbookHistory([]);
+    setApplications([]);
+    setProjects([]);
+    localStorage.removeItem("careerHubToken");
   }, []);
 
-  // 자식 컴포넌트가 저장·삭제한 뒤 전체 화면 데이터를 다시 맞출 때 넘겨주는 함수다.
+  // useCallback은 이 함수를 기억해 값이 바뀌지 않을 때 같은 함수를 다시 사용할 수 있게 한다.
+  // Promise.all은 여섯 요청을 함께 보내고 모두 끝나면 결과를 받는다. 하나씩 기다리는 시간을 줄인다.
+  const loadAll = useCallback(
+    async (nextToken) => {
+      if (!nextToken) {
+        return;
+      }
+
+      const version = ++loadVersion.current;
+      try {
+        const [meData, dashboardData, workbookData, applicationData, projectData, historyData] =
+          await Promise.all([
+            request("/api/me", { token: nextToken }),
+            request("/api/dashboard", { token: nextToken }),
+            request("/api/workbook", { token: nextToken }),
+            request("/api/applications", { token: nextToken }),
+            request("/api/projects", { token: nextToken }),
+            request("/api/workbook/history", { token: nextToken })
+          ]);
+        if (version !== loadVersion.current) return;
+        setUser(meData.user);
+        setDashboard(dashboardData);
+        setWorkbook(workbookData);
+        setWorkbookHistory(historyData);
+        setApplications(applicationData);
+        setProjects(projectData);
+      } catch (loadError) {
+        if (version !== loadVersion.current) return;
+        setError(loadError.message);
+        // 통신 장애는 다시 시도할 수 있도록 로그인 정보를 유지한다.
+        if (loadError.status === 401) {
+          clearSession();
+        }
+      } finally {
+        if (version === loadVersion.current) setIsLoading(false);
+      }
+    },
+    [clearSession]
+  );
+
+  // 각 화면의 저장·삭제 함수가 이 reload를 호출하면 서버의 최신 자료로 전체 화면을 맞춘다.
   const reload = useCallback(() => {
     setIsLoading(true);
     setError("");
     return loadAll(token);
   }, [loadAll, token]);
 
-  // 새로고침 뒤에도 로그인 상태를 복원할 수 있도록 JWT를 localStorage에 보관한다.
+  // localStorage는 새로고침 뒤에도 남아 있는 브라우저 보관함이다. 여기에 로그인 확인표를 넣는다.
+  // 보관함에 값이 있어도 서버가 확인표의 서명과 만료를 검사해야 로그인한 요청으로 인정한다.
+  // 사용자 정보(user)는 여기서 넣지 않고 loadAll이 자료를 모두 읽은 뒤에 넣는다.
+  // 먼저 넣으면 자료를 읽기 전의 빈 입력 화면이 열려, 그대로 저장할 때 기존 워크북이 빈 값으로 덮인다.
   function handleAuth(data) {
+    loadVersion.current++;
     setIsLoading(true);
     setError("");
     setToken(data.token);
-    setUser(data.user);
     localStorage.setItem("careerHubToken", data.token);
   }
 
-  // 로그아웃은 메모리 state와 브라우저 저장소의 인증 정보를 모두 비운다.
+  // 로그아웃하면 화면의 기억 칸과 브라우저 보관함에서 로그인 정보를 지운다.
   function logout() {
-    setToken("");
-    setUser(null);
-    setDashboard(null);
-    setWorkbook(emptyWorkbook);
-    setApplications([]);
-    setProjects([]);
-    localStorage.removeItem("careerHubToken");
+    loadVersion.current++;
+    setError("");
+    setIsLoading(false);
+    clearSession();
+  }
+
+  // 저장·삭제 요청이 401로 거절되면 확인표가 만료된 것이다. 이유를 남기고 로그인 화면으로 돌아간다.
+  function expireSession(message) {
+    loadVersion.current++;
+    setIsLoading(false);
+    clearSession();
+    setError(message);
   }
 
   useEffect(() => {
-    // 인증 토큰이 바뀔 때 외부 API 상태를 동기화하며, 실제 상태 갱신은 요청 완료 후 수행한다.
+    // 로그인 확인표가 바뀌면 서버 자료를 다시 읽는다. 아래 주석은 이 동작을 검사 도구에 설명한다.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadAll(token);
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- DOM 참조가 아닌 요청 세대 번호를 무효화한다.
+      loadVersion.current++;
+    };
   }, [loadAll, token]);
 
-  // token만 있거나 user만 있는 중간 상태는 인증 완료로 보지 않는다.
-  if (!isAuthed) {
-    return <LoginScreen onAuth={handleAuth} />;
+  // 확인표와 사용자 정보가 모두 준비되어야 기록 화면을 보여준다.
+  if (token && !user) {
+    return (
+      <main className="app-layout">
+        <section role="status">
+          {isLoading ? (
+            <p>데이터를 불러오는 중입니다.</p>
+          ) : (
+            <>
+              <p className="form-error">{error}</p>
+              <button type="button" onClick={reload}>
+                다시 시도
+              </button>
+              <button type="button" onClick={logout}>
+                로그아웃
+              </button>
+            </>
+          )}
+        </section>
+      </main>
+    );
   }
-
-  // reload로 workbook이 바뀌면 JSON 문자열 key도 바뀌어 WorkbookSection이 다시 마운트된다.
-  // 이 컴포넌트는 props로 로컬 폼 state를 처음 만들기 때문에, 재마운트해야 서버의 최신 값으로 폼도 초기화된다.
+  if (!isAuthed) {
+    return <LoginScreen onAuth={handleAuth} authError={error} />;
+  }
 
   return (
     <main className="app-layout">
@@ -1255,20 +1613,31 @@ export default function App() {
         {isLoading && <p className="muted">데이터를 불러오는 중입니다.</p>}
         {dashboard && <StatGrid dashboard={dashboard} />}
 
-        {/* 메뉴가 바꾼 activeTab에 따라 네 본문 중 하나만 렌더링해 한 화면의 책임을 분명히 한다. */}
+        {/* 선택한 메뉴 이름(activeTab)에 맞춰 네 화면 중 하나를 보여준다. */}
         {activeTab === "workbook" ? (
           <WorkbookSection
-            key={JSON.stringify(workbook)}
             token={token}
             workbook={workbook}
+            history={workbookHistory}
             dashboard={dashboard}
             onChanged={reload}
             onNavigate={setActiveTab}
+            onSessionExpired={expireSession}
           />
         ) : activeTab === "applications" ? (
-          <ApplicationSection token={token} applications={applications} onChanged={reload} />
+          <ApplicationSection
+            token={token}
+            applications={applications}
+            onChanged={reload}
+            onSessionExpired={expireSession}
+          />
         ) : activeTab === "projects" ? (
-          <ProjectSection token={token} projects={projects} onChanged={reload} />
+          <ProjectSection
+            token={token}
+            projects={projects}
+            onChanged={reload}
+            onSessionExpired={expireSession}
+          />
         ) : (
           <LearningMapSection />
         )}

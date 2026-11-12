@@ -20,7 +20,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - note-hub-pg18-data:/var/lib/postgresql/data
+      # PostgreSQL 18 이미지는 데이터를 /var/lib/postgresql/18/docker에 둔다.
+      # 예전 경로(/var/lib/postgresql/data)에 볼륨을 연결하면 컨테이너가 시작을 거부한다.
+      - note-hub-pg18-data:/var/lib/postgresql
       # 첫 부팅 시 packages/api/db/init.sql을 자동 실행해 스키마를 만든다.
       - ./packages/api/db:/docker-entrypoint-initdb.d:ro
     healthcheck:

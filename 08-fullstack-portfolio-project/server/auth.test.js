@@ -40,11 +40,20 @@ describe("hashPassword / verifyPassword", () => {
     expect(hash).not.toBe("password123");
     expect(hash.length).toBeGreaterThan(20);
   });
+
+  it("bcrypt가 자르는 72바이트 초과 비밀번호는 해시하거나 인증하지 않는다", async () => {
+    const password = "가".repeat(24);
+    const hash = await hashPassword(password);
+
+    await expect(hashPassword(`${password}x`)).rejects.toThrow(/72바이트/);
+    await expect(verifyPassword(password, hash)).resolves.toBe(true);
+    await expect(verifyPassword(`${password}x`, hash)).resolves.toBe(false);
+  });
 });
 
 describe("signToken / requireAuth", () => {
-  function runRequireAuth(token) {
-    const req = { headers: token ? { authorization: `Bearer ${token}` } : {} };
+  function runRequireAuth(token, scheme = "Bearer") {
+    const req = { headers: token ? { authorization: `${scheme} ${token}` } : {} };
     let statusCode = 200;
     let body = null;
     const res = {
@@ -63,6 +72,14 @@ describe("signToken / requireAuth", () => {
     });
     return { req, statusCode, body, nextCalled };
   }
+
+  it("인증 방식 이름 Bearer는 대소문자를 구분하지 않고, 다른 방식은 거절한다", () => {
+    const token = signToken({ id: "7", email: "case@example.com", name: "대소문자" });
+
+    expect(runRequireAuth(token, "bearer").nextCalled).toBe(true);
+    expect(runRequireAuth(token, "BEARER").req.user.id).toBe("7");
+    expect(runRequireAuth(token, "Basic").statusCode).toBe(401);
+  });
 
   it("유효한 토큰이면 next()가 호출되고 req.user가 채워진다", () => {
     const token = signToken({ id: "42", email: "user@example.com", name: "테스터" });

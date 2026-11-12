@@ -2,7 +2,7 @@
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import { createApp } from "./index.js";
 
@@ -23,8 +23,18 @@ describe("Career Hub API", () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     // 테스트가 만든 영속 데이터까지 지워 실제 개발용 data 파일은 건드리지 않는다.
     rmSync(dir, { recursive: true, force: true });
+  });
+
+  it("APP_TIME_ZONE이 잘못되면 앱 생성을 거부한다", async () => {
+    process.env.APP_TIME_ZONE = "Mars/Base";
+    try {
+      await expect(createApp({ dataFile })).rejects.toThrow(RangeError);
+    } finally {
+      delete process.env.APP_TIME_ZONE;
+    }
   });
 
   it("GET /api/health 는 ok 응답을 반환한다", async () => {
@@ -182,6 +192,20 @@ describe("Career Hub API", () => {
     expect(res.body.errors).toContain("비밀번호를 입력하세요.");
   });
 
+  it("72 UTF-8 바이트 초과 가입과 같은 접두사의 다른 로그인 비밀번호를 거절한다", async () => {
+    const payload = { email: "long-password@example.com", password: "가".repeat(24) };
+    await request(app)
+      .post("/api/auth/register")
+      .send({ ...payload, password: `${payload.password}x` })
+      .expect(400);
+    await request(app).post("/api/auth/register").send(payload).expect(201);
+    await request(app).post("/api/auth/login").send(payload).expect(200);
+    await request(app)
+      .post("/api/auth/login")
+      .send({ ...payload, password: `${payload.password}y` })
+      .expect(400);
+  });
+
   describe("인증된 사용자의 CRUD 흐름", () => {
     let token;
 
@@ -226,6 +250,22 @@ describe("Career Hub API", () => {
         .expect(200);
 
       expect(list.body).toHaveLength(0);
+    });
+
+    it("자료 파일을 초기화한 뒤 같은 번호로 가입한 다른 사용자에게 예전 토큰이 통하지 않는다", async () => {
+      rmSync(dataFile);
+      app = await createApp({ dataFile });
+
+      await request(app).get("/api/me").set("Authorization", `Bearer ${token}`).expect(401);
+
+      await request(app)
+        .post("/api/auth/register")
+        .send({ name: "other", email: "other@example.com", password: "password123" })
+        .expect(201);
+
+      const res = await request(app).get("/api/me").set("Authorization", `Bearer ${token}`);
+      expect(res.status).toBe(401);
+      expect(res.body.user).toBeUndefined();
     });
 
     it("필수 필드가 비면 400 검증 오류를 반환한다", async () => {
@@ -284,6 +324,76 @@ describe("Career Hub API", () => {
       expect(res.body.errors).toContain("이력서 준비 상태가 올바르지 않습니다.");
     });
 
+    it("워크북 변경 저장만 최신순 전체 이력에 남고 잘못된 입력은 이력을 추가하지 않는다", async () => {
+      const history = () =>
+        request(app).get("/api/workbook/history").set("Authorization", `Bearer ${token}`);
+      expect((await history().expect(200)).body).toEqual([]);
+      await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ targetRole: "Java 백엔드" })
+        .expect(200);
+      await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ weeklyGoal: "README 작성" })
+        .expect(200);
+      await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({})
+        .expect(200);
+      await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ weeklyGoal: "README 작성" })
+        .expect(200);
+      await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ resumeReady: "완료" })
+        .expect(400);
+      const response = await history().expect(200);
+      expect(response.body).toHaveLength(2);
+      expect(response.body[0].workbook).toMatchObject({
+        targetRole: "Java 백엔드",
+        weeklyGoal: "README 작성",
+        resumeReady: false
+      });
+      expect(response.body[1].workbook.weeklyGoal).toBe("");
+      expect(response.body[0]).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          userId: expect.any(String),
+          savedAt: expect.any(String)
+        })
+      );
+    });
+
+    it("워크북 이력 조회는 인증을 요구하고 다른 사용자의 이력을 공개하지 않는다", async () => {
+      await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send({ reflection: "나의 지원 회고" })
+        .expect(200);
+      await request(app).get("/api/workbook/history").expect(401);
+      const registered = await request(app)
+        .post("/api/auth/register")
+        .send({ name: "다른 사용자", email: "other@example.com", password: "password123" })
+        .expect(201);
+      const otherHistory = await request(app)
+        .get("/api/workbook/history")
+        .set("Authorization", `Bearer ${registered.body.token}`)
+        .expect(200);
+      expect(otherHistory.body).toEqual([]);
+      const ownHistory = await request(app)
+        .get("/api/workbook/history")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+      expect(ownHistory.body).toHaveLength(1);
+      expect(ownHistory.body[0].workbook.reflection).toBe("나의 지원 회고");
+    });
+
     it("대시보드는 현재 사용자의 카운트를 반환한다", async () => {
       await request(app)
         .post("/api/applications")
@@ -307,6 +417,76 @@ describe("Career Hub API", () => {
       expect(res.body.interviewCount).toBe(1);
       expect(res.body.readinessTotal).toBe(4);
       expect(res.body.readinessDone).toBe(0);
+    });
+
+    it.each(["2026-10-24T12:34:56Z", "2026-12-28T23:59:59Z"])(
+      "대시보드는 오늘부터 7일 후까지의 마감일을 포함한다: %s",
+      async (instant) => {
+        const now = new Date(instant).getTime();
+        vi.spyOn(Date, "now").mockReturnValue(now);
+        const login = await request(app)
+          .post("/api/auth/login")
+          .send({ email: "u@example.com", password: "password123" })
+          .expect(200);
+        const deadlineToken = login.body.token;
+        // 서버 기본 기준인 서울 날짜로 오늘을 구한 뒤 하루 단위로 앞뒤 날짜를 만든다.
+        const seoulToday = new Date(now).toLocaleDateString("en-CA", { timeZone: "Asia/Seoul" });
+        for (const offset of [-1, 0, 7, 8]) {
+          const dueDate = new Date(
+            new Date(`${seoulToday}T00:00:00.000Z`).getTime() + offset * 24 * 60 * 60 * 1000
+          )
+            .toISOString()
+            .slice(0, 10);
+          await request(app)
+            .post("/api/applications")
+            .set("Authorization", `Bearer ${deadlineToken}`)
+            .send({ company: `마감 ${offset}일`, role: "개발자", dueDate })
+            .expect(201);
+        }
+
+        const res = await request(app)
+          .get("/api/dashboard")
+          .set("Authorization", `Bearer ${deadlineToken}`)
+          .expect(200);
+        expect(res.body.upcomingCount).toBe(2);
+      }
+    );
+
+    it("한국 시간 새벽에도 어제 마감은 빼고 오늘 마감은 임박으로 센다", async () => {
+      // UTC로는 10월 30일 16시지만 서울은 이미 10월 31일 01시다.
+      vi.spyOn(Date, "now").mockReturnValue(new Date("2026-10-30T16:00:00Z").getTime());
+      const login = await request(app)
+        .post("/api/auth/login")
+        .send({ email: "u@example.com", password: "password123" })
+        .expect(200);
+      for (const dueDate of ["2026-10-30", "2026-10-31"]) {
+        await request(app)
+          .post("/api/applications")
+          .set("Authorization", `Bearer ${login.body.token}`)
+          .send({ company: `마감 ${dueDate}`, role: "개발자", dueDate })
+          .expect(201);
+      }
+
+      const res = await request(app)
+        .get("/api/dashboard")
+        .set("Authorization", `Bearer ${login.body.token}`)
+        .expect(200);
+      expect(res.body.upcomingCount).toBe(1);
+    });
+
+    it("수정 본문이 배열이면 저장하지 않고 400을 반환한다", async () => {
+      const res = await request(app)
+        .patch("/api/workbook")
+        .set("Authorization", `Bearer ${token}`)
+        .send([])
+        .expect(400);
+
+      expect(res.body.message).toBe("요청 본문은 JSON 객체여야 합니다.");
+      const history = await request(app)
+        .get("/api/workbook/history")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200);
+      expect(history.body).toEqual([]);
     });
 
     it("대시보드 준비도는 목표·실행·제출 자료·실제 지원의 네 단계를 계산한다", async () => {

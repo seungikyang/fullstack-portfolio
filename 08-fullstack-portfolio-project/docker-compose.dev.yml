@@ -11,9 +11,10 @@ services:
     container_name: career-hub-dev
     working_dir: /app
     command: bash -lc "npm install && npm run dev"
+    # 고정된 개발용 비밀값과 데모 계정을 쓰므로 내 컴퓨터(127.0.0.1)에서만 접속하게 한다.
     ports:
-      - "5100:5100"
-      - "3000:3000"
+      - "127.0.0.1:5100:5100"
+      - "127.0.0.1:3000:3000"
     environment:
       NODE_ENV: development
       PORT: 5100

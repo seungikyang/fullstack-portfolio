@@ -1,6 +1,7 @@
-/* Career Hub 포트폴리오 앱의 화면 레이아웃과 컴포넌트 스타일을 정의하는 CSS 파일 */
+/* CSS는 화면의 색, 크기, 간격, 배치를 정한다. App.jsx가 화면 구조라면 이 파일은 꾸미기 규칙이다. */
+/* .auth-panel처럼 점으로 시작하면 해당 className을 가진 요소에 적용한다. px는 화면 크기의 단위다. */
 
-/* 디자인 토큰과 전역 기본값: 반복되는 색과 글꼴 규칙을 한곳에서 맞춘다. */
+/* :root는 페이지 전체의 공통 설정이다. --primary 같은 이름에 색을 기억해두고 var(--primary)로 꺼낸다. */
 :root {
   --bg: #f5f7f8;
   --surface: #ffffff;
@@ -17,10 +18,12 @@
   --shadow: 0 12px 32px rgba(24, 33, 47, 0.08);
 }
 
+/* *는 모든 요소다. border-box는 정한 너비 안에 안쪽 간격과 테두리도 포함해 크기 계산을 쉽게 한다. */
 * {
   box-sizing: border-box;
 }
 
+/* margin은 바깥 간격, padding은 안쪽 간격이다. 기본 바깥 간격을 없애 화면을 끝까지 사용한다. */
 body {
   margin: 0;
   font-family: Inter, Arial, "Apple SD Gothic Neo", sans-serif;
@@ -48,7 +51,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* 로그인·회원가입 화면: 인증 전에는 폼 패널 하나를 화면 중앙에 배치한다. */
+/* 로그인 화면: grid로 위치를 정하고 place-items: center로 입력 상자를 가운데 놓는다. */
 .auth-layout {
   min-height: 100vh;
   display: grid;
@@ -105,7 +108,7 @@ h3 {
   font-size: 14px;
 }
 
-/* 공통 폼·버튼·메시지: 여러 화면에서 같은 입력 경험과 피드백 모양을 재사용한다. */
+/* 여러 화면에서 같이 쓰는 입력 칸과 버튼의 꾸미기 규칙이다. 한곳을 고치면 같은 종류가 함께 바뀐다. */
 .mode-switch {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -186,6 +189,7 @@ textarea {
   background: var(--primary-dark);
 }
 
+/* disabled는 잠시 누를 수 없는 버튼이다. 흐리게 보여 현재 사용할 수 없다는 것을 알려준다. */
 .primary-button:disabled {
   cursor: not-allowed;
   opacity: 0.7;
@@ -210,7 +214,7 @@ textarea {
   font-weight: 700;
 }
 
-/* 로그인 후 앱 뼈대: 왼쪽 탐색 영역과 오른쪽 작업 영역을 두 열로 나눈다. */
+/* 로그인 뒤의 큰 배치: grid는 화면을 칸으로 나눈다. 왼쪽 메뉴와 오른쪽 본문을 두 열로 놓는다. */
 .app-layout {
   min-height: 100vh;
   display: grid;
@@ -258,7 +262,7 @@ textarea {
   line-height: 1.6;
 }
 
-/* 본문 머리말과 준비도 요약: 현재 할 일과 전체 진행률을 먼저 보여준다. */
+/* 본문 맨 위에 오늘 할 일과 준비도를 놓는다. flex는 요소를 한 방향으로 나란히 놓을 때 사용한다. */
 .content-area {
   width: min(1180px, 100%);
   margin: 0 auto;
@@ -304,7 +308,7 @@ textarea {
   color: var(--muted);
 }
 
-/* 워크북 진행 흐름: 네 단계의 완료·현재 상태와 진행 막대를 시각적으로 연결한다. */
+/* 준비 단계 안내와 진행 막대를 꾸민다. is-complete 같은 className은 App.jsx가 완료 여부로 선택한다. */
 .workbook-guide {
   display: flex;
   align-items: center;
@@ -415,7 +419,7 @@ textarea {
   transition: width 180ms ease;
 }
 
-/* 대시보드 통계와 공통 섹션: 요약 카드 아래에 선택한 작업 화면을 담는다. */
+/* 요약 숫자 카드와 본문 구역이다. gap은 카드 사이 간격, fr는 남은 공간을 나누어 쓰는 단위다. */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(140px, 1fr));
@@ -471,7 +475,7 @@ textarea {
   font-weight: 800;
 }
 
-/* 편집 폼과 기록 목록: 입력 영역 뒤에 저장된 지원·프로젝트 카드를 쌓는다. */
+/* 입력 칸과 기록 목록이다. 입력 영역 아래에 저장된 지원 기록·프로젝트를 카드로 보여준다. */
 .editor-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   padding-bottom: 22px;
@@ -584,6 +588,113 @@ textarea {
   gap: 12px;
 }
 
+/* 검색어, 상태, 우선순위를 한 줄에 놓는다. 좁은 화면에서는 맨 아래 @media 규칙이 한 열로 바꾼다. */
+.application-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) repeat(2, minmax(120px, 1fr));
+  align-items: end;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.application-filters label,
+.readme-preview label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 700;
+}
+
+.application-filters button {
+  justify-self: start;
+}
+
+.filter-count {
+  grid-column: 2 / -1;
+  margin: 0;
+  color: var(--muted);
+}
+
+/* 현재 입력과 이전 저장 기록·README 미리보기 사이에 간격을 둬 구역을 구분한다. */
+.workbook-history,
+.readme-preview {
+  margin-top: 24px;
+}
+
+.history-list {
+  display: grid;
+  gap: 10px;
+}
+
+.history-entry {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+/* summary는 저장 이력을 펼치는 제목 줄이다. 긴 글자도 줄을 바꿔 카드 밖으로 나가지 않게 한다. */
+.history-entry summary {
+  cursor: pointer;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.history-entry summary span {
+  margin-left: 12px;
+  font-weight: 700;
+}
+
+.history-values {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 0;
+}
+
+.history-values div {
+  min-width: 0;
+}
+
+.history-values dt {
+  font-weight: 700;
+}
+
+/* pre-wrap은 회고에 입력한 줄바꿈을 유지하면서 긴 줄은 화면 너비에 맞춰 바꿔준다. */
+.history-values dd {
+  margin: 6px 0 0;
+  color: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.readme-preview {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+/* 문서 미리보기는 각 글자의 폭이 같은 글꼴로 보여 Markdown 기호와 줄을 읽기 쉽게 한다. */
+.readme-content {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.readme-preview h3 {
+  overflow-wrap: anywhere;
+}
+
+.readme-preview .form-actions {
+  margin-top: 14px;
+}
+
 .empty-state {
   margin: 0;
   padding: 24px;
@@ -635,7 +746,7 @@ textarea {
   font-size: 14px;
 }
 
-/* 상태 표시와 학습 연결: 짧은 태그로 진행 상태를 구분하고 학습 근거를 카드로 묶는다. */
+/* 작은 상태 표시의 색을 정한다. 같은 상태 이름을 가진 카드는 같은 색으로 보여준다. */
 .tag-row {
   display: flex;
   flex-wrap: wrap;
@@ -741,7 +852,7 @@ textarea {
   line-height: 1.6;
 }
 
-/* 반응형 전환: 화면이 좁아지면 열 수를 줄이고 모바일에서는 한 열로 읽게 한다. */
+/* @media는 화면 조건에 따라 적용하는 규칙이다. 너비가 980px 이하이면 큰 화면의 배치를 바꾼다. */
 @media (max-width: 980px) {
   .app-layout {
     grid-template-columns: 1fr;
@@ -768,6 +879,7 @@ textarea {
   }
 }
 
+/* 680px 이하의 휴대폰 화면에서는 한 열로 쌓아 옆으로 밀지 않고 읽을 수 있게 한다. */
 @media (max-width: 680px) {
   .content-area {
     padding: 18px;
@@ -786,9 +898,15 @@ textarea {
   .workbook-fields,
   .workbook-steps,
   .workbook-checks,
+  .application-filters,
+  .history-values,
   .learning-grid,
   .sidebar nav {
     grid-template-columns: 1fr;
+  }
+
+  .filter-count {
+    grid-column: 1;
   }
 
   .auth-panel,

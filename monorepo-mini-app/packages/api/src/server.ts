@@ -76,7 +76,8 @@ function requireNoteAccess(accessToken: string): RequestHandler {
     }
 
     const authorization = req.get("authorization") ?? "";
-    const presentedToken = authorization.startsWith("Bearer ")
+    // HTTP 인증 방식 이름은 대소문자를 구분하지 않으므로 "bearer"도 허용한다.
+    const presentedToken = /^Bearer /i.test(authorization)
       ? authorization.slice("Bearer ".length)
       : "";
 

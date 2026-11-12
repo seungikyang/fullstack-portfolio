@@ -58,6 +58,8 @@ for (const check of checks) {
   const result = spawnSync(check.command, check.args, {
     cwd: __dirname + "/..", // scripts/가 아니라 저장소 루트에서 명령을 실행한다
     stdio: "inherit", // 자식 출력을 그대로 이 화면에 보여준다
+    // Windows의 .cmd 배치 파일은 셸을 거쳐야 실행된다(셸 없이 실행하면 EINVAL 오류).
+    shell: process.platform === "win32" && check.command === npmCommand,
   });
 
   // 프로세스 자체를 못 띄운 경우(명령 없음 등)

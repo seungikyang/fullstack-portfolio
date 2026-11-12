@@ -1,15 +1,16 @@
-// 이력서와 지원서 제출 전에 Career Hub 산출물 구성을 점검하는 스크립트
+// 제출 전에 필요한 파일과 실행 방법이 빠지지 않았는지 확인하는 자동 점검 도구다.
+// 코드의 글자와 파일 존재 여부를 확인한다. 실제 동작 검사는 별도의 테스트가 맡는다.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Career Hub 자체(root)와 한 단계 위 전체 워크북(workspaceRoot)을 구분해 검사한다.
+// root는 Career Hub 폴더이고, workspaceRoot는 그 위의 전체 학습 폴더다. 파일이 어느 쪽에 있는지 구분한다.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const workspaceRoot = path.resolve(root, "..");
 
-// 제출물에서 빠지면 실행·검증·설명이 불가능해지는 필수 파일 목록이다.
+// 제출할 때 꼭 들어 있어야 하는 파일 목록이다. 없거나 내용이 비어 있으면 문제로 기록한다.
 const requiredFiles = [
   "README.md",
   "learning-map.md",
@@ -46,7 +47,7 @@ const requiredFiles = [
   ".husky/pre-commit"
 ];
 
-// README가 실제 구현의 핵심 기술과 검증 방식을 설명하는지 확인할 검색어다.
+// README 소개 문서에 기술 이름과 검사 방법 설명이 있는지 찾을 검색어 목록이다.
 const requiredReadmeTerms = [
   "React",
   "Express",
@@ -73,7 +74,7 @@ const requiredLearningFolders = [
 
 const requiredRootGuideFolders = [...requiredLearningFolders, "08-fullstack-portfolio-project"];
 
-// 오류를 하나씩 모아 한 번 실행으로 누락 내용을 모두 보여준다.
+// 빠진 항목을 하나 찾았다고 멈추지 않고 끝까지 확인한다. hasError는 문제를 찾았는지 기억하는 값이다.
 let hasError = false;
 
 function fail(message) {
@@ -81,12 +82,12 @@ function fail(message) {
   console.error(`제출 감사 실패: ${message}`);
 }
 
-// Career Hub 루트를 기준으로 UTF-8 텍스트 파일을 읽는 공통 헬퍼다.
+// 파일을 읽는 방법을 모아둔 함수다. utf8은 한글을 포함한 글자를 읽는 방식이다.
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
 }
 
-// 1) 필수 파일의 존재 여부와 빈 파일 여부를 검사한다.
+// 1) 필수 파일이 실제로 있는지, 내용이 비어 있지 않은지 확인한다.
 for (const relativePath of requiredFiles) {
   const fullPath = path.join(root, relativePath);
 
@@ -100,7 +101,7 @@ for (const relativePath of requiredFiles) {
   }
 }
 
-// 2) README·학습 지도·루트 안내가 실제 프로젝트와 학습 단계를 설명하는지 검사한다.
+// 2) README·학습 연결표·학습 안내에 필요한 설명이 들어 있는지 확인한다.
 const readme = read("README.md");
 for (const term of requiredReadmeTerms) {
   if (!readme.includes(term)) {
@@ -119,7 +120,7 @@ const rootGitignore = fs.existsSync(path.join(workspaceRoot, ".gitignore"))
   ? fs.readFileSync(path.join(workspaceRoot, ".gitignore"), "utf8")
   : "";
 
-// 3) 비밀값·의존성·빌드 결과·로컬 데이터가 Git에 올라가지 않게 ignore 규칙을 확인한다.
+// 3) .gitignore는 Git에 넣지 않을 파일 목록이다. 비밀 설정과 내 기록·생성 파일을 제외하는지 확인한다.
 for (const pattern of [
   "node_modules/",
   "dist/",
@@ -144,8 +145,8 @@ if (!fs.existsSync(rootGuidePath)) {
 }
 
 // 로컬 .env 파일은 실행에 필요하므로 존재 자체는 정상이다.
-// 실제 위험은 ".env가 git에 커밋된 경우"이므로 추적 여부만 확인한다.
-// (git이 없거나 저장소가 아니면 위쪽 .gitignore 패턴 검사로 이미 보호된다.)
+// .env에는 비밀 설정이 있을 수 있으므로 Git의 저장 기록에 포함되어 있는지 확인한다.
+// Git을 쓸 수 없으면 위에서 확인한 제외 규칙까지만 검사한다. 과거에 비밀이 공개됐는지는 검사하지 않는다.
 try {
   const tracked = execFileSync("git", ["ls-files", ".env"], {
     cwd: root,
@@ -160,7 +161,7 @@ try {
   // git을 사용할 수 없는 환경(ZIP 제출 등)에서는 건너뛴다.
 }
 
-// 4) 코드 문자열을 확인해 인증과 smoke test의 핵심 흐름이 실수로 빠지지 않게 한다.
+// 4) 로그인 검사 코드와 핵심 동작 검사에 필요한 주소가 파일에 적혀 있는지 확인한다.
 const authSource = read("server/auth.js");
 if (!authSource.includes("bcrypt") || !authSource.includes("jwt.verify")) {
   fail("server/auth.js에서 bcrypt 또는 JWT 검증 흐름을 찾지 못했습니다.");
@@ -179,7 +180,7 @@ for (const expectedFlow of [
   }
 }
 
-// 5) 제출자가 사용할 명령과 보안·검증 패키지가 package.json에 선언됐는지 확인한다.
+// 5) package.json은 실행 명령과 설치할 도구의 목록이다. 필요한 항목이 있는지 확인한다.
 const packageJson = JSON.parse(read("package.json"));
 const requiredScripts = [
   "build",
@@ -222,7 +223,7 @@ for (const dep of requiredDevDeps) {
   }
 }
 
-// 6) 서버 보안·로깅·종료 처리와 프론트 오류 경계가 실제 진입 파일에 연결됐는지 확인한다.
+// 6) 서버의 보안 검사·활동 일지·종료 방법과 화면의 오류 안내가 시작 코드에 연결됐는지 확인한다.
 const indexSource = read("server/index.js");
 for (const term of ["helmet", "rateLimit", "limit:", "SIGTERM", "pinoHttp", "openapi.json"]) {
   if (!indexSource.includes(term)) {
@@ -251,7 +252,7 @@ for (const rootFile of [
   }
 }
 
-// 7) OpenAPI 파일은 단순 존재뿐 아니라 JSON 파싱과 필수 경로까지 검사한다.
+// 7) API 사용 설명서(OpenAPI)를 JSON으로 읽을 수 있는지, 필요한 주소가 적혀 있는지 확인한다.
 try {
   const openApi = JSON.parse(read("server/openapi.json"));
   if (!openApi.openapi || !openApi.openapi.startsWith("3.")) {
@@ -267,7 +268,7 @@ try {
   fail("server/openapi.json JSON 파싱 실패.");
 }
 
-// 8) Docker 멀티 스테이지 빌드와 루트 CI 워크플로가 제출물에 포함됐는지 확인한다.
+// 8) Docker 실행 설정과 CI(코드를 올렸을 때 자동 검사하는 작업) 설정이 있는지 확인한다.
 const dockerfileSource = read("Dockerfile");
 if (!dockerfileSource.includes("AS build") || !dockerfileSource.includes("AS runtime")) {
   fail("Dockerfile이 멀티 스테이지(build → runtime) 구조가 아닙니다.");
@@ -278,7 +279,7 @@ if (!fs.existsSync(ciPath)) {
   fail(".github/workflows/ci.yml CI 워크플로가 없습니다.");
 }
 
-// 하나라도 실패하면 종료 코드 1로 npm/CI에도 감사 실패를 알린다.
+// 끝날 때 문제를 찾았으면 종료 코드 1로 자동 실행 도구에도 알린다. 0은 성공, 1은 실패를 뜻한다.
 if (hasError) {
   process.exit(1);
 }

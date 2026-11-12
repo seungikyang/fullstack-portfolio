@@ -1,0 +1,2013 @@
+{
+  "documents": [
+    {
+      "file": "01-html-css/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R01-01",
+          "prompt": "`div`만 쓰지 않고 `header`, `main`, `section`을 쓴 이유를 설명해보세요.",
+          "originalExplanation": "`div`는 의미가 없는 범용 컨테이너라서 문서 구조를 파악하기 어렵습니다. `header`, `main`, `section` 같은 시맨틱 태그를 쓰면 브라우저, 검색 엔진, 스크린 리더가 페이지의 역할을 더 잘 이해할 수 있습니다. 그래서 화면을 단순히 보이게 만드는 것뿐 아니라 구조와 접근성까지 고려하기 위해 사용했습니다."
+        },
+        {
+          "sourceId": "R01-02",
+          "prompt": "flexbox와 grid를 각각 어디에 썼는지 설명해보세요.",
+          "originalExplanation": "flexbox는 한 방향 정렬에 적합해서 프로필 영역처럼 이미지와 텍스트를 나란히 배치하는 곳에 사용했습니다. grid는 행과 열을 동시에 다루기 좋아서 기술 카드 목록처럼 여러 항목을 격자로 정렬하는 곳에 사용했습니다. 즉, flexbox는 축 중심 배치, grid는 2차원 레이아웃에 적합하다고 설명할 수 있습니다."
+        },
+        {
+          "sourceId": "R01-03",
+          "prompt": "모바일 화면에서 레이아웃을 바꾼 이유를 설명해보세요.",
+          "originalExplanation": "데스크톱에서 가로로 넓게 보이는 레이아웃은 모바일에서는 내용이 좁아지거나 잘릴 수 있습니다. 미디어 쿼리로 카드나 프로필 영역을 세로 배치로 바꾸면 작은 화면에서도 읽기 쉽고 스크롤 흐름이 자연스러워집니다. 반응형 처리는 사용자의 기기 크기에 맞춰 같은 정보를 안정적으로 보여주기 위한 작업입니다."
+        }
+      ]
+    },
+    {
+      "file": "02-javascript-basics/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R02-01",
+          "prompt": "`const`, `let`을 언제 나눠 쓰는지 설명해보세요.",
+          "originalExplanation": "재할당이 필요 없는 값은 기본적으로 `const`를 사용합니다. 반복문 카운터나 계산 결과처럼 값이 바뀌어야 하는 변수에는 `let`을 사용합니다. 이렇게 나누면 의도치 않은 재할당을 줄이고 코드의 의도를 더 명확히 표현할 수 있습니다."
+        },
+        {
+          "sourceId": "R02-02",
+          "prompt": "`Number()`가 필요한 이유를 설명해보세요.",
+          "originalExplanation": "HTML 입력값은 숫자처럼 보여도 JavaScript에서는 문자열로 들어옵니다. 예를 들어 `\"1\" + \"2\"`는 `3`이 아니라 `\"12\"`가 됩니다. 계산기처럼 산술 연산이 필요한 경우 `Number()`로 문자열을 숫자로 변환해야 정확한 계산 결과를 얻을 수 있습니다."
+        },
+        {
+          "sourceId": "R02-03",
+          "prompt": "배열에 값을 추가한 뒤 화면을 다시 그리는 이유를 설명해보세요.",
+          "originalExplanation": "배열 데이터가 바뀌어도 DOM 화면은 자동으로 바뀌지 않습니다. 새 할 일을 배열에 추가한 뒤 목록을 다시 렌더링해야 데이터와 화면이 일치합니다. 이 과정은 \"상태가 바뀌면 UI도 그 상태를 기준으로 다시 만든다\"는 프론트엔드의 기본 흐름입니다."
+        }
+      ]
+    },
+    {
+      "file": "03-react-todo/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R03-01",
+          "prompt": "state를 직접 수정하지 않고 `setTodos`를 쓰는 이유를 설명해보세요.",
+          "originalExplanation": "React는 state 변경을 감지해야 화면을 다시 렌더링합니다. 배열을 직접 수정하면 React가 변경을 안정적으로 추적하기 어렵고, 이전 상태를 예측하기도 힘듭니다. `setTodos`로 새 배열을 만들어 전달하면 React가 변경을 인식하고 화면을 올바르게 갱신합니다."
+        },
+        {
+          "sourceId": "R03-02",
+          "prompt": "props가 부모에서 자식으로 전달되는 흐름을 설명해보세요.",
+          "originalExplanation": "부모 컴포넌트가 데이터를 가지고 있고, 자식 컴포넌트는 그 데이터를 props로 받아 화면에 표시하거나 이벤트를 호출합니다. 예를 들어 `App`이 todo 목록을 state로 관리하고 `TodoItem`에 todo 객체와 클릭 함수를 전달합니다. 이 구조는 데이터의 출처를 부모에 두고 화면 조각은 자식으로 분리하기 때문에 유지보수가 쉬워집니다."
+        },
+        {
+          "sourceId": "R03-03",
+          "prompt": "`key` props가 필요한 이유를 설명해보세요.",
+          "originalExplanation": "React가 목록을 렌더링할 때 각 항목을 구분하려면 안정적인 식별자가 필요합니다. `key`가 있어야 어떤 항목이 추가, 삭제, 변경됐는지 효율적으로 비교할 수 있습니다. `key`가 부정확하면 잘못된 항목이 재사용되어 화면 상태가 꼬일 수 있습니다."
+        }
+      ]
+    },
+    {
+      "file": "04-node-board-api/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R04-01",
+          "prompt": "`GET`과 `POST`의 차이를 설명해보세요.",
+          "originalExplanation": "`GET`은 서버의 데이터를 조회할 때 사용하고, 보통 요청 body 없이 URL과 query string으로 조건을 전달합니다. `POST`는 새 리소스를 만들거나 서버 상태를 변경할 때 사용하며, 요청 body에 생성할 데이터를 담습니다. 게시판에서는 `GET /posts`로 목록을 조회하고 `POST /posts`로 새 글을 생성합니다."
+        },
+        {
+          "sourceId": "R04-02",
+          "prompt": "404와 201 상태 코드를 언제 쓰는지 설명해보세요.",
+          "originalExplanation": "`404 Not Found`는 요청한 리소스가 존재하지 않을 때 사용합니다. 예를 들어 없는 게시글 id를 조회하면 404가 적절합니다. `201 Created`는 새 리소스가 정상적으로 생성됐을 때 사용하며, 게시글 생성 API의 성공 응답에 어울립니다."
+        },
+        {
+          "sourceId": "R04-03",
+          "prompt": "메모리 배열에 저장한 데이터가 서버 재시작 후 사라지는 이유를 설명해보세요.",
+          "originalExplanation": "메모리 배열은 Node.js 프로세스가 실행되는 동안 RAM에만 존재합니다. 서버를 재시작하면 프로세스가 종료되고 메모리도 초기화되므로 데이터가 사라집니다. 데이터를 계속 보존하려면 MongoDB, PostgreSQL, 파일 저장소 같은 영속 저장소가 필요합니다."
+        }
+      ]
+    },
+    {
+      "file": "05-database-mongodb/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R05-01",
+          "prompt": "스키마를 정의하는 이유를 설명해보세요.",
+          "originalExplanation": "스키마는 데이터가 어떤 필드와 타입을 가져야 하는지 정하는 약속입니다. MongoDB는 유연한 문서 DB지만, 애플리케이션에서는 제목이 문자열인지, 작성일이 날짜인지 같은 규칙이 필요합니다. Mongoose 스키마를 쓰면 잘못된 데이터가 저장되는 것을 줄이고 코드에서 모델을 예측하기 쉬워집니다."
+        },
+        {
+          "sourceId": "R05-02",
+          "prompt": "`createdAt`, `updatedAt`이 자동으로 생기는 이유를 설명해보세요.",
+          "originalExplanation": "Mongoose 스키마에서 `timestamps: true` 옵션을 주면 문서 생성 시 `createdAt`, 수정 시 `updatedAt`을 자동으로 관리합니다. 이 값들은 게시글 정렬, 변경 이력 확인, 최근 수정 여부 판단에 자주 쓰입니다. 직접 날짜를 넣는 실수를 줄이고 모든 문서에 일관된 시간 정보를 남길 수 있습니다."
+        },
+        {
+          "sourceId": "R05-03",
+          "prompt": "환경 변수에 DB 주소를 넣는 이유를 설명해보세요.",
+          "originalExplanation": "DB 주소는 로컬, 테스트, 운영 환경마다 다르고 비밀번호 같은 민감 정보가 포함될 수 있습니다. 코드에 박아두면 환경을 바꿀 때마다 코드를 수정해야 하고, GitHub에 노출될 위험도 있습니다. 환경 변수로 분리하면 같은 코드로 여러 환경을 실행하고 시크릿도 더 안전하게 관리할 수 있습니다."
+        }
+      ]
+    },
+    {
+      "file": "06-login-auth/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R06-01",
+          "prompt": "비밀번호를 평문으로 저장하면 안 되는 이유를 설명해보세요.",
+          "originalExplanation": "평문 비밀번호는 DB가 유출되는 순간 사용자 계정이 그대로 탈취됩니다. 많은 사용자가 같은 비밀번호를 여러 서비스에서 재사용하므로 피해가 다른 서비스까지 번질 수 있습니다. 그래서 bcrypt 같은 느린 해시 함수로 저장하고, 로그인 때 입력값을 다시 비교해야 합니다."
+        },
+        {
+          "sourceId": "R06-02",
+          "prompt": "JWT를 요청 헤더에 담아 보내는 이유를 설명해보세요.",
+          "originalExplanation": "JWT는 로그인한 사용자를 증명하는 토큰이므로 보호된 API 요청마다 서버에 전달해야 합니다. 보통 `Authorization: Bearer <token>` 헤더를 사용하면 요청 body나 URL에 토큰을 노출하지 않고 표준적인 방식으로 인증 정보를 보낼 수 있습니다. 서버는 이 토큰의 서명을 검증해 사용자를 식별합니다."
+        },
+        {
+          "sourceId": "R06-03",
+          "prompt": "401과 409 상태 코드를 언제 쓰는지 설명해보세요.",
+          "originalExplanation": "`401 Unauthorized`는 로그인하지 않았거나 토큰이 없거나 유효하지 않을 때 사용합니다. `409 Conflict`는 요청 자체는 이해했지만 현재 서버 상태와 충돌할 때 사용합니다. 회원가입에서는 이미 등록된 이메일로 가입하려는 경우 409가 적절합니다."
+        }
+      ]
+    },
+    {
+      "file": "07-project-deploy/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R07-01",
+          "prompt": "브라우저에서 버튼을 누른 뒤 서버까지 어떤 순서로 요청이 이동하는지 설명해보세요.",
+          "originalExplanation": "사용자가 버튼을 누르면 브라우저에서 클릭 이벤트가 발생합니다. 프론트엔드 JavaScript가 입력값을 읽고 `fetch`로 API 요청을 보냅니다. Express 서버는 라우터에서 요청을 받아 데이터를 처리한 뒤 JSON 응답을 보내고, 브라우저는 응답을 받아 화면을 다시 렌더링합니다."
+        },
+        {
+          "sourceId": "R07-02",
+          "prompt": "배포 환경에서 `PORT`를 직접 고정하면 안 되는 이유를 설명해보세요.",
+          "originalExplanation": "Render, fly.io, Heroku 같은 배포 환경은 실행 시점에 사용할 포트를 환경 변수로 주입하는 경우가 많습니다. 코드에서 포트를 `4000`처럼 고정하면 플랫폼이 열어준 포트와 맞지 않아 외부 접속이 실패할 수 있습니다. 그래서 `process.env.PORT || 기본값` 형태로 운영 환경의 포트를 우선 사용해야 합니다."
+        },
+        {
+          "sourceId": "R07-03",
+          "prompt": "메모리 저장소와 DB 저장소의 차이를 설명해보세요.",
+          "originalExplanation": "메모리 저장소는 빠르고 간단하지만 서버 재시작 시 데이터가 사라지고 여러 서버가 같은 데이터를 공유하기 어렵습니다. DB 저장소는 별도 저장 시스템에 데이터를 보존하므로 재시작 후에도 유지되고 검색, 정렬, 동시성 처리에 유리합니다. 학습 초기에는 메모리 배열로 흐름을 익히고, 실제 서비스에는 DB를 사용해야 합니다."
+        }
+      ]
+    },
+    {
+      "file": "08-fullstack-portfolio-project/README.md",
+      "heading": "면접에서 설명할 포인트",
+      "items": [
+        {
+          "sourceId": "R08-01",
+          "prompt": "취업 준비도를 어떤 기준으로 계산했나요?",
+          "originalExplanation": "`server/index.js`의 `dashboardFor`는 네 단계를 각각 한 항목으로 계산합니다. 1단계는 목표 직무+지원일, 2단계는 주간 목표+다음 행동, 3단계는 이력서+포트폴리오 체크와 완료 프로젝트, 4단계는 자기소개+모의 면접 체크와 `준비중`이 아닌 지원 기록입니다. `src/App.jsx`의 `getWorkbookSteps`도 같은 조건을 사용합니다."
+        },
+        {
+          "sourceId": "R08-02",
+          "prompt": "React state로 로그인 상태, 지원 기록, 프로젝트 목록을 어떻게 관리했나요?",
+          "originalExplanation": "`src/App.jsx`의 `App`은 로그인 사용자와 토큰, 워크북, 지원 기록, 프로젝트를 state로 관리합니다. `WorkbookSection`, `ApplicationSection`, `ProjectSection`은 props로 받은 데이터와 갱신 함수를 사용합니다. 직접 실행한 경우에만 \"API 응답으로 state를 갱신했다\"고 설명합니다."
+        },
+        {
+          "sourceId": "R08-03",
+          "prompt": "Express REST API와 HTTP 상태 코드를 어떻게 구분했나요?",
+          "originalExplanation": "리소스 조회는 `GET`, 생성은 `POST`, 수정은 `PATCH`, 삭제는 `DELETE`로 나누었습니다. 성공 생성은 201, 인증 실패는 401, 입력 검증 실패나 존재하지 않는 리소스는 400 계열, 서버 예외는 500 계열로 구분했습니다. 상태 코드를 구분하면 프론트엔드가 실패 원인을 사용자에게 더 정확히 보여줄 수 있습니다."
+        },
+        {
+          "sourceId": "R08-04",
+          "prompt": "bcrypt와 JWT 인증 흐름을 어떻게 설명하나요?",
+          "originalExplanation": "`server/auth.js`의 `hashPassword`는 bcrypt work factor 10으로 해시하고, `signToken`은 HS256·2시간 만료 JWT를 발급합니다. `requireAuth`는 `Authorization: Bearer` 토큰을 검증합니다. 같은 파일의 `assertAuthConfig`는 운영 환경에 32자 이상의 비예제 `JWT_SECRET`을 요구합니다."
+        },
+        {
+          "sourceId": "R08-05",
+          "prompt": "저장소 로직을 `server/data-store.js`로 분리한 이유는 무엇인가요?",
+          "originalExplanation": "`server/data-store.js`의 `JsonStore`가 사용자·워크북·지원·프로젝트 CRUD와 파일 쓰기를 담당하고, `server/index.js`의 라우터는 이 메서드를 호출합니다. 현재 라우터는 구체 클래스에 연결되어 있으므로 DB 교체 시 같은 메서드 계약을 구현하고 생성 지점을 바꾸는 작업이 필요합니다."
+        },
+        {
+          "sourceId": "R08-06",
+          "prompt": "`scripts/api-smoke-test.js`로 무엇을 검증했나요?",
+          "originalExplanation": "`scripts/api-smoke-test.js`는 별도 임시 데이터 파일과 `SEED_DEMO=false`로 서버를 띄워 가입, 로그인 실패·성공, 워크북 저장, 준비도 네 단계, 지원·프로젝트 CRUD를 HTTP 요청으로 확인합니다. 이 스크립트를 직접 통과시킨 로그가 있을 때만 핵심 흐름을 검증했다고 설명합니다."
+        },
+        {
+          "sourceId": "R08-07",
+          "prompt": "학습 연결 탭과 `learning-map.md`는 어떤 의미인가요?",
+          "originalExplanation": "학습 단계가 단순 예제로 끝난 것이 아니라 실제 포트폴리오 앱의 기능으로 연결됐다는 근거입니다. 예를 들어 HTML/CSS는 UI 구조, JavaScript는 이벤트와 API 호출, Express는 REST API, 인증 단계는 JWT 로그인으로 연결됩니다. 이 자료를 통해 \"무엇을 배웠고 어디에 적용했는지\"를 면접관에게 빠르게 설명할 수 있습니다."
+        }
+      ]
+    },
+    {
+      "file": "09-typescript/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R09-01",
+          "prompt": "`any`와 `unknown`의 차이를 설명해보세요.",
+          "originalExplanation": "`any`는 타입 검사를 사실상 끄기 때문에 어떤 속성이나 메서드도 바로 사용할 수 있습니다. 반면 `unknown`은 값이 무엇인지 모른다는 뜻이라 사용하기 전에 타입 좁히기를 해야 합니다. 외부 입력처럼 타입이 불확실한 값에는 `unknown`을 쓰고, 검증 후 안전하게 사용하는 편이 좋습니다."
+        },
+        {
+          "sourceId": "R09-02",
+          "prompt": "`interface`와 `type`을 각각 언제 쓰나요?",
+          "originalExplanation": "객체의 모양을 정의하고 확장 가능성을 열어두고 싶을 때는 `interface`를 자주 씁니다. 유니온, 튜플, 함수 타입, 복잡한 조합 타입은 `type`이 더 유연합니다. 팀 컨벤션이 있다면 그 기준을 따르되, API 모델처럼 확장되는 객체에는 `interface`, 조합 타입에는 `type`을 선택한다고 설명할 수 있습니다."
+        },
+        {
+          "sourceId": "R09-03",
+          "prompt": "제네릭을 쓰는 이유를 자기 말로 설명해보세요.",
+          "originalExplanation": "제네릭은 타입을 함수나 클래스 바깥에서 주입받아 재사용성을 높이는 방법입니다. 예를 들어 `Promise<T>`는 어떤 데이터를 비동기로 받을지 호출하는 쪽에서 정할 수 있습니다. `any`를 쓰지 않고도 여러 타입에 대해 같은 로직을 안전하게 재사용할 수 있습니다."
+        },
+        {
+          "sourceId": "R09-04",
+          "prompt": "`strict: true`로 켜면 어떤 검사가 추가되나요?",
+          "originalExplanation": "`strict: true`는 TypeScript의 엄격한 타입 검사를 묶어서 켜는 옵션입니다. 대표적으로 `null`과 `undefined` 가능성, 암시적 `any`, 함수 인자와 반환 타입의 불일치를 더 엄격하게 잡습니다. 런타임에 터질 수 있는 실수를 컴파일 단계에서 미리 발견하는 효과가 있습니다."
+        },
+        {
+          "sourceId": "R09-05",
+          "prompt": "컴파일 단계 오류와 런타임 오류의 차이를 설명해보세요.",
+          "originalExplanation": "컴파일 단계 오류는 코드를 실행하기 전에 TypeScript나 빌드 도구가 발견하는 오류입니다. 예를 들어 존재하지 않는 속성을 접근하거나 잘못된 타입을 넘기는 경우가 있습니다. 런타임 오류는 실행 중 실제 데이터나 환경 때문에 발생하는 오류로, API 실패나 `undefined` 접근 같은 문제가 해당됩니다."
+        }
+      ]
+    },
+    {
+      "file": "10-sql-oracle/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R10-01",
+          "prompt": "기본 키와 유니크 제약의 차이는 무엇인가요?",
+          "originalExplanation": "기본 키는 테이블에서 한 행을 식별하는 대표 식별자이며 `NULL`을 허용하지 않습니다. 유니크 제약은 특정 컬럼 값의 중복을 막는 규칙이고, DBMS에 따라 `NULL` 처리 방식이 다를 수 있습니다. 기본 키는 테이블당 하나의 논리적 대표 키이고, 유니크 제약은 여러 컬럼에 여러 개 둘 수 있습니다."
+        },
+        {
+          "sourceId": "R10-02",
+          "prompt": "INNER JOIN과 LEFT JOIN의 결과 행 수가 어떻게 달라지나요?",
+          "originalExplanation": "INNER JOIN은 양쪽 테이블에서 조건이 맞는 행만 반환합니다. LEFT JOIN은 왼쪽 테이블의 행은 모두 유지하고, 오른쪽에 매칭되는 값이 없으면 오른쪽 컬럼을 `NULL`로 채웁니다. 그래서 LEFT JOIN은 기준이 되는 왼쪽 테이블의 데이터를 빠뜨리지 않아야 할 때 사용합니다."
+        },
+        {
+          "sourceId": "R10-03",
+          "prompt": "GROUP BY 절에 없는 컬럼을 SELECT 절에 쓰면 왜 오류가 나나요?",
+          "originalExplanation": "GROUP BY는 여러 행을 그룹 하나로 묶습니다. 그룹 안에 여러 값이 있을 수 있는 컬럼을 SELECT에 그대로 쓰면 DB는 어떤 값을 보여줘야 할지 결정할 수 없습니다. 그래서 SELECT에는 GROUP BY에 포함된 컬럼이나 `COUNT`, `SUM`, `MAX` 같은 집계 함수가 적용된 값만 사용할 수 있습니다."
+        },
+        {
+          "sourceId": "R10-04",
+          "prompt": "트랜잭션이 필요한 이유를 송금 예시로 설명해보세요.",
+          "originalExplanation": "A 계좌에서 10만 원을 빼고 B 계좌에 10만 원을 더하는 작업은 둘 다 성공하거나 둘 다 실패해야 합니다. 중간에 서버가 죽어서 A 계좌에서만 돈이 빠지면 데이터 정합성이 깨집니다. 트랜잭션은 이런 여러 작업을 하나의 단위로 묶어 성공 시 `COMMIT`, 실패 시 `ROLLBACK`할 수 있게 해줍니다."
+        },
+        {
+          "sourceId": "R10-05",
+          "prompt": "인덱스를 무작정 늘리면 안 되는 이유는 무엇인가요?",
+          "originalExplanation": "인덱스는 조회 속도를 높이지만 별도 자료구조를 유지해야 하므로 저장 공간을 사용합니다. `INSERT`, `UPDATE`, `DELETE` 때마다 인덱스도 함께 갱신해야 해서 쓰기 성능이 느려질 수 있습니다. 따라서 자주 검색하거나 조인 조건으로 쓰는 컬럼 중심으로 신중하게 만들어야 합니다."
+        },
+        {
+          "sourceId": "R10-06",
+          "prompt": "NoSQL(MongoDB)과 RDBMS(Oracle) 중 언제 무엇을 선택하나요?",
+          "originalExplanation": "정합성, 트랜잭션, 복잡한 JOIN, 명확한 관계가 중요하면 RDBMS가 적합합니다. 문서 구조가 자주 바뀌거나 대량의 비정형 데이터를 유연하게 저장해야 하면 MongoDB 같은 NoSQL이 유리할 수 있습니다. SI 업무의 핵심 데이터는 RDBMS를 기본으로 보고, 로그나 유연한 문서 데이터는 NoSQL을 검토한다고 답하면 현실적입니다."
+        }
+      ]
+    },
+    {
+      "file": "11-java-spring/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R11-01",
+          "prompt": "`@Controller`와 `@RestController`의 차이를 설명해보세요.",
+          "originalExplanation": "`@Controller`는 주로 뷰 이름을 반환해 서버 사이드 렌더링 화면과 연결할 때 사용합니다. JSON을 반환하려면 메서드마다 `@ResponseBody`가 필요합니다. `@RestController`는 `@Controller`와 `@ResponseBody`를 합친 형태라 REST API에서 객체를 바로 JSON 응답으로 보낼 때 사용합니다."
+        },
+        {
+          "sourceId": "R11-02",
+          "prompt": "의존성 주입은 무엇이고 왜 필요한가요?",
+          "originalExplanation": "의존성 주입은 객체가 필요한 의존 객체를 직접 생성하지 않고 외부, 보통 Spring 컨테이너에서 받아 사용하는 방식입니다. 이렇게 하면 구현체 교체, 테스트용 mock 주입, 계층 간 결합도 감소가 쉬워집니다. 예를 들어 Controller가 Service 구현체를 직접 만들지 않고 생성자로 주입받으면 테스트와 유지보수가 편해집니다."
+        },
+        {
+          "sourceId": "R11-03",
+          "prompt": "JpaRepository를 상속만 했는데 어떻게 메서드가 동작하나요?",
+          "originalExplanation": "Spring Data JPA가 애플리케이션 시작 시 Repository 인터페이스를 분석해 프록시 구현체를 자동으로 만들어 Bean으로 등록합니다. `save`, `findById`, `findAll`, `deleteById` 같은 기본 CRUD 메서드는 `JpaRepository`가 이미 정의하고 있습니다. 개발자는 인터페이스만 선언해도 Spring이 런타임에 실제 동작을 연결해줍니다."
+        },
+        {
+          "sourceId": "R11-04",
+          "prompt": "트랜잭션을 Service에 거는 이유와 Repository에 거는 경우의 차이를 설명해보세요.",
+          "originalExplanation": "Service는 여러 Repository 호출과 비즈니스 규칙을 하나의 업무 단위로 묶는 계층입니다. 따라서 주문 생성, 재고 차감, 결제 기록 저장처럼 여러 DB 작업이 함께 성공해야 하는 경우 Service에 트랜잭션을 거는 것이 자연스럽습니다. Repository에만 걸면 개별 DB 작업 단위로는 안전하지만, 여러 작업 전체의 원자성을 보장하기 어렵습니다."
+        },
+        {
+          "sourceId": "R11-05",
+          "prompt": "N+1 문제가 무엇이고 왜 발생하나요?",
+          "originalExplanation": "N+1 문제는 목록 1번 조회 후 각 행의 연관 데이터를 가져오려고 추가 쿼리가 N번 더 발생하는 문제입니다. JPA의 지연 로딩 관계에서 연관 엔티티를 반복문 안에서 접근할 때 자주 생깁니다. 해결 방법으로는 fetch join, EntityGraph, DTO 조회, batch size 설정 등이 있습니다."
+        },
+        {
+          "sourceId": "R11-06",
+          "prompt": "JPA와 MyBatis 중 무엇을 선택하나요? 각각 어떤 상황에서 유리한가요?",
+          "originalExplanation": "JPA는 객체 중심으로 CRUD를 작성하고 엔티티 변경 감지, 연관관계 관리가 필요할 때 유리합니다. 반복적인 CRUD가 많고 도메인 모델을 유지하고 싶다면 JPA가 생산성이 좋습니다. MyBatis는 복잡한 SQL, 레거시 DB, 튜닝된 쿼리를 직접 제어해야 하는 SI 프로젝트에서 유리합니다."
+        }
+      ]
+    },
+    {
+      "file": "12-testing/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R12-01",
+          "prompt": "단위 테스트와 통합 테스트의 차이를 설명해보세요.",
+          "originalExplanation": "단위 테스트는 함수나 Service처럼 작은 단위를 독립적으로 검증합니다. 통합 테스트는 라우터, DB, 여러 계층이 함께 연결됐을 때 실제 흐름이 맞는지 검증합니다. 단위 테스트는 빠르고 원인 파악이 쉽고, 통합 테스트는 실제 사용 흐름에 가까운 안정성을 확인할 수 있습니다."
+        },
+        {
+          "sourceId": "R12-02",
+          "prompt": "모킹은 왜 필요한가요? 모든 의존성을 모킹해도 되나요?",
+          "originalExplanation": "모킹은 DB, 외부 API, 시간, 랜덤 값처럼 테스트를 느리거나 불안정하게 만드는 의존성을 대체하기 위해 사용합니다. 하지만 모든 의존성을 모킹하면 실제 연결 문제를 놓칠 수 있습니다. 핵심 로직의 단위 테스트에는 모킹을 쓰고, 중요한 사용자 흐름은 통합 테스트로 실제에 가깝게 확인하는 균형이 필요합니다."
+        },
+        {
+          "sourceId": "R12-03",
+          "prompt": "테스트가 가끔만 실패하는 경우(flaky test) 어떻게 진단하나요?",
+          "originalExplanation": "먼저 실패 로그와 재현 조건을 모아 시간 의존성, 테스트 순서 의존성, 비동기 대기 누락, 공유 상태, 외부 네트워크 의존성을 의심합니다. 테스트를 단독 실행하고 반복 실행해 재현성을 확인합니다. 원인이 공유 데이터라면 `beforeEach`로 초기화하고, 비동기 문제라면 명시적으로 await하거나 안정적인 대기 조건을 둡니다."
+        },
+        {
+          "sourceId": "R12-04",
+          "prompt": "커버리지 100%인데 버그가 있을 수 있나요?",
+          "originalExplanation": "있습니다. 커버리지는 코드가 실행됐는지를 보여줄 뿐, 올바른 값을 검증했는지나 중요한 엣지 케이스를 다뤘는지는 보장하지 않습니다. 의미 있는 assertion, 경계값, 실패 케이스, 실제 사용자 흐름 테스트가 함께 있어야 버그를 줄일 수 있습니다."
+        },
+        {
+          "sourceId": "R12-05",
+          "prompt": "데이터베이스가 필요한 테스트에서 격리는 어떻게 보장하나요?",
+          "originalExplanation": "테스트마다 별도 DB나 별도 스키마를 쓰거나, 각 테스트 전후로 데이터를 초기화합니다. 트랜잭션을 테스트 단위로 열고 끝나면 rollback하는 방식도 자주 씁니다. 중요한 점은 한 테스트가 남긴 데이터가 다음 테스트 결과에 영향을 주지 않게 만드는 것입니다."
+        }
+      ]
+    },
+    {
+      "file": "13-git-collab/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R13-01",
+          "prompt": "main 브랜치 보호가 왜 필요한가요?",
+          "originalExplanation": "main 브랜치는 보통 운영 배포 기준이 되는 안정 브랜치입니다. 직접 push를 허용하면 리뷰, 테스트, 충돌 확인 없이 코드가 들어가 장애로 이어질 수 있습니다. 브랜치 보호를 걸면 PR 리뷰와 CI 통과를 강제해 팀의 최소 품질 기준을 지킬 수 있습니다."
+        },
+        {
+          "sourceId": "R13-02",
+          "prompt": "merge와 rebase 중 무엇을 언제 쓰나요?",
+          "originalExplanation": "merge는 브랜치의 작업 이력을 보존하면서 합치기 때문에 협업 이력을 명확히 남기고 싶을 때 좋습니다. rebase는 내 브랜치의 시작점을 최신 main 뒤로 옮겨 이력을 직선처럼 정리할 때 사용합니다. 공유된 브랜치에는 rebase를 조심하고, 개인 feature 브랜치 정리에는 rebase가 유용합니다."
+        },
+        {
+          "sourceId": "R13-03",
+          "prompt": "같은 파일을 두 사람이 수정했는데 충돌이 안 났습니다. 왜 그럴까요?",
+          "originalExplanation": "Git 충돌은 같은 파일을 수정했다고 항상 나는 것이 아니라, 같은 줄이나 가까운 영역을 서로 다르게 수정했을 때 주로 발생합니다. 서로 다른 줄이나 Git이 자동 병합할 수 있는 변경이라면 같은 파일이라도 충돌 없이 merge될 수 있습니다. 그래서 충돌 여부는 파일 단위가 아니라 변경 위치와 내용에 따라 달라집니다."
+        },
+        {
+          "sourceId": "R13-04",
+          "prompt": "`git reset --hard`와 `git revert`의 차이를 설명해보세요.",
+          "originalExplanation": "`git reset --hard`는 현재 브랜치의 HEAD를 특정 커밋으로 옮기고 작업 파일도 그 상태로 되돌립니다. 기존 커밋 이력을 지울 수 있어 공유 브랜치에서 위험합니다. `git revert`는 기존 커밋을 취소하는 새 커밋을 만들기 때문에 이력을 보존하며 협업 브랜치에서 더 안전합니다."
+        },
+        {
+          "sourceId": "R13-05",
+          "prompt": "force push가 위험한 이유와 안전하게 대체하는 방법을 설명해보세요.",
+          "originalExplanation": "force push는 원격 브랜치 이력을 강제로 덮어써서 다른 사람이 올린 커밋을 사라지게 만들 수 있습니다. 개인 브랜치에서 꼭 필요할 때도 `--force-with-lease`를 쓰면 내가 모르는 원격 변경이 있을 경우 push를 막아줍니다. 팀 브랜치에서는 force push 대신 새 커밋, revert, PR 수정으로 해결하는 것이 안전합니다."
+        },
+        {
+          "sourceId": "R13-06",
+          "prompt": "비밀번호가 들어간 파일을 실수로 커밋했습니다. 어떻게 대응하나요?",
+          "originalExplanation": "먼저 해당 비밀번호나 토큰을 즉시 폐기하고 새 값으로 교체합니다. 그 다음 `.gitignore`에 파일을 추가하고 저장소에서 노출된 파일을 제거합니다. 이미 원격에 올라갔다면 이력 삭제 도구를 검토하되, 이력에서 지워도 이미 유출됐다고 보고 키 회전을 완료해야 합니다."
+        }
+      ]
+    },
+    {
+      "file": "14-docker-deploy/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R14-01",
+          "prompt": "컨테이너와 가상 머신의 차이를 한 문장으로 설명해보세요.",
+          "originalExplanation": "가상 머신은 OS 전체를 가상화하고, 컨테이너는 호스트 OS 커널을 공유하면서 애플리케이션 실행 환경만 격리합니다."
+        },
+        {
+          "sourceId": "R14-02",
+          "prompt": "멀티 스테이지 빌드를 쓰는 이유는 무엇인가요?",
+          "originalExplanation": "빌드 단계에는 컴파일 도구와 devDependencies가 필요하지만 운영 실행 단계에는 최종 산출물만 필요합니다. 멀티 스테이지 빌드는 빌드용 이미지와 실행용 이미지를 분리해 최종 이미지 크기와 공격 표면을 줄입니다. Node나 Spring 앱에서 빌드 결과물만 runtime stage에 복사하는 방식이 대표적입니다."
+        },
+        {
+          "sourceId": "R14-03",
+          "prompt": "`.dockerignore`가 없으면 어떤 일이 일어나나요?",
+          "originalExplanation": "Docker build context에 `node_modules`, `.git`, 로그, 로컬 환경 파일까지 전송될 수 있습니다. 그 결과 빌드가 느려지고 이미지가 커지며, 민감 정보가 이미지 레이어에 포함될 위험도 있습니다. `.dockerignore`는 빌드에 필요 없는 파일을 제외해 속도와 보안을 모두 개선합니다."
+        },
+        {
+          "sourceId": "R14-04",
+          "prompt": "이미지 크기를 줄이려면 어떤 베이스 이미지를 골라야 하나요?",
+          "originalExplanation": "운영용 이미지는 `node:alpine`, `node:slim`, `eclipse-temurin:*-jre`처럼 필요한 런타임만 포함한 작은 이미지를 선택합니다. 단, Alpine은 musl libc 차이로 일부 네이티브 패키지 호환 문제가 있을 수 있어 테스트가 필요합니다. 안정성이 중요하면 slim 계열, 크기 최소화가 중요하면 alpine 계열을 검토합니다."
+        },
+        {
+          "sourceId": "R14-05",
+          "prompt": "컨테이너 안에서 환경 변수를 어떻게 주입하나요?",
+          "originalExplanation": "`docker run -e KEY=value`로 직접 넣거나 `--env-file .env`를 사용할 수 있습니다. docker compose에서는 `environment` 또는 `env_file` 항목으로 주입합니다. 운영 환경에서는 플랫폼의 시크릿 관리 기능이나 CI/CD 시크릿을 통해 주입하는 것이 좋습니다."
+        },
+        {
+          "sourceId": "R14-06",
+          "prompt": "운영 환경에서 SECRET 값을 Dockerfile에 박으면 왜 위험한가요?",
+          "originalExplanation": "Dockerfile에 시크릿을 넣으면 이미지 레이어와 빌드 기록에 남을 수 있습니다. 이미지를 레지스트리에 올리거나 다른 사람이 pull하면 시크릿이 함께 노출될 위험이 있습니다. 시크릿은 이미지에 포함하지 않고 실행 시점의 환경 변수나 시크릿 매니저로 주입해야 합니다."
+        }
+      ]
+    },
+    {
+      "file": "15-cs-fundamentals/README.md",
+      "heading": "대표 질문 답변 예시",
+      "items": [
+        {
+          "sourceId": "R15-01",
+          "prompt": "TCP와 UDP의 차이를 설명해보세요.",
+          "originalExplanation": "TCP는 연결을 맺고 순서, 재전송, 흐름 제어를 통해 신뢰성 있는 전송을 제공합니다. HTTP API처럼 데이터가 정확히 도착해야 하는 경우에 적합합니다. UDP는 연결 설정과 재전송 부담이 적어 빠르지만 손실 가능성이 있으며, 실시간 음성, 게임, 스트리밍처럼 지연이 더 중요한 곳에서 사용됩니다."
+        },
+        {
+          "sourceId": "R15-02",
+          "prompt": "프로세스와 스레드는 무엇이 다른가요?",
+          "originalExplanation": "프로세스는 실행 중인 프로그램의 독립된 실행 단위이고, 각자 메모리 공간을 가집니다. 스레드는 프로세스 안에서 실행되는 더 작은 작업 단위이며 같은 프로세스의 메모리를 공유합니다. 스레드는 생성과 전환 비용이 비교적 낮지만 공유 자원 때문에 race condition 같은 동기화 문제가 생길 수 있습니다."
+        },
+        {
+          "sourceId": "R15-03",
+          "prompt": "트랜잭션 격리 수준 네 가지를 차이와 함께 설명해보세요.",
+          "originalExplanation": "READ UNCOMMITTED는 커밋되지 않은 데이터까지 읽을 수 있어 dirty read가 발생할 수 있습니다. READ COMMITTED는 커밋된 데이터만 읽지만 같은 트랜잭션 안에서 다시 읽을 때 값이 달라질 수 있습니다. REPEATABLE READ는 같은 행을 반복 조회해도 같은 값을 보장하지만 phantom read 가능성이 남을 수 있고, SERIALIZABLE은 가장 강한 격리로 동시성을 줄이는 대신 정합성을 가장 강하게 보장합니다."
+        },
+        {
+          "sourceId": "R15-04",
+          "prompt": "HashMap의 평균 시간 복잡도가 O(1)인 이유는 무엇인가요?",
+          "originalExplanation": "HashMap은 키를 해시 함수로 배열의 인덱스에 가깝게 변환해 바로 접근합니다. 충돌이 적고 해시가 고르게 분포하면 검색, 삽입, 삭제가 평균적으로 상수 시간에 가깝습니다. 다만 충돌이 많거나 해시 품질이 나쁘면 성능이 떨어질 수 있어 충돌 처리와 리사이징이 중요합니다."
+        }
+      ]
+    },
+    {
+      "file": "16-security/README.md",
+      "heading": "면접 연습",
+      "items": [
+        {
+          "sourceId": "R16-01",
+          "prompt": "XSS의 세 종류를 차이점과 함께 설명해보세요.",
+          "originalExplanation": "저장형 XSS는 악성 스크립트가 DB나 게시글에 저장됐다가 다른 사용자에게 실행되는 방식입니다. 반사형 XSS는 URL이나 요청 값에 담긴 스크립트가 서버 응답에 바로 반사되어 실행됩니다. DOM-based XSS는 서버 응답보다 브라우저의 JavaScript가 DOM을 잘못 조작하면서 발생합니다."
+        },
+        {
+          "sourceId": "R16-02",
+          "prompt": "prepared statement는 어떻게 SQL Injection을 막나요?",
+          "originalExplanation": "prepared statement는 SQL 구조와 사용자 입력값을 분리합니다. 사용자 입력은 SQL 코드로 해석되지 않고 값으로만 바인딩됩니다. 그래서 입력값에 `' OR '1'='1` 같은 문자열이 들어와도 쿼리 조건을 바꾸는 코드가 아니라 단순 값으로 처리됩니다."
+        },
+        {
+          "sourceId": "R16-03",
+          "prompt": "CSRF는 XSS와 무엇이 다른가요? 둘 중 어느 것이 더 위험하다고 보나요?",
+          "originalExplanation": "XSS는 공격자가 사용자의 브라우저에서 스크립트를 실행하게 만드는 공격입니다. CSRF는 사용자가 로그인된 상태라는 점을 이용해 원치 않는 요청을 보내게 만드는 공격입니다. 둘 다 위험하지만 XSS는 토큰 탈취, 화면 조작, CSRF 유도까지 가능하므로 피해 범위가 더 넓어질 수 있습니다."
+        },
+        {
+          "sourceId": "R16-04",
+          "prompt": "CORS는 누가 검증하나요? 서버가 응답 헤더만 안 보내면 안전한가요?",
+          "originalExplanation": "CORS는 브라우저가 서버 응답의 CORS 헤더를 보고 프론트엔드 JavaScript의 응답 접근을 허용할지 결정하는 정책입니다. 서버가 헤더를 안 보내면 브라우저 JS에서 응답을 읽기 어렵지만, curl이나 서버 간 요청 자체를 막는 인증 수단은 아닙니다. 따라서 CORS는 보조 방어이고, 실제 보안은 인증, 권한 검증, CSRF 방어, 입력 검증으로 해야 합니다."
+        },
+        {
+          "sourceId": "R16-05",
+          "prompt": "비밀번호를 해시할 때 salt가 왜 필요한가요? bcrypt와 SHA-256의 차이는?",
+          "originalExplanation": "salt는 같은 비밀번호도 서로 다른 해시가 나오게 만들어 rainbow table 공격과 대량 비교를 어렵게 합니다. SHA-256은 빠른 범용 해시라 비밀번호 저장에는 너무 빠릅니다. bcrypt는 salt를 포함하고 의도적으로 느리게 설계되어 brute force 비용을 높이므로 비밀번호 저장에 더 적합합니다."
+        },
+        {
+          "sourceId": "R16-06",
+          "prompt": "`.env`를 GitHub에 푸시했습니다. 어떤 절차로 대응하나요?",
+          "originalExplanation": "먼저 노출된 키와 비밀번호를 즉시 폐기하고 새 값으로 교체합니다. 저장소에서는 `.env`를 삭제하고 `.gitignore`에 추가한 뒤 `.env.example`만 남깁니다. 이미 원격에 올라간 값은 노출됐다고 가정해야 하므로 이력 삭제보다 키 회전과 접근 로그 확인이 우선입니다."
+        },
+        {
+          "sourceId": "R16-07",
+          "prompt": "JWT 토큰이 탈취됐다고 의심됩니다. 어떻게 대응하나요?",
+          "originalExplanation": "먼저 영향을 받은 사용자의 토큰을 무효화하거나 서버의 JWT secret을 교체해 기존 토큰을 만료시킵니다. Refresh token을 쓴다면 해당 토큰을 폐기하고 재로그인을 요구합니다. 추가로 로그를 확인해 비정상 요청을 차단하고, 토큰 저장 위치, 만료 시간, HTTPS, XSS 방어를 점검합니다."
+        }
+      ]
+    },
+    {
+      "file": "monorepo-mini-app/README.md",
+      "heading": "면접에서 설명할 포인트",
+      "items": [
+        {
+          "sourceId": "RM-01",
+          "prompt": "프론트와 백엔드 타입 동기화는 어떤 장점이 있나요?",
+          "originalExplanation": "`@note-hub/shared`에 `Note`, `CreateNoteInput`, `ApiRoutes` 같은 타입을 한 번 정의하고 API와 Web이 함께 import합니다. 백엔드 응답 구조가 바뀌면 프론트엔드 타입 체크가 실패하므로 런타임 오류 전에 문제를 발견할 수 있습니다. 면접에서는 \"계약을 문서가 아니라 코드 타입으로 공유했다\"고 설명하면 좋습니다."
+        },
+        {
+          "sourceId": "RM-02",
+          "prompt": "monorepo 도구 선택 기준은 무엇인가요?",
+          "originalExplanation": "패키지 수가 적고 빌드 그래프가 단순하면 npm workspaces만으로 충분합니다. 패키지가 많아지고 캐시, 병렬 빌드, 변경 영향 분석이 중요해지면 Turborepo나 Nx 같은 도구를 검토합니다. 처음부터 무거운 도구를 넣기보다 문제 규모에 맞춰 선택하는 것이 합리적입니다."
+        },
+        {
+          "sourceId": "RM-03",
+          "prompt": "저장소 추상화는 왜 했나요?",
+          "originalExplanation": "`NotesStore` 인터페이스를 두고 InMemory와 PostgreSQL 구현을 분리하면 API 라우터는 저장 방식에 덜 의존합니다. 테스트에서는 빠른 InMemory 구현을 주입하고, 운영에서는 Postgres 구현을 사용할 수 있습니다. 이 구조는 저장소 교체와 테스트 격리를 쉽게 만듭니다."
+        },
+        {
+          "sourceId": "RM-04",
+          "prompt": "단일 이미지 배포는 어떤 의미인가요?",
+          "originalExplanation": "Dockerfile의 빌드 단계에서 web을 정적 파일로 만들고, 런타임 단계에는 API 서버와 web/dist를 함께 담습니다. 운영에서는 `node server.js` 하나로 API와 정적 웹을 같은 포트에서 제공합니다. 작은 서비스에서는 배포 단위가 단순해지고 프론트 서버를 따로 운영하지 않아도 되는 장점이 있습니다."
+        },
+        {
+          "sourceId": "RM-05",
+          "prompt": "DB 헬스체크는 왜 필요한가요?",
+          "originalExplanation": "서버 프로세스가 살아 있어도 DB 연결이 끊기거나 필수 테이블이 없으면 실제 서비스는 정상 동작하지 않을 수 있습니다. PostgreSQL 저장소는 첫 사용 전에 스키마를 멱등하게 준비하고 `/api/health`에서 `store.ping()`까지 확인합니다. 컨테이너 환경에서는 헬스체크 실패를 기준으로 재시작이나 트래픽 제외를 자동화할 수 있습니다."
+        }
+      ]
+    },
+    {
+      "file": "08-fullstack-portfolio-project/resume-assets.md",
+      "heading": "면접 질문과 답변 포인트",
+      "items": [
+        {
+          "sourceId": "RA-01",
+          "prompt": "Q. 이 프로젝트에서 1~7단계 학습이 어떻게 연결되나요?",
+          "originalExplanation": "1단계 HTML/CSS는 반응형 화면과 카드 UI에, 2단계 JavaScript는 입력 처리와 이벤트에, 3단계 React는 state와 컴포넌트 구조에 쓰였습니다. 4단계 Express API는 CRUD 서버로 확장했고, 5단계 데이터 저장은 JSON 저장소 계층으로 구현했습니다. 6단계 로그인은 bcrypt와 JWT 인증으로 적용했고, 7단계 배포 준비는 README, 환경 변수, 빌드, smoke test로 연결했습니다."
+        },
+        {
+          "sourceId": "RA-02",
+          "prompt": "Q. DB 대신 JSON 파일을 쓴 이유는 무엇인가요?",
+          "originalExplanation": "포트폴리오를 보는 사람이 별도 DB 없이 실행할 수 있도록 `server/data-store.js`의 `JsonStore`를 사용했습니다. 라우터가 구체 클래스를 사용하므로 MongoDB나 PostgreSQL로 옮길 때는 같은 CRUD 메서드 계약을 구현하고 생성 지점을 바꿔야 합니다.\n\n파일 하나를 임시 파일로 쓴 뒤 rename하는 방식은 단일 프로세스의 손상 위험을 줄이지만 여러 서버의 전체 read-modify-write를 트랜잭션으로 만들지는 않습니다. 현재 배포는 단일 인스턴스를 전제로 설명하고, 확장 단계에서는 PostgreSQL 같은 DB의 트랜잭션과 제약으로 옮길 계획입니다."
+        },
+        {
+          "sourceId": "RA-03",
+          "prompt": "Q. 보안 관점에서 신경 쓴 부분은 무엇인가요?",
+          "originalExplanation": "`server/auth.js`에서 bcrypt work factor 10으로 비밀번호를 해시하고 HS256·2시간 JWT를 발급합니다. `requireAuth`는 `Authorization: Bearer` 토큰을 검증하고, `assertAuthConfig`는 운영에서 32자 이상의 비예제 `JWT_SECRET`을 요구합니다. `scripts/api-smoke-test.js`는 회원가입 응답에 `passwordHash`가 없는지도 확인합니다."
+        },
+        {
+          "sourceId": "RA-04",
+          "prompt": "Q. 검증은 어떻게 했나요?",
+          "originalExplanation": "`npm run verify`는 lint → format:check → build → test:unit → test:api → audit:submit을 실행합니다. smoke test는 데모 시드 없이 임시 데이터 파일에서 회원가입, 로그인 실패·성공, 워크북 저장, 보호 API, 지원·프로젝트 CRUD, 네 단계 준비도를 HTTP 요청으로 확인합니다."
+        }
+      ]
+    },
+    {
+      "file": "career-roadmap.md",
+      "heading": "면접 대비 질문",
+      "reuse": true,
+      "items": [
+        {
+          "sourceId": "R01-01",
+          "prompt": "이 화면에서 HTML 구조를 왜 이렇게 나누었나요?"
+        },
+        {
+          "sourceId": "R01-02",
+          "prompt": "flexbox와 grid의 차이를 어디에서 느꼈나요?"
+        },
+        {
+          "sourceId": "I04",
+          "prompt": "이벤트 리스너는 언제 실행되나요?"
+        },
+        {
+          "sourceId": "I08",
+          "prompt": "React에서 state를 직접 수정하지 않는 이유는 무엇인가요?"
+        },
+        {
+          "sourceId": "RD05",
+          "prompt": "`GET`, `POST`, `PUT`, `DELETE`는 각각 언제 쓰나요?"
+        },
+        {
+          "sourceId": "I17",
+          "prompt": "DB 스키마를 정하는 이유는 무엇인가요?"
+        },
+        {
+          "sourceId": "I20",
+          "prompt": "비밀번호를 그대로 저장하면 왜 위험한가요?"
+        },
+        {
+          "sourceId": "I22",
+          "prompt": "JWT는 서버 세션 방식과 무엇이 다른가요?"
+        },
+        {
+          "sourceId": "I25",
+          "prompt": "배포할 때 로컬과 운영 환경이 달라지는 부분은 무엇인가요?"
+        },
+        {
+          "sourceId": "I32",
+          "prompt": "`any`와 `unknown`의 차이는 무엇이며 왜 `any`를 피해야 하나요?"
+        },
+        {
+          "sourceId": "I36",
+          "prompt": "INNER JOIN과 LEFT JOIN의 결과 행 수가 어떻게 달라지나요?"
+        },
+        {
+          "sourceId": "I38",
+          "prompt": "트랜잭션이 필요한 이유를 송금 예시로 설명해보세요."
+        },
+        {
+          "sourceId": "I42",
+          "prompt": "Spring의 의존성 주입이 무엇이고 왜 필요한가요?"
+        },
+        {
+          "sourceId": "I41",
+          "prompt": "`@Controller`와 `@RestController`의 차이는 무엇인가요?"
+        },
+        {
+          "sourceId": "I47",
+          "prompt": "단위 테스트와 통합 테스트의 차이는 무엇인가요?"
+        },
+        {
+          "sourceId": "I52",
+          "prompt": "main 브랜치 보호가 왜 필요한가요?"
+        },
+        {
+          "sourceId": "I55",
+          "prompt": "컨테이너와 가상 머신의 차이는 무엇인가요?"
+        },
+        {
+          "sourceId": "I56",
+          "prompt": "멀티 스테이지 Docker 빌드를 쓰는 이유는 무엇인가요?"
+        }
+      ]
+    }
+  ],
+  "featureSections": [
+    {
+      "heading": "01 HTML/CSS 자기소개 페이지",
+      "items": [
+        {
+          "sourceId": "C01-01",
+          "prompt": "HTML에서 페이지의 의미 구조를 만드는 태그를 ____ 태그라고 한다.",
+          "hint": "`<div>`처럼 의미 없는 상자가 아니라 `<header>`, `<nav>`, `<section>`처럼 \"이름만 봐도 역할을 아는\" 태그를 묶어 부르는 말. index.html의 바깥 골격 태그들을 보세요."
+        },
+        {
+          "sourceId": "C01-02",
+          "prompt": "한 페이지의 핵심 제목은 보통 `<____>` 태그로 작성한다.",
+          "hint": "제목 태그 h1~h6 중 페이지당 보통 하나만 쓰는 최상위 단계."
+        },
+        {
+          "sourceId": "C01-03",
+          "prompt": "이미지에는 접근성을 위해 `____` 속성을 반드시 작성한다.",
+          "hint": "이미지가 안 보이거나 스크린리더가 읽을 때 대신 나오는 텍스트 속성. `<img src=... ____=...>`."
+        },
+        {
+          "sourceId": "C01-04",
+          "prompt": "Flexbox는 한 방향 배치에 강하고, Grid는 ____ 배치에 강하다.",
+          "hint": "행과 열을 동시에 다루는 차원 수를 생각하세요."
+        },
+        {
+          "sourceId": "C01-05",
+          "prompt": "모바일 화면에서 가로 배치를 세로로 바꾸려면 media query 안에서 `flex-direction: ____`을 사용한다.",
+          "hint": "기본값은 `row`(가로). 세로로 쌓는 값은? styles.css의 `@media` 블록을 보세요."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S01",
+        "prompt": "이 페이지는 ____ 태그로 구조를 나누고, ____와 ____를 사용해 자기소개 영역과 카드 목록을 반응형으로 배치했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C01-01",
+              "prompt": "HTML에서 페이지의 의미 구조를 만드는 태그를 ____ 태그라고 한다.",
+              "hint": "`<div>`처럼 의미 없는 상자가 아니라 `<header>`, `<nav>`, `<section>`처럼 \"이름만 봐도 역할을 아는\" 태그를 묶어 부르는 말. index.html의 바깥 골격 태그들을 보세요."
+            },
+            {
+              "sourceId": "C01-02",
+              "prompt": "한 페이지의 핵심 제목은 보통 `<____>` 태그로 작성한다.",
+              "hint": "제목 태그 h1~h6 중 페이지당 보통 하나만 쓰는 최상위 단계."
+            },
+            {
+              "sourceId": "C01-03",
+              "prompt": "이미지에는 접근성을 위해 `____` 속성을 반드시 작성한다.",
+              "hint": "이미지가 안 보이거나 스크린리더가 읽을 때 대신 나오는 텍스트 속성. `<img src=... ____=...>`."
+            },
+            {
+              "sourceId": "C01-04",
+              "prompt": "Flexbox는 한 방향 배치에 강하고, Grid는 ____ 배치에 강하다.",
+              "hint": "행과 열을 동시에 다루는 차원 수를 생각하세요."
+            },
+            {
+              "sourceId": "C01-05",
+              "prompt": "모바일 화면에서 가로 배치를 세로로 바꾸려면 media query 안에서 `flex-direction: ____`을 사용한다.",
+              "hint": "기본값은 `row`(가로). 세로로 쌓는 값은? styles.css의 `@media` 블록을 보세요."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "02 JavaScript 이벤트와 계산기",
+      "items": [
+        {
+          "sourceId": "C02-01",
+          "prompt": "브라우저의 HTML 요소를 JavaScript에서 다루는 객체 모델을 ____이라고 한다.",
+          "hint": "Document Object Model의 약자. `document.querySelector(...)`로 만지는 그 트리."
+        },
+        {
+          "sourceId": "C02-02",
+          "prompt": "버튼 클릭처럼 사용자의 행동이 발생하는 것을 ____라고 한다.",
+          "hint": "`addEventListener(\"click\", ...)`에서 \"click\"이 그 한 종류."
+        },
+        {
+          "sourceId": "C02-03",
+          "prompt": "input의 현재 값은 보통 `element.____`로 읽는다.",
+          "hint": "텍스트 입력칸이 들고 있는 글자를 담는 속성 이름."
+        },
+        {
+          "sourceId": "C02-04",
+          "prompt": "배열 끝에 값을 추가할 때 사용하는 메서드는 `____`이다.",
+          "hint": "배열 앞이 아니라 *끝*에 밀어넣는 메서드."
+        },
+        {
+          "sourceId": "C02-05",
+          "prompt": "화면을 다시 그리는 함수를 따로 두면 데이터 변경과 ____를 분리할 수 있다.",
+          "hint": "\"데이터를 바꾸는 일\"과 \"그 데이터를 화면에 그리는 일\"을 나눈다는 뜻. 후자를 가리키는 단어."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S02",
+        "prompt": "사용자가 버튼을 누르면 ____가 실행되고, 함수가 input 값을 읽은 뒤 배열이나 DOM을 변경해 화면을 갱신합니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C02-01",
+              "prompt": "브라우저의 HTML 요소를 JavaScript에서 다루는 객체 모델을 ____이라고 한다.",
+              "hint": "Document Object Model의 약자. `document.querySelector(...)`로 만지는 그 트리."
+            },
+            {
+              "sourceId": "C02-02",
+              "prompt": "버튼 클릭처럼 사용자의 행동이 발생하는 것을 ____라고 한다.",
+              "hint": "`addEventListener(\"click\", ...)`에서 \"click\"이 그 한 종류."
+            },
+            {
+              "sourceId": "C02-03",
+              "prompt": "input의 현재 값은 보통 `element.____`로 읽는다.",
+              "hint": "텍스트 입력칸이 들고 있는 글자를 담는 속성 이름."
+            },
+            {
+              "sourceId": "C02-04",
+              "prompt": "배열 끝에 값을 추가할 때 사용하는 메서드는 `____`이다.",
+              "hint": "배열 앞이 아니라 *끝*에 밀어넣는 메서드."
+            },
+            {
+              "sourceId": "C02-05",
+              "prompt": "화면을 다시 그리는 함수를 따로 두면 데이터 변경과 ____를 분리할 수 있다.",
+              "hint": "\"데이터를 바꾸는 일\"과 \"그 데이터를 화면에 그리는 일\"을 나눈다는 뜻. 후자를 가리키는 단어."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "03 React Todo",
+      "items": [
+        {
+          "sourceId": "C03-01",
+          "prompt": "React에서 화면에 영향을 주는 값은 보통 ____로 관리한다.",
+          "hint": "`const [x, setX] = useState(...)`로 만드는 그것. 바뀌면 React가 다시 그린다."
+        },
+        {
+          "sourceId": "C03-02",
+          "prompt": "부모 컴포넌트가 자식 컴포넌트에 넘기는 값은 ____라고 한다.",
+          "hint": "`<TodoItem todo={...} onToggle={...} />`에서 자식이 받는 입력들."
+        },
+        {
+          "sourceId": "C03-03",
+          "prompt": "배열 state를 수정할 때 기존 배열을 직접 바꾸지 않고 새 배열을 만드는 이유는 ____를 지키기 위해서다.",
+          "hint": "원본을 안 건드리고 새 값을 만드는 성질. React가 변경을 감지하는 근거가 된다."
+        },
+        {
+          "sourceId": "C03-04",
+          "prompt": "입력창의 변경 이벤트에서 실제 입력값은 `event.target.____`에 있다.",
+          "hint": "02단계 input과 같은 속성."
+        },
+        {
+          "sourceId": "C03-05",
+          "prompt": "리스트 렌더링에서 `key`가 필요한 이유는 React가 각 항목의 ____를 추적하기 위해서다.",
+          "hint": "항목이 추가/삭제/재정렬될 때 \"누가 누구인지\" 구분하는 표식."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S03",
+        "prompt": "Todo 앱은 ____를 단일 기준으로 삼고, 입력 이벤트와 토글 이벤트가 state를 바꾸면 React가 화면을 다시 렌더링합니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C03-01",
+              "prompt": "React에서 화면에 영향을 주는 값은 보통 ____로 관리한다.",
+              "hint": "`const [x, setX] = useState(...)`로 만드는 그것. 바뀌면 React가 다시 그린다."
+            },
+            {
+              "sourceId": "C03-02",
+              "prompt": "부모 컴포넌트가 자식 컴포넌트에 넘기는 값은 ____라고 한다.",
+              "hint": "`<TodoItem todo={...} onToggle={...} />`에서 자식이 받는 입력들."
+            },
+            {
+              "sourceId": "C03-03",
+              "prompt": "배열 state를 수정할 때 기존 배열을 직접 바꾸지 않고 새 배열을 만드는 이유는 ____를 지키기 위해서다.",
+              "hint": "원본을 안 건드리고 새 값을 만드는 성질. React가 변경을 감지하는 근거가 된다."
+            },
+            {
+              "sourceId": "C03-04",
+              "prompt": "입력창의 변경 이벤트에서 실제 입력값은 `event.target.____`에 있다.",
+              "hint": "02단계 input과 같은 속성."
+            },
+            {
+              "sourceId": "C03-05",
+              "prompt": "리스트 렌더링에서 `key`가 필요한 이유는 React가 각 항목의 ____를 추적하기 위해서다.",
+              "hint": "항목이 추가/삭제/재정렬될 때 \"누가 누구인지\" 구분하는 표식."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "04 Node 게시판 REST API",
+      "items": [
+        {
+          "sourceId": "C04-01",
+          "prompt": "REST에서 리소스 목록 조회는 보통 HTTP 메서드 ____를 사용한다.",
+          "hint": "읽기 전용·안전한 메서드."
+        },
+        {
+          "sourceId": "C04-02",
+          "prompt": "리소스 생성 성공 상태 코드는 ____이다.",
+          "hint": "2xx 중 \"새로 만들어짐\"을 뜻하는 코드. server.js의 `res.status(...)` 호출부 참고."
+        },
+        {
+          "sourceId": "C04-03",
+          "prompt": "리소스 삭제 성공 후 응답 본문이 없으면 상태 코드 ____를 자주 사용한다.",
+          "hint": "2xx 중 \"성공했고 보낼 본문 없음\"."
+        },
+        {
+          "sourceId": "C04-04",
+          "prompt": "URL의 `:id` 값은 `req.____.id`에서 읽는다.",
+          "hint": "쿼리스트링(`req.query`)이 아니라 경로 파라미터를 담는 객체."
+        },
+        {
+          "sourceId": "C04-05",
+          "prompt": "JSON 요청 본문을 읽기 위해 Express에 `express.____()` 미들웨어를 등록한다.",
+          "hint": "이걸 안 붙이면 `req.body`가 `undefined`가 된다. 본문 형식 이름과 같다."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S04",
+        "prompt": "게시판 API는 ____ 메서드로 조회, 생성, 수정, 삭제를 나누고, 성공과 실패를 HTTP 상태 코드로 구분했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C04-01",
+              "prompt": "REST에서 리소스 목록 조회는 보통 HTTP 메서드 ____를 사용한다.",
+              "hint": "읽기 전용·안전한 메서드."
+            },
+            {
+              "sourceId": "C04-02",
+              "prompt": "리소스 생성 성공 상태 코드는 ____이다.",
+              "hint": "2xx 중 \"새로 만들어짐\"을 뜻하는 코드. server.js의 `res.status(...)` 호출부 참고."
+            },
+            {
+              "sourceId": "C04-03",
+              "prompt": "리소스 삭제 성공 후 응답 본문이 없으면 상태 코드 ____를 자주 사용한다.",
+              "hint": "2xx 중 \"성공했고 보낼 본문 없음\"."
+            },
+            {
+              "sourceId": "C04-04",
+              "prompt": "URL의 `:id` 값은 `req.____.id`에서 읽는다.",
+              "hint": "쿼리스트링(`req.query`)이 아니라 경로 파라미터를 담는 객체."
+            },
+            {
+              "sourceId": "C04-05",
+              "prompt": "JSON 요청 본문을 읽기 위해 Express에 `express.____()` 미들웨어를 등록한다.",
+              "hint": "이걸 안 붙이면 `req.body`가 `undefined`가 된다. 본문 형식 이름과 같다."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "05 MongoDB 게시판 API",
+      "items": [
+        {
+          "sourceId": "C05-01",
+          "prompt": "MongoDB와 Node.js를 연결할 때 이 프로젝트에서 사용하는 ODM은 ____이다.",
+          "hint": "`package.json` 의존성과 `db.js`의 `require/import`를 보세요. 스키마·모델을 제공하는 라이브러리."
+        },
+        {
+          "sourceId": "C05-02",
+          "prompt": "Mongoose에서 컬렉션 문서의 모양을 정의하는 객체는 ____이다.",
+          "hint": "`Post.js`에서 `new ____({...})`로 필드 타입을 선언하는 것."
+        },
+        {
+          "sourceId": "C05-03",
+          "prompt": "데이터가 서버 재시작 후에도 남는 성질을 ____이라고 한다.",
+          "hint": "04단계 배열은 재시작하면 사라졌다. DB는 이 성질이 있다."
+        },
+        {
+          "sourceId": "C05-04",
+          "prompt": "`findByIdAndUpdate`에서 수정된 최신 문서를 받으려면 옵션 `____: true`를 사용한다.",
+          "hint": "기본값은 수정 *전* 문서를 돌려준다. \"갱신된 새 문서\"를 달라는 옵션 이름."
+        },
+        {
+          "sourceId": "C05-05",
+          "prompt": "비동기 라우터에서 에러를 중앙 처리로 넘길 때 `____(error)`를 호출한다.",
+          "hint": "Express 핸들러의 세 번째 인자. 호출하면 에러 미들웨어로 넘어간다."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S05",
+        "prompt": "MongoDB 단계에서는 Express 라우터가 직접 배열을 고치는 대신, ____ 모델을 통해 데이터를 저장하고 조회하도록 바꿨습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C05-01",
+              "prompt": "MongoDB와 Node.js를 연결할 때 이 프로젝트에서 사용하는 ODM은 ____이다.",
+              "hint": "`package.json` 의존성과 `db.js`의 `require/import`를 보세요. 스키마·모델을 제공하는 라이브러리."
+            },
+            {
+              "sourceId": "C05-02",
+              "prompt": "Mongoose에서 컬렉션 문서의 모양을 정의하는 객체는 ____이다.",
+              "hint": "`Post.js`에서 `new ____({...})`로 필드 타입을 선언하는 것."
+            },
+            {
+              "sourceId": "C05-03",
+              "prompt": "데이터가 서버 재시작 후에도 남는 성질을 ____이라고 한다.",
+              "hint": "04단계 배열은 재시작하면 사라졌다. DB는 이 성질이 있다."
+            },
+            {
+              "sourceId": "C05-04",
+              "prompt": "`findByIdAndUpdate`에서 수정된 최신 문서를 받으려면 옵션 `____: true`를 사용한다.",
+              "hint": "기본값은 수정 *전* 문서를 돌려준다. \"갱신된 새 문서\"를 달라는 옵션 이름."
+            },
+            {
+              "sourceId": "C05-05",
+              "prompt": "비동기 라우터에서 에러를 중앙 처리로 넘길 때 `____(error)`를 호출한다.",
+              "hint": "Express 핸들러의 세 번째 인자. 호출하면 에러 미들웨어로 넘어간다."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "06 로그인과 JWT 인증",
+      "items": [
+        {
+          "sourceId": "C06-01",
+          "prompt": "비밀번호는 평문 저장 대신 ____로 저장해야 한다.",
+          "hint": "원문으로 되돌릴 수 없는 단방향 변환 결과. `auth.js`의 bcrypt 호출 결과물."
+        },
+        {
+          "sourceId": "C06-02",
+          "prompt": "bcrypt의 `hash(password, 10)`에서 10은 work factor, 즉 ____ 비용을 의미한다.",
+          "hint": "숫자가 커질수록 해시 1번에 드는 시간이 늘어난다. 무차별 대입을 느리게 만드는 것."
+        },
+        {
+          "sourceId": "C06-03",
+          "prompt": "로그인 성공 후 서버가 발급하는 서명된 토큰은 ____이다.",
+          "hint": "세 부분이 점(`.`)으로 나뉜 그 토큰. `auth.js`의 sign 함수가 만든다."
+        },
+        {
+          "sourceId": "C06-04",
+          "prompt": "보호 API는 요청 헤더 `____: Bearer <token>`을 확인한다.",
+          "hint": "인증 정보를 싣는 표준 헤더 이름."
+        },
+        {
+          "sourceId": "C06-05",
+          "prompt": "인증 실패 상태 코드는 보통 ____이다.",
+          "hint": "4xx 중 \"너 누군지 확인 안 됨\". (권한 없음 403과 헷갈리지 말 것)"
+        }
+      ],
+      "sentence": {
+        "sourceId": "S06",
+        "prompt": "회원가입 때 비밀번호를 ____로 해시하고, 로그인 성공 시 ____를 발급해 이후 보호 API에서 요청자를 확인했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C06-01",
+              "prompt": "비밀번호는 평문 저장 대신 ____로 저장해야 한다.",
+              "hint": "원문으로 되돌릴 수 없는 단방향 변환 결과. `auth.js`의 bcrypt 호출 결과물."
+            },
+            {
+              "sourceId": "C06-02",
+              "prompt": "bcrypt의 `hash(password, 10)`에서 10은 work factor, 즉 ____ 비용을 의미한다.",
+              "hint": "숫자가 커질수록 해시 1번에 드는 시간이 늘어난다. 무차별 대입을 느리게 만드는 것."
+            },
+            {
+              "sourceId": "C06-03",
+              "prompt": "로그인 성공 후 서버가 발급하는 서명된 토큰은 ____이다.",
+              "hint": "세 부분이 점(`.`)으로 나뉜 그 토큰. `auth.js`의 sign 함수가 만든다."
+            },
+            {
+              "sourceId": "C06-04",
+              "prompt": "보호 API는 요청 헤더 `____: Bearer <token>`을 확인한다.",
+              "hint": "인증 정보를 싣는 표준 헤더 이름."
+            },
+            {
+              "sourceId": "C06-05",
+              "prompt": "인증 실패 상태 코드는 보통 ____이다.",
+              "hint": "4xx 중 \"너 누군지 확인 안 됨\". (권한 없음 403과 헷갈리지 말 것)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "07 프론트와 백 연결 및 배포 준비",
+      "items": [
+        {
+          "sourceId": "C07-01",
+          "prompt": "Express에서 정적 파일을 제공하는 미들웨어는 `express.____`이다.",
+          "hint": "`public/` 폴더의 HTML/CSS/JS를 그대로 내보내는 미들웨어 이름."
+        },
+        {
+          "sourceId": "C07-02",
+          "prompt": "같은 서버에서 API를 호출할 때 `API_BASE`는 보통 ____ 문자열로 둔다.",
+          "hint": "도메인을 안 적고 경로만 쓰면 같은 출처로 간다. `app.js`의 `API_BASE` 값을 보세요."
+        },
+        {
+          "sourceId": "C07-03",
+          "prompt": "브라우저에서 HTTP 요청을 보낼 때 이 프로젝트가 사용하는 함수는 ____이다.",
+          "hint": "최신 브라우저 내장. `await ____(\"/api/...\")`."
+        },
+        {
+          "sourceId": "C07-04",
+          "prompt": "로컬과 배포 환경에서 달라지는 값은 ____ 변수로 분리한다.",
+          "hint": "`.env`에 담고 `process.env`로 읽는 그것."
+        },
+        {
+          "sourceId": "C07-05",
+          "prompt": "배포 전 실행 방법, 환경 변수, 검증 방법은 ____에 남겨야 한다.",
+          "hint": "이 트랙의 관련 파일 이름 그대로."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S07",
+        "prompt": "7단계는 브라우저의 ____ 요청과 Express API를 연결하고, 배포 환경에서 필요한 설정을 문서화하는 단계입니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C07-01",
+              "prompt": "Express에서 정적 파일을 제공하는 미들웨어는 `express.____`이다.",
+              "hint": "`public/` 폴더의 HTML/CSS/JS를 그대로 내보내는 미들웨어 이름."
+            },
+            {
+              "sourceId": "C07-02",
+              "prompt": "같은 서버에서 API를 호출할 때 `API_BASE`는 보통 ____ 문자열로 둔다.",
+              "hint": "도메인을 안 적고 경로만 쓰면 같은 출처로 간다. `app.js`의 `API_BASE` 값을 보세요."
+            },
+            {
+              "sourceId": "C07-03",
+              "prompt": "브라우저에서 HTTP 요청을 보낼 때 이 프로젝트가 사용하는 함수는 ____이다.",
+              "hint": "최신 브라우저 내장. `await ____(\"/api/...\")`."
+            },
+            {
+              "sourceId": "C07-04",
+              "prompt": "로컬과 배포 환경에서 달라지는 값은 ____ 변수로 분리한다.",
+              "hint": "`.env`에 담고 `process.env`로 읽는 그것."
+            },
+            {
+              "sourceId": "C07-05",
+              "prompt": "배포 전 실행 방법, 환경 변수, 검증 방법은 ____에 남겨야 한다.",
+              "hint": "이 트랙의 관련 파일 이름 그대로."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "08 Career Hub Fullstack Portfolio",
+      "items": [
+        {
+          "sourceId": "C08-01",
+          "prompt": "앱 이름: ____",
+          "hint": ""
+        },
+        {
+          "sourceId": "C08-02",
+          "prompt": "해결하는 문제: SI/SW 취업 준비자가 ____와 ____를 관리한다.",
+          "hint": "화면 탭 이름(지원 현황 / 프로젝트)을 보세요."
+        },
+        {
+          "sourceId": "C08-03",
+          "prompt": "프론트엔드 스택: React + ____",
+          "hint": "번들러/개발서버. `vite.config.js`가 있다."
+        },
+        {
+          "sourceId": "C08-04",
+          "prompt": "백엔드 스택: Node.js + ____",
+          "hint": "04~07단계에서 계속 쓴 그 웹 프레임워크."
+        },
+        {
+          "sourceId": "C08-05",
+          "prompt": "인증 방식: bcrypt + ____",
+          "hint": "06단계에서 발급한 그 토큰."
+        },
+        {
+          "sourceId": "C08-06",
+          "prompt": "저장 방식: JSON 파일 저장소, 추후 ____ 또는 PostgreSQL로 교체 가능",
+          "hint": "05단계에서 쓴 문서형 DB."
+        },
+        {
+          "sourceId": "C08-07",
+          "prompt": "핵심 검증 명령: `npm run ____`",
+          "hint": "lint·test·build·audit을 한 번에 도는 통합 명령. `package.json` scripts를 보세요."
+        },
+        {
+          "sourceId": "C08-08",
+          "prompt": "저장소 파일: `server/____.js`",
+          "hint": "관련 파일 목록에 이미 있다. \"데이터를 읽고 쓰는\" 계층."
+        },
+        {
+          "sourceId": "C08-09",
+          "prompt": "사용자에게 노출하면 안 되는 필드: ____",
+          "hint": "06단계에서도 새면 안 됐던 그 필드."
+        },
+        {
+          "sourceId": "C08-10",
+          "prompt": "이메일 비교 전 적용하는 정규화: ____",
+          "hint": "`User@Email.com`과 `user@email.com`을 같게 보려면? 대소문자 관련."
+        },
+        {
+          "sourceId": "C08-11",
+          "prompt": "저장소 계층을 분리한 이유: 라우터가 특정 ____ 방식에 묶이지 않게 하기 위해서다.",
+          "hint": "지금은 JSON 파일, 나중엔 DB로 바꿀 그 \"방식\"."
+        },
+        {
+          "sourceId": "C08-12",
+          "prompt": "기본 보안 헤더는 ____ 미들웨어로 설정한다.",
+          "hint": "Express용 보안 헤더 패키지. `server/index.js`의 `app.use(...)`를 보세요."
+        },
+        {
+          "sourceId": "C08-13",
+          "prompt": "로그인과 API 요청 남용은 ____ 미들웨어로 제한한다.",
+          "hint": "일정 시간당 요청 수를 제한하는 미들웨어(rate limit 계열)."
+        },
+        {
+          "sourceId": "C08-14",
+          "prompt": "request body 크기 제한은 `express.json({ limit: \"____\" })`처럼 설정한다.",
+          "hint": "너무 큰 본문(예: `1mb`)을 막는 값. 실제 설정값을 코드에서 확인."
+        },
+        {
+          "sourceId": "C08-15",
+          "prompt": "구조적 JSON 로그는 ____와 pino-http로 남긴다.",
+          "hint": "pino 계열 로거. `server/logger.js` 참고."
+        },
+        {
+          "sourceId": "C08-16",
+          "prompt": "요청 추적용 헤더 이름은 `____`이다.",
+          "hint": "요청마다 고유 id를 싣는 헤더. `x-`로 시작."
+        },
+        {
+          "sourceId": "C08-17",
+          "prompt": "컨테이너 종료 신호 SIGTERM/SIGINT에서는 ____ 셧다운을 수행한다.",
+          "hint": "진행 중 요청을 끊지 않고 정리 후 닫는 방식(우아한…)."
+        }
+      ],
+      "blocks": [
+        {
+          "heading": "전체 기능 지도 빈칸",
+          "items": [
+            {
+              "sourceId": "C08-01",
+              "prompt": "앱 이름: ____",
+              "hint": ""
+            },
+            {
+              "sourceId": "C08-02",
+              "prompt": "해결하는 문제: SI/SW 취업 준비자가 ____와 ____를 관리한다.",
+              "hint": "화면 탭 이름(지원 현황 / 프로젝트)을 보세요."
+            },
+            {
+              "sourceId": "C08-03",
+              "prompt": "프론트엔드 스택: React + ____",
+              "hint": "번들러/개발서버. `vite.config.js`가 있다."
+            },
+            {
+              "sourceId": "C08-04",
+              "prompt": "백엔드 스택: Node.js + ____",
+              "hint": "04~07단계에서 계속 쓴 그 웹 프레임워크."
+            },
+            {
+              "sourceId": "C08-05",
+              "prompt": "인증 방식: bcrypt + ____",
+              "hint": "06단계에서 발급한 그 토큰."
+            },
+            {
+              "sourceId": "C08-06",
+              "prompt": "저장 방식: JSON 파일 저장소, 추후 ____ 또는 PostgreSQL로 교체 가능",
+              "hint": "05단계에서 쓴 문서형 DB."
+            },
+            {
+              "sourceId": "C08-07",
+              "prompt": "핵심 검증 명령: `npm run ____`",
+              "hint": "lint·test·build·audit을 한 번에 도는 통합 명령. `package.json` scripts를 보세요."
+            }
+          ]
+        },
+        {
+          "heading": "저장소 계층 빈칸",
+          "items": [
+            {
+              "sourceId": "C08-08",
+              "prompt": "저장소 파일: `server/____.js`",
+              "hint": "관련 파일 목록에 이미 있다. \"데이터를 읽고 쓰는\" 계층."
+            },
+            {
+              "sourceId": "C08-09",
+              "prompt": "사용자에게 노출하면 안 되는 필드: ____",
+              "hint": "06단계에서도 새면 안 됐던 그 필드."
+            },
+            {
+              "sourceId": "C08-10",
+              "prompt": "이메일 비교 전 적용하는 정규화: ____",
+              "hint": "`User@Email.com`과 `user@email.com`을 같게 보려면? 대소문자 관련."
+            },
+            {
+              "sourceId": "C08-11",
+              "prompt": "저장소 계층을 분리한 이유: 라우터가 특정 ____ 방식에 묶이지 않게 하기 위해서다.",
+              "hint": "지금은 JSON 파일, 나중엔 DB로 바꿀 그 \"방식\"."
+            }
+          ]
+        },
+        {
+          "heading": "보안/운영 빈칸",
+          "items": [
+            {
+              "sourceId": "C08-12",
+              "prompt": "기본 보안 헤더는 ____ 미들웨어로 설정한다.",
+              "hint": "Express용 보안 헤더 패키지. `server/index.js`의 `app.use(...)`를 보세요."
+            },
+            {
+              "sourceId": "C08-13",
+              "prompt": "로그인과 API 요청 남용은 ____ 미들웨어로 제한한다.",
+              "hint": "일정 시간당 요청 수를 제한하는 미들웨어(rate limit 계열)."
+            },
+            {
+              "sourceId": "C08-14",
+              "prompt": "request body 크기 제한은 `express.json({ limit: \"____\" })`처럼 설정한다.",
+              "hint": "너무 큰 본문(예: `1mb`)을 막는 값. 실제 설정값을 코드에서 확인."
+            },
+            {
+              "sourceId": "C08-15",
+              "prompt": "구조적 JSON 로그는 ____와 pino-http로 남긴다.",
+              "hint": "pino 계열 로거. `server/logger.js` 참고."
+            },
+            {
+              "sourceId": "C08-16",
+              "prompt": "요청 추적용 헤더 이름은 `____`이다.",
+              "hint": "요청마다 고유 id를 싣는 헤더. `x-`로 시작."
+            },
+            {
+              "sourceId": "C08-17",
+              "prompt": "컨테이너 종료 신호 SIGTERM/SIGINT에서는 ____ 셧다운을 수행한다.",
+              "hint": "진행 중 요청을 끊지 않고 정리 후 닫는 방식(우아한…)."
+            }
+          ]
+        }
+      ],
+      "sentence": {
+        "sourceId": "S08",
+        "prompt": "Career Hub는 React로 ____를 관리하고, Express API로 ____와 ____ CRUD를 제공하며, bcrypt와 JWT로 보호 API를 구성한 제출용 fullstack 포트폴리오입니다."
+      }
+    },
+    {
+      "heading": "09 TypeScript",
+      "items": [
+        {
+          "sourceId": "C09-01",
+          "prompt": "TypeScript의 핵심 가치는 런타임 전에 ____ 시점에 오류를 잡는 것이다.",
+          "hint": "코드를 실행하기 전, JS로 바꾸는 그 시점. `npm run typecheck`가 도는 때."
+        },
+        {
+          "sourceId": "C09-02",
+          "prompt": "객체의 구조를 이름 붙여 정의할 때 `____` 또는 `type`을 사용한다.",
+          "hint": "`02-interface-design.ts` 파일 이름에 답이 들어 있다."
+        },
+        {
+          "sourceId": "C09-03",
+          "prompt": "여러 가능한 타입을 표현하는 `string | number` 같은 타입을 ____ 타입이라고 한다.",
+          "hint": "`|`로 여럿을 \"합친\" 타입."
+        },
+        {
+          "sourceId": "C09-04",
+          "prompt": "`typeof`, `instanceof`로 타입을 좁히는 과정을 ____이라고 한다.",
+          "hint": "`05-narrowing.ts` 파일 이름 참고. 넓은 타입을 점점 \"좁히는\" 것."
+        },
+        {
+          "sourceId": "C09-05",
+          "prompt": "호출자가 응답 타입을 지정하게 하는 문법 `fetchJson<T>`에서 T는 ____이다.",
+          "hint": "`06-generic-fetch.ts`의 `<T>`. 타입을 매개변수처럼 받는 것."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S09",
+        "prompt": "TypeScript 단계에서는 값의 모양을 ____로 명시해 API와 화면 사이의 계약이 어긋나는 문제를 미리 잡았습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C09-01",
+              "prompt": "TypeScript의 핵심 가치는 런타임 전에 ____ 시점에 오류를 잡는 것이다.",
+              "hint": "코드를 실행하기 전, JS로 바꾸는 그 시점. `npm run typecheck`가 도는 때."
+            },
+            {
+              "sourceId": "C09-02",
+              "prompt": "객체의 구조를 이름 붙여 정의할 때 `____` 또는 `type`을 사용한다.",
+              "hint": "`02-interface-design.ts` 파일 이름에 답이 들어 있다."
+            },
+            {
+              "sourceId": "C09-03",
+              "prompt": "여러 가능한 타입을 표현하는 `string | number` 같은 타입을 ____ 타입이라고 한다.",
+              "hint": "`|`로 여럿을 \"합친\" 타입."
+            },
+            {
+              "sourceId": "C09-04",
+              "prompt": "`typeof`, `instanceof`로 타입을 좁히는 과정을 ____이라고 한다.",
+              "hint": "`05-narrowing.ts` 파일 이름 참고. 넓은 타입을 점점 \"좁히는\" 것."
+            },
+            {
+              "sourceId": "C09-05",
+              "prompt": "호출자가 응답 타입을 지정하게 하는 문법 `fetchJson<T>`에서 T는 ____이다.",
+              "hint": "`06-generic-fetch.ts`의 `<T>`. 타입을 매개변수처럼 받는 것."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "10 SQL/Oracle",
+      "items": [
+        {
+          "sourceId": "C10-01",
+          "prompt": "테이블을 만들고 변경하는 SQL 범주는 ____이다.",
+          "hint": "CREATE/ALTER/DROP을 묶는 범주(Data ___ Language). `01-ddl.sql` 파일명 참고."
+        },
+        {
+          "sourceId": "C10-02",
+          "prompt": "데이터를 조회, 삽입, 수정, 삭제하는 SQL 범주는 ____이다.",
+          "hint": "SELECT/INSERT/UPDATE/DELETE를 묶는 범주(Data ___ Language).",
+          "question": "이 워크북에서 SELECT를 포함해 데이터를 조회·삽입·수정·삭제하는 SQL 범주는?"
+        },
+        {
+          "sourceId": "C10-03",
+          "prompt": "기본키는 각 행을 ____하게 식별한다.",
+          "hint": "중복이 없고 비어 있지 않은 성질."
+        },
+        {
+          "sourceId": "C10-04",
+          "prompt": "외래키는 두 테이블 사이의 ____ 관계를 보장한다.",
+          "hint": "한쪽에 없는 값을 다른 쪽이 참조하지 못하게 하는 무결성(참조 ___)."
+        },
+        {
+          "sourceId": "C10-05",
+          "prompt": "`INNER JOIN`은 양쪽 조건이 맞는 행만 반환하고, `LEFT JOIN`은 ____ 테이블의 행을 모두 유지한다.",
+          "hint": "JOIN 키워드 기준 어느 쪽을 다 남기는지 단어 그대로."
+        },
+        {
+          "sourceId": "C10-06",
+          "prompt": "트랜잭션의 ACID 중 Atomicity는 ____를 의미한다.",
+          "hint": "\"전부 되거나 전부 안 되거나\". 부분 성공을 허용하지 않는 성질."
+        },
+        {
+          "sourceId": "C10-07",
+          "prompt": "인덱스는 조회 속도를 높일 수 있지만 ____ 비용과 저장 공간을 늘릴 수 있다.",
+          "hint": "INSERT/UPDATE/DELETE 때 인덱스도 같이 고쳐야 한다. 그 작업 범주."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S10",
+        "prompt": "SQL 단계에서는 테이블 관계를 ____로 보장하고, JOIN과 GROUP BY로 화면에 필요한 데이터를 조회하는 연습을 했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C10-01",
+              "prompt": "테이블을 만들고 변경하는 SQL 범주는 ____이다.",
+              "hint": "CREATE/ALTER/DROP을 묶는 범주(Data ___ Language). `01-ddl.sql` 파일명 참고."
+            },
+            {
+              "sourceId": "C10-02",
+              "prompt": "데이터를 조회, 삽입, 수정, 삭제하는 SQL 범주는 ____이다.",
+              "hint": "SELECT/INSERT/UPDATE/DELETE를 묶는 범주(Data ___ Language).",
+              "question": "이 워크북에서 SELECT를 포함해 데이터를 조회·삽입·수정·삭제하는 SQL 범주는?"
+            },
+            {
+              "sourceId": "C10-03",
+              "prompt": "기본키는 각 행을 ____하게 식별한다.",
+              "hint": "중복이 없고 비어 있지 않은 성질."
+            },
+            {
+              "sourceId": "C10-04",
+              "prompt": "외래키는 두 테이블 사이의 ____ 관계를 보장한다.",
+              "hint": "한쪽에 없는 값을 다른 쪽이 참조하지 못하게 하는 무결성(참조 ___)."
+            },
+            {
+              "sourceId": "C10-05",
+              "prompt": "`INNER JOIN`은 양쪽 조건이 맞는 행만 반환하고, `LEFT JOIN`은 ____ 테이블의 행을 모두 유지한다.",
+              "hint": "JOIN 키워드 기준 어느 쪽을 다 남기는지 단어 그대로."
+            },
+            {
+              "sourceId": "C10-06",
+              "prompt": "트랜잭션의 ACID 중 Atomicity는 ____를 의미한다.",
+              "hint": "\"전부 되거나 전부 안 되거나\". 부분 성공을 허용하지 않는 성질."
+            },
+            {
+              "sourceId": "C10-07",
+              "prompt": "인덱스는 조회 속도를 높일 수 있지만 ____ 비용과 저장 공간을 늘릴 수 있다.",
+              "hint": "INSERT/UPDATE/DELETE 때 인덱스도 같이 고쳐야 한다. 그 작업 범주."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "11 Java/Spring",
+      "items": [
+        {
+          "sourceId": "C11-01",
+          "prompt": "Spring에서 HTTP 요청을 받는 계층은 ____이다.",
+          "hint": "Express의 라우터에 해당. `@RestController` 애너테이션이 붙는 곳."
+        },
+        {
+          "sourceId": "C11-02",
+          "prompt": "비즈니스 규칙을 담당하는 계층은 ____이다.",
+          "hint": "컨트롤러와 저장소 사이. `@Service`가 붙는 곳."
+        },
+        {
+          "sourceId": "C11-03",
+          "prompt": "DB 접근을 담당하는 계층은 ____이다.",
+          "hint": "08단계 data-store에 해당. `@Repository`가 붙는 곳."
+        },
+        {
+          "sourceId": "C11-04",
+          "prompt": "객체 생성을 프레임워크에 맡기고 필요한 곳에 주입받는 방식을 ____라고 한다.",
+          "hint": "생성자로 의존성을 받는 그 방식(Dependency ___). Spring의 핵심."
+        },
+        {
+          "sourceId": "C11-05",
+          "prompt": "API 요청/응답 전용 객체는 보통 ____라고 부른다.",
+          "hint": "도메인 엔티티와 분리해 전송에 쓰는 객체(Data Transfer ___)."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S11",
+        "prompt": "Spring 단계에서는 Express에서 한 파일에 작성하던 API를 ____, ____, ____ 계층으로 나누어 유지보수하기 쉽게 만들었습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C11-01",
+              "prompt": "Spring에서 HTTP 요청을 받는 계층은 ____이다.",
+              "hint": "Express의 라우터에 해당. `@RestController` 애너테이션이 붙는 곳."
+            },
+            {
+              "sourceId": "C11-02",
+              "prompt": "비즈니스 규칙을 담당하는 계층은 ____이다.",
+              "hint": "컨트롤러와 저장소 사이. `@Service`가 붙는 곳."
+            },
+            {
+              "sourceId": "C11-03",
+              "prompt": "DB 접근을 담당하는 계층은 ____이다.",
+              "hint": "08단계 data-store에 해당. `@Repository`가 붙는 곳."
+            },
+            {
+              "sourceId": "C11-04",
+              "prompt": "객체 생성을 프레임워크에 맡기고 필요한 곳에 주입받는 방식을 ____라고 한다.",
+              "hint": "생성자로 의존성을 받는 그 방식(Dependency ___). Spring의 핵심."
+            },
+            {
+              "sourceId": "C11-05",
+              "prompt": "API 요청/응답 전용 객체는 보통 ____라고 부른다.",
+              "hint": "도메인 엔티티와 분리해 전송에 쓰는 객체(Data Transfer ___)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "12 Testing",
+      "items": [
+        {
+          "sourceId": "C12-01",
+          "prompt": "단일 함수의 작은 동작을 확인하는 테스트는 ____ 테스트다.",
+          "hint": "`calculator.test.ts`가 그 예. 가장 작은 단위."
+        },
+        {
+          "sourceId": "C12-02",
+          "prompt": "여러 모듈이 함께 동작하는 흐름을 확인하는 테스트는 ____ 테스트다.",
+          "hint": "`app.test.ts`처럼 Express 앱 전체에 요청을 보내 확인하는 것."
+        },
+        {
+          "sourceId": "C12-03",
+          "prompt": "외부 의존성을 가짜로 바꾸는 것을 ____이라고 한다.",
+          "hint": "`notification.test.ts`에서 mailer를 가짜로 바꾸는 것(목/스텁 계열)."
+        },
+        {
+          "sourceId": "C12-04",
+          "prompt": "테스트의 기본 흐름 AAA는 Arrange, Act, ____이다.",
+          "hint": "준비 → 실행 → 그다음 \"결과를 단언\". A로 시작."
+        },
+        {
+          "sourceId": "C12-05",
+          "prompt": "Express API 테스트에서 HTTP 요청을 흉내내는 라이브러리는 ____이다.",
+          "hint": "`app.test.ts`의 import를 보세요. `request(app).get(...)` 형태."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S12",
+        "prompt": "테스트 단계에서는 함수, API, 외부 의존성 호출을 자동 검증해 리팩터링 후 ____가 생겼는지 빠르게 확인할 수 있게 했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C12-01",
+              "prompt": "단일 함수의 작은 동작을 확인하는 테스트는 ____ 테스트다.",
+              "hint": "`calculator.test.ts`가 그 예. 가장 작은 단위."
+            },
+            {
+              "sourceId": "C12-02",
+              "prompt": "여러 모듈이 함께 동작하는 흐름을 확인하는 테스트는 ____ 테스트다.",
+              "hint": "`app.test.ts`처럼 Express 앱 전체에 요청을 보내 확인하는 것."
+            },
+            {
+              "sourceId": "C12-03",
+              "prompt": "외부 의존성을 가짜로 바꾸는 것을 ____이라고 한다.",
+              "hint": "`notification.test.ts`에서 mailer를 가짜로 바꾸는 것(목/스텁 계열)."
+            },
+            {
+              "sourceId": "C12-04",
+              "prompt": "테스트의 기본 흐름 AAA는 Arrange, Act, ____이다.",
+              "hint": "준비 → 실행 → 그다음 \"결과를 단언\". A로 시작."
+            },
+            {
+              "sourceId": "C12-05",
+              "prompt": "Express API 테스트에서 HTTP 요청을 흉내내는 라이브러리는 ____이다.",
+              "hint": "`app.test.ts`의 import를 보세요. `request(app).get(...)` 형태."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "13 Git 협업",
+      "items": [
+        {
+          "sourceId": "C13-01",
+          "prompt": "기능 단위 작업 브랜치는 보통 ____ 브랜치라고 부른다.",
+          "hint": "`feature/login`처럼 기능 이름을 붙이는 브랜치."
+        },
+        {
+          "sourceId": "C13-02",
+          "prompt": "GitHub에서 코드 리뷰와 병합을 요청하는 단위는 ____이다.",
+          "hint": "PR. 풀어 쓰면?"
+        },
+        {
+          "sourceId": "C13-03",
+          "prompt": "두 브랜치가 같은 줄을 다르게 고치면 ____이 발생한다.",
+          "hint": "merge 때 `<<<<<<<` 마커가 뜨는 그 상황."
+        },
+        {
+          "sourceId": "C13-04",
+          "prompt": "main 브랜치에 직접 push를 막는 설정은 ____ branch 규칙이다.",
+          "hint": "GitHub의 \"보호된 브랜치\" 설정. 영어 단어 그대로."
+        },
+        {
+          "sourceId": "C13-05",
+          "prompt": "이전 커밋을 정리해 직선 히스토리로 만드는 명령 흐름은 ____이다.",
+          "hint": "merge 커밋 없이 커밋을 다시 얹는 명령."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S13",
+        "prompt": "Git 협업 단계에서는 기능 브랜치와 PR을 통해 변경을 검토하고, 충돌이 났을 때 ____를 기준으로 안전하게 해결했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C13-01",
+              "prompt": "기능 단위 작업 브랜치는 보통 ____ 브랜치라고 부른다.",
+              "hint": "`feature/login`처럼 기능 이름을 붙이는 브랜치."
+            },
+            {
+              "sourceId": "C13-02",
+              "prompt": "GitHub에서 코드 리뷰와 병합을 요청하는 단위는 ____이다.",
+              "hint": "PR. 풀어 쓰면?"
+            },
+            {
+              "sourceId": "C13-03",
+              "prompt": "두 브랜치가 같은 줄을 다르게 고치면 ____이 발생한다.",
+              "hint": "merge 때 `<<<<<<<` 마커가 뜨는 그 상황."
+            },
+            {
+              "sourceId": "C13-04",
+              "prompt": "main 브랜치에 직접 push를 막는 설정은 ____ branch 규칙이다.",
+              "hint": "GitHub의 \"보호된 브랜치\" 설정. 영어 단어 그대로."
+            },
+            {
+              "sourceId": "C13-05",
+              "prompt": "이전 커밋을 정리해 직선 히스토리로 만드는 명령 흐름은 ____이다.",
+              "hint": "merge 커밋 없이 커밋을 다시 얹는 명령."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "14 Docker와 CI",
+      "items": [
+        {
+          "sourceId": "C14-01",
+          "prompt": "Docker 이미지를 만드는 설계 파일은 ____이다.",
+          "hint": "대문자 D로 시작, 확장자 없는 파일."
+        },
+        {
+          "sourceId": "C14-02",
+          "prompt": "컨테이너가 실행할 기본 명령은 `CMD` 또는 ____로 정의한다.",
+          "hint": "CMD와 비슷하지만 인자 덮어쓰기를 막는 명령어. 대문자."
+        },
+        {
+          "sourceId": "C14-03",
+          "prompt": "빌드 캐시를 살리려면 `package*.json`을 먼저 복사한 뒤 ____를 실행한다.",
+          "hint": "소스 전체 복사 전에 의존성부터 설치하는 그 명령(`npm ___`)."
+        },
+        {
+          "sourceId": "C14-04",
+          "prompt": "여러 컨테이너를 함께 실행하는 도구는 docker ____이다.",
+          "hint": "`docker-compose.yml`로 DB+앱을 같이 띄우는 그것."
+        },
+        {
+          "sourceId": "C14-05",
+          "prompt": "GitHub Actions에서 push/PR마다 자동 실행되는 파이프라인을 ____라고 한다.",
+          "hint": "지속적 통합(Continuous ___). 약자 두 글자."
+        },
+        {
+          "sourceId": "C14-06",
+          "prompt": "이미지에 포함하면 안 되는 로컬 파일 목록은 ____에 둔다.",
+          "hint": "`.gitignore`의 도커판. 점으로 시작."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S14",
+        "prompt": "Docker 단계에서는 앱과 실행 환경을 ____로 묶고, CI에서 빌드와 테스트를 자동화해 \"내 컴퓨터에서는 됨\" 문제를 줄였습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C14-01",
+              "prompt": "Docker 이미지를 만드는 설계 파일은 ____이다.",
+              "hint": "대문자 D로 시작, 확장자 없는 파일."
+            },
+            {
+              "sourceId": "C14-02",
+              "prompt": "컨테이너가 실행할 기본 명령은 `CMD` 또는 ____로 정의한다.",
+              "hint": "CMD와 비슷하지만 인자 덮어쓰기를 막는 명령어. 대문자."
+            },
+            {
+              "sourceId": "C14-03",
+              "prompt": "빌드 캐시를 살리려면 `package*.json`을 먼저 복사한 뒤 ____를 실행한다.",
+              "hint": "소스 전체 복사 전에 의존성부터 설치하는 그 명령(`npm ___`)."
+            },
+            {
+              "sourceId": "C14-04",
+              "prompt": "여러 컨테이너를 함께 실행하는 도구는 docker ____이다.",
+              "hint": "`docker-compose.yml`로 DB+앱을 같이 띄우는 그것."
+            },
+            {
+              "sourceId": "C14-05",
+              "prompt": "GitHub Actions에서 push/PR마다 자동 실행되는 파이프라인을 ____라고 한다.",
+              "hint": "지속적 통합(Continuous ___). 약자 두 글자."
+            },
+            {
+              "sourceId": "C14-06",
+              "prompt": "이미지에 포함하면 안 되는 로컬 파일 목록은 ____에 둔다.",
+              "hint": "`.gitignore`의 도커판. 점으로 시작."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "15 CS Fundamentals",
+      "items": [
+        {
+          "sourceId": "C15-01",
+          "prompt": "HTTP는 OSI 7계층 중 ____ 계층 프로토콜이다.",
+          "hint": "가장 위, 사용자 가까운 계층(7계층). 영어로."
+        },
+        {
+          "sourceId": "C15-02",
+          "prompt": "TCP는 신뢰성을 제공하고, UDP는 ____이 낮고 빠르다.",
+          "hint": "연결·재전송을 안 해서 줄어드는 그것(지연/부담 계열).",
+          "question": "UDP가 TCP와 달리 전송 계층에서 자체 보장하지 않는 기능은 무엇인가요?"
+        },
+        {
+          "sourceId": "C15-03",
+          "prompt": "프로세스는 실행 중인 프로그램이고, 스레드는 프로세스 안의 ____ 단위다.",
+          "hint": "한 프로세스 안에서 메모리를 공유하며 도는 더 작은 \"실행\" 단위."
+        },
+        {
+          "sourceId": "C15-04",
+          "prompt": "DB 트랜잭션의 격리 수준이 낮으면 ____ read 같은 문제가 생길 수 있다.",
+          "hint": "커밋 안 된 데이터를 읽는 현상(dirty 계열). 10단계 트랜잭션과 연결."
+        },
+        {
+          "sourceId": "C15-05",
+          "prompt": "Big-O는 입력 크기가 커질 때 알고리즘의 ____ 변화를 표현한다.",
+          "hint": "시간(또는 공간) 비용이 어떻게 자라는지. \"복잡도\"."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S15",
+        "prompt": "CS 단계에서는 암기 답안이 아니라, 네트워크와 DB, 자료구조 개념을 내가 만든 ____ 기능과 연결해 설명하는 연습을 했습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C15-01",
+              "prompt": "HTTP는 OSI 7계층 중 ____ 계층 프로토콜이다.",
+              "hint": "가장 위, 사용자 가까운 계층(7계층). 영어로."
+            },
+            {
+              "sourceId": "C15-02",
+              "prompt": "TCP는 신뢰성을 제공하고, UDP는 ____이 낮고 빠르다.",
+              "hint": "연결·재전송을 안 해서 줄어드는 그것(지연/부담 계열).",
+              "question": "UDP가 TCP와 달리 전송 계층에서 자체 보장하지 않는 기능은 무엇인가요?"
+            },
+            {
+              "sourceId": "C15-03",
+              "prompt": "프로세스는 실행 중인 프로그램이고, 스레드는 프로세스 안의 ____ 단위다.",
+              "hint": "한 프로세스 안에서 메모리를 공유하며 도는 더 작은 \"실행\" 단위."
+            },
+            {
+              "sourceId": "C15-04",
+              "prompt": "DB 트랜잭션의 격리 수준이 낮으면 ____ read 같은 문제가 생길 수 있다.",
+              "hint": "커밋 안 된 데이터를 읽는 현상(dirty 계열). 10단계 트랜잭션과 연결."
+            },
+            {
+              "sourceId": "C15-05",
+              "prompt": "Big-O는 입력 크기가 커질 때 알고리즘의 ____ 변화를 표현한다.",
+              "hint": "시간(또는 공간) 비용이 어떻게 자라는지. \"복잡도\"."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "16 Security",
+      "items": [
+        {
+          "sourceId": "C16-01",
+          "prompt": "저장형 XSS는 악성 스크립트가 ____에 저장된 뒤 다른 사용자에게 실행되는 공격이다.",
+          "hint": "게시글처럼 서버 DB/저장소에 \"남는\" 곳. `01-xss-stored.js` 참고."
+        },
+        {
+          "sourceId": "C16-02",
+          "prompt": "반사형 XSS는 요청 파라미터가 응답 HTML에 그대로 ____될 때 발생한다.",
+          "hint": "검색어가 그대로 화면에 \"되비쳐\" 박히는 것(반사/반영 계열)."
+        },
+        {
+          "sourceId": "C16-03",
+          "prompt": "XSS 방어의 핵심은 입력을 무조건 믿지 않고 출력 시점에 HTML ____를 적용하는 것이다.",
+          "hint": "`<`를 `&lt;`로 바꾸는 그 변환(escape/인코딩 계열). `escapeHtml` 함수."
+        },
+        {
+          "sourceId": "C16-04",
+          "prompt": "SQL Injection 방어는 문자열 연결 대신 ____ 쿼리를 사용한다.",
+          "hint": "`?` placeholder에 값을 따로 바인딩하는 방식(파라미터화/준비된). `03-sql-injection.js`."
+        },
+        {
+          "sourceId": "C16-05",
+          "prompt": "CSRF는 사용자가 로그인된 상태를 악용해 원치 않는 ____을 보내게 한다.",
+          "hint": "사용자가 의도하지 않은 \"요청\". `04-csrf-demo` 참고."
+        },
+        {
+          "sourceId": "C16-06",
+          "prompt": "CORS에서 credential 요청을 허용할 때 `origin: \"*\"`와 함께 쓰면 ____하다.",
+          "hint": "아무 출처나 쿠키를 들고 호출할 수 있게 되니 보안상…(위험/취약 계열). `05-cors.js`.",
+          "question": "브라우저가 credential 요청의 응답을 읽게 할 때 허용 Origin 설정으로 알맞은 것은?"
+        }
+      ],
+      "sentence": {
+        "sourceId": "S16",
+        "prompt": "보안 단계에서는 공격을 먼저 재현한 뒤, 출력 인코딩, 파라미터화 쿼리, CSRF 토큰, CORS whitelist로 ____를 줄였습니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C16-01",
+              "prompt": "저장형 XSS는 악성 스크립트가 ____에 저장된 뒤 다른 사용자에게 실행되는 공격이다.",
+              "hint": "게시글처럼 서버 DB/저장소에 \"남는\" 곳. `01-xss-stored.js` 참고."
+            },
+            {
+              "sourceId": "C16-02",
+              "prompt": "반사형 XSS는 요청 파라미터가 응답 HTML에 그대로 ____될 때 발생한다.",
+              "hint": "검색어가 그대로 화면에 \"되비쳐\" 박히는 것(반사/반영 계열)."
+            },
+            {
+              "sourceId": "C16-03",
+              "prompt": "XSS 방어의 핵심은 입력을 무조건 믿지 않고 출력 시점에 HTML ____를 적용하는 것이다.",
+              "hint": "`<`를 `&lt;`로 바꾸는 그 변환(escape/인코딩 계열). `escapeHtml` 함수."
+            },
+            {
+              "sourceId": "C16-04",
+              "prompt": "SQL Injection 방어는 문자열 연결 대신 ____ 쿼리를 사용한다.",
+              "hint": "`?` placeholder에 값을 따로 바인딩하는 방식(파라미터화/준비된). `03-sql-injection.js`."
+            },
+            {
+              "sourceId": "C16-05",
+              "prompt": "CSRF는 사용자가 로그인된 상태를 악용해 원치 않는 ____을 보내게 한다.",
+              "hint": "사용자가 의도하지 않은 \"요청\". `04-csrf-demo` 참고."
+            },
+            {
+              "sourceId": "C16-06",
+              "prompt": "CORS에서 credential 요청을 허용할 때 `origin: \"*\"`와 함께 쓰면 ____하다.",
+              "hint": "아무 출처나 쿠키를 들고 호출할 수 있게 되니 보안상…(위험/취약 계열). `05-cors.js`.",
+              "question": "브라우저가 credential 요청의 응답을 읽게 할 때 허용 Origin 설정으로 알맞은 것은?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "17 Interview Prep",
+      "items": [
+        {
+          "sourceId": "C17-01",
+          "prompt": "좋은 기술 면접 답변은 \"무엇을 했다\"보다 \"왜 그렇게 했고 어떻게 ____했다\"를 포함한다.",
+          "hint": "동작을 어떻게 \"확인\"했는지. 12단계 키워드와 통한다(검증)."
+        },
+        {
+          "sourceId": "C17-02",
+          "prompt": "STAR 답변은 Situation, Task, Action, ____ 순서로 구성한다.",
+          "hint": "마지막은 \"그래서 어떤 결과가 났는가\". R로 시작."
+        },
+        {
+          "sourceId": "C17-03",
+          "prompt": "프로젝트 설명의 첫 문장은 해결한 ____를 말해야 한다.",
+          "hint": "기술 나열 전에 \"무슨 불편/문제를 풀었나\"."
+        },
+        {
+          "sourceId": "C17-04",
+          "prompt": "꼬리질문 대비에는 사용한 기술의 장점뿐 아니라 ____도 준비해야 한다.",
+          "hint": "\"그 기술의 단점/트레이드오프는?\" 질문 대비."
+        }
+      ],
+      "sentence": {
+        "sourceId": "S17",
+        "prompt": "면접 준비 단계에서는 1~16단계의 구현 근거를 모아, 내가 직접 만든 ____를 기준으로 기술과 협업 경험을 설명합니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "C17-01",
+              "prompt": "좋은 기술 면접 답변은 \"무엇을 했다\"보다 \"왜 그렇게 했고 어떻게 ____했다\"를 포함한다.",
+              "hint": "동작을 어떻게 \"확인\"했는지. 12단계 키워드와 통한다(검증)."
+            },
+            {
+              "sourceId": "C17-02",
+              "prompt": "STAR 답변은 Situation, Task, Action, ____ 순서로 구성한다.",
+              "hint": "마지막은 \"그래서 어떤 결과가 났는가\". R로 시작."
+            },
+            {
+              "sourceId": "C17-03",
+              "prompt": "프로젝트 설명의 첫 문장은 해결한 ____를 말해야 한다.",
+              "hint": "기술 나열 전에 \"무슨 불편/문제를 풀었나\"."
+            },
+            {
+              "sourceId": "C17-04",
+              "prompt": "꼬리질문 대비에는 사용한 기술의 장점뿐 아니라 ____도 준비해야 한다.",
+              "hint": "\"그 기술의 단점/트레이드오프는?\" 질문 대비."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "monorepo-mini-app Note Hub",
+      "items": [
+        {
+          "sourceId": "CM-01",
+          "prompt": "여러 패키지를 한 저장소에서 관리하는 구조를 ____라고 한다.",
+          "hint": "폴더 이름 그대로(mono…). 하나의 repo에 여러 패키지."
+        },
+        {
+          "sourceId": "CM-02",
+          "prompt": "npm 기본 기능으로 패키지들을 묶는 설정은 ____이다.",
+          "hint": "루트 `package.json`의 `\"workspaces\"` 필드. npm ___."
+        },
+        {
+          "sourceId": "CM-03",
+          "prompt": "API와 Web이 함께 import하는 공통 패키지는 `@note-hub/____`이다.",
+          "hint": "타입을 공유하는 패키지 폴더 이름."
+        },
+        {
+          "sourceId": "CM-04",
+          "prompt": "백엔드 응답 타입이 바뀌면 프론트엔드 ____가 실패해 계약 불일치를 빨리 발견한다.",
+          "hint": "09단계의 그 시점 검사(타입 검사/컴파일)."
+        },
+        {
+          "sourceId": "CM-05",
+          "prompt": "`NotesStore` 인터페이스 뒤에 InMemory와 PostgreSQL 구현을 둔 이유는 저장 방식 ____를 쉽게 하기 위해서다.",
+          "hint": "08단계 저장소 계층 분리와 같은 동기(교체/대체 계열)."
+        },
+        {
+          "sourceId": "CM-06",
+          "prompt": "`DATABASE_URL`이 있으면 ____ 저장소를 사용하고, 없으면 ____ 저장소를 사용한다.",
+          "hint": "환경변수가 있으면 진짜 DB(Postgres), 없으면 메모리. `server.ts`의 분기를 보세요."
+        }
+      ],
+      "sentence": {
+        "sourceId": "SM",
+        "prompt": "Note Hub는 npm workspaces로 API, Web, shared를 나누고, ____ 타입을 양쪽이 함께 사용해 API 계약을 컴파일 시점에 검증하는 모노레포 데모입니다."
+      },
+      "blocks": [
+        {
+          "heading": "개념 빈칸",
+          "items": [
+            {
+              "sourceId": "CM-01",
+              "prompt": "여러 패키지를 한 저장소에서 관리하는 구조를 ____라고 한다.",
+              "hint": "폴더 이름 그대로(mono…). 하나의 repo에 여러 패키지."
+            },
+            {
+              "sourceId": "CM-02",
+              "prompt": "npm 기본 기능으로 패키지들을 묶는 설정은 ____이다.",
+              "hint": "루트 `package.json`의 `\"workspaces\"` 필드. npm ___."
+            },
+            {
+              "sourceId": "CM-03",
+              "prompt": "API와 Web이 함께 import하는 공통 패키지는 `@note-hub/____`이다.",
+              "hint": "타입을 공유하는 패키지 폴더 이름."
+            },
+            {
+              "sourceId": "CM-04",
+              "prompt": "백엔드 응답 타입이 바뀌면 프론트엔드 ____가 실패해 계약 불일치를 빨리 발견한다.",
+              "hint": "09단계의 그 시점 검사(타입 검사/컴파일)."
+            },
+            {
+              "sourceId": "CM-05",
+              "prompt": "`NotesStore` 인터페이스 뒤에 InMemory와 PostgreSQL 구현을 둔 이유는 저장 방식 ____를 쉽게 하기 위해서다.",
+              "hint": "08단계 저장소 계층 분리와 같은 동기(교체/대체 계열)."
+            },
+            {
+              "sourceId": "CM-06",
+              "prompt": "`DATABASE_URL`이 있으면 ____ 저장소를 사용하고, 없으면 ____ 저장소를 사용한다.",
+              "hint": "환경변수가 있으면 진짜 DB(Postgres), 없으면 메모리. `server.ts`의 분기를 보세요."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "singles": [
+    {
+      "file": "16-security/README.md",
+      "sourceId": "V01",
+      "heading": "\"이 API는 입력 검증을 어디에서 하나요?\"라고 물으면 어떻게 답하나요?",
+      "prompt": "서버 API의 입력 검증 위치와 프론트 검증의 역할을 고르세요."
+    },
+    {
+      "file": "technology-guide.md",
+      "sourceId": "V02",
+      "prompt": "Career Hub에서 저장한 지원 기록이 새로고침 후에도 보이는 이유는?",
+      "originalText": "그다음 새로고침해도 기록이 보이는 이유를 1~6번 중 어느 단계 덕분인지 설명해 보세요."
+    }
+  ],
+  "appended": [
+    {
+      "file": "14-docker-deploy/problems.md",
+      "sourceId": "R14-04",
+      "originalText": "- Alpine 베이스를 쓰면 왜 작아지는지 한 문장으로 정리하세요.",
+      "replacement": "- 아래 4지선다 R14-04에서 작은 베이스 이미지의 장점과 호환성 확인 기준을 고르세요."
+    }
+  ],
+  "inlineReferences": [
+    {
+      "file": "10-sql-oracle/starter/07-index.sql",
+      "sourceId": "L02",
+      "originalText": "-- 관찰 메모. TABLE FULL SCAN과 INDEX RANGE SCAN이 어떻게 바뀌었나요?",
+      "replacement": "-- 관찰 확인. ../problems.md의 4지선다 L02에서 실행 계획 비교의 알맞은 설명을 고르세요.\n-- 웹 채점: {quizLink}"
+    }
+  ],
+  "tail": {
+    "file": "feature-implementation-workbook.md",
+    "heading": "최종 설명 템플릿",
+    "items": [
+      {
+        "sourceId": "P08",
+        "title": "프로젝트 전체 설명의 구성",
+        "prompt": "문제·기능·기술·검증·한계를 연결해 프로젝트를 설명하는 방식으로 알맞은 것은?"
+      },
+      {
+        "sourceId": "B01",
+        "title": "꼬리질문 1분 답변 틀 (STAR)",
+        "prompt": "자신의 경험을 STAR 흐름으로 설명할 때 알맞은 방식은?"
+      }
+    ]
+  }
+}

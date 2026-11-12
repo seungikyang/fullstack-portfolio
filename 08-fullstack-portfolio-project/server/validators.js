@@ -1,5 +1,6 @@
-// API 요청 값을 검증하고 저장 가능한 형태로 정리하는 파일
-// Set은 허용 목록에 값이 있는지 빠르게 검사할 때 쓰기 좋다.
+// 사용자가 보낸 입력이 규칙에 맞는지 검사하고 저장할 모양으로 정리하는 파일이다.
+// 화면에서 검사했어도 서버에서 다시 확인한다. 화면을 거치지 않고 요청을 보낼 수도 있기 때문이다.
+// Set은 중복 없이 값을 모은 목록이다. has로 '허용한 값 중에 있는가?'를 확인한다.
 const applicationStatuses = new Set(["준비중", "지원완료", "코딩테스트", "면접", "합격", "불합격"]);
 
 const projectStatuses = new Set(["계획", "개발중", "완료"]);
@@ -17,11 +18,10 @@ const workbookBooleanFields = {
   selfIntroReady: "자기소개",
   mockInterviewReady: "모의 면접"
 };
-// 서버에서도 길이를 제한해야 API를 직접 호출한 과도한 입력까지 막을 수 있다.
+// 항목마다 최대 글자 수를 정한다. 입력이 너무 길어서 파일이 커지는 일을 줄인다.
 const textLimits = {
   name: 80,
   email: 254,
-  password: 128,
   company: 120,
   role: 120,
   contact: 500,
@@ -38,10 +38,10 @@ const textLimits = {
 };
 const stackLimit = 20;
 
-// 모든 검증기는 { value, errors }를 반환한다. value에는 정리·허용된 필드만 담고,
-// errors에는 발견한 문제를 모은다. 라우터는 errors가 비었을 때만 value를 저장소에 전달한다.
+// 검사 결과는 { value, errors }다. value는 정리한 입력, errors는 발견한 문제 목록이다.
+// 예: 회사명이 비어 있으면 errors에 안내를 넣는다. 서버는 문제 목록이 비었을 때만 저장한다.
 
-// 문자열과 숫자만 문자열로 정리하고, 객체처럼 예상하지 못한 값은 빈 문자열로 만든다.
+// 글자와 숫자는 글자로 바꾸고 앞뒤 공백을 지운다. 예상하지 못한 종류의 값은 빈 글자로 만든다.
 function text(value) {
   if (typeof value !== "string" && typeof value !== "number") {
     return "";
@@ -50,26 +50,36 @@ function text(value) {
   return String(value).trim();
 }
 
-// 기술 스택은 배열과 "React, Express" 문자열 입력을 모두 같은 배열 형태로 바꾼다.
+// 'React, Express'처럼 받은 기술 목록을 ['React', 'Express'] 모양의 배열(자료 목록)로 바꾼다.
+// split은 쉼표에서 나누고, map은 각 항목을 정리하고, filter(Boolean)은 비어 있는 항목을 뺀다.
+// 'React, React'처럼 같은 기술을 두 번 적으면 Set으로 한 번만 남긴다.
 function stackList(value) {
-  if (Array.isArray(value)) {
-    return value.map(text).filter(Boolean);
-  }
+  const items = Array.isArray(value)
+    ? value.map(text)
+    : text(value)
+        .split(",")
+        .map((item) => item.trim());
 
-  return text(value)
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
+  return [...new Set(items.filter(Boolean))];
 }
 
-// 발견한 오류를 즉시 throw하지 않고 배열에 모아 프론트가 한 번에 확인하게 한다.
+// 항목 이름 뒤에 붙일 조사를 고른다. 마지막 글자에 받침이 있으면 '은', 없으면 '는'이다.
+// 예: '회사명은', '지원 메모는'. 한글 글자는 28개씩 묶여 있고 묶음의 첫 글자가 받침 없는 글자다.
+// URL처럼 한글이 아닌 글자로 끝나면 '은'을 쓴다.
+function topicParticle(label) {
+  const offset = label.charCodeAt(label.length - 1) - 0xac00;
+  const isHangul = offset >= 0 && offset <= 11171;
+  return isHangul && offset % 28 === 0 ? "는" : "은";
+}
+
+// 글자 수를 넘었으면 문제 목록에 설명을 넣는다. 한 번에 여러 입력 문제를 알려줄 수 있다.
 function validateLength(errors, label, value, maxLength) {
   if (value.length > maxLength) {
-    errors.push(`${label}은 ${maxLength}자 이하여야 합니다.`);
+    errors.push(`${label}${topicParticle(label)} ${maxLength}자 이하여야 합니다.`);
   }
 }
 
-// 기술 스택의 전체 개수와 각 항목 길이를 별도로 제한한다.
+// 기술 이름이 너무 많거나 이름 하나가 너무 길지 않은지 따로 확인한다.
 function validateStack(errors, value) {
   if (value.length > stackLimit) {
     errors.push(`기술 스택은 ${stackLimit}개 이하여야 합니다.`);
@@ -80,7 +90,8 @@ function validateStack(errors, value) {
   }
 }
 
-// 형식뿐 아니라 2026-02-30처럼 실제로 존재하지 않는 날짜도 왕복 변환으로 거른다.
+// 먼저 '연도-월-일' 모양인지 확인한다. 정규식(/.../)은 글자가 정해진 모양에 맞는지 찾는 규칙이다.
+// 날짜로 읽었다가 다시 글자로 바꿔 원래와 비교한다. 2월 30일처럼 없는 날짜는 바뀌므로 걸러진다.
 function isValidDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return false;
@@ -90,7 +101,7 @@ function isValidDate(value) {
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
-// URL 클래스로 파싱한 뒤 사용자가 클릭할 수 있는 http(s) 주소만 허용한다.
+// URL 도구로 웹 주소를 읽어본다. http 또는 https로 시작하는 웹 링크만 허용한다.
 function isHttpUrl(value) {
   try {
     const url = new URL(value);
@@ -100,15 +111,26 @@ function isHttpUrl(value) {
   }
 }
 
-// 학습용 앱에 필요한 기본 이메일 형태(문자@문자.문자)를 확인한다.
+// 글자@글자.글자 모양인지 확인한다. 이 검사만으로 실제 이메일 계정이 있는지는 알 수 없다.
 function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-// 지원 기록 입력을 검사하고, 저장소에 넘길 정리된 value를 함께 만든다.
-// POST는 기본값 partial=false로 전체 생성 규칙을 적용한다. PATCH는 partial=true를 넘겨
-// 요청에 실제로 포함된 필드만 value에 담으므로, 보내지 않은 기존 필드는 그대로 보존된다.
+// 본문이 [] 같은 배열이면 항목이 하나도 없어 검사를 그냥 통과하므로, 이름·값 짝(객체)만 받는다.
+const objectBodyError = "요청 본문은 JSON 객체여야 합니다.";
+
+function isObjectBody(payload) {
+  return payload !== null && typeof payload === "object" && !Array.isArray(payload);
+}
+
+// 지원 기록을 새로 만들 때는 필수 항목을 모두 검사한다.
+// 수정할 때는 partial=true로 보내 이번에 받은 항목만 검사한다. 보내지 않은 값은 그대로 남는다.
+// 기본 상태값은 새로 만들 때만 쓴다. 수정 때 빈 값을 보내면 기존 상태를 덮어쓰지 않고 오류로 알린다.
 export function validateApplication(payload = {}, partial = false) {
+  if (!isObjectBody(payload)) {
+    return { value: {}, errors: [objectBodyError] };
+  }
+
   const errors = [];
   const value = {};
 
@@ -129,14 +151,14 @@ export function validateApplication(payload = {}, partial = false) {
   }
 
   if (!partial || payload.status !== undefined) {
-    value.status = text(payload.status) || "준비중";
+    value.status = text(payload.status) || (partial ? "" : "준비중");
     if (!applicationStatuses.has(value.status)) {
       errors.push("지원 상태가 올바르지 않습니다.");
     }
   }
 
   if (!partial || payload.priority !== undefined) {
-    value.priority = text(payload.priority) || "보통";
+    value.priority = text(payload.priority) || (partial ? "" : "보통");
     if (!priorities.has(value.priority)) {
       errors.push("우선순위가 올바르지 않습니다.");
     }
@@ -167,8 +189,12 @@ export function validateApplication(payload = {}, partial = false) {
   return { value, errors };
 }
 
-// 프로젝트 생성(전체 필드)과 수정(전달된 필드)을 같은 규칙으로 검증한다.
+// 프로젝트도 추가할 때는 필수 항목 전체를, 수정할 때는 이번에 보낸 항목만 검사한다.
 export function validateProject(payload = {}, partial = false) {
+  if (!isObjectBody(payload)) {
+    return { value: {}, errors: [objectBodyError] };
+  }
+
   const errors = [];
   const value = {};
 
@@ -189,7 +215,7 @@ export function validateProject(payload = {}, partial = false) {
   }
 
   if (!partial || payload.status !== undefined) {
-    value.status = text(payload.status) || "개발중";
+    value.status = text(payload.status) || (partial ? "" : "개발중");
     if (!projectStatuses.has(value.status)) {
       errors.push("프로젝트 상태가 올바르지 않습니다.");
     }
@@ -224,12 +250,16 @@ export function validateProject(payload = {}, partial = false) {
   return { value, errors };
 }
 
-// 워크북은 일부 항목만 자주 저장하므로, 요청에 들어온 필드만 골라 검증한다.
+// 워크북은 목표만 바꾸는 것처럼 일부 항목만 저장할 수 있으므로 받은 항목만 검사한다.
 export function validateWorkbook(payload = {}) {
+  if (!isObjectBody(payload)) {
+    return { value: {}, errors: [objectBodyError] };
+  }
+
   const errors = [];
   const value = {};
 
-  // 허용 목록에 있는 키만 value에 넣어 임의의 필드가 저장소로 넘어가지 않게 한다.
+  // field는 항목 이름이다. 정해둔 항목만 value에 넣어 모르는 항목이 파일에 저장되지 않게 한다.
   for (const field of workbookTextFields) {
     if (payload[field] !== undefined) {
       value[field] = text(payload[field]);
@@ -244,6 +274,7 @@ export function validateWorkbook(payload = {}) {
     }
   }
 
+  // 준비 상태는 글자 'true'가 아니라 true/false 값이어야 한다. 보내지 않은 항목은 건너뛴다.
   for (const [field, label] of Object.entries(workbookBooleanFields)) {
     if (payload[field] === undefined) {
       continue;
@@ -260,7 +291,8 @@ export function validateWorkbook(payload = {}) {
   return { value, errors };
 }
 
-// 회원가입 값은 이메일을 소문자로 통일하고 비밀번호 길이를 확인한다.
+// 이메일의 영문 대소문자를 통일하고 비밀번호 길이를 검사한다.
+// 비밀번호의 공백은 실제 비밀번호 일부일 수 있으므로 앞뒤 공백을 지우지 않는다.
 export function validateRegister(payload = {}) {
   const name = text(payload.name) || "학습자";
   const email = text(payload.email).toLowerCase();
@@ -278,8 +310,8 @@ export function validateRegister(payload = {}) {
     errors.push("비밀번호는 8자 이상이어야 합니다.");
   }
 
-  if (password.length > textLimits.password) {
-    errors.push(`비밀번호는 ${textLimits.password}자 이하여야 합니다.`);
+  if (Buffer.byteLength(password, "utf8") > 72) {
+    errors.push("비밀번호는 UTF-8 기준 72바이트 이하여야 합니다.");
   }
 
   return {
@@ -302,8 +334,8 @@ export function validateLogin(payload = {}) {
 
   if (!password) {
     errors.push("비밀번호를 입력하세요.");
-  } else if (password.length > textLimits.password) {
-    errors.push(`비밀번호는 ${textLimits.password}자 이하여야 합니다.`);
+  } else if (Buffer.byteLength(password, "utf8") > 72) {
+    errors.push("비밀번호는 UTF-8 기준 72바이트 이하여야 합니다.");
   }
 
   return {

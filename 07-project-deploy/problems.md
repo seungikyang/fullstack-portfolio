@@ -40,4 +40,48 @@
 
 ## 문제 5. 배포 준비하기
 
-`deploy-checklist.md`를 읽고 Render 배포에 필요한 값(Build/Start 명령, `PORT` 처리)을 직접 적어보세요.
+`deploy-checklist.md`와 실행 코드를 확인한 뒤 아래 4지선다 E01~E02에서 포트·명령 설정의 근거를 고르세요.
+
+<!-- written-choice:start -->
+## 설명·개념 확인 — 4지선다
+
+배포 설명 문제 · [웹에서 채점하기](../quiz/index.html?bank=written&category=deploy)
+
+보기 네 개 중 하나를 선택하고 접힌 정답·해설을 확인하세요.
+
+### E01. 이 단계 배포 서버의 포트
+
+이 단계 배포 서버의 포트 — 알맞은 설명 또는 답변 방식을 고르세요.
+
+1. 항상 3000만 강제하고 PORT는 무시한다.
+2. 포트 대신 JWT 문자열로 listen한다.
+3. PORT는 브라우저 CSS 크기이다.
+4. 플랫폼이 제공한 PORT가 있으면 사용하고 로컬 기본 포트를 둘 수 있다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 4번**
+
+src/server.js와 플랫폼 환경 설정을 함께 확인합니다. 배포 서버의 포트 계약을 맞춰야 합니다.
+
+</details>
+
+### E02. Build·Start 명령의 근거
+
+Build·Start 명령의 근거 — 알맞은 설명 또는 답변 방식을 고르세요.
+
+1. 배포 대상 폴더의 package.json과 준비할 산출물에 맞춰 지정한다.
+2. 프로젝트 종류와 무관하게 항상 gradle bootRun을 사용한다.
+3. 파일이 없더라도 임의의 명령을 써도 된다.
+4. Build 명령을 정하면 모든 환경 변수가 필요 없어지게 된다.
+
+<details>
+<summary>정답·해설 확인</summary>
+
+**정답: 1번**
+
+명령은 배포 대상의 실행 계약입니다. 의존성 설치·빌드 필요 여부와 실행 파일을 실제 코드에서 확인합니다.
+
+</details>
+<!-- written-choice:end -->

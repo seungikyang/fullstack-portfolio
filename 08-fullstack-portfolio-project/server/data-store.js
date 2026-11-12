@@ -1,21 +1,24 @@
-// JSON 파일 기반으로 사용자와 포트폴리오 데이터를 저장하는 저장소 파일
+// 사용자의 기록을 파일에 저장하고 다시 읽는 파일이다. 서버를 껐다 켜도 저장한 내용이 남는다.
+// JSON은 이름과 값을 짝지어 적는 자료 형식이다. 이 앱은 별도 DB 대신 JSON 파일 하나를 사용한다.
 import fs from "node:fs";
 import path from "node:path";
 
-// 저장 경계: 라우터는 HTTP 응답을, validators는 입력 정리를, 이 파일은 영속화·id·소유권을 맡는다.
-// 역할을 나누면 나중에 JSON 파일을 데이터베이스로 바꿔도 화면과 API 규칙을 함께 고칠 필요가 적다.
+// 역할 나누기: index.js는 요청을 받고 답하기, validators.js는 입력 검사, 이 파일은 읽기·저장하기.
+// 이렇게 나누면 저장 방법을 바꿀 때 화면이나 입력 검사까지 모두 고칠 필요가 줄어든다.
 
-// DB 대신 JSON 파일 하나에 저장할 전체 자료 구조와 자동 증가 번호의 초기값이다.
+// 처음 만들 파일의 빈 자료다. counters는 새 기록에 붙일 다음 번호를 기억한다.
 const initialData = {
   counters: {
     users: 1,
     applications: 1,
-    projects: 1
+    projects: 1,
+    workbookHistory: 1
   },
   users: [],
   applications: [],
   projects: [],
-  workbooks: []
+  workbooks: [],
+  workbookHistory: []
 };
 
 // 새 사용자가 아직 저장하지 않았을 때 보여줄 기본 워크북 값이다.
@@ -31,7 +34,8 @@ const emptyWorkbook = {
   reflection: ""
 };
 
-// 객체를 복제해 initialData 같은 공통 기본값이 실수로 바뀌지 않게 한다.
+// 자료를 글자로 바꿨다가 다시 읽어 별도의 복사본을 만든다. 이 자료의 글자·숫자·참/거짓 값을 복사한다.
+// 예전 저장 이력을 복사해두면 현재 워크북을 수정해도 과거 내용이 같이 바뀌지 않는다.
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -43,12 +47,12 @@ function normalizeEmail(email) {
     .toLowerCase();
 }
 
-// 모든 날짜를 시간대가 포함된 ISO 문자열로 저장하면 정렬과 전송이 단순해진다.
+// 날짜를 '2026-10-03T13:00:00.000Z'처럼 일정한 형식으로 적어 시간 순서를 비교하기 쉽게 한다.
 function now() {
   return new Date().toISOString();
 }
 
-// API 응답에는 passwordHash를 제외한 공개 가능한 사용자 정보만 담는다.
+// 화면에 필요한 사용자 정보만 골라 돌려준다. 저장한 비밀번호 해시는 화면으로 보내지 않는다.
 export function toPublicUser(user) {
   if (!user) {
     return null;
@@ -62,15 +66,15 @@ export function toPublicUser(user) {
   };
 }
 
-// 라우터는 파일 처리 방법을 몰라도 되도록 CRUD를 이 클래스 한곳에 모은다.
+// 클래스는 관련 자료와 동작을 모아놓은 틀이다. JsonStore는 기록의 추가·읽기·수정·삭제를 맡는다.
 export class JsonStore {
   constructor(filePath) {
-    // 상대 경로가 들어와도 절대 경로로 고정해 실행 위치에 따라 파일이 달라지지 않게 한다.
+    // 'data/기록.json' 같은 짧은 경로를 전체 경로로 바꿔 실제 사용할 파일 위치를 정한다.
     this.filePath = path.resolve(filePath);
     this.ensureFile();
   }
 
-  // 상위 폴더와 데이터 파일이 없으면 처음 실행에 필요한 빈 구조를 만든다.
+  // 처음 실행할 때 저장 폴더와 파일이 없으면 만든다. 이미 있는 파일은 그대로 둔다.
   ensureFile() {
     fs.mkdirSync(path.dirname(this.filePath), { recursive: true });
 
@@ -79,7 +83,7 @@ export class JsonStore {
     }
   }
 
-  // 매 요청마다 최신 파일을 읽고, 예전 파일에 새 필드가 없어도 기본 구조로 보완한다.
+  // 파일을 읽어 JavaScript 자료로 바꾼다. 예전 파일에 이력 목록 같은 새 항목이 없으면 기본값을 넣는다.
   read() {
     const content = fs.readFileSync(this.filePath, "utf8");
     const data = JSON.parse(content);
@@ -94,17 +98,16 @@ export class JsonStore {
     };
   }
 
-  // 변경 메서드는 항상 현재 파일 읽기 → 메모리 객체 수정 → write 순서로 한 덩어리를 저장한다.
-  // write는 같은 폴더의 임시 파일을 완성한 뒤 rename으로 원본을 원자적으로 교체한다.
-  // 따라서 읽는 쪽은 이전 파일이나 새 파일 전체를 보며, 쓰다 만 JSON을 볼 위험이 줄어든다.
-  // 이 방식은 파일 손상을 줄이는 장치이며 데이터베이스 트랜잭션이나 다중 프로세스 잠금은 아니다.
+  // 저장 순서: 현재 파일 읽기 → 바꿀 내용 반영 → 새 파일 저장하기.
+  // 원본에 바로 쓰지 않고 .tmp 임시 파일을 완성한 뒤 원본과 교체한다.
+  // 내용을 쓰는 도중에 잘못 읽을 위험을 줄인다. 여러 서버가 동시에 쓰는 충돌까지 해결하는 방식은 아니다.
   write(data) {
     const tempPath = `${this.filePath}.tmp`;
     fs.writeFileSync(tempPath, `${JSON.stringify(data, null, 2)}\n`);
     fs.renameSync(tempPath, this.filePath);
   }
 
-  // users/applications/projects가 각자의 다음 번호를 사용하게 한다.
+  // 새 기록에 번호를 붙이고 다음 번호를 1 올린다. 예: 이번 기록은 3번, 다음 기록은 4번.
   nextId(data, key) {
     const id = String(data.counters[key]);
     data.counters[key] += 1;
@@ -130,7 +133,7 @@ export class JsonStore {
     return this.read().users.find((user) => user.id === String(id)) || null;
   }
 
-  // 저장한 워크북이 없으면 파일을 바꾸지 않고 화면용 기본값만 반환한다.
+  // 사용자의 워크북을 찾는다. 아직 저장한 적 없으면 화면에 보여줄 빈 값만 돌려준다.
   getWorkbook(userId) {
     const workbook = this.read().workbooks.find((item) => item.userId === String(userId));
 
@@ -144,11 +147,34 @@ export class JsonStore {
     );
   }
 
-  // 첫 저장은 새 워크북을 만들고, 이후 저장은 전달된 필드만 덮어쓴다.
+  // filter는 내 사용자 번호에 맞는 기록만 남기고, reverse는 최근 기록부터 보이게 순서를 뒤집는다.
+  getWorkbookHistory(userId) {
+    return this.read()
+      .workbookHistory.filter((entry) => entry.userId === String(userId))
+      .reverse();
+  }
+
+  // 첫 저장은 새 워크북을 만든다. 다음부터는 입력받은 항목만 고치고 나머지는 유지한다.
   updateWorkbook(userId, payload) {
     const data = this.read();
     const timestamp = now();
     let workbook = data.workbooks.find((item) => item.userId === String(userId));
+    const isFirstSave = !workbook;
+    // Object.keys는 항목 이름 목록을 꺼낸다. 이 목록에 있는 항목만 저장할 값으로 고른다.
+    const fields = Object.keys(emptyWorkbook);
+    const changes = Object.fromEntries(
+      fields
+        .filter((field) => Object.hasOwn(payload, field))
+        .map((field) => [field, payload[field]])
+    );
+
+    // 이미 저장된 값과 모두 같으면 여기서 끝낸다. 같은 내용을 여러 번 눌러도 이력이 쌓이지 않는다.
+    if (
+      !isFirstSave &&
+      fields.every((field) => !Object.hasOwn(changes, field) || changes[field] === workbook[field])
+    ) {
+      return workbook;
+    }
 
     if (!workbook) {
       workbook = {
@@ -160,12 +186,29 @@ export class JsonStore {
       data.workbooks.push(workbook);
     }
 
-    Object.assign(workbook, payload, { updatedAt: timestamp });
+    // Object.assign은 현재 자료에 바뀐 항목을 합친다. updatedAt에는 마지막 수정 시간을 적는다.
+    Object.assign(workbook, changes, { updatedAt: timestamp });
+    // snapshot은 '저장 순간의 복사본'이다. 워크북 항목만 골라서 현재 값과 함께 파일에 저장한다.
+    const snapshot = Object.fromEntries(
+      ["userId", ...fields, "createdAt", "updatedAt"].map((field) => [field, workbook[field]])
+    );
+    data.workbookHistory.push({
+      id: this.nextId(data, "workbookHistory"),
+      userId: String(userId),
+      savedAt: timestamp,
+      workbook: clone(snapshot)
+    });
+    // 내 기록 중 마지막 100개만 남긴다. 다른 사용자의 이력은 이 정리 과정에서 지우지 않는다.
+    const ownHistory = data.workbookHistory.filter((entry) => entry.userId === String(userId));
+    const retainedIds = new Set(ownHistory.slice(-100).map((entry) => entry.id));
+    data.workbookHistory = data.workbookHistory.filter(
+      (entry) => entry.userId !== String(userId) || retainedIds.has(entry.id)
+    );
     this.write(data);
     return workbook;
   }
 
-  // 이메일 중복을 다시 확인한 뒤 비밀번호 원문이 아닌 해시만 저장한다.
+  // 같은 이메일이 있는지 확인한 다음 새 사용자를 저장한다. 비밀번호는 해시로만 받는다.
   createUser({ name, email, passwordHash }) {
     const data = this.read();
     const normalizedEmail = normalizeEmail(email);
@@ -187,14 +230,14 @@ export class JsonStore {
     return user;
   }
 
-  // ── 지원 기록 CRUD ── 모든 조회·수정·삭제에 userId 조건을 넣어 다른 계정 데이터를 막는다.
+  // ── 지원 기록 추가·조회·수정·삭제 ── 사용자 번호도 확인해 다른 사람의 기록이 섞이지 않게 한다.
   listApplications(userId) {
     return this.read()
       .applications.filter((application) => application.userId === String(userId))
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)); // 최근 수정한 기록이 먼저 보인다.
   }
 
-  // 검증기가 정리한 payload에 서버가 관리하는 id·소유자·시간을 붙인다.
+  // payload는 검사한 입력값이다. 여기에 기록 번호, 주인 번호, 저장 시간을 붙여 새 기록을 만든다.
   createApplication(userId, payload) {
     const data = this.read();
     const timestamp = now();
@@ -218,7 +261,7 @@ export class JsonStore {
     return application;
   }
 
-  // 같은 id라도 현재 로그인 사용자 소유가 아니면 찾지 못한 것으로 처리한다.
+  // 기록 번호와 주인 번호가 모두 맞는 항목만 수정한다. 다른 사람의 번호를 알아도 수정할 수 없다.
   updateApplication(userId, id, payload) {
     const data = this.read();
     const application = data.applications.find(
@@ -234,7 +277,7 @@ export class JsonStore {
     return application;
   }
 
-  // 삭제 전후 배열 길이를 비교해 실제 삭제 여부를 boolean으로 알려준다.
+  // 선택한 기록을 제외한 목록을 저장한다. 개수가 줄면 true(삭제됨), 그대로면 false(찾지 못함)다.
   deleteApplication(userId, id) {
     const data = this.read();
     const beforeCount = data.applications.length;
@@ -250,7 +293,7 @@ export class JsonStore {
     return true;
   }
 
-  // ── 포트폴리오 프로젝트 CRUD ── 지원 기록과 같은 소유권·시간 규칙을 사용한다.
+  // ── 프로젝트 추가·조회·수정·삭제 ── 지원 기록과 마찬가지로 내 사용자 번호에 맞는 자료만 다룬다.
   listProjects(userId) {
     return this.read()
       .projects.filter((project) => project.userId === String(userId))
@@ -280,7 +323,7 @@ export class JsonStore {
     return project;
   }
 
-  // 부분 수정이므로 요청에 들어온 값과 updatedAt만 기존 객체에 합친다.
+  // 이번에 받은 항목과 수정 시간만 덮어쓴다. 보내지 않은 항목은 이전 값을 유지한다.
   updateProject(userId, id, payload) {
     const data = this.read();
     const project = data.projects.find(

@@ -1,6 +1,6 @@
 // Note Hub 메인 화면. 모노레포의 핵심 장점을 보여주기 위해 백엔드와 같은 타입(Note, CreateNoteInput)을
 // @note-hub/shared에서 import해서 사용한다. 백엔드 응답 타입이 바뀌면 여기서 컴파일 에러가 난다.
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import {
   ApiRoutes,
   isNote,
@@ -30,24 +30,37 @@ export default function App() {
   const [tagsText, setTagsText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // 요청이 끝나기 전에 버튼을 다시 누르면 같은 노트가 두 번 만들어지거나, 이미 지운 노트를 또 지워
+  // 404 오류가 표시된다. 처리 중인 생성 요청과 삭제 중인 노트 id를 기억해 중복 요청을 막는다.
+  const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const connectionVersion = useRef(0);
+  const loadVersion = useRef(0);
 
   // 서버 목록을 읽고, unknown JSON이 실제 Note[]인지 타입 가드로 확인한 뒤 state에 넣는다.
   const loadNotes = useCallback(async (token: string): Promise<void> => {
+    const connection = connectionVersion.current;
+    const request = ++loadVersion.current;
+    const isCurrent = () =>
+      connection === connectionVersion.current && request === loadVersion.current;
     setLoading(true);
     setError(null);
     try {
       const res = await fetch(ApiRoutes.notes, { headers: accessHeaders(token) });
-      if (!res.ok) throw new Error(`목록 조회 실패 (${res.status})`);
+      if (!res.ok) {
+        if (res.status === 401 && isCurrent()) setNotes([]);
+        throw new Error(`목록 조회 실패 (${res.status})`);
+      }
       // 외부 응답을 바로 Note[]로 단정하지 않고 unknown에서 시작한다.
       const data = (await res.json()) as unknown;
       if (!Array.isArray(data) || !data.every(isNote)) {
         throw new Error("응답 형식이 Note[]가 아닙니다");
       }
-      setNotes(data);
+      if (isCurrent()) setNotes(data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      if (isCurrent()) setError(e instanceof Error ? e.message : String(e));
     } finally {
-      setLoading(false);
+      if (isCurrent()) setLoading(false);
     }
   }, []);
 
@@ -55,6 +68,10 @@ export default function App() {
     // 접근 토큰이 바뀔 때 외부 API 상태를 동기화하며, 실제 목록 갱신은 요청 완료 후 수행한다.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadNotes(accessToken);
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- DOM 참조가 아닌 요청 세대 번호를 무효화한다.
+      loadVersion.current++;
+    };
   }, [accessToken, loadNotes]);
 
   // 연결 버튼을 누른 토큰만 현재 탭의 sessionStorage에 보관하고 목록을 다시 요청한다.
@@ -66,11 +83,15 @@ export default function App() {
       void loadNotes(nextToken);
       return;
     }
+    connectionVersion.current++;
+    setNotes([]);
     setAccessToken(nextToken);
   }
 
   // 연결 해제는 저장된 토큰과 화면의 두 입력 상태를 함께 비운다.
   function handleDisconnect(): void {
+    connectionVersion.current++;
+    setNotes([]);
     sessionStorage.removeItem(accessTokenSessionKey);
     setTokenInput("");
     setAccessToken("");
@@ -79,7 +100,10 @@ export default function App() {
   // 쉼표 문자열 태그를 공통 normalizeTags로 배열화한 뒤 JSON POST 요청을 보낸다.
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
+    if (submitting) return;
+    const connection = connectionVersion.current;
     setError(null);
+    setSubmitting(true);
     const payload: CreateNoteInput = {
       title: input.title,
       body: input.body,
@@ -91,8 +115,10 @@ export default function App() {
         headers: { "Content-Type": "application/json", ...accessHeaders(accessToken) },
         body: JSON.stringify(payload)
       });
+      if (connection !== connectionVersion.current) return;
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as { message?: string };
+        if (connection !== connectionVersion.current) return;
         setError(body.message ?? `생성 실패 (${res.status})`);
         return;
       }
@@ -101,24 +127,34 @@ export default function App() {
       setTagsText("");
       await loadNotes(accessToken);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : String(requestError));
+      if (connection === connectionVersion.current)
+        setError(requestError instanceof Error ? requestError.message : String(requestError));
+    } finally {
+      setSubmitting(false);
     }
   }
 
   // 삭제 성공 뒤 로컬 배열을 추측해 바꾸지 않고 서버의 최신 목록을 다시 읽는다.
   async function handleDelete(id: string): Promise<void> {
+    if (deletingId !== null) return;
+    const connection = connectionVersion.current;
+    setDeletingId(id);
     try {
       const res = await fetch(ApiRoutes.noteById(id), {
         method: "DELETE",
         headers: accessHeaders(accessToken)
       });
+      if (connection !== connectionVersion.current) return;
       if (!res.ok) {
         setError(`삭제 실패 (${res.status})`);
         return;
       }
       await loadNotes(accessToken);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : String(requestError));
+      if (connection === connectionVersion.current)
+        setError(requestError instanceof Error ? requestError.message : String(requestError));
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -194,7 +230,9 @@ export default function App() {
           <p className="hint" id="tags-help">
             최대 {NoteLimits.tags}개, 태그당 {NoteLimits.tag}자까지 입력할 수 있습니다.
           </p>
-          <button type="submit">추가</button>
+          <button type="submit" disabled={submitting}>
+            추가
+          </button>
         </form>
         {error && <p className="error">{error}</p>}
       </section>
@@ -207,14 +245,18 @@ export default function App() {
             <li key={note.id} className="note">
               <div className="note-head">
                 <strong>{note.title}</strong>
-                <button type="button" onClick={() => void handleDelete(note.id)}>
+                <button
+                  type="button"
+                  disabled={deletingId === note.id}
+                  onClick={() => void handleDelete(note.id)}
+                >
                   삭제
                 </button>
               </div>
               <p>{note.body}</p>
               <div className="tags">
-                {note.tags.map((tag) => (
-                  <span key={tag} className="tag">
+                {note.tags.map((tag, index) => (
+                  <span key={`${index}-${tag}`} className="tag">
                     #{tag}
                   </span>
                 ))}

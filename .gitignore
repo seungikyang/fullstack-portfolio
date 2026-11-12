@@ -24,3 +24,10 @@ _history_extract.json
 
 # Claude Code 로컬 설정 (머신 종속 플러그인 활성화)
 .claude/settings.json
+
+# 브라우저 검증 중 생성되는 로컬 기록
+.playwright-cli/
+output/playwright/
+
+# 판매/라이선스 감사 결과 (로컬 보존)
+outputs/

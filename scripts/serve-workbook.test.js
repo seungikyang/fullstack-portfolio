@@ -2,6 +2,7 @@
 const assert = require("node:assert/strict");
 const { once } = require("node:events");
 const fs = require("node:fs/promises");
+const http = require("node:http");
 const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
@@ -14,6 +15,7 @@ const {
   createWorkbookServer,
   HOST,
   renderMarkdownDocument,
+  saveProblemSource,
   sourceVersion,
   WORKBOOK_PATH,
 } = require("./serve-workbook.js");
@@ -44,6 +46,75 @@ test("Markdown을 링크 가능한 HTML로 렌더링하고 위험한 내용을 �
   assert.doesNotMatch(html, /href="javascript:/);
 });
 
+test("문서의 모든 선택형 구간은 원래 ID의 선택·채점·해설 카드로 렌더링된다", async () => {
+  const bank = require("../quiz/written-questions.json");
+  const seen = new Set();
+  for (const file of new Set(bank.questions.map((q) => q.reference))) {
+    const markdown = await fs.readFile(
+      path.join(__dirname, "..", file),
+      "utf8",
+    );
+    const html = await renderMarkdownDocument(markdown, path.basename(file));
+    const ids = [...html.matchAll(/data-question-id="(W\d{3})"/g)].map(
+      (match) => match[1],
+    );
+    assert.equal(
+      ids.length,
+      (markdown.match(/<summary>정답·해설 확인<\/summary>/g) || []).length,
+      file,
+    );
+    assert.equal(
+      (html.match(/type="radio"/g) || []).length,
+      ids.length * 4,
+      file,
+    );
+    assert.equal(
+      (html.match(/data-quiz-feedback role="status" hidden/g) || []).length,
+      ids.length,
+      file,
+    );
+    assert.doesNotMatch(html, /WORKBOOKQUIZ[a-f0-9]+X\d+END/, file);
+    ids.forEach((id) => seen.add(id));
+    // 재사용한 보기라도 기존 문항별 채점 링크와 같은 ID로 저장해야 합니다.
+    for (const match of markdown.matchAll(/question=(W\d{3})\)/g)) {
+      if (bank.questions.find((q) => q.id === match[1])?.reference === file) {
+        assert.ok(ids.includes(match[1]), `${file}: ${match[1]}`);
+      }
+    }
+  }
+  assert.deepEqual([...seen].sort(), bank.questions.map((q) => q.id).sort());
+});
+
+test("일반 목록과 변조된 문항은 폼으로 바꾸지 않고 문서의 임의 스크립트를 제거한다", async () => {
+  const q = require("../quiz/written-questions.json").questions[0];
+  const markdown = `${q.question}\n\n${q.choices.map((choice, n) => `${n + 1}. ${choice}`).join("\n")}\n\n<details>\n<summary>정답·해설 확인</summary>\n\n**정답: 4번**\n\n임의로 바꾼 해설입니다.\n\n</details>\n\n<script>alert('unsafe')</script>\n<form action="https://example.com"><input type="radio" name="fake"></form>`;
+  const html = await renderMarkdownDocument(markdown, "문제.md");
+  assert.doesNotMatch(html, /data-document-quiz|<script|<form/);
+  assert.match(html, /<ol>/);
+});
+
+test("객관식 문서의 자산과 CSP는 로컬 선택·채점만 허용한다", async (t) => {
+  const server = createWorkbookServer();
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+  const origin = `http://${HOST}:${server.address().port}`;
+  const response = await fetch(
+    `${origin}${WORKBOOK_PATH}15-cs-fundamentals/problems.md`,
+  );
+  assert.equal(response.status, 200);
+  const csp = response.headers.get("content-security-policy");
+  assert.match(csp, /script-src 'self'; connect-src 'self'/);
+  assert.match(csp, /style-src 'self' 'unsafe-inline'/);
+  assert.match(csp, /form-action 'none'/);
+  const html = await response.text();
+  for (const asset of ["document-quiz.js", "document-quiz.css", "core.js"]) {
+    assert.ok(html.includes(`${WORKBOOK_PATH}quiz/${asset}`));
+    const assetResponse = await fetch(`${origin}${WORKBOOK_PATH}quiz/${asset}`);
+    assert.equal(assetResponse.status, 200);
+  }
+});
+
 test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단한다", async (t) => {
   const server = createWorkbookServer();
   // 포트 0은 운영체제에 비어 있는 포트를 골라 달라는 뜻이라 다른 개발 서버와 충돌하지 않는다.
@@ -57,18 +128,23 @@ test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단�
 
   const rootResponse = await fetch(`${origin}/`, { redirect: "manual" });
   assert.equal(rootResponse.status, 302);
-  assert.equal(rootResponse.headers.get("location"), WORKBOOK_PATH);
+  assert.equal(rootResponse.headers.get("location"), `${WORKBOOK_PATH}quiz/`);
 
   const workbookResponse = await fetch(`${origin}${WORKBOOK_PATH}`);
   assert.equal(workbookResponse.status, 200);
   assert.match(
     await workbookResponse.text(),
+    /<title>웹 문제집 \| 풀스택 취업 워크북<\/title>/,
+  );
+
+  const curriculumResponse = await fetch(`${origin}${WORKBOOK_PATH}index.html`);
+  assert.equal(curriculumResponse.status, 200);
+  assert.match(
+    await curriculumResponse.text(),
     /<title>풀스택 취업 워크북 \| 처음부터 취업까지<\/title>/,
   );
 
-  const historyResponse = await fetch(
-    `${origin}${WORKBOOK_PATH}history.html`,
-  );
+  const historyResponse = await fetch(`${origin}${WORKBOOK_PATH}history.html`);
   assert.equal(historyResponse.status, 200);
 
   const worksheetResponse = await fetch(
@@ -135,6 +211,147 @@ test("고정 URI에서 문제집을 제공하고 저장소 밖 접근을 차단�
   assert.equal(traversalResponse.status, 403);
 });
 
+test("첫 주소는 웹 문제집을 열고 문제집·과목 쿼리와 기존 목차 링크를 유지한다", async (t) => {
+  const server = createWorkbookServer();
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+  const origin = `http://${HOST}:${server.address().port}`;
+  const query = "?bank=written&category=cs";
+
+  for (const entry of ["/", WORKBOOK_PATH.slice(0, -1), WORKBOOK_PATH]) {
+    for (const method of ["GET", "HEAD"]) {
+      const response = await fetch(`${origin}${entry}${query}`, {
+        method,
+        redirect: "manual",
+      });
+      assert.equal(response.status, 302, `${method} ${entry}`);
+      assert.equal(
+        response.headers.get("location"),
+        `${WORKBOOK_PATH}quiz/${query}`,
+      );
+      if (method === "HEAD") assert.equal(await response.text(), "");
+    }
+  }
+  const quiz = await fetch(`${origin}/${query}`);
+  assert.equal(quiz.status, 200);
+  assert.equal(quiz.url, `${origin}${WORKBOOK_PATH}quiz/${query}`);
+  const html = await quiz.text();
+  assert.match(html, /href="\.\.\/index\.html#curriculum"/);
+  assert.match(html, /id="subjects"/);
+});
+
+test("비공개 파일·실제 대상과 외부 Host는 차단하고 학습용 숨김 파일은 제공한다", async (t) => {
+  const workbookRoot = await fs.mkdtemp(
+    path.join(os.tmpdir(), "workbook-private-"),
+  );
+  t.after(() => fs.rm(workbookRoot, { recursive: true, force: true }));
+  const privatePaths = [
+    ".git/HEAD",
+    ".env",
+    "app/.env.production",
+    ".npmrc",
+    "node_modules/private.json",
+    "_workspace/report.md",
+    "08-fullstack-portfolio-project/data/career-hub.json",
+  ];
+  const publicPaths = [
+    "index.html",
+    "app/.env.example",
+    "starter/.github/workflows/ci.yml",
+  ];
+  for (const file of [...privatePaths, ...publicPaths]) {
+    await fs.mkdir(path.dirname(path.join(workbookRoot, file)), {
+      recursive: true,
+    });
+    await fs.writeFile(path.join(workbookRoot, file), "fixture");
+  }
+  await fs.symlink(
+    path.join(workbookRoot, ".env"),
+    path.join(workbookRoot, "alias.txt"),
+  );
+  const server = createWorkbookServer({
+    workbookRoot,
+    workbookSlug: "fixture",
+  });
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+  const origin = `http://${HOST}:${server.address().port}`;
+
+  for (const file of [...privatePaths, "alias.txt", "%2egit/HEAD"]) {
+    for (const method of ["GET", "HEAD", "PUT"]) {
+      const response = await fetch(`${origin}/fixture/${file}`, { method });
+      assert.equal(response.status, 403, `${method} ${file}`);
+      assert.doesNotMatch(await response.text(), /fixture/);
+    }
+  }
+  for (const file of publicPaths) {
+    const response = await fetch(`${origin}/fixture/${file}`);
+    assert.equal(response.status, 200, file);
+  }
+  const reboundStatus = await new Promise((resolve, reject) => {
+    const request = http.get(
+      `${origin}/fixture/index.html`,
+      {
+        headers: { Host: "attacker.example" },
+      },
+      (response) => {
+        response.resume();
+        resolve(response.statusCode);
+      },
+    );
+    request.on("error", reject);
+  });
+  assert.equal(reboundStatus, 403);
+});
+
+test("디렉터리 GET·HEAD는 쿼리를 유지한 슬래시 주소로 이동해 상대 자산을 연결한다", async (t) => {
+  const workbookRoot = await fs.mkdtemp(
+    path.join(os.tmpdir(), "workbook-directory-"),
+  );
+  t.after(() => fs.rm(workbookRoot, { recursive: true, force: true }));
+  await fs.mkdir(path.join(workbookRoot, "quiz"));
+  await fs.writeFile(
+    path.join(workbookRoot, "quiz/index.html"),
+    '<h1>문제</h1><script src="./app.js"></script>\n',
+  );
+  await fs.writeFile(
+    path.join(workbookRoot, "quiz/app.js"),
+    'console.log("fixture quiz");\n',
+  );
+  const server = createWorkbookServer({
+    workbookRoot,
+    workbookSlug: "fixture",
+  });
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+  const origin = `http://${HOST}:${server.address().port}`;
+  const directoryUrl = `${origin}/fixture/quiz?bank=written`;
+
+  for (const method of ["GET", "HEAD"]) {
+    const response = await fetch(directoryUrl, { method, redirect: "manual" });
+    assert.ok([301, 302, 307, 308].includes(response.status), method);
+    assert.equal(
+      response.headers.get("location"),
+      "/fixture/quiz/?bank=written",
+      method,
+    );
+    if (method === "HEAD") assert.equal(await response.text(), "");
+  }
+
+  const page = await fetch(directoryUrl);
+  assert.equal(page.status, 200);
+  assert.equal(page.url, `${origin}/fixture/quiz/?bank=written`);
+  const scriptPath = (await page.text()).match(/<script src="([^"]+)"/)[1];
+  const scriptUrl = new URL(scriptPath, page.url);
+  assert.equal(scriptUrl.pathname, "/fixture/quiz/app.js");
+  const script = await fetch(scriptUrl);
+  assert.equal(script.status, 200);
+  assert.equal(await script.text(), 'console.log("fixture quiz");\n');
+});
+
 test("15개 표준 문제 페이지는 실제 코드와 접힌 힌트·정답을 한 화면에 제공한다", async (t) => {
   const server = createWorkbookServer();
   server.listen(0, HOST);
@@ -163,16 +380,8 @@ test("15개 표준 문제 페이지는 실제 코드와 접힌 힌트·정답을
     assert.match(document, /<body class="problem-document">/, folder);
     assert.match(document, /class="problem-workspace"/, folder);
     assert.match(document, /aria-labelledby="problem-help-title"/, folder);
-    assert.match(
-      document,
-      /<details>\s*<summary>1~3단계 힌트 확인/,
-      folder,
-    );
-    assert.match(
-      document,
-      /<details>\s*<summary>정답 비교 열기/,
-      folder,
-    );
+    assert.match(document, /<details>\s*<summary>1~3단계 힌트 확인/, folder);
+    assert.match(document, /<details>\s*<summary>정답 비교 열기/, folder);
     assert.match(document, /id="problem-hint-/, folder);
     assert.match(document, /id="problem-answer-/, folder);
     assert.doesNotMatch(document, /<details open/, folder);
@@ -209,10 +418,7 @@ test("허용된 실습 파일만 저장하고 외부 변경과 경로 이탈을 
   };
   await write("index.html", "<h1>테스트 문제집</h1>\n");
   await write("README.md", "# 편집 금지\n");
-  await write(
-    "01-html-css/starter/index.html",
-    '<main id="app">____</main>\n',
-  );
+  await write("01-html-css/starter/index.html", '<main id="app">____</main>\n');
   await write(
     "01-html-css/hints.md",
     "# 1단계 힌트\n\n[문제](./problems.md)\n\n## 1단계\n\n태그를 확인하세요.\n",
@@ -338,6 +544,150 @@ test("허용된 실습 파일만 저장하고 외부 변경과 경로 이탈을 
   );
 });
 
+test(
+  "같은 실제 파일의 동시 저장은 한 요청만 반영하고 충돌 후 다시 저장할 수 있다",
+  { timeout: 10000 },
+  async (t) => {
+    const workbookRoot = await fs.mkdtemp(
+      path.join(os.tmpdir(), "workbook-concurrent-save-"),
+    );
+    t.after(() => fs.rm(workbookRoot, { recursive: true, force: true }));
+    const relativePath = "source.js";
+    const aliasPath = "alias.js";
+    const filePath = path.join(workbookRoot, relativePath);
+    const original = "const value = 0;\n";
+    await fs.writeFile(filePath, original);
+    await fs.symlink(filePath, path.join(workbookRoot, aliasPath));
+    const editablePaths = new Set([relativePath, aliasPath]);
+    const requests = Array.from({ length: 8 }, (_, index) => ({
+      content: `const value = ${index + 1};\n`,
+      editablePaths,
+      expectedVersion: sourceVersion(original),
+      filePath: path.join(workbookRoot, index % 2 ? aliasPath : relativePath),
+      relativePath: index % 2 ? aliasPath : relativePath,
+      workbookRoot,
+    }));
+
+    const results = await Promise.all(requests.map(saveProblemSource));
+    assert.equal(
+      results.filter((result) => result.statusCode === 200).length,
+      1,
+    );
+    assert.equal(
+      results.filter((result) => result.statusCode === 409).length,
+      7,
+    );
+    const winnerIndex = results.findIndex(
+      (result) => result.statusCode === 200,
+    );
+    const savedSource = await fs.readFile(filePath, "utf8");
+    assert.equal(savedSource, requests[winnerIndex].content);
+    assert.equal(results[winnerIndex].version, sourceVersion(savedSource));
+
+    // 충돌 응답을 반환한 작업도 잠금을 놓아야 새 버전으로 이어서 저장할 수 있다.
+    const retryContent = "const value = 9;\n";
+    const retry = await saveProblemSource({
+      ...requests[0],
+      content: retryContent,
+      expectedVersion: sourceVersion(savedSource),
+    });
+    assert.equal(retry.statusCode, 200);
+    assert.equal(await fs.readFile(filePath, "utf8"), retryContent);
+  },
+);
+
+test(
+  "저장 I/O 실패는 원본을 보존하고 임시 파일과 잠금을 정리해 재시도를 허용한다",
+  { timeout: 10000 },
+  async (t) => {
+    const workbookRoot = await fs.mkdtemp(
+      path.join(os.tmpdir(), "workbook-failed-save-"),
+    );
+    t.after(() => fs.rm(workbookRoot, { recursive: true, force: true }));
+    const relativePath = "source.js";
+    const filePath = path.join(workbookRoot, relativePath);
+    const original = "const value = 0;\n";
+    await fs.writeFile(filePath, original);
+    const request = {
+      content: "const value = 1;\n",
+      editablePaths: new Set([relativePath]),
+      expectedVersion: sourceVersion(original),
+      filePath,
+      relativePath,
+      workbookRoot,
+    };
+    // fixture의 실제 파일 교체만 한 번 실패시켜 원자적 저장의 오류 경로를 재현한다.
+    const realFilePath = await fs.realpath(filePath);
+    const rename = fs.rename;
+    const injectedFailure = Object.assign(new Error("fixture rename failure"), {
+      code: "EACCES",
+    });
+    const renameMock = t.mock.method(fs, "rename", async (from, to) => {
+      if (to === realFilePath) throw injectedFailure;
+      return rename(from, to);
+    });
+    try {
+      await assert.rejects(
+        saveProblemSource(request),
+        (error) => error === injectedFailure,
+      );
+    } finally {
+      renameMock.mock.restore();
+    }
+    assert.equal(await fs.readFile(filePath, "utf8"), original);
+    assert.deepEqual(await fs.readdir(workbookRoot), [relativePath]);
+
+    const retry = await saveProblemSource(request);
+    assert.equal(retry.statusCode, 200);
+    assert.equal(await fs.readFile(filePath, "utf8"), request.content);
+  },
+);
+
+test("객체가 아닌 JSON 저장 본문은 400 JSON 응답으로 거절하고 파일을 보존한다", async (t) => {
+  const workbookRoot = await fs.mkdtemp(
+    path.join(os.tmpdir(), "workbook-invalid-body-"),
+  );
+  t.after(() => fs.rm(workbookRoot, { recursive: true, force: true }));
+  const relativePath = "source.js";
+  const filePath = path.join(workbookRoot, relativePath);
+  const original = "const value = 0;\n";
+  await fs.writeFile(filePath, original);
+  const editToken = "fixture-edit-token";
+  const server = createWorkbookServer({
+    editablePaths: new Set([relativePath]),
+    editToken,
+    workbookRoot,
+    workbookSlug: "fixture",
+  });
+  server.listen(0, HOST);
+  await once(server, "listening");
+  t.after(() => server.close());
+  const origin = `http://${HOST}:${server.address().port}`;
+  const sourceUrl = `${origin}/fixture/${relativePath}?view=source`;
+
+  for (const body of ["null", "[]", '"invalid"', "42", "true"]) {
+    const response = await fetch(sourceUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: origin,
+        "X-Workbook-Edit-Token": editToken,
+      },
+      body,
+    });
+    assert.equal(response.status, 400, body);
+    assert.match(
+      response.headers.get("content-type"),
+      /^application\/json\b/,
+      body,
+    );
+    const result = await response.json();
+    assert.equal(typeof result.message, "string", body);
+    assert.notEqual(result.saved, true, body);
+    assert.equal(await fs.readFile(filePath, "utf8"), original, body);
+  }
+});
+
 test("실제 편집 허용 파일 50개는 편집기와 접힌 도움말을 모두 제공한다", async (t) => {
   const server = createWorkbookServer();
   server.listen(0, HOST);
@@ -376,7 +726,11 @@ test("실제 편집 허용 파일 50개는 편집기와 접힌 도움말을 모�
     assert.match(document, /data-source-editor/, relativePath);
     assert.match(document, /data-save-source/, relativePath);
     assert.match(document, /data-reload-source/, relativePath);
-    assert.match(document, /<details>\s*<summary>1~3단계 힌트 확인/, relativePath);
+    assert.match(
+      document,
+      /<details>\s*<summary>1~3단계 힌트 확인/,
+      relativePath,
+    );
     assert.match(document, /<details>\s*<summary>정답 비교 열기/, relativePath);
     assert.match(
       document,

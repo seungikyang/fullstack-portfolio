@@ -1,11 +1,12 @@
-// Career Hub API의 인증과 CRUD 흐름을 자동으로 확인하는 smoke test 파일
+// 회원가입부터 기록 추가·수정·삭제까지 실제 서버에 요청해서 확인하는 자동 검사 도구다.
+// smoke test는 핵심 기능이 이어서 동작하는지 빠르게 확인하는 검사다.
 import { spawn } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// 실제 개발 데이터와 충돌하지 않도록 임시 포트와 임시 JSON 파일을 준비한다.
+// 실제 저장 기록을 건드리지 않도록 검사 전용 문 번호(포트)와 임시 자료 파일을 사용한다.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const port = 5300 + Math.floor(Math.random() * 1000);
@@ -15,14 +16,14 @@ const dataFile = path.join(tempDir, "test-data.json");
 
 let logs = "";
 
-// 별도 테스트 프레임워크 없이 조건이 거짓이면 즉시 실패시키는 작은 검증 함수다.
+// assert는 '예상한 결과가 맞는가?'를 확인한다. 맞지 않으면 이유와 함께 검사를 멈춘다.
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
 }
 
-// HTTP 요청과 예상 상태 코드 확인을 공통화해 아래 시나리오를 읽기 쉽게 만든다.
+// 같은 요청 방법을 반복하지 않도록 한곳에 모았다. 서버의 상태 코드가 예상한 숫자인지도 확인한다.
 async function request(pathname, { method = "GET", token, body, expected = 200 } = {}) {
   const response = await fetch(`${baseUrl}${pathname}`, {
     method,
@@ -45,11 +46,16 @@ async function request(pathname, { method = "GET", token, body, expected = 200 }
   return response.json();
 }
 
-// 자식 서버가 포트를 열기 전에 테스트가 시작되지 않도록 health API를 최대 8초 재시도한다.
+// 서버가 준비되기 전에 검사를 시작하면 실패한다. '서버가 살아 있나요?'라고 최대 8초 동안 확인한다.
 async function waitForServer() {
   const deadline = Date.now() + 8000;
 
   while (Date.now() < deadline) {
+    // 검사 서버가 꺼졌다면(예: 포트가 이미 사용 중) 같은 포트의 다른 서버에 요청하지 않도록 멈춘다.
+    if (server.exitCode !== null) {
+      throw new Error(`검사 서버가 시작하지 못하고 종료했습니다.\n${logs}`);
+    }
+
     try {
       const health = await request("/api/health");
       if (health.ok) {
@@ -63,7 +69,7 @@ async function waitForServer() {
   throw new Error(`서버가 시간 안에 시작하지 않았습니다.\n${logs}`);
 }
 
-// 현재 Node 실행 파일로 실제 API 서버를 별도 프로세스에 띄운다.
+// 지금 쓰는 Node로 검사할 서버 프로그램을 따로 실행한다. 현재 검사는 요청을 보내는 역할을 한다.
 const server = spawn(process.execPath, ["server/index.js"], {
   cwd: root,
   env: {
@@ -85,13 +91,13 @@ server.stderr.on("data", (chunk) => {
   logs += chunk.toString();
 });
 
-// 시나리오 순서: 서버 준비 → 인증 → 워크북 → 지원 CRUD → 프로젝트 CRUD → 준비도 확인.
+// 검사 순서: 서버 준비 → 가입·로그인 → 워크북 저장 → 지원·프로젝트 추가·수정·삭제 → 준비도 확인.
 try {
   await waitForServer();
-  // 보호 API는 토큰 없이 접근할 수 없어야 한다.
+  // 로그인 확인표가 없는 사람이 내 정보 창구를 열려고 하면 거절해야 한다.
   await request("/api/me", { expected: 401 });
 
-  // 회원가입 성공 응답에 토큰은 있고 비밀번호 해시는 노출되지 않는지 확인한다.
+  // 회원가입 뒤 확인표를 받는지, 비밀번호 해시는 화면에 보내지 않는지 확인한다.
   const register = await request("/api/auth/register", {
     method: "POST",
     expected: 201,
@@ -105,7 +111,7 @@ try {
   assert(register.token, "회원가입 응답에 토큰이 없습니다.");
   assert(!register.user.passwordHash, "회원가입 응답에 passwordHash가 노출되었습니다.");
 
-  // 틀린 비밀번호는 401, 올바른 비밀번호는 토큰 발급으로 이어져야 한다.
+  // 틀린 비밀번호에는 401(로그인 확인 실패), 맞는 비밀번호에는 확인표가 와야 한다.
   await request("/api/auth/login", {
     method: "POST",
     expected: 401,
@@ -124,7 +130,7 @@ try {
   });
 
   const token = login.token;
-  // 새 계정의 기본값과 PATCH 저장 결과를 차례로 검증한다.
+  // 새 계정의 워크북은 빈 값인지, 수정 요청(PATCH)을 보내면 입력이 저장되는지 확인한다.
   const initialWorkbook = await request("/api/workbook", { token });
   assert(initialWorkbook.targetRole === "", "새 워크북의 목표 직무가 비어 있지 않습니다.");
 
@@ -146,7 +152,7 @@ try {
 
   assert(workbook.targetRole === "Java 백엔드 개발자", "워크북 저장이 반영되지 않았습니다.");
 
-  // 지원 기록 생성 → 일부 수정 흐름과 쉼표 기술 스택 변환을 검증한다.
+  // 지원 기록을 추가한 뒤 일부를 고친다. 'React, Java'가 기술 이름 목록으로 바뀌는지도 확인한다.
   const application = await request("/api/applications", {
     method: "POST",
     token,
@@ -216,7 +222,7 @@ try {
 
   console.log("Career Hub API smoke test가 통과했습니다.");
 } finally {
-  // 중간에 검증이 실패해도 자식 서버와 임시 데이터를 반드시 정리한다.
+  // 중간에 검사가 실패했어도 finally는 실행된다. 검사 서버를 종료하고 임시 자료를 지운다.
   server.kill("SIGTERM");
   await rm(tempDir, { recursive: true, force: true });
 }

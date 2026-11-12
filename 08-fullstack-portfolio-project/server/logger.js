@@ -1,14 +1,15 @@
-// 구조적(JSON) 로깅 모듈. pino를 직접 만들어 두면 테스트에서 silent 로거로 바꿔치우기 쉽다.
-// 운영에서는 pino의 JSON 로그를 Loki/CloudWatch 같은 수집기로 보내는 것이 일반적이다.
+// 서버의 활동 일지를 만드는 파일이다. logger로 언제 어떤 요청이나 오류가 있었는지 기록한다.
+// pino는 기록을 JSON(이름과 값을 짝지은 자료)으로 남겨주는 도구다.
 import pino from "pino";
 
-// NODE_ENV는 지금 실행 중인 환경을 알려주는 약속된 환경 변수다.
+// NODE_ENV는 실행 방식 설정이다. test이면 자동 검사 중이므로 기록 출력을 줄인다.
 const isTest = process.env.NODE_ENV === "test";
 
 export const logger = pino({
-  // 테스트에서는 로그가 시끄러우므로 silent. 운영/개발에서는 info.
+  // silent는 기록을 출력하지 않고, info는 일반 활동과 경고·오류를 출력한다.
   level: isTest ? "silent" : process.env.LOG_LEVEL || "info",
-  // 응답 본문에 비밀 토큰/비밀번호가 새는 사고를 막기 위한 자동 마스킹.
+  // 아래 항목이 일지에 들어오면 비밀번호와 확인표 대신 [REDACTED]를 적는다.
+  // 로그에 적용하는 규칙이며, 사용자에게 보내는 답의 내용을 바꾸는 설정은 아니다.
   redact: {
     paths: [
       "req.headers.authorization",
@@ -19,5 +20,5 @@ export const logger = pino({
     censor: "[REDACTED]"
   },
   base: { service: "career-hub" }, // 모든 로그에 서비스 이름을 공통으로 붙인다.
-  timestamp: pino.stdTimeFunctions.isoTime // 사람이 읽기 쉬운 ISO 날짜를 기록한다.
+  timestamp: pino.stdTimeFunctions.isoTime // 날짜와 시간대를 일정한 글자 형식으로 기록한다.
 });

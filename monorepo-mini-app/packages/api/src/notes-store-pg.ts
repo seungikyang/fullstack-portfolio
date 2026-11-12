@@ -20,6 +20,8 @@ const POSTGRES_SCHEMA_SQL = `
 `;
 
 // PostgreSQL의 snake_case 행 모양을 TypeScript로 표현한 내부 전용 타입이다.
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 type PostgresNoteRow = {
   id: string;
   title: string;
@@ -51,7 +53,13 @@ export class PostgresNotesStore implements NotesStore {
 
   // ??=는 아직 준비를 시작하지 않았을 때만 오른쪽 쿼리를 실행한다.
   private ensureSchema(): Promise<void> {
-    this.schemaReady ??= this.pool.query(POSTGRES_SCHEMA_SQL).then(() => undefined);
+    this.schemaReady ??= this.pool
+      .query(POSTGRES_SCHEMA_SQL)
+      .then(() => undefined)
+      .catch((error: unknown) => {
+        this.schemaReady = undefined;
+        throw error;
+      });
     return this.schemaReady;
   }
 
@@ -91,6 +99,9 @@ export class PostgresNotesStore implements NotesStore {
 
   // 삭제된 행 개수로 존재했던 노트인지 boolean 결과를 만든다.
   async delete(id: string): Promise<boolean> {
+    // id 컬럼은 UUID 타입이라 형식이 다른 값은 PostgreSQL이 오류(22P02)를 낸다.
+    // 그런 id의 노트는 있을 수 없으므로 DB에 묻지 않고 "없음"으로 답해 500 대신 404가 되게 한다.
+    if (!UUID_PATTERN.test(id)) return false;
     await this.ensureSchema();
     const { rowCount } = await this.pool.query(`DELETE FROM notes WHERE id = $1`, [id]);
     return (rowCount ?? 0) > 0;

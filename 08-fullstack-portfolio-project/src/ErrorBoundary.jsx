@@ -1,33 +1,34 @@
-// React 트리에서 발생한 예외를 잡아 흰 화면(white screen of death)을 방지하는 경계 컴포넌트.
-// React 19 기준 클래스형 ErrorBoundary가 여전히 표준 방식이다.
+// 화면을 그리다가 문제가 생겼을 때, 빈 화면 대신 오류와 '다시 시도' 버튼을 보여준다.
+// 컴포넌트는 화면의 한 조각이다. 이 컴포넌트는 안쪽 화면을 감싸고 오류를 확인한다.
+// 버튼의 비동기 요청 오류까지 모두 잡는 것은 아니므로, 요청 함수에는 별도의 try/catch가 있다.
 import { Component } from "react";
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    // error가 null이면 정상 화면, 값이 있으면 아래의 복구 안내 화면을 렌더링한다.
+    // null은 '오류 없음'이라는 뜻으로 쓴다. 오류가 들어오면 안내 화면으로 바뀐다.
     this.state = { error: null };
   }
 
-  // 자식 렌더링 중 예외가 발생하면 React가 호출해 다음 렌더링 상태를 정한다.
+  // 안쪽 화면을 그리다가 오류가 나면 React가 이 함수를 호출해 오류를 기억한다.
   static getDerivedStateFromError(error) {
     return { error };
   }
 
-  // 화면을 바꾸는 역할과 별도로 오류 상세·컴포넌트 위치를 기록하는 생명주기 메서드다.
+  // React가 오류 정보와 문제가 난 화면 위치를 알려주면 개발자가 볼 수 있게 기록한다.
   componentDidCatch(error, info) {
-    // 운영에서는 Sentry 같은 외부 수집기로 보내는 것이 일반적이다.
-    // 학습용으로는 콘솔에만 출력한다.
+    // 이 앱에서는 브라우저 개발자 도구의 Console에 기록한다.
     console.error("ErrorBoundary 잡음:", error, info);
   }
 
-  // 오류 상태를 지워 자식 컴포넌트를 다시 렌더링해보는 버튼 동작이다.
+  // '다시 시도'를 누르면 기억한 오류를 비우고 화면을 다시 그려본다.
+  // 오류의 원인 자체를 고치는 것은 아니므로 같은 문제가 있으면 안내가 다시 나타난다.
   handleReset = () => {
     this.setState({ error: null });
   };
 
   render() {
-    // 정상일 때는 ErrorBoundary 자신의 UI 없이 감싼 children을 그대로 보여준다.
+    // children은 이 컴포넌트 안에 넣은 화면이다. 오류가 없으면 그 화면을 그대로 보여준다.
     if (!this.state.error) {
       return this.props.children;
     }
@@ -47,7 +48,7 @@ export default class ErrorBoundary extends Component {
         }}
       >
         <h1 style={{ marginTop: 0 }}>화면을 표시하다가 오류가 발생했습니다</h1>
-        <p>아래 메시지를 새로고침 후에도 같은 오류가 보이면 GitHub 이슈로 알려주세요.</p>
+        <p>새로고침 후에도 같은 오류가 보이면 아래 메시지를 GitHub 이슈로 알려주세요.</p>
         <pre
           style={{
             whiteSpace: "pre-wrap",

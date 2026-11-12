@@ -1,0 +1,327 @@
+/* 문서의 읽기 흐름 안에 놓이는 선택형 학습 카드. 외부 폰트나 UI 의존성이 없습니다. */
+.document-quiz,
+.dq-summary {
+  --dq-accent: #4f46e5;
+  --dq-ink: #20263b;
+  --dq-muted: #667085;
+  --dq-line: #e2e5ed;
+}
+.document-quiz [hidden] {
+  display: none !important;
+}
+.dq-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 20px;
+  margin: 26px 0 32px;
+  padding: 24px;
+  border: 1px solid #dddaf8;
+  border-radius: 16px;
+  background: #f6f5ff;
+  color: var(--dq-ink);
+}
+.dq-summary strong {
+  font-size: 18px;
+  letter-spacing: -0.025em;
+}
+.dq-summary p {
+  grid-column: 1;
+  margin: 0;
+  font-size: 14px;
+  color: #595575;
+}
+.dq-summary progress {
+  grid-column: 1;
+  width: 100%;
+  height: 7px;
+  border: 0;
+  border-radius: 10px;
+  accent-color: var(--dq-accent);
+}
+.dq-summary progress::-webkit-progress-bar {
+  background: #e8e5f6;
+  border-radius: 10px;
+}
+.dq-summary progress::-webkit-progress-value {
+  background: var(--dq-accent);
+  border-radius: 10px;
+}
+.dq-summary button {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: center;
+  border-color: #d6d0f3;
+  background: white;
+  color: #493cb5;
+  font-size: 13px;
+}
+.dq-summary .dq-storage-note {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  font-size: 12px;
+}
+.document-quiz {
+  margin: 22px 0 36px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--dq-line);
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 4px 18px #20263b05;
+  scroll-margin-top: 96px;
+  overflow-wrap: anywhere;
+}
+.dq-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.dq-kicker {
+  color: #69618d;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+}
+.dq-kicker > span {
+  margin: 0 7px;
+  color: #c0bad2;
+}
+.dq-status {
+  flex-shrink: 0;
+  border-radius: 30px;
+  padding: 3px 10px;
+  background: #f2f3f7;
+  color: #697386;
+  font-size: 12px;
+  font-weight: 700;
+}
+.document-quiz[data-state="correct"] .dq-status {
+  background: #e9f7f0;
+  color: #167249;
+}
+.document-quiz[data-state="wrong"] .dq-status {
+  background: #fff1eb;
+  color: #a74523;
+}
+.document-quiz .dq-question {
+  margin: 20px 0 24px;
+  color: var(--dq-ink);
+  font-size: clamp(17px, 2vw, 20px);
+  font-weight: 750;
+  line-height: 1.6;
+  letter-spacing: -0.025em;
+  white-space: pre-wrap;
+}
+.dq-choices {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dq-choice {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 15px;
+  border: 1px solid var(--dq-line);
+  border-radius: 12px;
+  background: #fff;
+  color: #344054;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.dq-choice:hover {
+  border-color: #b7b2e9;
+  background: #fcfbff;
+}
+.dq-choice:has(input:checked) {
+  border-color: var(--dq-accent);
+  background: #f5f3ff;
+  box-shadow: 0 0 0 1px var(--dq-accent);
+}
+.dq-choice:has(input:focus-visible) {
+  outline: 3px solid #a9a0ff;
+  outline-offset: 3px;
+}
+.dq-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.dq-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 29px;
+  height: 29px;
+  border: 1px solid #dfe3ec;
+  border-radius: 8px;
+  background: #f8f9fc;
+  color: #697386;
+  font:
+    700 13px/1 system-ui,
+    sans-serif;
+}
+.dq-choice:has(input:checked) .dq-number {
+  border-color: var(--dq-accent);
+  background: var(--dq-accent);
+  color: white;
+}
+.dq-choice-text {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.dq-choice-state {
+  flex-shrink: 0;
+  align-self: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+.document-quiz .dq-choice[data-state="correct"] {
+  border-color: #409b73;
+  background: #f0faf5;
+  box-shadow: none;
+}
+.document-quiz .dq-choice[data-state="correct"] .dq-number {
+  border-color: #18794e;
+  background: #18794e;
+  color: white;
+}
+.dq-choice[data-state="correct"] .dq-choice-state {
+  color: #167249;
+}
+.document-quiz .dq-choice[data-state="wrong"] {
+  border-color: #db8164;
+  background: #fff5f0;
+  box-shadow: none;
+}
+.document-quiz .dq-choice[data-state="wrong"] .dq-number {
+  border-color: #b94d2c;
+  background: #b94d2c;
+  color: white;
+}
+.dq-choice[data-state="wrong"] .dq-choice-state {
+  color: #a74523;
+}
+.dq-choice:has(input:disabled) {
+  cursor: default;
+}
+.dq-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.document-quiz .dq-grade {
+  min-height: 46px;
+  padding-inline: 19px;
+  border-color: var(--dq-accent);
+  background: var(--dq-accent);
+  color: white;
+  font-size: 14px;
+}
+.document-quiz .dq-grade:hover:not(:disabled) {
+  background: #4338ca;
+  color: white;
+}
+.dq-grade > span {
+  margin-left: 14px;
+}
+.dq-help {
+  flex: 1;
+  color: var(--dq-muted);
+  font-size: 12px;
+}
+.dq-retry {
+  font-size: 13px;
+}
+.dq-feedback {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #d8eee2;
+  border-radius: 12px;
+  background: #f4faf7;
+}
+.document-quiz[data-state="wrong"] .dq-feedback {
+  border-color: #eee1d3;
+  background: #fdf9f3;
+}
+.dq-feedback h4 {
+  margin: 0 0 8px;
+  color: var(--dq-ink);
+  font-size: 16px;
+}
+.dq-feedback p {
+  margin: 9px 0;
+  font-size: 14px;
+}
+.dq-correct {
+  color: #167249;
+  font-weight: 750;
+}
+.dq-feedback .dq-explanation {
+  padding-top: 12px;
+  border-top: 1px solid #dde7e1;
+  color: #475467;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.dq-focus-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #5144af;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.dq-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .dq-summary {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+  .dq-summary button {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 8px;
+  }
+  .dq-choice {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 13px;
+  }
+  .dq-choice-state:not(:empty) {
+    width: 100%;
+    padding-left: 39px;
+  }
+  .dq-actions {
+    gap: 10px;
+  }
+  .dq-help {
+    flex-basis: calc(100% - 160px);
+  }
+  .document-quiz {
+    padding: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dq-choice {
+    transition: none;
+  }
+}

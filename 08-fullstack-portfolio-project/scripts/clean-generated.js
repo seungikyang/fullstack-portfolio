@@ -1,20 +1,22 @@
-// 제출용 압축 전에 생성된 빌드 결과와 로컬 데이터를 정리하는 스크립트
+// 제출용 파일을 압축하기 전에 만들어진 결과물과 내 컴퓨터의 실행 기록을 지우는 도구다.
+// 주의: 아래 data/career-hub.json에는 사용자·지원·프로젝트 기록이 들어 있다. 이 도구를 실행하면 삭제된다.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// 스크립트를 어느 폴더에서 실행해도 Career Hub 루트를 기준으로 경로를 계산한다.
+// 이 파일 위치를 기준으로 Career Hub 폴더를 찾는다. 실행한 위치가 달라도 같은 대상을 정리한다.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-// 소스가 아니라 다시 만들 수 있거나 로컬 실행 중 생기는 파일만 정리 대상으로 둔다.
+// dist는 배포 화면, coverage는 테스트 검사 결과, JSON 파일은 로컬 실행 기록이다.
+// 화면과 서버의 원본 코드는 정리 목록에 넣지 않는다.
 const targets = [
   path.join(root, "dist"),
   path.join(root, "coverage"),
   path.join(root, "data", "career-hub.json")
 ];
 
-// force:true라서 대상이 없어도 실패하지 않으며, 폴더는 recursive:true로 안쪽까지 지운다.
+// force:true는 파일이 없어도 오류를 내지 않는다. recursive:true는 폴더 안의 파일까지 지운다.
 for (const target of targets) {
   await fs.rm(target, { recursive: true, force: true });
 }
