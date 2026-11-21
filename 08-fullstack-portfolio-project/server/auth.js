@@ -42,9 +42,28 @@ export async function hashPassword(password) {
   return bcrypt.hash(password, 10);
 }
 
+// 가입하지 않은 이메일로 로그인할 때 비교할 가짜 해시다. 한 번만 만들어 계속 사용한다.
+let dummyHashPromise;
+function getDummyHash() {
+  dummyHashPromise ??= bcrypt.hash("career-hub-dummy-password", 10);
+  return dummyHashPromise;
+}
+
+// 서버를 시작할 때 가짜 해시를 미리 만든다. 첫 로그인 요청에서 만들면 그 요청만
+// '해시 생성 + 비교' 시간이 걸려, 재시작 직후 가입 여부가 응답 시간으로 드러난다.
+export function preparePasswordCheck() {
+  return getDummyHash();
+}
+
 // 사용자가 입력한 비밀번호가 저장한 해시에 맞는지 bcrypt가 검사한다. 맞으면 true를 돌려준다.
+// 계정이 없어 해시가 없을 때도 가짜 해시와 같은 시간만큼 비교한다.
+// 바로 답하면 '응답이 빠르면 없는 이메일'처럼 시간 차이로 가입 여부를 추측할 수 있기 때문이다.
 export async function verifyPassword(password, passwordHash) {
   if (bcrypt.truncates(password)) return false;
+  if (!passwordHash) {
+    await bcrypt.compare(password, await getDummyHash());
+    return false;
+  }
   return bcrypt.compare(password, passwordHash);
 }
 

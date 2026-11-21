@@ -591,7 +591,7 @@ textarea {
 /* 검색어, 상태, 우선순위를 한 줄에 놓는다. 좁은 화면에서는 맨 아래 @media 규칙이 한 열로 바꾼다. */
 .application-filters {
   display: grid;
-  grid-template-columns: minmax(180px, 2fr) repeat(2, minmax(120px, 1fr));
+  grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(120px, 1fr));
   align-items: end;
   gap: 14px;
   margin-bottom: 20px;

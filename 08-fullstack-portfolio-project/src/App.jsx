@@ -732,6 +732,8 @@ export function ApplicationSection({
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
+  // updated는 서버가 보낸 최근 수정순, dueDate는 마감일이 빠른 순이다.
+  const [sortOrder, setSortOrder] = useState("updated");
   // ' SPRING '과 'spring'을 같은 검색어로 보도록 앞뒤 공백을 지우고 영문을 소문자로 바꾼다.
   const normalizedQuery = query.trim().toLowerCase();
   const filteredApplications = applications.filter((application) => {
@@ -753,6 +755,17 @@ export function ApplicationSection({
       (!priorityFilter || application.priority === priorityFilter)
     );
   });
+  // 마감일 순서는 'YYYY-MM-DD' 글자를 그대로 비교해도 날짜 순서와 같다. 마감일이 없으면 맨 뒤에 둔다.
+  // filter가 만든 새 배열을 정렬하므로 부모에게 받은 applications 순서는 바뀌지 않는다.
+  const visibleApplications =
+    sortOrder === "dueDate"
+      ? filteredApplications.sort((a, b) => {
+          if (!a.dueDate || !b.dueDate) {
+            return Number(!a.dueDate) - Number(!b.dueDate);
+          }
+          return a.dueDate.localeCompare(b.dueDate);
+        })
+      : filteredApplications;
 
   // 같은 입력 칸을 사용하되, 추가는 POST로 보내고 기존 번호의 수정은 PATCH로 보낸다.
   async function submitApplication(event) {
@@ -965,6 +978,13 @@ export function ApplicationSection({
             ))}
           </select>
         </label>
+        <label>
+          정렬
+          <select value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}>
+            <option value="updated">최근 수정순</option>
+            <option value="dueDate">마감일 빠른 순</option>
+          </select>
+        </label>
         <button
           className="ghost-button"
           type="button"
@@ -972,6 +992,7 @@ export function ApplicationSection({
             setQuery("");
             setStatusFilter("");
             setPriorityFilter("");
+            setSortOrder("updated");
           }}
         >
           검색·필터 초기화
@@ -991,7 +1012,7 @@ export function ApplicationSection({
             검색 조건에 맞는 지원 기록이 없습니다. 검색어나 필터를 바꿔보세요.
           </p>
         )}
-        {filteredApplications.map((application) => (
+        {visibleApplications.map((application) => (
           <article className="record-card" key={application.id}>
             <div className="record-main">
               <div>

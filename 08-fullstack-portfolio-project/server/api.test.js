@@ -184,6 +184,24 @@ describe("Career Hub API", () => {
     expect(res.status).toBe(401);
   });
 
+  it("가입하지 않은 이메일 로그인은 잘못된 비밀번호와 같은 401 안내를 반환한다", async () => {
+    await request(app)
+      .post("/api/auth/register")
+      .send({ name: "t", email: "known@example.com", password: "password123" })
+      .expect(201);
+
+    const wrongPassword = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "known@example.com", password: "wrong-password" })
+      .expect(401);
+    const unknownEmail = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "unknown@example.com", password: "wrong-password" })
+      .expect(401);
+
+    expect(unknownEmail.body).toEqual(wrongPassword.body);
+  });
+
   it("로그인 본문이 없으면 400 검증 오류를 반환한다", async () => {
     const res = await request(app).post("/api/auth/login");
 
@@ -471,6 +489,28 @@ describe("Career Hub API", () => {
         .get("/api/dashboard")
         .set("Authorization", `Bearer ${login.body.token}`)
         .expect(200);
+      expect(res.body.upcomingCount).toBe(1);
+    });
+
+    it("합격·불합격으로 결과가 나온 지원은 마감 임박 건수에서 제외한다", async () => {
+      vi.spyOn(Date, "now").mockReturnValue(new Date("2026-10-30T03:00:00Z").getTime());
+      const login = await request(app)
+        .post("/api/auth/login")
+        .send({ email: "u@example.com", password: "password123" })
+        .expect(200);
+      for (const status of ["면접", "합격", "불합격"]) {
+        await request(app)
+          .post("/api/applications")
+          .set("Authorization", `Bearer ${login.body.token}`)
+          .send({ company: `상태 ${status}`, role: "개발자", status, dueDate: "2026-11-02" })
+          .expect(201);
+      }
+
+      const res = await request(app)
+        .get("/api/dashboard")
+        .set("Authorization", `Bearer ${login.body.token}`)
+        .expect(200);
+      expect(res.body.totalApplications).toBe(3);
       expect(res.body.upcomingCount).toBe(1);
     });
 

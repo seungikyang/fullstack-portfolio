@@ -1,6 +1,14 @@
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { assertAuthConfig, hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  assertAuthConfig,
+  hashPassword,
+  preparePasswordCheck,
+  requireAuth,
+  signToken,
+  verifyPassword
+} from "./auth.js";
 
 const testSecret = "test-secret-with-at-least-32-characters";
 let previousNodeEnv;
@@ -33,6 +41,25 @@ describe("hashPassword / verifyPassword", () => {
   it("다른 비밀번호는 검증에 실패한다", async () => {
     const hash = await hashPassword("password123");
     await expect(verifyPassword("wrong-password", hash)).resolves.toBe(false);
+  });
+
+  it("저장된 해시가 없으면 가짜 해시와 비교한 뒤 실패한다", async () => {
+    await expect(verifyPassword("password123", undefined)).resolves.toBe(false);
+    await expect(verifyPassword("career-hub-dummy-password", "")).resolves.toBe(false);
+  });
+
+  it("서버 시작 때 가짜 해시를 준비하면 없는 계정 로그인에서 해시를 새로 만들지 않는다", async () => {
+    await preparePasswordCheck();
+    const hashSpy = vi.spyOn(bcrypt, "hash");
+    const compareSpy = vi.spyOn(bcrypt, "compare");
+    try {
+      await expect(verifyPassword("password123", undefined)).resolves.toBe(false);
+      expect(hashSpy).not.toHaveBeenCalled();
+      expect(compareSpy).toHaveBeenCalledTimes(1);
+    } finally {
+      hashSpy.mockRestore();
+      compareSpy.mockRestore();
+    }
   });
 
   it("해시는 평문과 달라야 한다", async () => {

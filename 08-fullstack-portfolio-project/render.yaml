@@ -1,4 +1,6 @@
-# Render.com Blueprint. 저장소 루트에 두면 "New + Blueprint"에서 자동 인식한다.
+# Render.com Blueprint. Render는 기본으로 저장소 루트의 render.yaml을 찾는다.
+# 이 파일은 08 폴더에 있으므로 Blueprint를 만들 때 파일 경로를 08-fullstack-portfolio-project/render.yaml로
+# 지정하거나 저장소 루트로 복사해서 사용한다. 아래 Docker 경로는 저장소 루트 기준이다.
 # Career Hub는 단일 컨테이너(정적 web + Express API)라서 web 서비스 한 개로 충분하다.
 # Render free 배포는 화면 시연용이다. 파일시스템이 임시라 재시작·재배포 뒤 JSON 데이터 보존을 보장하지 않는다.
 
@@ -8,8 +10,8 @@ services:
     runtime: docker
     region: singapore # 한국과 가장 가까운 리전 (oregon/frankfurt 대비)
     plan: free
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: ./08-fullstack-portfolio-project/Dockerfile
+    dockerContext: ./08-fullstack-portfolio-project
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:

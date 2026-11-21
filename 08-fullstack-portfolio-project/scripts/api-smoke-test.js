@@ -56,6 +56,13 @@ async function waitForServer() {
       throw new Error(`검사 서버가 시작하지 못하고 종료했습니다.\n${logs}`);
     }
 
+    // 같은 포트에 이미 다른 서버가 떠 있으면 그 서버의 health 응답을 받을 수 있다.
+    // 이 검사가 띄운 서버가 '요청 받기 시작' 로그를 남긴 뒤에만 health를 확인한다.
+    if (!logs.includes("Career Hub API listening")) {
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      continue;
+    }
+
     try {
       const health = await request("/api/health");
       if (health.ok) {

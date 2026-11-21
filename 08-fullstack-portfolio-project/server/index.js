@@ -12,7 +12,14 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import { pinoHttp } from "pino-http";
-import { assertAuthConfig, hashPassword, requireAuth, signToken, verifyPassword } from "./auth.js";
+import {
+  assertAuthConfig,
+  hashPassword,
+  preparePasswordCheck,
+  requireAuth,
+  signToken,
+  verifyPassword
+} from "./auth.js";
 import { JsonStore, toPublicUser } from "./data-store.js";
 import { logger } from "./logger.js";
 import {
@@ -47,6 +54,9 @@ function todayIn(timeZone) {
   }).format(Date.now());
 }
 
+// 결과가 이미 나온 지원 상태다.
+const closedApplicationStatuses = new Set(["합격", "불합격"]);
+
 // 저장한 목록을 세어서 화면 위쪽에 보여줄 요약 숫자와 준비도를 만든다.
 function dashboardFor(applications, projects, workbook, timeZone) {
   // reduce는 항목을 하나씩 보며 결과를 쌓는다. 예: 면접 두 건을 보면 { 면접: 2 }가 된다.
@@ -58,8 +68,9 @@ function dashboardFor(applications, projects, workbook, timeZone) {
   // 지역 날짜로 구한 오늘과 마감일을 모두 같은 기준(UTC 자정)으로 읽어 날짜끼리 비교한다.
   const today = new Date(`${todayIn(timeZone)}T00:00:00.000Z`).getTime();
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  // 합격·불합격으로 결과가 나온 지원은 더 챙길 마감이 없으므로 임박 건수에서 뺀다.
   const upcomingCount = applications.filter((item) => {
-    if (!item.dueDate) {
+    if (!item.dueDate || closedApplicationStatuses.has(item.status)) {
       return false;
     }
 
@@ -176,6 +187,8 @@ export async function createApp(options = {}) {
   ]);
 
   await seedDemoData(store);
+  // 요청을 받기 전에 로그인 비교용 가짜 해시를 준비한다. (auth.js의 preparePasswordCheck 참고)
+  await preparePasswordCheck();
 
   // 확인표의 서명이 맞아도 그 번호의 사용자가 지금 저장소에 있는지 다시 확인한다.
   // 자료 파일을 초기화하면 번호가 1부터 다시 붙으므로, 이메일까지 같아야 같은 사람으로 본다.
@@ -324,14 +337,10 @@ export async function createApp(options = {}) {
     }
 
     const user = store.findUserByEmail(value.email);
+    // 계정이 없어도 비밀번호 비교를 거친 뒤 같은 안내로 답한다. 가입 여부를 응답 시간으로 알 수 없게 한다.
+    const isPasswordValid = await verifyPassword(value.password, user?.passwordHash);
 
-    if (!user) {
-      return res.status(401).json({ message: "이메일 또는 비밀번호가 올바르지 않습니다." });
-    }
-
-    const isPasswordValid = await verifyPassword(value.password, user.passwordHash);
-
-    if (!isPasswordValid) {
+    if (!user || !isPasswordValid) {
       return res.status(401).json({ message: "이메일 또는 비밀번호가 올바르지 않습니다." });
     }
 

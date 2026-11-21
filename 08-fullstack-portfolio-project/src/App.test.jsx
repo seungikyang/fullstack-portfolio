@@ -602,6 +602,26 @@ describe("지원 기록 검색과 필터", () => {
     expect(screen.queryByText(/아직 지원 기록이 없습니다/)).not.toBeInTheDocument();
   });
 
+  it("마감일 빠른 순으로 정렬하면 마감일 없는 기록은 뒤에 두고 초기화하면 최근 수정순으로 돌아온다", () => {
+    const datedApplications = [
+      { ...applications[0], dueDate: "" },
+      { ...applications[1], dueDate: "2026-12-20" },
+      { ...applications[2], dueDate: "2026-11-25" }
+    ];
+    render(
+      <ApplicationSection token="token" applications={datedApplications} onChanged={vi.fn()} />
+    );
+    const companyOrder = () =>
+      screen.getAllByRole("heading", { level: 3 }).map((heading) => heading.textContent);
+
+    expect(companyOrder()).toEqual(["가온 SI", "나래 IT", "다온 회사"]);
+    fireEvent.change(screen.getByLabelText("정렬"), { target: { value: "dueDate" } });
+    expect(companyOrder()).toEqual(["다온 회사", "나래 IT", "가온 SI"]);
+    fireEvent.click(screen.getByRole("button", { name: "검색·필터 초기화" }));
+    expect(screen.getByLabelText("정렬")).toHaveValue("updated");
+    expect(companyOrder()).toEqual(["가온 SI", "나래 IT", "다온 회사"]);
+  });
+
   it("필터된 카드 수정은 배열 위치 대신 원래 지원 기록 ID로 PATCH한다", async () => {
     const onChanged = vi.fn();
     vi.stubGlobal(
